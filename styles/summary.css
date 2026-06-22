@@ -8,8 +8,8 @@
     display: flex;
 }
 .seperator {
-    background-color: white;
-    width: 1px;
+    background-color: var(--seperator-summary);
+    width: 3px;
     margin-right: 10px;
-    height: 250px;
-}q
+    height: 60px;
+}

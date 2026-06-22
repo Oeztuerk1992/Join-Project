@@ -1,15 +1,154 @@
 /* HEADER */
 
-.frame_summary {
-    width: 1000px;
-    height: 700px;
-}
-.headline {
+.container-headline {
     display: flex;
+    align-items: center;
+    gap: 30px;
+    line-height: 1.2;
 }
 .seperator {
     background-color: var(--seperator-summary);
     width: 3px;
-    margin-right: 10px;
     height: 60px;
+}
+h1 {
+    font-size: 61px;
+    font-weight: 700;
+}
+h2 {
+    font-size: 27px;
+    font-weight: 400;
+    color: var(--sidebar-background);
+}
+
+/* MAIN */
+
+.container-do {
+    display: flex;
+    gap: 30px;
+}
+.container-urgent {
+    display: flex;
+}
+.container-tasks {
+    display: flex;
+}
+
+/* TO DO */
+
+.to-do {
+    width: 260px;
+    height: 170px;
+    border-radius: 30px;
+
+    border: 1px solid var(--border-btn);
+    background-color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+.img-to-do, .img-done {
+    width: 70px;
+    height: 70px;
+}
+.count-to-do {
+    font-size: 64px;
+    font-weight: 600;
+    padding-right: 9px;
+}
+.description-to-do {
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--sidebar-background);
+}
+.container-to-do {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+/* URGENT */
+
+.img-urgent {
+    width: 60px;
+    height: 60px;
+}
+.seperator-urgent {
+    background-color: var(--seperator-urgent);
+    width: 3px;
+    height: 100px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.urgent {
+    width: 550px;
+    height: 170px;
+    border-radius: 30px;
+
+    margin-top: 30px;
+    border: 1px solid var(--border-btn);
+    background-color: white;
+
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.container-urgent {
+    display: flex;
+    align-items: center;
+}
+.timeline-urgent {
+    text-align: left;
+}
+.date-urgent {
+    font-size: 21px;
+    font-weight: 700;
+    color: var(--sidebar-background);
+}
+.info-deadline {
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--sidebar-background);
+}
+h3 {
+    font-size: 47px;
+    font-weight: 500;
+    color: var(--sidebar-background);
+    
+    padding-left: 80px;
+}
+
+/* TASKS */
+
+.tasks {
+    width: 170px;
+    height: 170px;
+    border-radius: 30px;
+
+    border: 1px solid var(--border-btn);
+    background-color: white;
+    
+    margin-top: 30px;
+}
+.container-tasks {
+    gap: 20px;
+}
+
+/* GREETING */
+
+.greeting {
+    padding-top: 15px;
+}
+
+/* HOVER EFFECTS */
+
+button:hover + .container-to-do {
+    background-color: var(--sidebar-background);
+    color: white;    
+}
+
+.img-to-do:hover {
+    background-image: url(../assets/icons/btn_summary/btn_to_do_hover.svg);
 }

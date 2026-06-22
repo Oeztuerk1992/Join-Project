@@ -4,12 +4,11 @@
 
 --sidebar-background: rgba(42, 54, 71, 1);
 --hover-sidebar: rgba(9, 25, 49, 1);
-
 --font-legalnotice: rgba(168, 168, 168, 1);
 
 --seperator-summary: rgba(41, 171, 226, 1);
-
-
+--seperator-urgent: rgba(209, 209, 209, 1);
+--border-btn: rgba(0, 0, 0, 0.1);
 
 
 }

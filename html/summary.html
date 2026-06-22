@@ -19,22 +19,72 @@
     
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="../styles/summary.css">
+    <link rel="stylesheet" href="../styles/colors.css">
+    <link rel="stylesheet" href="../styles/font.css">
 </head>
 
-<body class="frame_summary">
-  <header class="headline">
+<body>
+  <header class="container-headline">
     <h1>Join 360</h1>
     <div class="seperator"></div>
     <h2>Key Metrics at a Glance</h2>
   </header>
 
   <main>
+    <div class="container-do">
 
+      <button id="btn-to-do" class="to-do">
+        <img class="img-to-do" src="../assets/icons/btn_summary/btn_to_do.svg" alt="icon-to-do-btn">
+        <div class="container-to-do">
+            <div id="count-do" class="count-to-do">1</div>
+            <div id="description-do" class="description-to-do">To-do</div>
+        </div>
+      </button>
+
+      <button id="btn-done" class="to-do">
+        <img class="img-done" src="../assets/icons/btn_summary/btn_done.svg" alt="icon-done-btn">
+        <div class="container-to-do">
+          <div id="count-done" class="count-to-do">1</div>
+          <div id="description-done" class="description-to-do">Done</div>
+        </div>
+      </button>
+    </div>
+
+    <div class="container-urgent">
+      <button id="btn-urgent" class="urgent">
+        <img class="img-urgent" src="../assets/icons/btn_summary/btn_urgent.svg" alt="icon-urgent-btn">  
+        <div>
+          <div id="count-urgent" class="count-to-do">1</div>
+          <div id="description-urgent" class="description-to-do">Urgent</div>
+        </div>
+        <div class="seperator-urgent"></div>
+        <div class="timeline-urgent">
+          <div class="date-urgent">October 16, 2022</div>
+          <p class="info-deadline">Upcoming Deadline</p>
+        </div>  
+      </button>
+      <h3 id="greeting-user" class="greeting">Good morning!</h3>
+    </div>
+
+    <div class="container-tasks">
+      <button id="btn-tasks-in-board" class="tasks">
+        <div class="count-to-do">5</div>
+        <div class="description-to-do">Tasks<br>in Board</div>
+      </button>
+
+      <button id="btn-tasks-in-progress" class="tasks">
+        <div class="count-to-do">2</div>
+        <div class="description-to-do">Tasks in Progress</div>
+      </button>
+
+      <button id="btn-awaiting-feedback" class="tasks">
+        <div class="count-to-do">2</div>
+        <div class="description-to-do">Awaiting Feedback</div>
+      </button>
+    </div>
   </main>
 
-  <footer>
-
-  </footer>
+  <footer></footer>
 </body>
 
 </html>

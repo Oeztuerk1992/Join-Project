@@ -1,0 +1,15 @@
+/* HEADER */
+
+.frame_summary {
+    width: 1000px;
+    height: 700px;
+}
+.headline {
+    display: flex;
+}
+.seperator {
+    background-color: white;
+    width: 1px;
+    margin-right: 10px;
+    height: 250px;
+}

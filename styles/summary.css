@@ -49,16 +49,32 @@ h2 {
     justify-content: center;
     gap: 20px;
 }
-.img-to-do, .img-done {
+.img-to-do,
+.img-done {
     width: 70px;
     height: 70px;
+
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
-.count-to-do {
+.img-to-do {
+    background-image: url("../assets/icons/btn_summary/btn_to_do.svg");
+}
+.img-done {
+    background-image: url("../assets/icons/btn_summary/btn_done.svg");
+}
+.count {
     font-size: 64px;
     font-weight: 600;
-    padding-right: 9px;
 }
-.description-to-do {
+h3 {
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+}
+.description {
     font-size: 20px;
     font-weight: 400;
     color: var(--sidebar-background);
@@ -74,6 +90,11 @@ h2 {
 .img-urgent {
     width: 60px;
     height: 60px;
+
+    background-image: url("../assets/icons/btn_summary/btn_urgent.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 .seperator-urgent {
     background-color: var(--seperator-urgent);
@@ -101,6 +122,7 @@ h2 {
 }
 .timeline-urgent {
     text-align: left;
+    padding-top: 10px;
 }
 .date-urgent {
     font-size: 21px;
@@ -112,7 +134,7 @@ h2 {
     font-weight: 400;
     color: var(--sidebar-background);
 }
-h3 {
+h4 {
     font-size: 47px;
     font-weight: 500;
     color: var(--sidebar-background);
@@ -131,6 +153,10 @@ h3 {
     background-color: white;
     
     margin-top: 30px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
 }
 .container-tasks {
     gap: 20px;
@@ -142,13 +168,44 @@ h3 {
     padding-top: 15px;
 }
 
-/* HOVER EFFECTS */
+/* BTN */
 
-button:hover + .container-to-do {
-    background-color: var(--sidebar-background);
-    color: white;    
+button {
+    cursor: pointer;
+    border: unset;
 }
 
-.img-to-do:hover {
-    background-image: url(../assets/icons/btn_summary/btn_to_do_hover.svg);
+/* HOVER EFFECTS */
+
+.to-do:hover,
+.urgent:hover,
+.tasks:hover {
+    background-color: var(--sidebar-background);
+    color: white;
+}
+.to-do:hover *,
+.urgent:hover *,
+.tasks:hover * {
+    color: white;
+}
+.to-do:hover .img-to-do {
+    background-image: url("../assets/icons/btn_summary/btn_to_do_hover.svg");
+}
+.to-do:hover .img-done {
+    background-image: url("../assets/icons/btn_summary/btn_done_hover.svg");
+}
+
+
+
+/* Hover effects for container */
+.section-pokemon img {
+    transition: transform 0.4s ease;
+}
+.section-pokemon:hover {
+    transform: scale(1.1) translateY(-4px);
+    border-color: rgba(255, 255, 255, 0.6);
+    box-shadow:
+        0 0 10px rgba(255, 255, 255, 0.4),
+        0 0 20px rgba(255, 255, 255, 0.25),
+        0 0 40px rgba(255, 255, 255, 0.15);
 }

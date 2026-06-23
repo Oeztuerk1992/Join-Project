@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" href="../assets/img/logo/favicon_light.svg" media="(prefers-color-scheme: dark)"
+        type="image/svg+xml">
+
+    <link rel="icon" href="../assets/img/logo/favicon_dark.svg" media="(prefers-color-scheme: light)"
+        type="image/svg+xml">
+
+    <title>Board</title>
+
+    <link rel="stylesheet" href="../styles/colors.css">
+    <link rel="stylesheet" href="../styles/font.css">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../styles/board.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>Board</h1>
+        <div class="task-bar">
+            <div class="search-container">
+                <div class="filter-container">
+                    <input type="text" id="input-text" class="search-task" placeholder="Find Task">
+                    <div class="container-btn">
+                        <div class="seperator"></div>
+                        <div class="container-search-task">
+                            <input type="button" class="btn-search-task" onclick="filterAndShowCurrentTask(document.getElementById('input-text').value)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn-add-task"></button>
+        </div>
+    </header>
+
+    <main>
+        <div class="kanban-board">
+            <div class="kanban-column">
+                <div class="kanban-header">
+                    <h2>To do</h2>
+                    <button class="btn-add-kanban plus-btn-default"></button>
+                </div>
+                <div class="kanban-content">
+                    <div class="task"></div>
+                    <div class="no-task-feedback">No tasks To do</div>
+                </div>
+            </div>
+
+            <div class="kanban-column">
+                <div class="kanban-header">
+                    <h2>In progress</h2>
+                    <button class="btn-add-kanban plus-btn-default"></button>
+                </div>
+                <div class="kanban-content">
+                    <div class="task"></div>
+                    <div class="no-task-feedback">No tasks To do</div>
+                </div>
+            </div>
+
+            <div class="kanban-column">
+                <div class="kanban-header">
+                    <h2>Await feedback</h2>
+                    <button class="btn-add-kanban plus-btn-default"></button>
+                </div>
+                 <div class="kanban-content">
+                    <div class="task"></div>
+                    <div class="no-task-feedback">No tasks To do</div>
+                </div>
+            </div>
+
+            <div class="kanban-column">
+                <div class="kanban-header">
+                    <h2>Done</h2>
+                </div>
+                 <div class="kanban-content">
+                    <div class="task"></div>
+                    <div class="no-task-feedback">No tasks To do</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+</body>

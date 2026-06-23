@@ -8,22 +8,23 @@
     <link rel="icon"
       href="../assets/img/logo/favicon_light.svg"
       media="(prefers-color-scheme: dark)"
-      type="image/svg">
+      type="image/svg+xml">
 
     <link rel="icon"
       href="../assets/img/logo/favicon_dark.svg"
       media="(prefers-color-scheme: light)"
-      type="image/svg">
+      type="image/svg+xml">
 
     <title>Summary</title>
     
-    <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="../styles/summary.css">
     <link rel="stylesheet" href="../styles/colors.css">
     <link rel="stylesheet" href="../styles/font.css">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../styles/summary.css">
 </head>
 
 <body>
+  
   <header class="container-headline">
     <h1>Join 360</h1>
     <div class="seperator"></div>
@@ -31,31 +32,31 @@
   </header>
 
   <main>
-    <div class="container-do">
+    <section class="container-do">
 
       <button id="btn-to-do" class="to-do">
-        <img class="img-to-do" src="../assets/icons/btn_summary/btn_to_do.svg" alt="icon-to-do-btn">
+        <div class="img-to-do"></div>
         <div class="container-to-do">
-            <div id="count-do" class="count-to-do">1</div>
-            <div id="description-do" class="description-to-do">To-do</div>
+            <div id="count-do" class="count">1</div>
+            <h3 id="description-do" class="description">To-do</h3>
         </div>
       </button>
 
       <button id="btn-done" class="to-do">
-        <img class="img-done" src="../assets/icons/btn_summary/btn_done.svg" alt="icon-done-btn">
+        <div class="img-done"></div>
         <div class="container-to-do">
-          <div id="count-done" class="count-to-do">1</div>
-          <div id="description-done" class="description-to-do">Done</div>
+          <div id="count-done" class="count">1</div>
+          <h3 id="description-done" class="description">Done</h3>
         </div>
       </button>
-    </div>
+    </section>
 
-    <div class="container-urgent">
+    <section class="container-urgent">
       <button id="btn-urgent" class="urgent">
-        <img class="img-urgent" src="../assets/icons/btn_summary/btn_urgent.svg" alt="icon-urgent-btn">  
-        <div>
-          <div id="count-urgent" class="count-to-do">1</div>
-          <div id="description-urgent" class="description-to-do">Urgent</div>
+        <div class="img-urgent"></div>
+        <div class="urgent-content">
+          <div id="count-urgent" class="count">1</div>
+          <h3 id="description-urgent" class="description">Urgent</h3>
         </div>
         <div class="seperator-urgent"></div>
         <div class="timeline-urgent">
@@ -63,28 +64,27 @@
           <p class="info-deadline">Upcoming Deadline</p>
         </div>  
       </button>
-      <h3 id="greeting-user" class="greeting">Good morning!</h3>
-    </div>
+      <h4 id="greeting-user" class="greeting">Good morning!</h3>
+    </section>
 
-    <div class="container-tasks">
+    <section class="container-tasks">
       <button id="btn-tasks-in-board" class="tasks">
-        <div class="count-to-do">5</div>
-        <div class="description-to-do">Tasks<br>in Board</div>
+        <div class="count">5</div>
+        <h3 class="description">Tasks in<br>Board</h3>
       </button>
 
       <button id="btn-tasks-in-progress" class="tasks">
-        <div class="count-to-do">2</div>
-        <div class="description-to-do">Tasks in Progress</div>
+        <div class="count">2</div>
+        <h3 class="description">Tasks in Progress</h3>
       </button>
 
       <button id="btn-awaiting-feedback" class="tasks">
-        <div class="count-to-do">2</div>
-        <div class="description-to-do">Awaiting Feedback</div>
+        <div class="count">2</div>
+        <h3 class="description">Awaiting Feedback</h3>
       </button>
-    </div>
+    </section>
   </main>
 
-  <footer></footer>
 </body>
 
 </html>

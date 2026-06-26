@@ -1,0 +1,29 @@
+.btn_new_contact{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 352px;
+    height: 56px;
+    border-radius: 10px;
+    background-color: var(--color-1);
+    border: solid 1px var(--color-1);
+    color: var(--color-2);
+    font-size: 21px;
+    font-style: bold;
+    font-weight: 700;
+    width: 352; 
+    padding-top: 12px;
+    padding-right: 16px;
+    padding-bottom: 12px;
+    padding-left: 16px;
+    gap: 16px;
+    opacity: 1;
+    border-width: 1px;
+}
+
+.person_add{
+    height: 32px;
+    width: 32px;
+}
+
+

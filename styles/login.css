@@ -29,18 +29,18 @@ body{
 }
 
 .signup-btn{
-    background:#2A3647;
+    background: var(--sidebar-background);
     color:white;
     border:none;
     border-radius:8px;
     padding:12px 18px;
     font-weight:700;
     cursor:pointer;
-    transition:.2s;
+    transition:.125s;
 }
 
 .signup-btn:hover{
-    background:#29ABE2;
+    background: var(--hover);
     transform:translateY(-1px);
 }
 
@@ -72,7 +72,7 @@ body{
 .underline{
     width:120px;
     height:3px;
-    background:#29ABE2;
+    background: var(--hover);
     margin:16px 0 40px;
     border-radius:3px;
 }
@@ -98,7 +98,7 @@ body{
 }
 
 .input-group input:focus{
-    border-bottom:1px solid #29ABE2;
+    border-bottom:1px solid  var(--hover);
 }
 
 .icon{
@@ -116,24 +116,24 @@ body{
 }
 
 .login-btn{
-    background:#2A3647;
+    background:var(--sidebar-background);
     color:white;
     border:none;
     border-radius:8px;
     padding:14px 28px;
     font-weight:700;
     cursor:pointer;
-    transition:.2s;
+    transition:.125s;
 }
 
 .login-btn:hover{
-    background:#29ABE2;
+    background: var(--hover);
 }
 
 .guest-btn{
     background:white;
-    border:1px solid #2A3647;
-    color:#2A3647;
+    border:1px solid var(--sidebar-background);
+    color: var(--sidebar-background);
     border-radius:8px;
     padding:14px 28px;
     font-weight:700;
@@ -142,8 +142,8 @@ body{
 }
 
 .guest-btn:hover{
-    border-color:#29ABE2;
-    color:#29ABE2;
+    border-color: var(--hover);
+    color: var(--hover);
 }
 
 .signup-card{
@@ -167,7 +167,7 @@ body{
     background:none;
 
     font-size:24px;
-    color:#29ABE2;
+    color: var(--hover);
 
     cursor:pointer;
 }
@@ -179,7 +179,7 @@ body{
 .underline{
     width:120px;
     height:3px;
-    background:#29ABE2;
+    background: var(--hover);
     margin:12px 0 32px;
 }
 
@@ -220,29 +220,12 @@ body{
 }
 
 .privacy-row a{
-    color:#29ABE2;
+    color: var(--hover);
     text-decoration:none;
 }
 
 .privacy-row a:hover{
     text-decoration:underline;
-}
-
-.signup-btn{
-    background:#2A3647;
-    color:white;
-
-    border:none;
-    border-radius:8px;
-
-    padding:14px 28px;
-
-    font-weight:700;
-    cursor:pointer;
-}
-
-.signup-btn:hover{
-    background:#29ABE2;
 }
 
 footer{
@@ -257,9 +240,9 @@ footer{
 footer a{
     color:#a8a8a8;
     text-decoration:none;
-    transition:.2s;
+    transition:.125s;
 }
 
 footer a:hover{
-    color:#29ABE2;
+    color: var(--hover);
 }

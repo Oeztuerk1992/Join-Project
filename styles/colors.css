@@ -1,15 +1,36 @@
 :root {
+  /* colors */
 
-/* colors */
+  --background-body: rgba(246, 247, 248, 1);
 
---sidebar-background: rgba(42, 54, 71, 1);
---hover-sidebar: rgba(9, 25, 49, 1);
+  --sidebar-background: rgba(42, 54, 71, 1);
+  --hover-sidebar: rgba(9, 25, 49, 1);
+  --font-legalnotice: rgba(168, 168, 168, 1);
+  --hover: rgb(41,171,226)
+  --seperator-summary: rgba(41, 171, 226, 1);
+  --seperator-urgent: rgba(209, 209, 209, 1);
+  --border-btn: rgba(0, 0, 0, 0.1);
+  --border-add-btn-kanban: rgba(0, 0, 0, 0.25);
 
---font-legalnotice: rgba(168, 168, 168, 1);
+  /* board */
 
---seperator-summary: rgba(41, 171, 226, 1);
+  /* badge colors for board user */
+  --badge-color-1: rgba(255, 122, 0, 1);
+  --badge-color-2: rgba(255, 94, 179, 1);
+  --badge-color-3: rgba(110, 82, 255, 1);
+  --badge-color-4: rgba(147, 39, 255, 1);
+  --badge-color-5: rgba(0, 190, 232, 1);
+  --badge-color-6: rgba(31, 215, 193, 1);
+  --badge-color-7: rgba(255, 116, 94, 1);
+  --badge-color-8: rgba(255, 163, 94, 1);
+  --badge-color-9: rgba(252, 113, 255, 1);
+  --badge-color-10: rgba(255, 199, 1, 1);
+  --badge-color-11: rgba(0, 56, 255, 1);
+  --badge-color-12: rgba(195, 255, 43, 1);
+  --badge-color-13: rgba(255, 230, 43, 1);
+  --badge-color-14: rgba(255, 70, 70, 1);
+  --badge-color-15: rgba(255, 187, 43, 1);
 
-
-
-
+  --title-kanban: rgba(66, 82, 110, 1);
+  --background-no-task-feedback: rgba(231, 231, 231, 1);
 }

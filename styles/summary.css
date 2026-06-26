@@ -48,6 +48,8 @@ h2 {
     align-items: center;
     justify-content: center;
     gap: 20px;
+
+    transition: transform 0.3s;
 }
 .img-to-do,
 .img-done {
@@ -115,6 +117,9 @@ h3 {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+
+    transition: transform 0.3s;
+    transform-origin: top center;
 }
 .container-urgent {
     display: flex;
@@ -157,6 +162,8 @@ h4 {
     align-items: center;
     flex-direction: column;
     justify-content: center;
+
+    transition: transform 0.3s;
 }
 .container-tasks {
     gap: 20px;
@@ -178,10 +185,15 @@ button {
 /* HOVER EFFECTS */
 
 .to-do:hover,
-.urgent:hover,
 .tasks:hover {
     background-color: var(--sidebar-background);
     color: white;
+    transform: scale(1.05);
+}
+.urgent:hover {
+    background-color: var(--sidebar-background);
+    color: white;
+    transform: scaleY(1.025);
 }
 .to-do:hover *,
 .urgent:hover *,
@@ -194,18 +206,11 @@ button {
 .to-do:hover .img-done {
     background-image: url("../assets/icons/btn_summary/btn_done_hover.svg");
 }
-
-
-
-/* Hover effects for container */
-.section-pokemon img {
-    transition: transform 0.4s ease;
+.task-one,
+.do-one {
+    transform-origin: left center;
 }
-.section-pokemon:hover {
-    transform: scale(1.1) translateY(-4px);
-    border-color: rgba(255, 255, 255, 0.6);
-    box-shadow:
-        0 0 10px rgba(255, 255, 255, 0.4),
-        0 0 20px rgba(255, 255, 255, 0.25),
-        0 0 40px rgba(255, 255, 255, 0.15);
+.task-three,
+.do-two {
+    transform-origin: right center;
 }

@@ -6,7 +6,7 @@
   --sidebar-background: rgba(42, 54, 71, 1);
   --hover-sidebar: rgba(9, 25, 49, 1);
   --font-legalnotice: rgba(168, 168, 168, 1);
-
+  --hover: rgb(41,171,226);
   --seperator-summary: rgba(41, 171, 226, 1);
   --seperator-urgent: rgba(209, 209, 209, 1);
   --border-btn: rgba(0, 0, 0, 0.1);
@@ -38,4 +38,15 @@
   --title-kanban: rgba(66, 82, 110, 1);
   --background-no-task-feedback: rgba(231, 231, 231, 1);
   --box-shadow-mini-card: rgba(0, 0, 0, 0.08);
+}
+
+
+/* contact */
+
+/* colors for contacts*/
+--color-1: rgba(42, 54, 71, 1);
+--color-2: rgba(255, 255, 255, 1);
+
+
+
 }

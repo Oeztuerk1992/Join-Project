@@ -12,6 +12,10 @@
   --border-btn: rgba(0, 0, 0, 0.1);
   --border-add-btn-kanban: rgba(0, 0, 0, 0.25);
 
+  --background-board: rgba(240, 240, 240, 1);
+  --background-status-bar: rgba(69, 137, 255, 1);
+  --background-status-bar-default: rgba(244, 244, 244, 1);
+
   /* board */
 
   /* badge colors for board user */
@@ -33,6 +37,8 @@
 
   --title-kanban: rgba(66, 82, 110, 1);
   --background-no-task-feedback: rgba(231, 231, 231, 1);
+  --box-shadow-mini-card: rgba(0, 0, 0, 0.08);
+}
 
 
 /* contact */

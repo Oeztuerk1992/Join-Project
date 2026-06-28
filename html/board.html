@@ -112,46 +112,71 @@
         <section class="view-task-overlay">
             <div class="frame-view-task">
                 <header class="header-view-task">
-                    <h3 class="card-label-view" id="label-card-view"><img src="../assets/icons/board/cards/cat_userstory.svg" alt="img-label-card"></h3>
+                    <div class="headline-view-task">
+                        <h3 class="card-label-view" id="label-card-view"><img src="../assets/icons/board/cards/cat_userstory.svg" alt="img-label-card"></h3>
+                        <button class="btn-close"><img class="img-btn-close" src="../assets/icons/board/cards/close.svg" alt="img-close-btn"></button>
+                    </div>
                     <h4 class="title-task-view" id="task-title-view">Kochwelt Page & Recipe Recommender</h4>
                     <p class="description-task-view" id="task-description-view">Build start page with recipe recommendation.</p>
                 </header>
                 <article class="set-responsibilities">
-                    <div class="due-date">10/05/2023</div>
-                    <div class="priority-long"><img src="../assets/icons/board/cards/long-prio_medium.svg" alt="img-prio"></div>
+                    <div class="set-date">
+                        <span class="due-date-text">Due date:</span>
+                        <div class="due-date">10/05/2023</div>
+                    </div>
+                    <div class="set-priority">
+                        <span class="priority-long-text">Priority:</span>
+                        <div class="priority-long"><img class="img-prio-medium" src="../assets/icons/board/cards/long-prio_medium.svg" alt="img-prio"></div>
+                    </div>
                     <div class="assignment-to-user">
-                        <span>Assigned To:</span>
+                        <span class="text-assigned">Assigned To:</span>
                         <div class="member-badge-view" id="badge-member-view">
-                            <div class="user-abbr user1">AM</div>
-                            <div class="user-abbr user2">EM</div>
-                            <div class="user-abbr user3">MB</div>
+                            <div class="container-user">
+                                <div class="user-abbr">AM</div>
+                                <div class="name-to-badge">Anton Mayer</div>
+                            </div>
+                            <div class="container-user">
+                                <div class="user-abbr">EM</div>
+                                <div class="name-to-badge">Emmanuel Mauer</div>
+                            </div>
+                            <div class="container-user">
+                                <div class="user-abbr">MB</div>
+                                <div class="name-to-badge">Marcel Bauer</div>
+                            </div>
                         </div>
                     </div>
                 </article>
                 <article class="subtask-status">
-                    <span>Subtasks</span>
+                    <span class="title-subtask">Subtasks</span>
                         <div class="container-subtasks" id="subtasks-view">
-                            <div>
+                            <div class="container-checkbox">
                                 <div class="checkbox-subtask"><img src="../assets/icons/board/cards/checked-btn.svg" alt="img-checkbox"></div>
                                 <p class="description-subtask">Implement Recipe Recommendation</p>
                             </div>
-                            <div>
+                            <div class="container-checkbox">
                                 <div class="checkbox-subtask"><img src="../assets/icons/board/cards/check-btn.svg" alt="img-checkbox"></div>
                                 <p class="description-subtask">Start Page Layout</p>
                             </div>
                         </div>
                 </article>
-                <article>
-                    
+                <article class="edit-btn">
+                    <div class="frame-edit-btn">
+                        <div class="delete-task-view">
+                            <img src="../assets/icons/contact/delete.png" alt="delete-img">
+                        </div>
+                        <div class="seperator-view-task"></div>
+                        <div class="edit-task-view">
+                            <img src="../assets/icons/contact/edit.png" alt="edit-img">
+                        </div>
+                    </div>
                 </article>
             </div>
         </section>
 
         <section class="edit-task-overlay">
-
+            
         </section>
 
     </main>
     
-
 </body>

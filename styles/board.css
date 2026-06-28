@@ -202,6 +202,8 @@ h2 {
 
 /* TASK */
 
+/* mini-card */
+
 .mini-card {
     width: 252px;
     height: 225px;
@@ -301,3 +303,128 @@ p {
     margin-left: -10px;
 }
 
+/* View task overlay */
+
+.view-task-overlay {
+    margin-top: 20px;
+
+    width: 525px;
+    height: 930px;
+    border-radius: 30px;
+
+    background-color: white;
+    box-shadow: var(--box-shadow-view-overlay);
+}
+.frame-view-task {
+    padding: 50px 40px 50px 40px;
+}
+.headline-view-task {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.card-label-view {
+    width: 164px;
+    height: 36px;
+}
+.btn-close {
+    background-color: transparent;
+}
+.img-btn-close {
+    width: 13px;
+    height: 13px;
+}
+.title-task-view {
+    font-size: 61px;
+    font-weight: 700;
+
+    padding-top: 10px;
+}
+.description-task-view {
+    font-size: 20px;
+    font-weight: 400;
+
+    padding-top: 20px;
+}
+.set-date, .set-priority {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    font-size: 20px;
+}
+.due-date-text, .priority-long-text {
+    color: var(--sidebar-background);
+}
+.img-prio-medium {
+    width: 140px;
+    height: 32px;
+}
+.priority-long {
+    display: flex;
+    align-items: center;
+}
+.set-date {
+    padding-top: 20px;
+}
+.set-priority {
+    padding-top: 20px;
+}
+.assignment-to-user {
+    padding-top: 20px;
+}
+.text-assigned {
+    font-size: 20px;
+    color: var(--sidebar-background);
+}
+.member-badge-view {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    padding-top: 20px;
+}
+.container-user {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+.name-to-badge {
+    font-family: "Open Sans", sans-serif;
+    font-size: 19px;
+}
+.subtask-status {
+    padding-top: 30px;
+}
+.title-subtask {
+    font-size: 20px;
+    color: var(--sidebar-background);
+}
+.container-checkbox {
+    display: flex;
+    align-items: center;
+
+    gap: 20px;
+    padding-top: 10px;
+}
+.checkbox-subtask {
+    display: flex;
+    align-items: center;
+}
+.edit-btn {
+    padding-top: 40px;
+}
+.frame-edit-btn {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+}
+.seperator-view-task {
+    background-color: var(--seperator-urgent);
+    width: 1px;
+    height: 24px;
+}
+.description-subtask {
+    font-size: 16px;
+}

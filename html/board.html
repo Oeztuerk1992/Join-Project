@@ -21,10 +21,10 @@
 
 <body>
 
-    <header>
+    <header class="header-board">
         <h1>Board</h1>
-        <div class="task-bar">
-            <div class="search-container">
+        <section class="task-bar">
+            <article class="search-container">
                 <div class="filter-container">
                     <input type="text" id="input-text" class="search-task" placeholder="Find Task">
                     <div class="container-btn">
@@ -34,56 +34,149 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </article>
             <button class="btn-add-task"></button>
-        </div>
+        </section>
     </header>
 
     <main>
-        <div class="kanban-board">
-            <div class="kanban-column">
+        <section class="kanban-board">
+            <article class="kanban-column">
                 <div class="kanban-header">
                     <h2>To do</h2>
                     <button class="btn-add-kanban plus-btn-default"></button>
                 </div>
                 <div class="kanban-content">
-                    <div class="task"></div>
+                    <div draggable="true" class="task"></div>
                     <div class="no-task-feedback">No tasks To do</div>
                 </div>
-            </div>
+            </article>
 
-            <div class="kanban-column">
+            <article class="kanban-column">
                 <div class="kanban-header">
                     <h2>In progress</h2>
                     <button class="btn-add-kanban plus-btn-default"></button>
                 </div>
                 <div class="kanban-content">
-                    <div class="task"></div>
+                    <div draggable="true" class="task"></div>
                     <div class="no-task-feedback">No tasks To do</div>
                 </div>
-            </div>
+            </article>
 
-            <div class="kanban-column">
+            <article class="kanban-column">
                 <div class="kanban-header">
                     <h2>Await feedback</h2>
                     <button class="btn-add-kanban plus-btn-default"></button>
                 </div>
                  <div class="kanban-content">
-                    <div class="task"></div>
+                    <div draggable="true" class="task"></div>
                     <div class="no-task-feedback">No tasks To do</div>
                 </div>
-            </div>
+            </article>
 
-            <div class="kanban-column">
+            <article class="kanban-column">
                 <div class="kanban-header">
                     <h2>Done</h2>
                 </div>
                  <div class="kanban-content">
-                    <div class="task"></div>
+                    <div draggable="true" class="task"></div>
                     <div class="no-task-feedback">No tasks To do</div>
                 </div>
-            </div>
-        </div>
-    </main>
+            </article>
+        </section>
 
+        <section class="mini-card" id="card-mini">
+            <div class="frame-mini-card">
+                <header class="header-mini-card">
+                    <h3 class="card-label" id="label-card"><img src="../assets/icons/board/cards/cat_userstory.svg" alt="img-label-card"></h3>
+                    <h4 class="title-task" id="task-title">Contact Form & Imprint</h4>
+                    <p class="description-task" id="task-description">Create a contact form and imprint page...</p>
+                </header>
+                <article class="container-subtask" id="subtask">
+                    <div class="subtask-bar-wrapper" id="status-subtask">
+                        <div class="subtask-bar"></div>
+                    </div>
+                    <div class="count-status" id="status-count">1/2 Subtasks</div>
+                </article>
+                <article class="responsibility-mini-card">
+                    <div class="member-badge" id="badge-member">
+                        <div class="user-abbr user1">AM</div>
+                        <div class="user-abbr user2">EM</div>
+                        <div class="user-abbr user3">MB</div>
+                    </div>
+                    <div class="priority-task" id="task-prio"><img src="../assets/icons/board/cards/prio_high.svg" alt="img-prio"></div>
+                </article>
+            </div>
+        </section>
+
+        <section class="view-task-overlay">
+            <div class="frame-view-task">
+                <header class="header-view-task">
+                    <div class="headline-view-task">
+                        <h3 class="card-label-view" id="label-card-view"><img src="../assets/icons/board/cards/cat_userstory.svg" alt="img-label-card"></h3>
+                        <button class="btn-close"><img class="img-btn-close" src="../assets/icons/board/cards/close.svg" alt="img-close-btn"></button>
+                    </div>
+                    <h4 class="title-task-view" id="task-title-view">Kochwelt Page & Recipe Recommender</h4>
+                    <p class="description-task-view" id="task-description-view">Build start page with recipe recommendation.</p>
+                </header>
+                <article class="set-responsibilities">
+                    <div class="set-date">
+                        <span class="due-date-text">Due date:</span>
+                        <div class="due-date">10/05/2023</div>
+                    </div>
+                    <div class="set-priority">
+                        <span class="priority-long-text">Priority:</span>
+                        <div class="priority-long"><img class="img-prio-medium" src="../assets/icons/board/cards/long-prio_medium.svg" alt="img-prio"></div>
+                    </div>
+                    <div class="assignment-to-user">
+                        <span class="text-assigned">Assigned To:</span>
+                        <div class="member-badge-view" id="badge-member-view">
+                            <div class="container-user">
+                                <div class="user-abbr">AM</div>
+                                <div class="name-to-badge">Anton Mayer</div>
+                            </div>
+                            <div class="container-user">
+                                <div class="user-abbr">EM</div>
+                                <div class="name-to-badge">Emmanuel Mauer</div>
+                            </div>
+                            <div class="container-user">
+                                <div class="user-abbr">MB</div>
+                                <div class="name-to-badge">Marcel Bauer</div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article class="subtask-status">
+                    <span class="title-subtask">Subtasks</span>
+                        <div class="container-subtasks" id="subtasks-view">
+                            <div class="container-checkbox">
+                                <div class="checkbox-subtask"><img src="../assets/icons/board/cards/checked-btn.svg" alt="img-checkbox"></div>
+                                <p class="description-subtask">Implement Recipe Recommendation</p>
+                            </div>
+                            <div class="container-checkbox">
+                                <div class="checkbox-subtask"><img src="../assets/icons/board/cards/check-btn.svg" alt="img-checkbox"></div>
+                                <p class="description-subtask">Start Page Layout</p>
+                            </div>
+                        </div>
+                </article>
+                <article class="edit-btn">
+                    <div class="frame-edit-btn">
+                        <div class="delete-task-view">
+                            <img src="../assets/icons/contact/delete.png" alt="delete-img">
+                        </div>
+                        <div class="seperator-view-task"></div>
+                        <div class="edit-task-view">
+                            <img src="../assets/icons/contact/edit.png" alt="edit-img">
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="edit-task-overlay">
+            
+        </section>
+
+    </main>
+    
 </body>

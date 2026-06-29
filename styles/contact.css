@@ -33,7 +33,6 @@
     padding: 32px 24px;
     opacity: 1;
     overflow-y: scroll;
-    scrollbar-color: var(--color-1) transparent;
     box-shadow: 4px 0px 6px 0px rgba(0, 0, 0, 0.08);
 }
 

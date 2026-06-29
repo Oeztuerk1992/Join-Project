@@ -176,7 +176,6 @@ font-size: 27px;
 
 .input-container{
     width: 422px;
-    height: 215px;
     display: flex;
     flex-direction: column;
     gap: 32px;

@@ -21,7 +21,7 @@
     
     <main class="right-side">
         <div class="new-contact">
-            <button class="btn_new_contact" id="add_new_contact" type="button">Add new contact <img class="person_add" src="/assets/icons/contact/person_add.png" alt=""></button>
+            <button class="btn_new_contact" onclick="openOverlay()" type="button">Add new contact <img class="person_add" src="/assets/icons/contact/person_add.png" alt=""></button>
         </div>        
         <div class="contact-info">
             <div class="contact-details">
@@ -33,5 +33,40 @@
             </div>
         </div>
     </main>
+    <div class="overlay" id="overlay">
+        <div class="overlay-container">
+            <div class="overlay-left">
+                <img class="join_logo" src="/assets/img/join-logo.png" alt="">
+                <span class="add_title">Add contact</span>
+                <span class="p-tag">Tasks are better with a team!</span>
+                <span class="line"></span>
+            </div>
+            <div class="overlay-right">
+                <span class="overlay-close" onclick="closeOverlay()">X</span>
+                <div class="avatar-placeholder">
+                    <img class="user" src="/assets/icons/contact/user.png" alt="">
+                </div>
+                <div class="input-container">
+                    <div class="input-wrapper">
+                        <input type="text" placeholder="Name" class="input-field" >
+                        <img src="/assets/icons/contact/person.png" alt="" class="input-icon">
+                    </div>
+                    <div class="input-wrapper">
+                        <input type="text" placeholder="Email" class="input-field">
+                        <img src="/assets/icons/contact/mail.png" alt="" class="input-icon">
+                    </div>
+                    <div class="input-wrapper">
+                        <input type="text" placeholder="Phone" class="input-field">
+                        <img src="/assets/icons/contact/call.png" alt="" class="input-icon">
+                    </div>
+                    <div class="overly-buttons">
+                        <button class="btn-cancel" onclick="closeOverlay()">Cancel X</button>
+                        <button class="btn-create">Create contact ✓</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/new_contact.js"></script>
 </body>
 </html>

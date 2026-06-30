@@ -1,0 +1,430 @@
+/* HEADER */
+
+.header-board {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+h1 {
+    font-size: 61px;
+    font-weight: 700;
+}
+.task-bar {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.search-container {
+    width: 312px;
+    height: 48px;
+
+    border-radius: 10px;
+    border: 1px solid var(--font-legalnotice);
+    background-color: white;
+}
+.filter-container {
+    width: 280px;
+    height: 32px;
+
+    display: flex;
+    padding: 8px 16px;
+}
+.container-btn {
+    display: flex;
+    align-items: center;
+
+    width: 48px;
+    height: 32px;
+    padding: 0;
+}
+.search-task {
+    width: 232px;
+    border: none;
+
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--seperator-urgent);
+}
+.seperator {
+    background-color: var(--seperator-urgent);
+    width: 1px;
+    height: 30px;
+    margin-right: 10px;
+}
+.container-search-task {
+    width: 44px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn-search-task {
+    width: 17px;
+    height: 17px;
+    
+    background-size:contain;
+    background-repeat: no-repeat;
+    background-position: right;
+    background-color: transparent;
+
+    background-image: url("../assets/icons/board/header/search_default.svg");
+
+    cursor: pointer;
+}
+.btn-add-task {
+    width: 160px;
+    height: 48px;
+    border-radius: 10px;
+
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent;
+
+    background-image: url("../assets/icons/board/header/add_task_default.svg");
+}
+
+/* BTN */
+
+button {
+    cursor: pointer;
+    border: unset;
+}
+input {
+    border: unset;
+}
+input::placeholder {
+    color: var(--seperator-urgent);
+}
+
+/* MAIN */
+
+body {
+    margin: 0;
+}
+* {
+    /* outline: 1px solid red; */
+}
+main {
+    background-color: var(--background-board);
+}
+.kanban-board {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    
+    gap: 30px;
+    padding-left: 20px;
+}
+.kanban-header {
+    width: 252px;
+    height: 24px;
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.kanban-column {
+    width: 252px;
+}
+.kanban-content {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--title-kanban);
+}
+.btn-add-kanban {
+    width: 24px;
+    height: 24px;
+
+    background-color: transparent;
+}
+.plus-btn-default {
+    background-image: url("../assets/icons/board/main/plus_btn_default.svg");
+}
+.plus-btn-hover {
+    background-image: url("../assets/icons/board/main/plus_btn_hover.svg");
+}
+.no-task-feedback {
+    height: 48px;
+    border-radius: 10px;
+
+    border: 2px dashed var(--border-btn);
+    background-color: var(--background-no-task-feedback);
+    color: var(--font-legalnotice);
+    font-size: 16px;
+    font-weight: 400;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    display: none;
+}
+
+/* HOVER EFFECTS */
+
+.plus-btn-default:hover {
+    background-image: url("../assets/icons/board/main/plus_btn_hover.svg");
+}
+.container-search-task:hover {
+    border-radius: 50%;
+    background-color: var(--background-no-task-feedback);
+}
+.btn-search-task:active {
+    background-image: url("../assets/icons/board/header/search_hover.svg");
+}
+.btn-add-task:hover {
+    width: 160px;
+    height: 48px;
+    border-radius: 10px;
+
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent;
+
+    background-image: url("../assets/icons/board/header/add_task_hover.svg");
+    transform: scale(1.137);
+    margin-top: 7px;
+}
+.btn-add-task:active {
+    background-image: url("../assets/icons/board/header/add_task_active.svg");
+    transform: scale(1);
+    margin-top: 0px;
+}
+
+/* TASK */
+
+/* mini-card */
+
+.mini-card {
+    width: 252px;
+    height: 225px;
+    border-radius: 24px;
+
+    background-color: white;
+    box-shadow: var(--box-shadow-mini-card);
+}
+.frame-mini-card {
+    padding: 16px;
+}
+.card-label {
+    width: 113px;
+    height: 27px;
+}
+h3 {
+    font-size: 16px;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
+h4 {
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+p {
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+.title-task {
+    padding-top: 20px;
+}
+.description-task {
+    font-size: 16px;
+    font-weight: 400;
+    color: var( --font-legalnotice);
+
+    padding-top: 5px;
+}
+.container-subtask {
+    padding-top: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 10px;
+}
+.subtask-bar-wrapper {
+    width: 110px;
+    height: 8px;
+    border-radius: 16px;
+
+    background-color: var(--background-status-bar-default);
+    overflow: hidden;
+}
+.subtask-bar {
+    height: 100%;
+    width: 50%;
+    background-color: var(--background-status-bar);
+}
+.count-status {
+    font-size: 16px;
+}
+.responsibility-mini-card {
+    padding-top: 10px;
+    
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.member-badge {
+    display: flex;
+    justify-content:flex-start;
+}
+.user-abbr {
+    width: 32px;
+    height: 32px;
+    
+    border-radius: 50%;
+    border: 1px solid white;
+    background-color: var( --badge-color-1);
+
+    font-size: 16px;
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.user2, .user3 {
+    margin-left: -10px;
+}
+
+/* View task overlay */
+
+.view-task-overlay {
+    margin-top: 20px;
+
+    width: 525px;
+    height: 930px;
+    border-radius: 30px;
+
+    background-color: white;
+    box-shadow: var(--box-shadow-view-overlay);
+}
+.frame-view-task {
+    padding: 50px 40px 50px 40px;
+}
+.headline-view-task {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.card-label-view {
+    width: 164px;
+    height: 36px;
+}
+.btn-close {
+    background-color: transparent;
+}
+.img-btn-close {
+    width: 13px;
+    height: 13px;
+}
+.title-task-view {
+    font-size: 61px;
+    font-weight: 700;
+
+    padding-top: 10px;
+}
+.description-task-view {
+    font-size: 20px;
+    font-weight: 400;
+
+    padding-top: 20px;
+}
+.set-date, .set-priority {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    font-size: 20px;
+}
+.due-date-text, .priority-long-text {
+    color: var(--sidebar-background);
+}
+.img-prio-medium {
+    width: 140px;
+    height: 32px;
+}
+.priority-long {
+    display: flex;
+    align-items: center;
+}
+.set-date {
+    padding-top: 20px;
+}
+.set-priority {
+    padding-top: 20px;
+}
+.assignment-to-user {
+    padding-top: 20px;
+}
+.text-assigned {
+    font-size: 20px;
+    color: var(--sidebar-background);
+}
+.member-badge-view {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    padding-top: 20px;
+}
+.container-user {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+.name-to-badge {
+    font-family: "Open Sans", sans-serif;
+    font-size: 19px;
+}
+.subtask-status {
+    padding-top: 30px;
+}
+.title-subtask {
+    font-size: 20px;
+    color: var(--sidebar-background);
+}
+.container-checkbox {
+    display: flex;
+    align-items: center;
+
+    gap: 20px;
+    padding-top: 10px;
+}
+.checkbox-subtask {
+    display: flex;
+    align-items: center;
+}
+.edit-btn {
+    padding-top: 40px;
+}
+.frame-edit-btn {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+}
+.seperator-view-task {
+    background-color: var(--seperator-urgent);
+    width: 1px;
+    height: 24px;
+}
+.description-subtask {
+    font-size: 16px;
+}

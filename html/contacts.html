@@ -22,6 +22,7 @@
     <main class="right-side">
         <div class="new-contact">
             <button class="btn_new_contact" onclick="openOverlay()" type="button">Add new contact <img class="person_add" src="/assets/icons/contact/person_add.png" alt=""></button>
+            <div id="new-contact-message"></div>
         </div>        
         <div class="contact-info">
             <div class="contact-details">
@@ -48,25 +49,26 @@
                 </div>
                 <div class="input-container">
                     <div class="input-wrapper">
-                        <input type="text" placeholder="Name" class="input-field" >
+                        <input id="name" type="text" placeholder="Name" class="input-field" >
                         <img src="/assets/icons/contact/person.png" alt="" class="input-icon">
                     </div>
                     <div class="input-wrapper">
-                        <input type="text" placeholder="Email" class="input-field">
+                        <input id="email" type="text" placeholder="Email" class="input-field">
                         <img src="/assets/icons/contact/mail.png" alt="" class="input-icon">
                     </div>
                     <div class="input-wrapper">
-                        <input type="text" placeholder="Phone" class="input-field">
+                        <input id="phone" type="text" placeholder="Phone" class="input-field">
                         <img src="/assets/icons/contact/call.png" alt="" class="input-icon">
                     </div>
                     <div class="overly-buttons">
                         <button class="btn-cancel" onclick="closeOverlay()">Cancel X</button>
-                        <button class="btn-create">Create contact ✓</button>
+                        <button id="create-contact" class="btn-create" onclick="createContact()">Create contact ✓</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <script src="/js/new_contact.js"></script>
+    <script src="/js/templates/contact_template.js"></script>
 </body>
 </html>

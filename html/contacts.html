@@ -20,20 +20,33 @@
 <body>
     
     <main class="right-side">
-        <div class="new-contact">
-            <button class="btn_new_contact" onclick="openOverlay()" type="button">Add new contact <img class="person_add" src="/assets/icons/contact/person_add.png" alt=""></button>
-            <div id="new-contact-message"></div>
-        </div>        
-        <div class="contact-info">
-            <div class="contact-details">
-                <div class="header-title">
-                    <h2 class="title-contact">Contacts</h2>
-                    <div class="title-divider"></div>
-                    <span class="title-subtitle">Better with a team</span>
-                </div>
+    <div class="new-contact">
+        <button class="btn_new_contact" onclick="openOverlay()" type="button">Add new contact <img class="person_add" src="/assets/icons/contact/person_add.png" alt=""></button>
+        <div id="new-contact-message"></div>
+    </div>        
+    <div class="contact-info">
+    <div class="contact-details">
+        <div class="header-title">
+            <h2 class="title-contact">Contacts</h2>
+            <div class="title-divider"></div>
+            <span class="title-subtitle">Better with a team</span>
+        </div>
+    </div>
+    <div class="contact-detail-panel">
+        <div class="contact-detail-header">
+            <div class="contact-detail-badge"></div>
+            <div class="contact-detail-name">
+                <h2></h2>
+                <div class="contact-detail-actions"></div>
             </div>
         </div>
-    </main>
+        <div id="contact-detail-info" class="contact-detail-info">
+            <p class="contact-detail-email"></p>
+            <p class="contact-detail-phone"></p>
+        </div>
+    </div>
+</div>
+</main>
     <div class="overlay" id="overlay">
         <div class="overlay-container">
             <div class="overlay-left">

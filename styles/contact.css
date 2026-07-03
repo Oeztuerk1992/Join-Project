@@ -48,8 +48,6 @@
 
 
 .contact-details{
-    width: 569px;
-    height: 469px;
     gap: 32px;
     opacity: 1;
     margin: 134px 56px 78px 67px;
@@ -308,4 +306,57 @@ font-size: 27px;
     font-weight: 400;
     font-style: Regular;
     font-size: 20px;
+}
+
+.contact-detail-panel{
+    width: 461px;
+    height: 364px;
+    display: flex;
+    flex-direction: column;
+    gap: 21px;
+    margin-left: 64px;
+}
+
+.contact-detail-header{
+    width: 461px;
+    height: 120px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 24px;
+}
+
+.contact-detail-badge {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 47px;
+}
+
+.contact-detail-name {
+    display: flex;
+    flex-direction: column;
+}
+
+.nameUser{
+    font-weight: 500;
+    font-style: Medium;
+    font-size: 47px;
+}
+
+.contact-label{
+    font-weight: 400;
+    font-style: Regular;
+    font-size: 20px;
+}
+
+.label{
+    font-weight: 700;
+    font-style: bold;
+    font-size: 16px;
 }

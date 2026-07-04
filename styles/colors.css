@@ -39,6 +39,8 @@
   --background-no-task-feedback: rgba(231, 231, 231, 1);
   --box-shadow-mini-card: rgba(0, 0, 0, 0.08);
   --box-shadow-view-overlay: rgba(0, 0, 0, 0.16);
+  --box-shadow-prio: rgba(0, 0, 0, 0.1);
+  --box-shadow-choose-prio: rgba(0, 0, 0, 0.25);
 
 
 /* contact */

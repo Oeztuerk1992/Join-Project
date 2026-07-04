@@ -211,6 +211,8 @@ h2 {
 
     background-color: white;
     box-shadow: var(--box-shadow-mini-card);
+
+    cursor: pointer;
 }
 .frame-mini-card {
     padding: 16px;
@@ -285,8 +287,8 @@ p {
     justify-content:flex-start;
 }
 .user-abbr {
-    width: 32px;
-    height: 32px;
+    width: 42px;
+    height: 42px;
     
     border-radius: 50%;
     border: 1px solid white;
@@ -323,22 +325,33 @@ p {
     align-items: center;
     justify-content: space-between;
 }
+.user-label {
+    background-image: url("../assets/icons/board/cards/cat_userstory.svg");
+    width: 164px;
+    height: 36px;
+    
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
 .card-label-view {
     width: 164px;
     height: 36px;
 }
 .btn-close {
+    background-image: url("../assets/icons/close-btn/close-btn-default.svg");
+    width: 32px;
+    height: 32px;
     background-color: transparent;
 }
-.img-btn-close {
-    width: 13px;
-    height: 13px;
+.btn-close:hover {
+    background-image: url("../assets/icons/close-btn/close-btn-hover.svg");
 }
 .title-task-view {
     font-size: 61px;
     font-weight: 700;
 
-    padding-top: 10px;
+    padding-top: 20px;
 }
 .description-task-view {
     font-size: 20px;
@@ -355,22 +368,31 @@ p {
 .due-date-text, .priority-long-text {
     color: var(--sidebar-background);
 }
-.img-prio-medium {
-    width: 140px;
-    height: 32px;
+.text-long-prio {
+    font-size: 20px;
+}
+.img-long-prio {
+    width: 17px;
+    height: 6px;
+
+    background-image: url("../assets/icons/board/cards/prio_medium.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 .priority-long {
     display: flex;
     align-items: center;
+    gap: 10px;
+    padding-left: 20px;
 }
 .set-date {
-    padding-top: 20px;
+    padding-top: 25px;
 }
 .set-priority {
-    padding-top: 20px;
+    padding-top: 25px;
 }
 .assignment-to-user {
-    padding-top: 20px;
+    padding-top: 25px;
 }
 .text-assigned {
     font-size: 20px;
@@ -381,7 +403,8 @@ p {
     flex-direction: column;
     align-items: flex-start;
     gap: 20px;
-    padding-top: 20px;
+    padding-top: 25px;
+    margin-left: 25px;
 }
 .container-user {
     display: flex;
@@ -403,16 +426,50 @@ p {
 .container-checkbox {
     display: flex;
     align-items: center;
-
-    gap: 20px;
-    padding-top: 10px;
+    gap: 15px;
+    margin-top: 8px;
+    border-radius: 5px;
+    padding: 3px 14px 3px 14px;
+}
+.container-checkbox:hover {
+    background-color: whitesmoke;
 }
 .checkbox-subtask {
+    width: 16px;
+    height: 16px;
+}
+input[type="checkbox"] {
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    
+    background-image: url("../assets/icons/board/cards/check-btn.svg");
+    background-size: 24px 24px;
+    background-repeat: no-repeat;
+    background-position: center;
+    
+    border: none;
+}
+.background-checkbox {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+
     display: flex;
     align-items: center;
 }
+.background-checkbox:hover {
+    background-color: var(--seperator-urgent);
+}
+.description-subtask {
+    font-size: 16px;
+}
+input[type="checkbox"]:checked {
+    background-image: url("../assets/icons/board/cards/checked-btn.svg");
+}
 .edit-btn {
-    padding-top: 40px;
+    padding-top: 20px;
 }
 .frame-edit-btn {
     display: flex;
@@ -420,11 +477,195 @@ p {
     justify-content: flex-end;
     gap: 10px;
 }
+.img-delete {
+    background-image: url("../assets/icons/edit_delete/delete.svg");
+
+    width: 16px;
+    height: 18px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    flex-shrink: 0;
+}
+.img-edit {
+    background-image: url("../assets/icons/edit_delete/edit.svg");
+
+    width: 18px;
+    height: 18px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    flex-shrink: 0;
+}
 .seperator-view-task {
     background-color: var(--seperator-urgent);
     width: 1px;
     height: 24px;
 }
-.description-subtask {
+.delete-task-view {
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+
+    padding-block: 0px;
+    padding-inline: 0px;
+    gap: 10px;
+}
+.container-img-delete {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+}
+.edit-task-view {
+    display: flex;
+    align-items:center;
+    background-color: transparent;
+
+    padding-block: 0px;
+    padding-inline: 0px;
+    gap: 10px;
+}
+.container-img-edit {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+}
+.text-delete {
     font-size: 16px;
+    min-width: 60px;
+}
+.text-edit {
+    font-size: 16px;
+    min-width: 30px;
+}
+.delete-task-view:hover .img-delete {
+    background-image: url("../assets/icons/edit_delete/delete_hover.svg");
+}
+.delete-task-view:hover .text-delete {
+    color: var(--seperator-summary);
+    font-weight: bold;
+}
+.edit-task-view:hover .img-edit {
+    background-image: url("../assets/icons/edit_delete/edit_hover.svg");
+}
+.edit-task-view:hover .text-edit {
+    color: var(--seperator-summary);
+    font-weight: bold;
+}
+
+/* Edit task overlay */
+
+.edit-task-overlay {
+    margin-top: 20px;
+    
+    width: 525px;
+    height: 930px;
+    border-radius: 30px;
+
+    background-color: white;
+    box-shadow: var(--box-shadow-view-overlay);
+}
+.frame-view-edit-task {
+    padding: 50px 40px 50px 40px;
+}
+.headline-edit-task {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.form-for-edit-task {
+    width: 445px;
+    height: 700px;
+
+    padding-top: 20px;
+}
+.container-form {
+    display: flex;
+    flex-direction: column; 
+    gap: 10px;
+}
+.input {
+    border: 1px solid var(--seperator-urgent);
+    border-radius: 10px;
+
+    font-size: 20px;
+    padding-left: 15px;
+}
+.label-form {
+    font-size: 20px;
+    color: var(--sidebar-background);
+}
+.input-title, .input-date {
+    height: 48px;
+}
+.input-description {
+    min-height: 120px;
+    height: auto;
+
+    line-height: 1.4;
+    resize: vertical;
+}
+.input-date {
+    padding-right: 20px;
+}
+.input-title::placeholder,
+.input-description::placeholder,
+.input-date::placeholder {
+    color: var(--seperator-urgent);
+}
+.title-prio-in-edit-mode {
+    font-size: 19px;
+    font-weight: bold;
+    color: var(--title-kanban);
+}
+.btn-prio-edit {
+    width: 138px;
+    height: 56px;
+    border-radius: 10px;
+    background-color: white;
+    border: 1px solid var(--box-shadow-prio);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    font-size: 20px;
+
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.img-prio-urgent {
+    background-image: url("../assets/icons/board/cards/prio_high.svg");
+    width: 20px;
+    height: 15px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.img-prio-medium {
+    background-image: url("../assets/icons/board/cards/prio_medium.svg");
+    width: 20px;
+    height: 8px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.img-prio-low {
+    background-image: url("../assets/icons/board/cards/prio_low.svg");
+    width: 20px;
+    height: 15px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.btn-prio-in-edit-mode {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    
+    gap: 20px;
+    padding-top: 10px;
+}
+.btn-prio-edit:hover {
+    box-shadow: 0px 4px 4px 0px var(--box-shadow-choose-prio);
+}
+.checked-urgent:active {
+    background-color: black;
 }

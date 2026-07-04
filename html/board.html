@@ -85,7 +85,7 @@
             </article>
         </section>
 
-        <section class="mini-card" id="card-mini">
+        <section class="mini-card" id="card-mini" onclick="">
             <div class="frame-mini-card">
                 <header class="header-mini-card">
                     <h3 class="card-label" id="label-card"><img src="../assets/icons/board/cards/cat_userstory.svg" alt="img-label-card"></h3>
@@ -113,8 +113,10 @@
             <div class="frame-view-task">
                 <header class="header-view-task">
                     <div class="headline-view-task">
-                        <h3 class="card-label-view" id="label-card-view"><img src="../assets/icons/board/cards/cat_userstory.svg" alt="img-label-card"></h3>
-                        <button class="btn-close"><img class="img-btn-close" src="../assets/icons/board/cards/close.svg" alt="img-close-btn"></button>
+                        <h3 class="card-label-view" id="label-card-view">
+                            <div class="user-label"></div>
+                        </h3>
+                        <button class="btn-close"></button>
                     </div>
                     <h4 class="title-task-view" id="task-title-view">Kochwelt Page & Recipe Recommender</h4>
                     <p class="description-task-view" id="task-description-view">Build start page with recipe recommendation.</p>
@@ -126,7 +128,10 @@
                     </div>
                     <div class="set-priority">
                         <span class="priority-long-text">Priority:</span>
-                        <div class="priority-long"><img class="img-prio-medium" src="../assets/icons/board/cards/long-prio_medium.svg" alt="img-prio"></div>
+                        <div class="priority-long">
+                            <span class="text-long-prio">Medium</span>
+                            <div class="img-long-prio"></div>
+                        </div>
                     </div>
                     <div class="assignment-to-user">
                         <span class="text-assigned">Assigned To:</span>
@@ -149,33 +154,94 @@
                 <article class="subtask-status">
                     <span class="title-subtask">Subtasks</span>
                         <div class="container-subtasks" id="subtasks-view">
-                            <div class="container-checkbox">
-                                <div class="checkbox-subtask"><img src="../assets/icons/board/cards/checked-btn.svg" alt="img-checkbox"></div>
+                            <label class="container-checkbox">
+                                <div class="background-checkbox">    
+                                    <input type="checkbox" class="checkbox-subtask">
+                                </div>
                                 <p class="description-subtask">Implement Recipe Recommendation</p>
-                            </div>
-                            <div class="container-checkbox">
-                                <div class="checkbox-subtask"><img src="../assets/icons/board/cards/check-btn.svg" alt="img-checkbox"></div>
+                            </label>
+                            <label class="container-checkbox">
+                                <div class="background-checkbox"> 
+                                    <input type="checkbox" class="checkbox-subtask">
+                                </div>
                                 <p class="description-subtask">Start Page Layout</p>
-                            </div>
+                            </label>
                         </div>
                 </article>
                 <article class="edit-btn">
                     <div class="frame-edit-btn">
-                        <div class="delete-task-view">
-                            <img src="../assets/icons/contact/delete.png" alt="delete-img">
-                        </div>
+                        <button class="delete-task-view">
+                            <figure class="container-img-delete">
+                                <div class="img-delete"></div>
+                                <figcaption class="text-delete">Delete</figcaption>
+                            </figure>
+                        </button>
                         <div class="seperator-view-task"></div>
-                        <div class="edit-task-view">
-                            <img src="../assets/icons/contact/edit.png" alt="edit-img">
-                        </div>
+                        <button class="edit-task-view">
+                            <figure class="container-img-edit">
+                                <div class="img-edit"></div>
+                                <figcaption class="text-edit">Edit</figcaption>
+                            </figure>
+                        </button>
                     </div>
                 </article>
             </div>
         </section>
 
         <section class="edit-task-overlay">
-            
+            <div class="frame-view-edit-task">
+                <header class="header-form">
+                    <div class="headline-edit-task">
+                        <div></div>
+                        <button class="btn-close"></button>
+                    </div>
+                </header>
+                <form class="form-for-edit-task">
+
+                    <div class="container-form">
+                        <label class="label-form" for="title-input">Title</label>
+                        <input type="text" class="input input-title" id="title-input" name="title-input" required placeholder="Enter a title"><br>
+                    </div>
+
+                    <div class="container-form">
+                        <label class="label-form" for="description-input">Description</label>
+                        <textarea class="input input-description" id="description-input" name="description-input" required placeholder="Enter a Description"></textarea><br>
+                    </div>
+
+                    <div class="container-form">
+                        <label class="label-form" for="date-input">Due Date</label>
+                        <input type="date" class="input input-date" id="date-input" name="date-input" required placeholder="dd/mm/yyyy"><br>
+                    </div>
+
+                    <div class="set-up-prio-in-edit-mode">
+                        <span class="title-prio-in-edit-mode">Priority</span>
+                        <div class="btn-prio-in-edit-mode">
+                            <button class="btn-prio-edit">
+                                <span>Urgent</span>
+                                <div class="img-prio-urgent checked-urgent"></div>
+                            </button>
+                            <button class="btn-prio-edit">
+                                <span>Medium</span>
+                                <div class="img-prio-medium checked-medium"></div>
+                            </button>
+                            <button class="btn-prio-edit">
+                                <span>Low</span>
+                                <div class="img-prio-low checked-low"></div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="">
+                        
+                    </div>
+
+
+
+
+                </form>
+            </div>
         </section>
+
 
     </main>
     

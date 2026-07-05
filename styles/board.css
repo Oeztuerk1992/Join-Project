@@ -669,3 +669,112 @@ input[type="checkbox"]:checked {
 .checked-urgent:active {
     background-color: black;
 }
+
+/* Dropdown Menu */
+
+.container-dropdown-user {
+    padding-top: 20px;
+}
+.title-dropdown-menu {
+    font-size: 20px;
+    color: var(--color-1);
+}
+.container-btn-dropdown {
+    margin-top: 10px;
+    
+    width: 440px;
+    height: 48px;
+
+    border-radius: 10px;
+    border: 1px solid var(--seperator-urgent);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.container-btn-dropdown:hover {
+    box-shadow: 0px 4px 4px 0px var(--box-shadow-choose-prio);
+}
+.search-in-dropdown {
+    font-size: 20px;
+    padding: 12px 16px;
+    width: 100%;
+    border-radius: 10px;
+}
+.search-in-dropdown::placeholder {
+    color: black;
+}
+.btn-set-resp {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: transparent;
+    
+    background-image: url("../assets/icons/board/cards/open-arrow.svg");
+    background-size: 24px 24px;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    margin-right: 10px;
+}
+.btn-set-resp:hover {
+    background-color: var(--background-no-task-feedback);
+}
+.user-chosen-for-task {
+    padding-top: 20px;
+    
+    display: flex;
+    align-items: center;
+    gap: 10px;   
+}
+.user-for-tasks {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid white;
+    background-color: var(--badge-color-1);
+    font-size: 16px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.dropdown-content {
+    width: 410px;
+    height: 48px;
+}
+.container-dropdown, .list-user-name {
+    display: flex;
+    align-items: center;
+}
+.container-dropdown {
+    padding: 10px;
+    justify-content: space-between;
+    border-radius: 10px;
+}
+.container-dropdown:hover {
+    background-color: whitesmoke;
+}
+.container-dropdown:has(input[type="checkbox"]:checked) {
+    background-color: var(--sidebar-background);
+    color: white;
+}
+.add-remove-user-task:checked {
+    background-color: whitesmoke;
+    border-radius: 10px;
+}
+.list-user-name {
+    gap: 20px;
+    padding-left: 20px;
+}
+.add-remove-user-task {
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    background-image: url(../assets/icons/board/cards/check-btn.svg);
+    background-size: 24px 24px;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: none;
+}

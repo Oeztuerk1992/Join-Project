@@ -1,9 +1,17 @@
+/* Content Summary */
+
+.content-board {
+    padding: 200px 0px 0px 322px;
+}
+
 /* HEADER */
 
 .header-board {
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    gap: 370px;
+
+    padding-bottom: 40px;
 }
 h1 {
     font-size: 61px;
@@ -24,8 +32,6 @@ h1 {
 }
 .filter-container {
     width: 280px;
-    height: 32px;
-
     display: flex;
     padding: 8px 16px;
 }
@@ -113,9 +119,8 @@ main {
     display: flex;
     align-items: center;
     justify-content: space-around;
-    
     gap: 30px;
-    padding-left: 20px;
+    
 }
 .kanban-header {
     width: 252px;
@@ -164,8 +169,6 @@ h2 {
     display: flex;
     justify-content: center;
     align-items: center;
-
-    display: none;
 }
 
 /* HOVER EFFECTS */
@@ -308,8 +311,6 @@ p {
 /* View task overlay */
 
 .view-task-overlay {
-    margin-top: 20px;
-
     width: 525px;
     height: 930px;
     border-radius: 30px;
@@ -318,7 +319,7 @@ p {
     box-shadow: var(--box-shadow-view-overlay);
 }
 .frame-view-task {
-    padding: 50px 40px 50px 40px;
+    padding: 40px 40px 40px 40px;
 }
 .headline-view-task {
     display: flex;
@@ -403,7 +404,7 @@ p {
     flex-direction: column;
     align-items: flex-start;
     gap: 20px;
-    padding-top: 25px;
+    padding-top: 15px;
     margin-left: 25px;
 }
 .container-user {
@@ -555,9 +556,7 @@ input[type="checkbox"]:checked {
 
 /* Edit task overlay */
 
-.edit-task-overlay {
-    margin-top: 20px;
-    
+.edit-task-overlay {    
     width: 525px;
     height: 930px;
     border-radius: 30px;
@@ -566,7 +565,7 @@ input[type="checkbox"]:checked {
     box-shadow: var(--box-shadow-view-overlay);
 }
 .frame-view-edit-task {
-    padding: 50px 40px 50px 40px;
+    padding: 40px 40px 40px 40px;
 }
 .headline-edit-task {
     display: flex;
@@ -777,4 +776,21 @@ input[type="checkbox"]:checked {
     background-repeat: no-repeat;
     background-position: center;
     border: none;
+}
+.container-edit-subtask {
+    padding-top: 20px;
+}
+
+/* MODAL */
+
+dialog {
+    border: none;
+    padding: 0;
+}
+.modal-class {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
 }

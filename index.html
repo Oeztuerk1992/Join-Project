@@ -1,102 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <link rel="icon"
-      href="./assets/img/logo/favicon_light.svg?v=123"
-      media="(prefers-color-scheme: dark)"
-      type="image/svg+xml">
-
-   <link rel="icon"
-      href="./assets/img/logo/favicon_dark.svg?v=123"
-      type="image/svg+xml">
-      
-    <title>Document</title>
+    <link rel="icon" href="./assets/img/logo/favicon_light.svg" media="(prefers-color-scheme: dark)"
+        type="image/svg+xml">
+    <link rel="icon" href="./assets/img/logo/favicon_dark.svg" media="(prefers-color-scheme: light)"
+        type="image/svg+xml">
+    <title>Login/Sign-up</title>
     <link rel="stylesheet" href="./styles/colors.css">
     <link rel="stylesheet" href="./styles/login.css">
-
 </head>
-<body>
-    <img src="./assets/icons/Join_logo.png" alt="Join Logo" class="logo">
 
-    <div class="signup-section">
-        <span>Not a Join user?</span>
-        <button class="signup-btn">Sign up</button>
+<body>
+    <img src="./assets/img/logo/favicon_dark.svg" alt="Join Logo" class="logo">
+
+    <div class="signup-section" id="open-signup">
+        <span class="question-signup-info">Not a Join user?</span>
+        <button class="signup-btn" onclick="getSignupModal()">Sign up</button>
     </div>
 
     <main class="login-wrapper">
-
-        <div class="login-card">
-
+        <dialog class="login-card modal-class" id="login-modal">
             <h1>Log in</h1>
-
             <div class="underline"></div>
-
             <div class="input-group">
                 <input type="email" placeholder="Email">
                 <span class="icon">✉</span>
             </div>
-
             <div class="input-group">
                 <input type="password" placeholder="Password">
                 <span class="icon">🔒</span>
             </div>
-
             <div class="button-row">
                 <button class="login-btn">Log in</button>
                 <button class="guest-btn">Guest Log in</button>
             </div>
+        </dialog>
 
-        </div>
-
-        <div class="signup-card">
-
-    <button class="back-btn">←</button>
-
-    <h1>Sign up</h1>
-
-    <div class="underline"></div>
-
-    <form class="signup-form">
-
-        <input type="text" placeholder="Name" required>
-
-        <input type="email" placeholder="Email" required>
-
-        <input type="password" placeholder="Password" required>
-
-        <input type="password" placeholder="Confirm Password" required>
-
-        <div class="privacy-row">
-            <input
-                type="checkbox"
-                id="privacy"
-                required
-            >
-
-            <label for="privacy">
-                I accept the
-                <a href="#">Privacy policy</a>
-            </label>
-        </div>
-
-        <button
-            type="submit"
-            class="signup-btn"
-        >
-            Sign up
-        </button>
-
-    </form>
-
-</div>
+        <dialog class="signup-card modal-class" id="signup-modal">
+            <button class="back-btn" id="btn-close-signup" onclick="getLoginModal()"></button>
+            <h1>Sign up</h1>
+            <div class="underline"></div>
+            <form id="form-for-signup" class="signup-form">
+                <input type="text" id="signup-name" placeholder="Name" required>
+                <input type="email" id="signup-mail" placeholder="Email" required>
+                <input type="password" id="signup-pw" placeholder="Password" required>
+                <input type="password" id="check-pw" placeholder="Confirm Password" required>
+                <p id="pw-info" class="info-pw-failed hidden">Your passwords don't match. Please try again.</p>
+                <div class="privacy-row">
+                    <input type="checkbox" id="privacy" class="checkbox-privacy" required>
+                    <label for="privacy">
+                        I accept the
+                        <a href="#">Privacy policy</a>
+                    </label>
+                </div>
+                <button type="submit" class="signup-btn" onclick="checkFormData()">
+                    Sign up
+                </button>
+            </form>
+        </dialog>
 
     </main>
     <footer>
         <a href="#">Privacy Policy</a>
         <a href="#">Legal notice</a>
     </footer>
-
+    <script src="./js/login.js"></script>
 </body>
+
 </html>

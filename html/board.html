@@ -1,265 +1,321 @@
 <!DOCTYPE html>
 <html lang="de">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="icon" href="../assets/img/logo/favicon_light.svg" media="(prefers-color-scheme: dark)"
-        type="image/svg+xml">
-
-    <link rel="icon" href="../assets/img/logo/favicon_dark.svg" media="(prefers-color-scheme: light)"
-        type="image/svg+xml">
-
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      href="../assets/img/logo/favicon_light.svg"
+      media="(prefers-color-scheme: dark)"
+      type="image/svg+xml"
+    />
+    <link
+      rel="icon"
+      href="../assets/img/logo/favicon_dark.svg"
+      media="(prefers-color-scheme: light)"
+      type="image/svg+xml"
+    />
     <title>Board</title>
-
-    <link rel="stylesheet" href="../styles/colors.css">
-    <link rel="stylesheet" href="../styles/font.css">
-    <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="../styles/board.css">
-</head>
-
-<body>
-
-    <header class="header-board">
+    <link rel="stylesheet" href="../styles/colors.css" />
+    <link rel="stylesheet" href="../styles/font.css" />
+    <link rel="stylesheet" href="../styles/sidebar.css" />
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="../styles/board.css" />
+  </head>
+  <body>
+    <div id="main-layout"></div>
+    <div id="content" class="content-board">
+      <header class="header-board">
         <h1>Board</h1>
         <section class="task-bar">
-            <article class="search-container">
-                <div class="filter-container">
-                    <input type="text" id="input-text" class="search-task" placeholder="Find Task">
-                    <div class="container-btn">
-                        <div class="seperator"></div>
-                        <div class="container-search-task">
-                            <input type="button" class="btn-search-task" onclick="filterAndShowCurrentTask(document.getElementById('input-text').value)">
-                        </div>
-                    </div>
+          <article class="search-container">
+            <div class="filter-container">
+              <input
+                type="text"
+                id="input-text"
+                class="search-task"
+                placeholder="Find Task"
+              />
+              <div class="container-btn">
+                <div class="seperator"></div>
+                <div class="container-search-task">
+                  <input
+                    type="button"
+                    class="btn-search-task"
+                    onclick="filterAndShowCurrentTask(document.getElementById('input-text').value)"
+                  />
                 </div>
-            </article>
-            <button class="btn-add-task"></button>
+              </div>
+            </div>
+          </article>
+          <button class="btn-add-task" onclick="getToAddTask()"></button>
         </section>
-    </header>
-
-    <main>
+      </header>
+      <main>
         <section class="kanban-board">
-            <article class="kanban-column">
-                <div class="kanban-header">
-                    <h2>To do</h2>
-                    <button class="btn-add-kanban plus-btn-default"></button>
-                </div>
-                <div class="kanban-content">
-                    <div draggable="true" class="task"></div>
-                    <div class="no-task-feedback">No tasks To do</div>
-                </div>
-            </article>
-
-            <article class="kanban-column">
-                <div class="kanban-header">
-                    <h2>In progress</h2>
-                    <button class="btn-add-kanban plus-btn-default"></button>
-                </div>
-                <div class="kanban-content">
-                    <div draggable="true" class="task"></div>
-                    <div class="no-task-feedback">No tasks To do</div>
-                </div>
-            </article>
-
-            <article class="kanban-column">
-                <div class="kanban-header">
-                    <h2>Await feedback</h2>
-                    <button class="btn-add-kanban plus-btn-default"></button>
-                </div>
-                 <div class="kanban-content">
-                    <div draggable="true" class="task"></div>
-                    <div class="no-task-feedback">No tasks To do</div>
-                </div>
-            </article>
-
-            <article class="kanban-column">
-                <div class="kanban-header">
-                    <h2>Done</h2>
-                </div>
-                 <div class="kanban-content">
-                    <div draggable="true" class="task"></div>
-                    <div class="no-task-feedback">No tasks To do</div>
-                </div>
-            </article>
-        </section>
-
-        <section class="mini-card" id="card-mini" onclick="">
-            <div class="frame-mini-card">
-                <header class="header-mini-card">
-                    <h3 class="card-label" id="label-card"><img src="../assets/icons/board/cards/cat_userstory.svg" alt="img-label-card"></h3>
-                    <h4 class="title-task" id="task-title">Contact Form & Imprint</h4>
-                    <p class="description-task" id="task-description">Create a contact form and imprint page...</p>
-                </header>
-                <article class="container-subtask" id="subtask">
-                    <div class="subtask-bar-wrapper" id="status-subtask">
-                        <div class="subtask-bar"></div>
-                    </div>
-                    <div class="count-status" id="status-count">1/2 Subtasks</div>
-                </article>
-                <article class="responsibility-mini-card">
-                    <div class="member-badge" id="badge-member">
-                        <div class="user-abbr user1">AM</div>
-                        <div class="user-abbr user2">EM</div>
-                        <div class="user-abbr user3">MB</div>
-                    </div>
-                    <div class="priority-task" id="task-prio"><img src="../assets/icons/board/cards/prio_high.svg" alt="img-prio"></div>
-                </article>
+          <article class="kanban-column">
+            <div class="kanban-header">
+              <h2>To do</h2>
+              <button class="btn-add-kanban plus-btn-default" onclick="getToAddTask()"></button>
             </div>
-        </section>
-
-        <section class="view-task-overlay">
-            <div class="frame-view-task">
-                <header class="header-view-task">
-                    <div class="headline-view-task">
-                        <h3 class="card-label-view" id="label-card-view">
-                            <div class="user-label"></div>
-                        </h3>
-                        <button class="btn-close"></button>
-                    </div>
-                    <h4 class="title-task-view" id="task-title-view">Kochwelt Page & Recipe Recommender</h4>
-                    <p class="description-task-view" id="task-description-view">Build start page with recipe recommendation.</p>
-                </header>
-                <article class="set-responsibilities">
-                    <div class="set-date">
-                        <span class="due-date-text">Due date:</span>
-                        <div class="due-date">10/05/2023</div>
-                    </div>
-                    <div class="set-priority">
-                        <span class="priority-long-text">Priority:</span>
-                        <div class="priority-long">
-                            <span class="text-long-prio">Medium</span>
-                            <div class="img-long-prio"></div>
-                        </div>
-                    </div>
-                    <div class="assignment-to-user">
-                        <span class="text-assigned">Assigned To:</span>
-                        <div class="member-badge-view" id="badge-member-view">
-                            <div class="container-user">
-                                <div class="user-abbr">AM</div>
-                                <div class="name-to-badge">Anton Mayer</div>
-                            </div>
-                            <div class="container-user">
-                                <div class="user-abbr">EM</div>
-                                <div class="name-to-badge">Emmanuel Mauer</div>
-                            </div>
-                            <div class="container-user">
-                                <div class="user-abbr">MB</div>
-                                <div class="name-to-badge">Marcel Bauer</div>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-                <article class="subtask-status">
-                    <span class="title-subtask">Subtasks</span>
-                        <div class="container-subtasks" id="subtasks-view">
-                            <label class="container-checkbox">
-                                <div class="background-checkbox">    
-                                    <input type="checkbox" class="checkbox-subtask">
-                                </div>
-                                <p class="description-subtask">Implement Recipe Recommendation</p>
-                            </label>
-                            <label class="container-checkbox">
-                                <div class="background-checkbox"> 
-                                    <input type="checkbox" class="checkbox-subtask">
-                                </div>
-                                <p class="description-subtask">Start Page Layout</p>
-                            </label>
-                        </div>
-                </article>
-                <article class="edit-btn">
-                    <div class="frame-edit-btn">
-                        <button class="delete-task-view">
-                            <figure class="container-img-delete">
-                                <div class="img-delete"></div>
-                                <figcaption class="text-delete">Delete</figcaption>
-                            </figure>
-                        </button>
-                        <div class="seperator-view-task"></div>
-                        <button class="edit-task-view">
-                            <figure class="container-img-edit">
-                                <div class="img-edit"></div>
-                                <figcaption class="text-edit">Edit</figcaption>
-                            </figure>
-                        </button>
-                    </div>
-                </article>
+            <div class="kanban-content">
+              <div draggable="true" class="task"></div>
+              <div class="no-task-feedback">No tasks To do</div>
             </div>
-        </section>
-
-        <section class="edit-task-overlay">
-            <div class="frame-view-edit-task">
-                <header class="header-form">
-                    <div class="headline-edit-task">
-                        <div></div>
-                        <button class="btn-close"></button>
-                    </div>
-                </header>
-                <form class="form-for-edit-task">
-
-                    <div class="container-form">
-                        <label class="label-form" for="title-input">Title</label>
-                        <input type="text" class="input input-title" id="title-input" name="title-input" required placeholder="Enter a title"><br>
-                    </div>
-
-                    <div class="container-form">
-                        <label class="label-form" for="description-input">Description</label>
-                        <textarea class="input input-description" id="description-input" name="description-input" required placeholder="Enter a Description"></textarea><br>
-                    </div>
-
-                    <div class="container-form">
-                        <label class="label-form" for="date-input">Due Date</label>
-                        <input type="date" class="input input-date" id="date-input" name="date-input" required placeholder="dd/mm/yyyy"><br>
-                    </div>
-
-                    <div class="set-up-prio-in-edit-mode">
-                        <span class="title-prio-in-edit-mode">Priority</span>
-                        <div class="btn-prio-in-edit-mode">
-                            <button class="btn-prio-edit">
-                                <span>Urgent</span>
-                                <div class="img-prio-urgent checked-urgent"></div>
-                            </button>
-                            <button class="btn-prio-edit">
-                                <span>Medium</span>
-                                <div class="img-prio-medium checked-medium"></div>
-                            </button>
-                            <button class="btn-prio-edit">
-                                <span>Low</span>
-                                <div class="img-prio-low checked-low"></div>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="container-dropdown-user">
-                        <span class="title-dropdown-menu">Assigned to</span>
-                        <div class="container-btn-dropdown">
-                            <input type="text" class="search-in-dropdown" placeholder="Select contacts to assign">
-                            <button class="btn-set-resp"></button>
-                        </div>
-                        <div id="myDropdown" class="dropdown-content">
-                            <div class="container-dropdown">
-                                <div class="list-user-name">
-                                    <div class="user-abbr">EF</div>
-                                    <div class="full-name-user">Eva Fischer</div>
-                                </div>
-                                <input type="checkbox" class="add-remove-user-task">
-                            </div>
-                        </div>
-                        <div class="user-chosen-for-task">
-                            <div class="user-for-tasks">EF</div>
-                            <div class="user-for-tasks">MB</div>
-                        </div>
-                    </div>
-                    
-                    
-
-
-                </form>
+          </article>
+          <article class="kanban-column">
+            <div class="kanban-header">
+              <h2>In progress</h2>
+              <button class="btn-add-kanban plus-btn-default" onclick="getToAddTask()"></button>
             </div>
+            <div class="kanban-content">
+              <div draggable="true" class="task"></div>
+              <div class="no-task-feedback">No tasks To do</div>
+            </div>
+          </article>
+          <article class="kanban-column">
+            <div class="kanban-header">
+              <h2>Await feedback</h2>
+              <button class="btn-add-kanban plus-btn-default" onclick="getToAddTask()"></button>
+            </div>
+            <div class="kanban-content">
+              <div draggable="true" class="task"></div>
+              <div class="no-task-feedback">No tasks To do</div>
+            </div>
+          </article>
+          <article class="kanban-column">
+            <div class="kanban-header">
+              <h2>Done</h2>
+            </div>
+            <div class="kanban-content">
+              <div draggable="true" class="task"></div>
+              <div class="no-task-feedback">No tasks To do</div>
+            </div>
+          </article>
         </section>
-
-
-    </main>
-    
-</body>
+        <section class="mini-card" id="card-mini" onclick="openTaskOverlay()">
+          <div class="frame-mini-card">
+            <header class="header-mini-card">
+              <h3 class="card-label" id="label-card">
+                <img
+                  src="../assets/icons/board/cards/cat_userstory.svg"
+                  alt="img-label-card"
+                />
+              </h3>
+              <h4 class="title-task" id="task-title">Contact Form & Imprint</h4>
+              <p class="description-task" id="task-description">
+                Create a contact form and imprint page...
+              </p>
+            </header>
+            <article class="container-subtask" id="subtask">
+              <div class="subtask-bar-wrapper" id="status-subtask">
+                <div class="subtask-bar"></div>
+              </div>
+              <div class="count-status" id="status-count">1/2 Subtasks</div>
+            </article>
+            <article class="responsibility-mini-card">
+              <div class="member-badge" id="badge-member">
+                <div class="user-abbr user1">AM</div>
+                <div class="user-abbr user2">EM</div>
+                <div class="user-abbr user3">MB</div>
+              </div>
+              <div class="priority-task" id="task-prio">
+                <img
+                  src="../assets/icons/board/cards/prio_high.svg"
+                  alt="img-prio"
+                />
+              </div>
+            </article>
+          </div>
+        </section>
+        <dialog id="task-overlay" class="view-task-overlay modal-class">
+          <div class="frame-view-task">
+            <header class="header-view-task">
+              <div class="headline-view-task">
+                <h3 class="card-label-view" id="label-card-view">
+                  <div class="user-label"></div>
+                </h3>
+                <button class="btn-close" onclick="closeTaskOverlay()"></button>
+              </div>
+              <h4 class="title-task-view" id="task-title-view">
+                Kochwelt Page & Recipe Recommender
+              </h4>
+              <p class="description-task-view" id="task-description-view">
+                Build start page with recipe recommendation.
+              </p>
+            </header>
+            <article class="set-responsibilities">
+              <div class="set-date">
+                <span class="due-date-text">Due date:</span>
+                <div class="due-date">10/05/2023</div>
+              </div>
+              <div class="set-priority">
+                <span class="priority-long-text">Priority:</span>
+                <div class="priority-long">
+                  <span class="text-long-prio">Medium</span>
+                  <div class="img-long-prio"></div>
+                </div>
+              </div>
+              <div class="assignment-to-user">
+                <span class="text-assigned">Assigned To:</span>
+                <div class="member-badge-view" id="badge-member-view">
+                  <div class="container-user">
+                    <div class="user-abbr">AM</div>
+                    <div class="name-to-badge">Anton Mayer</div>
+                  </div>
+                  <div class="container-user">
+                    <div class="user-abbr">EM</div>
+                    <div class="name-to-badge">Emmanuel Mauer</div>
+                  </div>
+                  <div class="container-user">
+                    <div class="user-abbr">MB</div>
+                    <div class="name-to-badge">Marcel Bauer</div>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <article class="subtask-status">
+              <span class="title-subtask">Subtasks</span>
+              <div class="container-subtasks" id="subtasks-view">
+                <label class="container-checkbox">
+                  <div class="background-checkbox">
+                    <input type="checkbox" class="checkbox-subtask" />
+                  </div>
+                  <p class="description-subtask">
+                    Implement Recipe Recommendation
+                  </p>
+                </label>
+                <label class="container-checkbox">
+                  <div class="background-checkbox">
+                    <input type="checkbox" class="checkbox-subtask" />
+                  </div>
+                  <p class="description-subtask">Start Page Layout</p>
+                </label>
+              </div>
+            </article>
+            <article class="edit-btn">
+              <div class="frame-edit-btn">
+                <button class="delete-task-view">
+                  <figure class="container-img-delete">
+                    <div class="img-delete"></div>
+                    <figcaption class="text-delete">Delete</figcaption>
+                  </figure>
+                </button>
+                <div class="seperator-view-task"></div>
+                <button class="edit-task-view" onclick="getEditOverlay()">
+                  <figure class="container-img-edit">
+                    <div class="img-edit"></div>
+                    <figcaption class="text-edit">Edit</figcaption>
+                  </figure>
+                </button>
+              </div>
+            </article>
+          </div>
+        </dialog>
+        <dialog id="edit-overlay" class="edit-task-overlay modal-class">
+          <div class="frame-view-edit-task">
+            <header class="header-form">
+              <div class="headline-edit-task">
+                <div></div>
+                <button class="btn-close" onclick="closeEditOverlay()"></button>
+              </div>
+            </header>
+            <form class="form-for-edit-task">
+              <div class="container-form">
+                <label class="label-form" for="title-input">Title</label>
+                <input
+                  type="text"
+                  class="input input-title"
+                  id="title-input"
+                  name="title-input"
+                  required
+                  placeholder="Enter a title"
+                /><br />
+              </div>
+              <div class="container-form">
+                <label class="label-form" for="description-input"
+                  >Description</label
+                >
+                <textarea
+                  class="input input-description"
+                  id="description-input"
+                  name="description-input"
+                  required
+                  placeholder="Enter a Description"
+                ></textarea
+                ><br />
+              </div>
+              <div class="container-form">
+                <label class="label-form" for="date-input">Due Date</label>
+                <input
+                  type="date"
+                  class="input input-date"
+                  id="date-input"
+                  name="date-input"
+                  required
+                  placeholder="dd/mm/yyyy"
+                /><br />
+              </div>
+              <div class="set-up-prio-in-edit-mode">
+                <span class="title-prio-in-edit-mode">Priority</span>
+                <div class="btn-prio-in-edit-mode">
+                  <button class="btn-prio-edit">
+                    <span>Urgent</span>
+                    <div class="img-prio-urgent checked-urgent"></div>
+                  </button>
+                  <button class="btn-prio-edit">
+                    <span>Medium</span>
+                    <div class="img-prio-medium checked-medium"></div>
+                  </button>
+                  <button class="btn-prio-edit">
+                    <span>Low</span>
+                    <div class="img-prio-low checked-low"></div>
+                  </button>
+                </div>
+              </div>
+              <div class="container-dropdown-user">
+                <span class="title-dropdown-menu"
+                  >Assigned to (kommt von Rico)</span
+                >
+                <div class="container-btn-dropdown">
+                  <input
+                    type="text"
+                    class="search-in-dropdown"
+                    placeholder="Select contacts to assign"
+                  />
+                  <button class="btn-set-resp"></button>
+                </div>
+                <div id="myDropdown" class="dropdown-content" hidden>
+                  <div class="container-dropdown">
+                    <div class="list-user-name">
+                      <div class="user-abbr">EF</div>
+                      <div class="full-name-user">Eva Fischer</div>
+                    </div>
+                    <input type="checkbox" class="add-remove-user-task" />
+                  </div>
+                </div>
+                <div class="user-chosen-for-task">
+                  <div class="user-for-tasks">EF</div>
+                  <div class="user-for-tasks">MB</div>
+                </div>
+              </div>
+              <div class="container-edit-subtask">
+                <span class="title-dropdown-menu"
+                  >Subtask (kommt von Rico)</span
+                >
+              </div>
+            </form>
+          </div>
+        </dialog>
+      </main>
+    </div>
+    <script>
+      fetch("../assets/templates/desktop_template.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("main-layout").innerHTML = data;
+        });
+    </script>
+    <script src="../js/board.js"></script>
+  </body>
+</html>

@@ -1,3 +1,9 @@
+/* Content Summary */
+
+.content-summary {
+    padding: 200px 0px 0px 322px;
+}
+
 /* HEADER */
 
 .container-headline {
@@ -5,6 +11,8 @@
     align-items: center;
     gap: 30px;
     line-height: 1.2;
+
+    padding-bottom: 40px;
 }
 .seperator {
     background-color: var(--seperator-summary);
@@ -138,6 +146,8 @@ h3 {
     font-size: 16px;
     font-weight: 400;
     color: var(--sidebar-background);
+
+    padding-top: 15px;
 }
 h4 {
     font-size: 47px;

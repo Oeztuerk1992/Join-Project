@@ -1,31 +1,45 @@
-function createContactTemplate(capitalizedName, initials, email, randomColor , phone) {
+function createContactTemplate(capitalizedName, initials, email, randomColor, phone) {
     return `
     <div class="alphabet-divider"></div>
-            <div class="contact-item" onclick="showContact('${capitalizedName}', '${initials}', '${email}', '${phone}', '${randomColor}')">
-                <div class="contact-badge" style="background-color: ${randomColor}">${initials}</div>
-                <div class="contact-name-email">
-                    <span class="name">${capitalizedName}</span>
-                    <span class="email">${email}</span>
-                </div>
-            </div>
+    <div class="contact-item"
+        data-name="${capitalizedName}"
+        data-initials="${initials}"
+        data-email="${email}"
+        data-phone="${phone}"
+        data-color="${randomColor}"
+        onclick="showContact(this)">
+        <div class="contact-badge" style="background-color: ${randomColor}">${initials}</div>
+        <div class="contact-name-email">
+            <span class="name">${capitalizedName}</span>
+            <span class="email">${email}</span>
+        </div>
+    </div>
     `;
 }
 
 function createLetterTemplate(letter) {
-    return `
-    <div class="alphabet-letter">${letter}</div>
-    `;
+    return `<div class="alphabet-letter">${letter}</div>`;
 }
 
-function showContact(capitalizedName, initials, email, phone, randomColor){
-    document.querySelector('.contact-detail-panel').innerHTML = `
+let activeContact = null;
+let activeContactEl = null;
+
+function showContact(el) {
+    if (activeContact) activeContactEl.classList.remove('active');
+    activeContactEl = el;
+    el.classList.add('active');
+    activeContact = el.dataset;
+
+    const { name, initials, email, phone, color } = activeContact;
+    const panel = document.querySelector('.contact-detail-panel');
+    panel.innerHTML = `
         <div class="contact-detail-header">
-            <div class="contact-detail-badge" style="background-color: ${randomColor}">${initials}</div>
+            <div class="contact-detail-badge" style="background-color: ${color}">${initials}</div>
             <div class="contact-detail-name">
-                <span class="nameUser">${capitalizedName}</span>
+                <span class="nameUser">${name}</span>
                 <div class="contact-detail-actions">
-                    <span>Edit</span>
-                    <span>Delete</span>
+                    <span class="edit" onclick="openEditOverlay()">Edit</span>
+                    <span class="delete" onclick="deleteContact()">Delete</span>
                 </div>
             </div>
         </div>
@@ -37,4 +51,6 @@ function showContact(capitalizedName, initials, email, phone, randomColor){
             <p class="phone">${phone}</p>
         </div>
     `;
+    panel.classList.remove('visible');
+    setTimeout(() => panel.classList.add('visible'), 10);
 }

@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contacts</title>
-    <link rel="stylesheet" href="/styles/contact.css">
-    <link rel="stylesheet" href="/styles/font.css">
-    <link rel="stylesheet" href="/styles/colors.css">
+    <link rel="stylesheet" href="../styles/colors.css" />
+    <link rel="stylesheet" href="../styles/font.css" />
+    <link rel="stylesheet" href="../styles/sidebar.css" />
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="../styles/contact.css" />
   <link rel="icon"
       href="/assets/img/logo/favicon_light.svg"
       media="(prefers-color-scheme: dark)"
@@ -18,7 +20,7 @@
       type="image/svg+xml">
 </head>
 <body>
-    
+    <div id="main-layout"></div>
     <main class="right-side">
     <div class="new-contact">
         <button class="btn_new_contact" onclick="openOverlay()" type="button">Add new contact <img class="person_add" src="/assets/icons/contact/person_add.png" alt=""></button>
@@ -81,7 +83,47 @@
             </div>
         </div>
     </div>
-    <script src="/js/new_contact.js"></script>
-    <script src="/js/templates/contact_template.js"></script>
+    <div class="overlay" id="overlayEdit">
+        <div class="overlay-container">
+            <div class="overlay-left">
+                <img class="join_logo" src="/assets/img/join-logo.png" alt="">
+                <span class="add_title">Edit contact</span>
+                <span class="line"></span>
+            </div>
+            <div class="overlay-right">
+                <span class="overlay-close" onclick="closeEditOverlay()">X</span>
+                <div class="avatar-placeholder">
+                    <img class="user" src="/assets/icons/contact/user.png" alt="">
+                </div>
+                <div class="input-container">
+                    <div class="input-wrapper">
+                        <input id="edit-name" type="text" placeholder="Name" class="input-field" >
+                        <img src="/assets/icons/contact/person.png" alt="" class="input-icon">
+                    </div>
+                    <div class="input-wrapper">
+                        <input id="edit-email" type="text" placeholder="Email" class="input-field">
+                        <img src="/assets/icons/contact/mail.png" alt="" class="input-icon">
+                    </div>
+                    <div class="input-wrapper">
+                        <input id="edit-phone" type="text" placeholder="Phone" class="input-field">
+                        <img src="/assets/icons/contact/call.png" alt="" class="input-icon">
+                    </div>
+                    <div class="overly-buttons">
+                        <button class="btn-cancel" onclick="deleteContact()">Delete</button>
+                        <button id="save-contact" class="btn-create" onclick="saveContact()">Save ✓</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    fetch("../assets/templates/desktop_template.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("main-layout").innerHTML = data;
+        });
+    </script>
+    <script src="../js/templates/contact_template.js"></script>
+    <script src="../js/new_contact.js"></script>
 </body>
 </html>

@@ -392,3 +392,8 @@ font-size: 27px;
 .edit, .delete{
     cursor: pointer;
 }
+
+#main-layout {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}

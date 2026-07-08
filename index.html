@@ -1,108 +1,188 @@
 <!DOCTYPE html>
 <html lang="de">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="./assets/img/logo/favicon_light.svg" media="(prefers-color-scheme: dark)"
-        type="image/svg+xml">
-    <link rel="icon" href="./assets/img/logo/favicon_dark.svg" media="(prefers-color-scheme: light)"
-        type="image/svg+xml">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      href="./assets/img/logo/favicon_light.svg"
+      media="(prefers-color-scheme: dark)"
+      type="image/svg+xml"
+    />
+    <link
+      rel="icon"
+      href="./assets/img/logo/favicon_dark.svg"
+      media="(prefers-color-scheme: light)"
+      type="image/svg+xml"
+    />
     <title>Login/Sign-up</title>
-    <link rel="stylesheet" href="./styles/colors.css">
-    <link rel="stylesheet" href="./styles/login.css">
-</head>
+    <link rel="stylesheet" href="./styles/colors.css" />
+    <link rel="stylesheet" href="./styles/login.css" />
+  </head>
 
-<body onload="initLogin()">
-    <img src="./assets/img/logo/favicon_dark.svg" alt="Join Logo" class="logo">
-
-    <div class="signup-section" id="open-signup">
+  <body onload="initLogin()">
+    <div id="splash" class="logo-splash"></div>
+    <img
+        id="animated-logo"
+        class="logo"
+        src="./assets/icons/login/join_logo_big.svg"
+        alt="Join Logo"
+    />
+    
+    <div class="container hidden-splash">
+      <div class="signup-section" id="open-signup">
         <span class="question-signup-info">Not a Join user?</span>
         <button class="signup-btn" onclick="getSignupModal()">Sign up</button>
-    </div>
+      </div>
 
-    <main class="login-wrapper">
+      <main class="login-wrapper">
         <dialog class="login-card modal-class" id="login-modal">
-            <form id="form-for-login" class="login-form" onsubmit="return checkFormDataLogin(event)" novalidate>
-                <h1>Log in</h1>
-                <div class="underline-login"></div>
-                <div id="login-mail-group" class="input-group">
-                    <input type="email" id="login-mail" placeholder="Email">
-                    <img class="icon" src="./assets/icons/login/mail.svg" alt="img-mail">
-                </div>
-                <div id="login-password-group" class="input-group">
-                    <input type="password" id="login-password" placeholder="Password">
-                    <img class="icon" src="./assets/icons/login/lock.svg" alt="img-lock">
-                </div>
-                <p id="feedback-login" class="info-failed fail-login hidden">Check your email and password. Please try
-                    again.</p>
-                <div class="button-row">
-                    <button type="submit" class="login-btn">Log in</button>
-                    <button class="guest-btn">Guest Log in</button>
-                </div>
-            </form>
+          <form
+            id="form-for-login"
+            class="login-form"
+            onsubmit="return checkFormDataLogin(event)"
+            novalidate
+          >
+            <h1>Log in</h1>
+            <div class="underline-login"></div>
+            <div id="login-mail-group" class="input-group">
+              <input type="email" id="login-mail" placeholder="Email" />
+              <img
+                class="icon"
+                src="./assets/icons/login/mail.svg"
+                alt="img-mail"
+              />
+            </div>
+            <div id="login-password-group" class="input-group">
+              <input
+                type="password"
+                id="login-password"
+                placeholder="Password"
+              />
+              <img
+                class="icon"
+                src="./assets/icons/login/lock.svg"
+                alt="img-lock"
+              />
+            </div>
+            <p id="feedback-login" class="info-failed fail-login hidden">
+              Check your email and password. Please try again.
+            </p>
+            <div class="button-row">
+              <button type="submit" class="login-btn">Log in</button>
+              <button class="guest-btn">Guest Log in</button>
+            </div>
+          </form>
         </dialog>
 
         <dialog class="signup-card modal-class" id="signup-modal">
-            <button class="back-btn" id="btn-close-signup" onclick="getLoginModal()"></button>
-            <h1>Sign up</h1>
-            <div class="underline-signup"></div>
-            <form id="form-for-signup" class="signup-form" onsubmit="return checkFormDataSignup(event)" novalidate>
-                <div id="input-signup-name" class="input-group input-signup">
-                    <input type="text" id="signup-name" placeholder="Name">
-                    <img class="icon" src="./assets/icons/login/person.svg" alt="img-person">
-                </div>
-                <label for="signup-name" id="feedback-name" class="info-failed hidden">Please enter both your first and
-                    last name.</label>
+          <button
+            class="back-btn"
+            id="btn-close-signup"
+            onclick="getLoginModal()"
+          ></button>
+          <h1>Sign up</h1>
+          <div class="underline-signup"></div>
+          <form
+            id="form-for-signup"
+            class="signup-form"
+            onsubmit="return checkFormDataSignup(event)"
+            novalidate
+          >
+            <div id="input-signup-name" class="input-group input-signup">
+              <input type="text" id="signup-name" placeholder="Name" />
+              <img
+                class="icon"
+                src="./assets/icons/login/person.svg"
+                alt="img-person"
+              />
+            </div>
+            <label
+              for="signup-name"
+              id="feedback-name"
+              class="info-failed hidden"
+              >Please enter both your first and last name.</label
+            >
 
-                <div id="input-signup-mail" class="input-group input-signup">
-                    <input type="email" id="signup-mail" placeholder="Email">
-                    <img class="icon" src="./assets/icons/login/mail.svg" alt="img-mail">
-                </div>
-                <label for="signup-mail" id="feedback-mail" class="info-failed hidden">Please enter your email address
-                    in a valid format.</label>
+            <div id="input-signup-mail" class="input-group input-signup">
+              <input type="email" id="signup-mail" placeholder="Email" />
+              <img
+                class="icon"
+                src="./assets/icons/login/mail.svg"
+                alt="img-mail"
+              />
+            </div>
+            <label
+              for="signup-mail"
+              id="feedback-mail"
+              class="info-failed hidden"
+              >Please enter your email address in a valid format.</label
+            >
 
-                <div id="input-signup-pw" class="input-group input-signup">
-                    <input type="password" id="signup-pw" placeholder="Password">
-                    <img class="icon" src="./assets/icons/login/lock.svg" alt="img-lock">
-                </div>
-                <label for="signup-pw" id="feedback-pw" class="info-failed hidden">Please enter a valid password: at
-                    least 7 characters.</label>
+            <div id="input-signup-pw" class="input-group input-signup">
+              <input type="password" id="signup-pw" placeholder="Password" />
+              <img
+                class="icon"
+                src="./assets/icons/login/lock.svg"
+                alt="img-lock"
+              />
+            </div>
+            <label for="signup-pw" id="feedback-pw" class="info-failed hidden"
+              >Please enter a valid password: at least 7 characters.</label
+            >
 
-                <div id="input-signup-confirm-pw" class="input-group input-signup">
-                    <input type="password" id="check-pw" placeholder="Confirm Password">
-                    <img class="icon" src="./assets/icons/login/lock.svg" alt="img-lock">
-                </div>
-                <label for="check-pw" id="pw-info" class="info-failed hidden">Your passwords don't match. Please try
-                    again.</label>
+            <div id="input-signup-confirm-pw" class="input-group input-signup">
+              <input
+                type="password"
+                id="check-pw"
+                placeholder="Confirm Password"
+              />
+              <img
+                class="icon"
+                src="./assets/icons/login/lock.svg"
+                alt="img-lock"
+              />
+            </div>
+            <label for="check-pw" id="pw-info" class="info-failed hidden"
+              >Your passwords don't match. Please try again.</label
+            >
 
-                <div class="privacy-row">
-                    <input type="checkbox" id="privacy-policy" class="checkbox-privacy">
-                    <label for="privacy-policy" class="privacy-label">
-                        <span class="checkbox-icon"></span>
-                        <div class="subcontainer-checkbox-privacy">
-                            <span class="text-accept-privacy">I accept the</span>
-                            <a class="link-privacy" href="#">Privacy policy</a>
-                        </div>
-                    </label>
+            <div class="privacy-row">
+              <input
+                type="checkbox"
+                id="privacy-policy"
+                class="checkbox-privacy"
+              />
+              <label for="privacy-policy" class="privacy-label">
+                <span class="checkbox-icon"></span>
+                <div class="subcontainer-checkbox-privacy">
+                  <span class="text-accept-privacy">I accept the</span>
+                  <a class="link-privacy" href="#">Privacy policy</a>
                 </div>
-                <label for="privacy-policy" id="privacy-policy-info" class="info-failed hidden">Please accept the
-                    Privacy Policy before proceeding.</label>
-                <button type="submit" class="signup-btn">Sign up</button>
-            </form>
+              </label>
+            </div>
+            <label
+              for="privacy-policy"
+              id="privacy-policy-info"
+              class="info-failed hidden"
+              >Please accept the Privacy Policy before proceeding.</label
+            >
+            <button type="submit" class="signup-btn">Sign up</button>
+          </form>
         </dialog>
 
-        <dialog id="signup-confirmation" class="signup-confirm">You Signed Up successfully</dialog>
-
-    </main>
-    <footer>
+        <dialog id="signup-confirmation" class="signup-confirm">
+          You Signed Up successfully
+        </dialog>
+      </main>
+      <footer>
         <a href="#">Privacy Policy</a>
         <a href="#">Legal notice</a>
-    </footer>
-    <script src="./js/startpage_login.js"></script>
-    <script src="./js/login.js"></script>
-    <script src="./js/signup.js"></script>
-    <script src="./js/remoteStorage.js"></script>
-</body>
-
+      </footer>
+      <script src="./js/startpage_login.js"></script>
+      <script src="./js/login.js"></script>
+      <script src="./js/signup.js"></script>
+      <script src="./js/remoteStorage.js"></script>
+    </div>
+  </body>
 </html>

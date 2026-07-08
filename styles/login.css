@@ -11,11 +11,45 @@ body {
     position: relative;
 }
 
+.logo-splash {
+    position: fixed;
+    inset: 0;
+    background: white;
+    z-index: 1000;
+}
+.logo-splash.hide {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+    transition: opacity .5s ease;
+}
 .logo {
-    position: absolute;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+
+    width: 220px;
+
+    transform: translate(-50%, -50%);
+    transition: 
+        top 1.2s ease,
+        left 1.2s ease,
+        width 1.2s ease,
+        transform 1.2s ease;
+
+    z-index: 1000;
+}
+
+.logo.move-logo {
     top: 40px;
     left: 40px;
     width: 100px;
+
+    transform: translate(0, 0);
+}
+.hidden-splash {
+    display: none;
+    background-color: white;
 }
 
 .question-signup-info {

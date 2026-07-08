@@ -1,78 +1,62 @@
-// variables //
+// Login form //
 
-const splash = document.getElementById("splash");
-const logo = document.getElementById("animated-logo");
-const container = document.querySelector(".container");
+// load all user and create an array -> registeredUser //
 
-const modalLogin = document.getElementById('login-modal');
-const modalSignup = document.getElementById('signup-modal');
-const signupBtn = document.getElementById('open-signup');
+async function onloadUsers() {
+    let userResponse = await getAllUsers("user");
+    let userKeysArray = Object.keys(userResponse);
 
-// array for users //
-
-const registeredUsers = [];
-
-// Loading logo //
-
-window.addEventListener("load", () => {
-
-    setTimeout(() => {
-        logo.classList.add("move-logo");
-    }, 500);
-
-    setTimeout(() => {
-        splash.style.display = "none";
-        container.classList.remove("hidden");
-    }, 1800);
-
-});
-
-// signup //
-
-window.addEventListener('DOMContentLoaded', () => { modalLogin.show(); });
-
-function getSignupModal() {
-    modalLogin.close();
-    modalSignup.show();
-    signupBtn.style.display = 'none';
-}
-
-function getLoginModal() {
-    modalSignup.close();
-    modalLogin.show();
-    signupBtn.style.display = 'flex';
-}
-
-function checkFormData () {
-    const checkForm = document.getElementById('form-for-signup');
-    const pw = document.getElementById('signup-pw').value;
-    const checkPw = document.getElementById('check-pw').value;
-    const failPw = document.getElementById('pw-info');
-
-    if (checkForm.checkValidity() && pw === checkPw) {
-        failPw.classList.add("hidden");
-        registerNewUser();
-    } else if (pw !== checkPw) {
-        failPw.classList.remove("hidden");
-    } else {
-        checkForm.reportValidity();
+    for (let index = 0; index < userKeysArray.length; index++) {
+        registeredUser.push(
+            userResponse[userKeysArray[index]]
+        );
     }
 }
 
-function registerNewUser() {
-    const fullName = document.getElementById('signup-name').value.trim();
-    const nameParts = fullName.split(' ');
+async function getAllUsers(path) {
+    let response = await fetch(BASE_URL + path + ".json");
+    return responseToJson = await response.json();
+}
 
-    registeredUsers.push({
-        name: {
-            firstName: nameParts[0],
-            lastName: nameParts.slice(1).join(' '),
-        },
-        mail: document.getElementById('signup-mail').value,
-        password: document.getElementById('signup-pw').value,
-        phoneNo: ""
-    });
+// check login input //
 
-    document.getElementById('form-for-signup').reset();
-    getLoginModal();
+function checkFormDataLogin(event) {
+    event.preventDefault();
+
+    const isValid =
+        checkDataLogin();
+
+    if (isValid) {
+        getToSummary();
+    }
+
+    return false;
+}
+
+function checkDataLogin() {
+    const info = document.getElementById("feedback-login");
+
+    const mailGroup = document.getElementById("login-mail-group");
+    const passwordGroup = document.getElementById("login-password-group");
+
+    for (let index = 0; index < registeredUser.length; index++) {
+
+        if (
+            loginMail.value === registeredUser[index].mail &&
+            loginPw.value === registeredUser[index].password
+        ) {
+            info.classList.add("hidden");
+
+            mailGroup.classList.remove("fail-red-border");
+            passwordGroup.classList.remove("fail-red-border");
+
+            return true;
+        }
+    }
+    info.classList.remove('hidden');
+
+    mailGroup.classList.add("fail-red-border");
+    passwordGroup.classList.add("fail-red-border");
+
+    return false;
 }

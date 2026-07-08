@@ -116,12 +116,9 @@
             </div>
         </div>
     </div>
+    <script src="../js/templates/templates.js"></script>
     <script>
-    fetch("../assets/templates/desktop_template.html")
-        .then((response) => response.text())
-        .then((data) => {
-          document.getElementById("main-layout").innerHTML = data;
-        });
+      loadTemplate("main-layout", "../assets/templates/desktop_template.html");
     </script>
     <script src="../js/templates/contact_template.js"></script>
     <script src="../js/new_contact.js"></script>

@@ -25,16 +25,14 @@ const registeredUser = [];
 // Loading logo //
 
 window.addEventListener("load", () => {
-
     setTimeout(() => {
         logo.classList.add("move-logo");
     }, 500);
 
     setTimeout(() => {
-        splash.style.display = "none";
-        container.classList.remove("hidden");
-    }, 1800);
-
+        splash.classList.add("hide");
+        container.classList.remove("hidden-splash");
+    }, 1200);
 });
 
 // Init //

@@ -55,8 +55,17 @@ li::marker {
     font-weight: bold;
 }
 
-/* Back-Button for all declaration html */
+/* Back-Button for help-html */
 
 .headline-h1 {
     display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.btn-help {
+    position: static;
+    top: auto;
+    left: auto;
+    right: auto;
+    bottom: auto;
 }

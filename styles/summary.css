@@ -184,6 +184,16 @@ h4 {
 .greeting {
     padding-top: 15px;
 }
+.greet-user {
+    font-size: 64px;
+    color: var(--color-info-privacy);
+    font-weight: bold;
+}
+
+.hidden {
+    display: none;
+}
+
 
 /* BTN */
 

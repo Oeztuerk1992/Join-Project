@@ -23,13 +23,13 @@ async function getAllUsers(path) {
 function checkFormDataLogin(event) {
     event.preventDefault();
 
-    const isValid =
-        checkDataLogin();
-
-    if (isValid) {
-        getToSummary();
+    const user = checkDataLogin();
+    
+    if (user) {
+        loginMail.value = "";
+        loginPw.value = "";
+        getToSummary(`${user.firstName} ${user.lastName}`);
     }
-
     return false;
 }
 
@@ -50,7 +50,7 @@ function checkDataLogin() {
             mailGroup.classList.remove("fail-red-border");
             passwordGroup.classList.remove("fail-red-border");
 
-            return true;
+            return registeredUser[index];
         }
     }
     info.classList.remove('hidden');
@@ -58,5 +58,5 @@ function checkDataLogin() {
     mailGroup.classList.add("fail-red-border");
     passwordGroup.classList.add("fail-red-border");
 
-    return false;
+    return null;
 }

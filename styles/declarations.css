@@ -1,0 +1,71 @@
+.content-privacy {
+    max-width: 1000px;
+    padding: 200px 0px 60px 322px;
+}
+.content-legalnotice {
+    max-width: 1000px;
+    padding: 200px 0px 60px 322px;
+}
+.content-help {
+    max-width: 1000px;
+    padding: 200px 0px 60px 322px;
+}
+.highlight {
+    color: var(--color-info-privacy);
+}
+a {
+    color: var(--hover);
+}
+h1 {
+    font-size: 61px;
+    font-weight: 700;
+}
+h2 {
+    font-size: 27px;
+    font-weight: 700;
+    padding: 30px 0px 10px 0px;
+}
+h3 {
+    font-size: 20px;
+    font-weight: 700;
+    padding: 10px 0px 10px 0px;
+}
+h4 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--color-info-privacy);
+    padding: 15px 0px 15px 0px;
+}
+p {
+    font-size: 16px;
+    font-weight: 400;
+    padding: 10px 0px 10px 0px;
+
+    text-align: justify;
+    text-justify: inter-word;
+}
+ul {
+    padding: 10px 0px 10px 0px;
+}
+li {
+    margin-left: 20px;
+}
+li::marker {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* Back-Button for help-html */
+
+.headline-h1 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.btn-help {
+    position: static;
+    top: auto;
+    left: auto;
+    right: auto;
+    bottom: auto;
+}

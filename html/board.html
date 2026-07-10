@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="../styles/sidebar.css" />
     <link rel="stylesheet" href="../style.css" />
     <link rel="stylesheet" href="../styles/board.css" />
+    <link rel="stylesheet" href="../styles/add_task.css" />
   </head>
   <body>
     <div class="sidebar">
@@ -100,13 +101,17 @@
                   <input
                     type="button"
                     class="btn-search-task"
-                    onclick="filterAndShowCurrentTask(document.getElementById('input-text').value)"
+                    onclick="
+                      filterAndShowCurrentTask(
+                        document.getElementById('input-text').value,
+                      )
+                    "
                   />
                 </div>
               </div>
             </div>
           </article>
-          <button class="btn-add-task" onclick="getToAddTask()"></button>
+          <button class="btn-add-task" onclick="openAddTaskOverlay()"></button>
         </section>
       </header>
       <main>
@@ -114,7 +119,10 @@
           <article class="kanban-column">
             <div class="kanban-header">
               <h2>To do</h2>
-              <button class="btn-add-kanban plus-btn-default" onclick="getToAddTask()"></button>
+              <button
+                class="btn-add-kanban plus-btn-default"
+                onclick="openAddTaskOverlay()"
+              ></button>
             </div>
             <div class="kanban-content">
               <div draggable="true" class="task"></div>
@@ -124,7 +132,10 @@
           <article class="kanban-column">
             <div class="kanban-header">
               <h2>In progress</h2>
-              <button class="btn-add-kanban plus-btn-default" onclick="getToAddTask()"></button>
+              <button
+                class="btn-add-kanban plus-btn-default"
+                onclick="openAddTaskOverlay()"
+              ></button>
             </div>
             <div class="kanban-content">
               <div draggable="true" class="task"></div>
@@ -134,7 +145,10 @@
           <article class="kanban-column">
             <div class="kanban-header">
               <h2>Await feedback</h2>
-              <button class="btn-add-kanban plus-btn-default" onclick="getToAddTask()"></button>
+              <button
+                class="btn-add-kanban plus-btn-default"
+                onclick="openAddTaskOverlay()"
+              ></button>
             </div>
             <div class="kanban-content">
               <div draggable="true" class="task"></div>
@@ -365,6 +379,136 @@
             </form>
           </div>
         </dialog>
+        <div id="add-task-overlay" class="add-task-overlay">
+          <section class="add-task-container">
+            <button class="btn-close-overlay" onclick="closeAddTaskOverlay()">
+              ✕
+            </button>
+
+            <h1>Add Task</h1>
+
+            <form id="addTaskForm">
+              <div class="form-wrapper">
+                <!-- LINKER BEREICH -->
+
+                <div class="left-side">
+                  <div class="input-group">
+                    <label>Title<span>*</span></label>
+
+                    <input type="text" placeholder="Enter a title" />
+                  </div>
+
+                  <div class="input-group">
+                    <label>Description</label>
+
+                    <div class="textarea-wrapper">
+                      <textarea placeholder="Enter a Description"></textarea>
+
+                      <img
+                        class="textarea-icon"
+                        src="../assets/icons/description/Capa 1.svg"
+                        alt=""
+                      />
+                    </div>
+                  </div>
+
+                  <div class="input-group">
+                    <label>Due date<span>*</span></label>
+
+                    <input type="date" />
+                  </div>
+                </div>
+
+                <div class="separator"></div>
+
+                <!-- RECHTER BEREICH -->
+
+                <div class="right-side">
+                  <div class="input-group">
+                    <label>Priority</label>
+
+                    <div class="priority-container">
+                      <button
+                        onclick="this.classList.toggle('active')"
+                        type="button"
+                        class="priority urgent"
+                      >
+                        Urgent
+                        <img
+                          src="../assets/icons/priority/Property 1=Urgent.svg"
+                        />
+                      </button>
+
+                      <button
+                        onclick="this.classList.toggle('active')"
+                        type="button"
+                        class="priority medium"
+                      >
+                        Medium
+                        <img
+                          src="../assets/icons/priority/Property 1=Medium.svg"
+                        />
+                      </button>
+
+                      <button
+                        onclick="this.classList.toggle('active')"
+                        type="button"
+                        class="priority low"
+                      >
+                        Low
+                        <img
+                          src="../assets/icons/priority/Property 1=Low.svg"
+                        />
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="input-group">
+                    <label>Assigned to</label>
+
+                    <div class="dropdown">
+                      <span>Select contacts to assign</span>
+
+                      <img
+                        src="../assets/icons/dropdown/Property 1=Default.svg"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="input-group">
+                    <label>Category<span>*</span></label>
+
+                    <div class="dropdown">
+                      <span>Select task category</span>
+
+                      <img
+                        src="../assets/icons/dropdown/Property 1=Default.svg"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="input-group">
+                    <label>Subtasks</label>
+
+                    <div class="subtask-input">
+                      <input type="text" placeholder="Add new subtask" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bottom-area">
+                <p><span>*</span>This field is required</p>
+
+                <div class="button-area">
+                  <button type="reset" class="clear-btn">Clear</button>
+
+                  <button type="submit" class="create-btn">Create Task</button>
+                </div>
+              </div>
+            </form>
+          </section>
+        </div>
       </main>
     </div>
     <script>
@@ -373,6 +517,14 @@
         .then((data) => {
           document.getElementById("main-layout").innerHTML = data;
         });
+
+      function openAddTaskOverlay() {
+        document.getElementById("add-task-overlay").classList.add("show");
+      }
+
+      function closeAddTaskOverlay() {
+        document.getElementById("add-task-overlay").classList.remove("show");
+      }
     </script>
     <script src="../js/board.js"></script>
   </body>

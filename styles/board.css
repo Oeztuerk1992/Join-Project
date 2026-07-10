@@ -109,9 +109,7 @@ input::placeholder {
 body {
     margin: 0;
 }
-* {
-    /* outline: 1px solid red; */
-}
+
 main {
     background-color: var(--background-board);
 }

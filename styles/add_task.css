@@ -160,6 +160,28 @@ textarea {
 .priority:hover {
     box-shadow: 0 4px 4px rgba(0, 0, 0, .15);
 }
+
+.priority.active img {
+    filter: brightness(0) invert(1);
+}
+
+.priority.urgent.active {
+    background: #FF3D00;
+    color: #fff;
+    border-color: #FF3D00;
+}
+
+.priority.medium.active {
+    background: #FFA800;
+    color: #fff;
+    border-color: #FFA800;
+}
+
+.priority.low.active {
+    background: #7AE229;
+    color: #fff;
+    border-color: #7AE229;
+}
 /* ---------- Dropdown ---------- */
 
 .dropdown {
@@ -265,3 +287,66 @@ textarea {
 .create-btn:hover {
     background: #29ABE2;
 }
+
+.add-task-overlay {
+    position: fixed;
+    padding: 30px;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+    background-color: white;
+    display: none;
+
+    z-index: 1000;
+    
+    border-radius: 30px;
+    width: 80%;
+    overflow-y: auto;
+
+    box-shadow: 0 8px 30px rgba(0, 0, 0, .15);
+}
+
+.add-task-overlay.show {
+    display: block;
+}
+
+.add-task-overlay.show {
+    display: block;
+}
+
+.btn-close-overlay {
+    position: absolute;
+    top: 32px;
+    right: 32px;
+
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: none;
+    background: transparent;
+
+    font-size: 30px;
+    color: #2A3647;
+
+    cursor: pointer;
+
+    border-radius: 50%;
+}
+
+.btn-close-overlay:hover {
+    background: #EEEEEE;
+}
+
+
+.add-task-overlay.show .add-task-container h1 {
+    font-size: 46px;
+    margin-bottom: 40px;
+}
+
+.add-task-overlay.show .bottom-area {
+        margin-top: 40px; }

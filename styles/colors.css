@@ -20,6 +20,12 @@
   --border-input-active: rgba(18, 70, 88, 1);
   --border-input-fail: rgba(230, 0, 38, 1);
   --color-info-privacy: rgba(18, 70, 88, 1);
+
+  --background-color-user: rgba(12, 46, 98, 0.12);
+  --color-user-nav: rgba(205, 205, 205, 1);
+  --hover-sidebar: rgba(42, 61, 89, 1);
+  --active-sidebar: rgba(9, 25, 49, 1);
+  --color-footer: rgba(231, 231, 231, 1);
   
 
   /* board */
@@ -59,3 +65,4 @@
 
 
 }
+

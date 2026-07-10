@@ -34,3 +34,4 @@ function getEditOverlay() {
 function closeEditOverlay() {
     editOverlay.close();
 }
+

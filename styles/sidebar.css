@@ -19,12 +19,14 @@ body {
 .sidebar {
     width: 232px;
     height: 100vh;
-    min-height: 1024px;
-    background: #2A3647;
+    
+    background-color: var(--sidebar-background);
+    box-shadow: 0px 4px 4px 0px rgb(0, 0, 0, 0.4);
     position: fixed;
+
     display: flex;
     flex-direction: column;
-    opacity: 1;
+    
     padding-top: 64px;
     padding-bottom: 64px;
 }
@@ -32,7 +34,7 @@ body {
 .sidebar-top {
     display: flex;
     flex-direction: column;
-    gap: 196px;
+    gap: 95px;
 }
 
 .sidebar-nav{
@@ -41,6 +43,10 @@ body {
     flex-direction: column;
     gap: 15px;
     opacity: 1;
+}
+.sidebar-nav span {
+    color: var(--color-footer);
+    font-size: 16px;
 }
 
 .nav-item{
@@ -54,10 +60,20 @@ body {
     text-decoration: none;
     font-size: 16px;
     border-radius: 0 8px 8px 0;
+
+    transition: background-color 100ms ease,
+                transform 100ms ease;
+}
+.nav-item img {
+    width: 30px;
 }
 
-.nav-item:hover{
-    background-color: #021b31;
+.nav-item:hover {
+    background-color: var(--hover-sidebar);
+}
+
+.nav-item:active {
+    background-color: var(--active-sidebar);
 }
 
 .content {
@@ -71,36 +87,60 @@ body {
 }
 
 .join-logo-img{
-    width: 100.03px;
-    height: 121.97px;
+    width: 100px;
+    height: 120px;
 }
 
 .sidebar-footer{
     display: flex;
-    align-items: center ;
     flex-direction: column;
-    gap: 8px;
-    margin-top: auto;
+    align-items: center ;
+    
+    margin-top: 330px;
+
 }
 
 .sidebar-footer a {
-    color: white;
+    color: var(--color-footer);
     text-decoration: none;
-    font-size: 14px;
+    font-size: 16px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+    width: 232px;
+    height: 46px;
+    padding: 8px 56px;
+
+    transition: background-color 100ms ease,
+                transform 100ms ease;
 }
 
-.header{
+.sidebar-footer a:hover {
+    background-color: var(--hover-sidebar);
+}
+
+.container-header {
+    height: 96px;
+    max-width: 1208px;
+    
     position: fixed;
     top: 0;
     left: 232px;
     width: calc(100% - 232px);
-    height: 96px;
-    background-color: rgba(255,255, 255,1);
+
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    background-color: rgba(255,255, 255,1);
     padding: 20px 40px 20px 96px;
     box-shadow: 0px 4px 4px 0px rgb(0, 0, 0, 0.1);
+    font-size: 20px;
+}
+
+.title-kanban {
     font-size: 20px;
 }
 
@@ -109,6 +149,11 @@ body {
     height: 20px;
     cursor: pointer;
     transition: width 0.2s, height 0.2s;
+
+    color: var(--border-color-grey);
+    margin-top: 5px;
+    transition: background-color 100ms ease,
+                transform 100ms ease;
 }
 
 .header-help:hover{
@@ -123,4 +168,92 @@ body {
     justify-content: center;
     cursor: pointer;
 }
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.user-menu {
+    border-radius: 50%;
+}
+
+.circle {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+
+    border: 3px solid var(--color-1);
+    cursor: pointer;
+    transition: background-color 100ms ease,
+                transform 100ms ease;
+}
+.circle:hover {
+    background-color: var(--background-color-user);
+}
+
+.user-initials {
+    color: var(--color-info-privacy);
+    font-size: 16px;
+    font-weight: bold;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 100%;
+}
+
+.nav-user li {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    font-size: 16px;
+    width: 130px;
+    height: 46px;
+    padding-left: 16px;
+
+    display: flex;
+    align-items: center;
+
+    cursor: pointer;
+
+    transition: background-color 100ms ease,
+                transform 100ms ease;
+}
+.nav-user a,
+.nav-user a:visited,
+.nav-user a:hover,
+.nav-user a:active {
+    color: var(--color-user-nav);
+    text-decoration: none;
+    width: 100%;
+}
+
+.nav-user li:hover {
+    background-color: var(--hover-sidebar);
+}
+
+.nav-user {
+    position: absolute;
+    top: 96px;
+    left: 1270px;
+
+    width: 150px;
+    height: 200px;
+
+    border: 1px solid var(--sidebar-background);
+    background-color: var(--sidebar-background);
+    box-shadow: var(--box-shadow-signup-info);
+    border-radius: 20px 0 20px 20px;
+
+    color: var(--color-user-nav);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 

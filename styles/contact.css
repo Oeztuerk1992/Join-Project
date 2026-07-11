@@ -1,6 +1,5 @@
 .right-side{
     display: flex;
-    flex: 1;
     padding: 96px 0px 0px 232px;
     opacity: 1;
 }
@@ -30,7 +29,7 @@
 
 .new-contact{
     height: 100vh;
-    width: 400px;
+    width: 430px;
     padding: 32px 24px;
     opacity: 1;
     overflow-y: scroll;
@@ -43,17 +42,20 @@
     flex: 1;
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 32px;
     background: rgba(246, 247, 248, 1);
     box-shadow: 4px 0px 6px 0px rgba(0, 0, 0, 0.08);
     overflow: hidden;
+
+    width: 778px;
 }
 
 
 .contact-details{
     gap: 32px;
     opacity: 1;
-    margin: 132px 56px 78px 67px;
+    margin: 70px 56px 78px 67px;
 }
 
 .header-title{
@@ -63,12 +65,17 @@
     opacity: 1;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .title-contact{
     font-weight: 700;
-    font-style: bold;
     font-size: 61px;
+}
+
+.title-subtitle {
+    font-size: 27px;
+    color: var(--sidebar-background);
 }
 
 .title-divider{
@@ -391,9 +398,4 @@ font-size: 27px;
 
 .edit, .delete{
     cursor: pointer;
-}
-
-#main-layout {
-  opacity: 0;
-  transition: opacity 0.2s ease;
 }

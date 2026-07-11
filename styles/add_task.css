@@ -18,9 +18,8 @@ body {
 
 /* ---------- Main Content ---------- */
 
-.content {
-    flex: 1;
-    padding: 40px 70px;
+.content-addtask {
+    padding: 180px 0px 0px 322px;
 }
 
 /* ---------- Header ---------- */
@@ -68,6 +67,8 @@ body {
     flex: 1;
     display: flex;
     flex-direction: column;
+
+    width: 440px;
 }
 
 .separator {

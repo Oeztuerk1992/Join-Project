@@ -56,7 +56,6 @@ body {
     width: 232px;
     height: 46px;
     padding: 8px 56px;
-    color: white;
     text-decoration: none;
     font-size: 16px;
     border-radius: 0 8px 8px 0;
@@ -70,6 +69,8 @@ body {
 
 .nav-item:hover {
     background-color: var(--hover-sidebar);
+    font-weight: bold;
+    color: white;
 }
 
 .nav-item:active {
@@ -119,6 +120,7 @@ body {
 
 .sidebar-footer a:hover {
     background-color: var(--hover-sidebar);
+    font-weight: bold;
 }
 
 .container-header {
@@ -177,6 +179,7 @@ body {
 
 .user-menu {
     border-radius: 50%;
+    border-width: 0px;
 }
 
 .circle {
@@ -234,6 +237,10 @@ body {
 
 .nav-user li:hover {
     background-color: var(--hover-sidebar);
+    font-weight: bold;
+}
+.nav-user li:hover a {
+    color: white;
 }
 
 .nav-user {
@@ -250,7 +257,8 @@ body {
     border-radius: 20px 0 20px 20px;
 
     color: var(--color-user-nav);
-
+}
+.nav-user[open] {
     display: flex;
     justify-content: center;
     align-items: center;

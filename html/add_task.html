@@ -101,16 +101,77 @@
                 </div>
 
                 <div class="input-group">
-                  <label>Assigned to</label>
 
-                  <div class="dropdown">
-                    <span>Select contacts to assign</span>
+    <label>Assigned to</label>
 
-                    <img
-                      src="../assets/icons/dropdown/Property 1=Default.svg"
-                    />
-                  </div>
+    <div class="dropdown-container">
+
+        <div class="dropdown" onclick="toggleDropdown()">
+
+            <span>Select contacts to assign</span>
+
+            <img
+                id="dropdownArrow"
+                src="../assets/icons/dropdown/Property 1=Default.svg"
+                alt="">
+
+        </div>
+
+        <div id="dropdownMenu" class="dropdown-menu">
+
+            <div class="dropdown-item">
+
+                <div class="contact-info">
+
+                    <div class="contact-circle blue">
+                        TK
+                    </div>
+
+                    <span>Testkontakt 1</span>
+
                 </div>
+
+                <input type="checkbox">
+
+            </div>
+
+            <div class="dropdown-item">
+
+                <div class="contact-info">
+
+                    <div class="contact-circle orange">
+                        TM
+                    </div>
+
+                    <span>Testkontakt 2</span>
+
+                </div>
+
+                <input type="checkbox">
+
+            </div>
+
+            <div class="dropdown-item">
+
+                <div class="contact-info">
+
+                    <div class="contact-circle purple">
+                        TS
+                    </div>
+
+                    <span>Testkontakt 3</span>
+
+                </div>
+
+                <input type="checkbox">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
 
                 <div class="input-group">
                   <label>Category<span>*</span></label>
@@ -147,5 +208,17 @@
         </section>
       </main>
     </div>
+    <script>
+      function toggleDropdown() {
+
+    document
+        .getElementById("dropdownMenu")
+        .classList.toggle("show");
+
+    document
+        .getElementById("dropdownArrow")
+        .classList.toggle("rotate");
+}
+    </script>
   </body>
 </html>

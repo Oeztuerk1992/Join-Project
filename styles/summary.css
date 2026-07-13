@@ -234,3 +234,17 @@ button {
 .do-two {
     transform-origin: right center;
 }
+
+/* sidebar */
+
+.nav-active-summary {
+    background-color: var(--active-sidebar);
+    color: white;
+    font-weight: bold;
+
+    pointer-events: none;
+}
+
+@view-transition {
+  navigation: auto;
+}

@@ -793,3 +793,17 @@ dialog {
     z-index: 1000;
 }
 
+/* sidebar */
+
+.nav-active-board {
+    background-color: var(--active-sidebar);
+    color: white;
+    font-weight: bold;
+    
+    pointer-events: none;
+}
+
+@view-transition {
+  navigation: auto;
+}
+

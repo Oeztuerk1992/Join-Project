@@ -112,8 +112,7 @@ async function registerNewUser() {
             lastName: lastName,
         },
         mail: document.getElementById('signup-mail').value,
-        password: document.getElementById('signup-pw').value,
-        phoneNo: ""
+        password: document.getElementById('signup-pw').value
     });
 
     await prepareUserDataForPost(signUpNewUser);

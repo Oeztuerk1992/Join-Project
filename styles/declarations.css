@@ -69,3 +69,28 @@ li::marker {
     right: auto;
     bottom: auto;
 }
+
+/* sidebar */
+
+.link-legal-notice {
+    background-color: var(--active-sidebar);
+    color: white;
+    font-weight: bold;
+    
+    pointer-events: none;
+}
+.link-privacy-policy {
+    background-color: var(--active-sidebar);
+    color: white;
+    font-weight: bold;
+    
+    pointer-events: none;
+}
+
+@view-transition {
+  navigation: auto;
+}
+
+.hidden {
+    display: none;
+}

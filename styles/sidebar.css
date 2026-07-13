@@ -66,10 +66,14 @@ body {
 .nav-item img {
     width: 30px;
 }
-
+.sidebar-back {
+    margin-bottom: 183px;
+}
 .nav-item:hover {
     background-color: var(--hover-sidebar);
     font-weight: bold;
+}
+.nav-item span:hover {
     color: white;
 }
 
@@ -186,13 +190,15 @@ body {
     width: 48px;
     height: 48px;
     border-radius: 50%;
+    background-color: white;
 
     border: 3px solid var(--color-1);
     cursor: pointer;
     transition: background-color 100ms ease,
                 transform 100ms ease;
 }
-.circle:hover {
+.circle:hover, 
+.circle.active {
     background-color: var(--background-color-user);
 }
 
@@ -237,10 +243,10 @@ body {
 
 .nav-user li:hover {
     background-color: var(--hover-sidebar);
-    font-weight: bold;
 }
 .nav-user li:hover a {
     color: white;
+    font-weight: bold;
 }
 
 .nav-user {
@@ -249,7 +255,7 @@ body {
     left: 1270px;
 
     width: 150px;
-    height: 200px;
+    height: 160px;
 
     border: 1px solid var(--sidebar-background);
     background-color: var(--sidebar-background);
@@ -258,10 +264,17 @@ body {
 
     color: var(--color-user-nav);
 }
+.nav-user button {
+    border: unset;
+    background-color: transparent;
+    pointer-events: none;
+}
+
 .nav-user[open] {
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
 
 

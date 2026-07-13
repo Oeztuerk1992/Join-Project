@@ -465,3 +465,11 @@ input[type="password"]::-webkit-textfield-decoration-container {
     background-image: url("../assets/icons/login/visibility.svg");
 }
 
+@view-transition {
+  navigation: auto;
+}
+
+
+
+
+

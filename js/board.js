@@ -6,7 +6,21 @@ const editOverlay = document.getElementById('edit-overlay');
 
 
 // es wird der login checkup benötigt //
-function init() {
+function initBoard() {
+    getUserProfile();
+}
+
+function getUserProfile() {
+
+    if (loggedInUser === 'guest') {
+        userProfile.textContent = "G";
+    } else {
+
+    const name = loggedInUser.split(" ");
+    const initials = name[0][0].toUpperCase() + name[1][0].toUpperCase();
+    userProfile.textContent = initials;
+
+    }
 
 }
 

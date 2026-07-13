@@ -3,7 +3,27 @@ const emailInput = document.getElementById('email');
 const phoneInput = document.getElementById('phone');
 const newContactMessage = document.getElementById('new-contact-message');
 let contacts = [];
-        
+
+
+function initContacts() {
+    getUserProfile();
+}
+
+function getUserProfile() {
+
+    if (loggedInUser === 'guest') {
+        userProfile.textContent = "G";
+    } else {
+
+    const name = loggedInUser.split(" ");
+    const initials = name[0][0].toUpperCase() + name[1][0].toUpperCase();
+    userProfile.textContent = initials;
+
+    }
+
+}
+
+
 function openOverlay(){
     const overlay = document.getElementById('overlay');
     overlay.style.display = 'flex';
@@ -38,7 +58,18 @@ function clearInputs(){
     phoneInput.value = '';
 }
 
-function createContact() {
+async function postContactToFirebase(contact) {
+    let response = await fetch(BASE_URL + "contacts.json", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(contact)
+    });
+    return await response.json();
+}
+
+async function createContact() {
     const name = nameInput.value.trim();
     if (!name || !emailInput.value.trim() || !phoneInput.value.trim()) {
         alert('Please fill in all fields.');
@@ -49,11 +80,28 @@ function createContact() {
         alert('Contact with this email already exists.');
         return;
     }
-    contacts.push(buildContact(name));
+    const newContact = buildContact(name);
+    await postContactToFirebase(newContact);
+    contacts.push(newContact);
     contacts.sort((a, b) => a.capitalizedName.localeCompare(b.capitalizedName));
     renderContacts();
     closeOverlay();
     clearInputs();
+}
+
+async function loadContactsFromFirebase() {
+    let response = await fetch(BASE_URL + "contacts.json");
+    let data = await response.json();
+
+    contacts = [];
+    if (data) {
+    const keys = Object.keys(data);
+    for (let i = 0; i < keys.length; i++) {
+        contacts.push(data[keys[i]]);
+        }
+    }
+    contacts.sort((a, b) => a.capitalizedName.localeCompare(b.capitalizedName));
+    renderContacts();
 }
 
 function renderContacts(){
@@ -104,3 +152,5 @@ function deleteContact() {
     activeContact = null;
     renderContacts();
 }
+
+loadContactsFromFirebase();

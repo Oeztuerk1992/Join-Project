@@ -1,114 +1,182 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Add Task</title>
     <link rel="stylesheet" href="../styles/add_task.css" />
+    <link rel="stylesheet" href="../styles/colors.css" />
+    <link rel="stylesheet" href="../styles/font.css" />
     <link rel="stylesheet" href="../styles/sidebar.css" />
   </head>
-  <body>
+  <body onload="initAddTask()">
     <div class="app">
 
-        <!-- Sidebar wird später geladen -->
-        <aside id="sidebar"></aside>
+      <div id="main-layout">
+        <div class="sidebar">
+          <div class="sidebar-top">
+            <div class="join-logo">
+              <img
+                src="../assets/img/logo/favicon_light.svg"
+                alt="Join logo"
+                class="join-logo-img"
+              />
+            </div>
+            <div class="sidebar-nav-container">
+              <nav class="sidebar-nav">
+                <a class="nav-item" href="../html/summary.html">
+                  <img
+                    src="../assets/icons/template/summary-icon.svg"
+                    alt="img-summary"
+                  />
+                  <span>Summary</span>
+                </a>
+                <a class="nav-item nav-active-task" href="../html/add_task.html">
+                  <img
+                    src="../assets/icons/template/add-task_active-icon.svg"
+                    alt="img-add-task"
+                  />
+                  <span>Add Task</span>
+                </a>
+                <a class="nav-item" href="../html/board.html">
+                  <img
+                    src="../assets/icons/template/board-icon.svg"
+                    alt="img-board"
+                  />
+                  <span>Board</span>
+                </a>
+                <a class="nav-item" href="../html/contacts.html">
+                  <img
+                    src="../assets/icons/template/contacts-icon.svg"
+                    alt="img-contacts"
+                  />
+                  <span>Contacts</span>
+                </a>
+              </nav>
+            </div>
+          </div>
+          <div class="sidebar-footer">
+            <a href="privacy_policy.html">Privacy Policy</a>
+            <a href="legal_notice.html">Legal notice</a>
+          </div>
+        </div>
+  
+        <header class="header">
+          <div class="container-header">
+            <div class="header-left">
+              <span class="title-kanban">Kanban Project Management Tool</span>
+            </div>
+            <nav class="header-right">
+              <a href="help.html" title="Help">
+                <img
+                  class="header-help"  
+                  src="../assets/icons/help_icon.svg"
+                  alt="help-img"
+                />
+              </a>
+              <button class="user-menu" onclick="toggleUserMenu()">
+                <div class="circle">
+                  <span id="initials-user" class="user-initials"></span>
+                </div>
+              </button>
+            </nav>
+          </div>
+        </header>
+  
+      <dialog id="user-nav" class="nav-user">
+        <ul>
+          <li><a href="legal_notice.html">Legal Notice</a></li>
+          <li><a href="privacy_policy.html">Privacy Policy</a></li>
+          <li><a href="../index.html" onclick="logout()">Log out</a></li>
+        </ul>
+      </dialog>
+      </div>
 
-        <main class="content">
+      <main class="content-addtask">
+        <section class="add-task-container">
+          <h1>Add Task</h1>
 
-            <div class="header">
+          <form id="addTaskForm">
+            <div class="form-wrapper">
+              <!-- LINKER BEREICH -->
 
-                <div></div>
+              <div class="left-side">
+                <div class="input-group">
+                  <label>Title<span>*</span></label>
 
-                <div class="user-profile">
-                    NAME
+                  <input type="text" placeholder="Enter a title" />
                 </div>
 
-            </div>
+                <div class="input-group">
+                  <label>Description</label>
 
-            <section class="add-task-container">
+                  <div class="textarea-wrapper">
+                    <textarea placeholder="Enter a Description"></textarea>
 
-                <h1>Add Task</h1>
+                    <img
+                      class="textarea-icon"
+                      src="../assets/icons/description/Capa 1.svg"
+                      alt=""
+                    />
+                  </div>
+                </div>
 
-                <form id="addTaskForm">
+                <div class="input-group">
+                  <label>Due date<span>*</span></label>
 
-                    <div class="form-wrapper">
+                  <input type="date" />
+                </div>
+              </div>
 
-                        <!-- LINKER BEREICH -->
+              <div class="separator"></div>
 
-                        <div class="left-side">
+              <!-- RECHTER BEREICH -->
 
-                            <div class="input-group">
+              <div class="right-side">
+                <div class="input-group">
+                  <label>Priority</label>
 
-                                <label>Title<span>*</span></label>
+                  <div class="priority-container">
+                    <button
+                      type="button"
+                      class="priority urgent"
+                      onclick="this.classList.toggle('active')"
+                    >
+                      <span>Urgent</span>
+                      <img
+                        src="../assets/icons/priority/Property 1=Urgent.svg"
+                        alt=""
+                      />
+                    </button>
 
-                                <input
-                                    type="text"
-                                    placeholder="Enter a title">
+                    <button
+                      type="button"
+                      class="priority medium"
+                      onclick="this.classList.toggle('active')"
+                    >
+                      <span>Medium</span>
+                      <img
+                        src="../assets/icons/priority/Property 1=Medium.svg"
+                        alt=""
+                      />
+                    </button>
 
-                            </div>
+                    <button
+                      type="button"
+                      class="priority low"
+                      onclick="this.classList.toggle('active')"
+                    >
+                      <span>Low</span>
+                      <img
+                        src="../assets/icons/priority/Property 1=Low.svg"
+                        alt=""
+                      />
+                    </button>
+                  </div>
+                </div>
 
-                        <div class="input-group">
-
-    <label>Description</label>
-
-    <div class="textarea-wrapper">
-
-        <textarea
-            placeholder="Enter a Description"></textarea>
-
-        <img
-            class="textarea-icon"
-            src="../assets/icons/description/Capa 1.svg"
-            alt="">
-
-    </div>
-
-</div>
-
-                            <div class="input-group">
-
-                                <label>Due date<span>*</span></label>
-
-                                <input type="date">
-
-                            </div>
-
-                        </div>
-
-                        <div class="separator"></div>
-
-                        <!-- RECHTER BEREICH -->
-
-                        <div class="right-side">
-
-                            <div class="input-group">
-
-                                <label>Priority</label>
-
-                                <div class="priority-container">
-
-                                    <button type="button" class="priority urgent">
-                                        Urgent
-                                        <img src="../assets/icons/priority/Property 1=Urgent.svg">
-                                    </button>
-
-                                    <button type="button" class="priority medium ">
-                                        Medium
-                                        <img src="../assets/icons/priority/Property 1=Medium.svg">
-                                    </button>
-
-                                    <button type="button" class="priority low">
-                                        Low
-                                        <img src="../assets/icons/priority/Property 1=Low.svg">
-                                    </button>
-
-                                </div>
-
-                            </div>
-
-                            <div class="input-group">
-
-                                <label>Assigned to</label>
+                <div class="input-group">
+                  <label>Assigned to</label>
 
     <div class="dropdown-container">
 
@@ -179,23 +247,20 @@
 
 </div>
 
-                            <div class="input-group">
+                <div class="input-group">
+                  <label>Category<span>*</span></label>
 
-                                <label>Category<span>*</span></label>
+                  <div class="dropdown">
+                    <span>Select task category</span>
 
-                                <div class="dropdown">
+                    <img
+                      src="../assets/icons/dropdown/Property 1=Default.svg"
+                    />
+                  </div>
+                </div>
 
-                                    <span>Select task category</span>
-
-                                    <img src="../assets/icons/dropdown/Property 1=Default.svg">
-
-                                </div>
-
-                            </div>
-
-                            <div class="input-group">
-
-                                <label>Subtasks</label>
+                <div class="input-group">
+                  <label>Subtasks</label>
 
                   <div class="subtask-input active">
 
@@ -222,38 +287,18 @@
               </div>
             </div>
 
-                    <div class="bottom-area">
+            <div class="bottom-area">
+              <p><span>*</span>This field is required</p>
 
-                        <p><span>*</span>This field is required</p>
+              <div class="button-area">
+                <button type="reset" class="clear-btn">Clear</button>
 
-                        <div class="button-area">
-
-                            <button
-                                type="reset"
-                                class="clear-btn">
-
-                                Clear
-
-                            </button>
-
-                            <button
-                                type="submit"
-                                class="create-btn">
-
-                                Create Task
-
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                </form>
-
-            </section>
-
-        </main>
-
+                <button type="submit" class="create-btn">Create Task</button>
+              </div>
+            </div>
+          </form>
+        </section>
+      </main>
     </div>
     <script>
       function toggleDropdown() {
@@ -269,3 +314,4 @@
     </script>
   </body>
 </html>
+

@@ -20,12 +20,91 @@
     <link rel="stylesheet" href="../styles/font.css" />
     <link rel="stylesheet" href="../styles/sidebar.css" />
     <link rel="stylesheet" href="../styles/login.css" />
-    <link rel="stylesheet" href="../style.css" />
     <link rel="stylesheet" href="../styles/declarations.css" />
   </head>
 
-  <body>
-    <div id="main-layout"></div>
+  <body onload="initDeclarations()">
+    <div id="main-layout">
+      <div class="sidebar">
+        <div class="sidebar-top">
+          <div class="join-logo">
+            <img
+              src="../assets/img/logo/favicon_light.svg"
+              alt="Join logo"
+              class="join-logo-img"
+            />
+          </div>
+          <div class="sidebar-nav-container">
+            <nav id="nav-sidebar" class="sidebar-nav">
+              <a class="nav-item" href="../html/summary.html">
+                <img
+                  src="../assets/icons/template/summary-icon.svg"
+                  alt="img-summary"
+                />
+                <span>Summary</span>
+              </a>
+              <a class="nav-item" href="../html/add_task.html">
+                <img
+                  src="../assets/icons/template/add-task-icon.svg"
+                  alt="img-add-task"
+                />
+                <span>Add Task</span>
+              </a>
+              <a class="nav-item" href="../html/board.html">
+                <img
+                  src="../assets/icons/template/board-icon.svg"
+                  alt="img-board"
+                />
+                <span>Board</span>
+              </a>
+              <a class="nav-item" href="../html/contacts.html">
+                <img
+                  src="../assets/icons/template/contacts-icon.svg"
+                  alt="img-contacts"
+                />
+                <span>Contacts</span>
+              </a>
+            </nav>
+            <nav id="sidebar-guest" class="sidebar-nav sidebar-back hidden"></nav>
+          </div>
+        </div>
+        <div class="sidebar-footer">
+          <a href="privacy_policy.html">Privacy Policy</a>
+          <a href="legal_notice.html">Legal notice</a>
+        </div>
+      </div>
+
+      <header class="header">
+        <div class="container-header">
+          <div class="header-left">
+            <span class="title-kanban">Kanban Project Management Tool</span>
+          </div>
+          <nav class="header-right">
+            <a id="help-btn" href="help.html" title="Help">
+                <img
+                  class="header-help"  
+                  src="../assets/icons/help_icon.svg"
+                  alt="help-img"
+                />
+            </a>
+            <button class="user-menu" onclick="toggleUserMenu()">
+              <div class="circle">
+                <span id="initials-user" class="user-initials"></span>
+              </div>
+            </button>
+          </nav>
+        </div>
+      </header>
+
+      <dialog id="user-nav" class="nav-user">
+        <ul>
+          <li><a href="legal_notice.html">Legal Notice</a></li>
+          <li><a href="privacy_policy.html">Privacy Policy</a></li>
+          <li><a href="../index.html" onclick="logout()">Log out</a></li>
+        </ul>
+      </dialog>
+    </div>
+
     <div id="content" class="content-help">
       <div class="headline-h1">
         <h1>Help</h1>
@@ -132,13 +211,10 @@
 
       <h2>Enjoy using Join!</h2>
     </div>
-    <script>
-      fetch("../assets/templates/desktop_template.html")
-        .then((response) => response.text())
-        .then((data) => {
-          document.getElementById("main-layout").innerHTML = data;
-        });
-    </script>
     <script src="../js/declarations.js"></script>
+    <script src="../js/desktop_template.js"></script>
   </body>
 </html>
+
+
+

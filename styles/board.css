@@ -1,7 +1,7 @@
 /* Content Summary */
 
 .content-board {
-    padding: 200px 0px 0px 322px;
+    padding: 180px 0px 0px 322px;
 }
 
 /* HEADER */
@@ -792,3 +792,18 @@ dialog {
     transform: translate(-50%, -50%);
     z-index: 1000;
 }
+
+/* sidebar */
+
+.nav-active-board {
+    background-color: var(--active-sidebar);
+    color: white;
+    font-weight: bold;
+    
+    pointer-events: none;
+}
+
+@view-transition {
+  navigation: auto;
+}
+

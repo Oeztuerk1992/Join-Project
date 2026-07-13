@@ -1,14 +1,25 @@
 // variables //
 const guestInfo = document.getElementById('greeting-guest');
 const userInfo = document.getElementById('greeting-user');
+
+const greetTimeGuest= document.getElementById('greet-time-guest');
+const greetTime = document.getElementById('greet-time');
+
 const loggedUserInfo = document.getElementById('greet-user-name');
 
 // functions //
 
 
 // es wird der login checkup benötigt //
-function init() {
-    const loggedInUser = sessionStorage.getItem('loggedInUser');
+
+function initSummary() {
+    getUserGreeting();
+    getUserProfile();
+}
+
+function getUserGreeting() {
+    
+    getGreetingTime();
 
     if (loggedInUser === 'guest') {
         guestInfo.classList.remove('hidden');
@@ -21,6 +32,36 @@ function init() {
     }
 }
 
+function getGreetingTime() {
+    const hour = new Date().getHours();
+    let greeting;
+
+    if (hour < 12) {
+        greeting = "Good morning";
+    } else if (hour < 18) {
+        greeting = "Good afternoon";
+    } else {
+        greeting = "Good evening";
+    }
+
+    greetTimeGuest.textContent = `${greeting}!`;
+    greetTime.textContent = `${greeting},`;
+}
+
 function getToBoard() {
     window.location.href = 'board.html';
+}
+
+function getUserProfile() {
+
+    if (loggedInUser === 'guest') {
+        userProfile.textContent = "G";
+    } else {
+
+    const name = loggedInUser.split(" ");
+    const initials = name[0][0].toUpperCase() + name[1][0].toUpperCase();
+    userProfile.textContent = initials;
+
+    }
+
 }

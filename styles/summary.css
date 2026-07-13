@@ -1,7 +1,7 @@
 /* Content Summary */
 
 .content-summary {
-    padding: 200px 0px 0px 322px;
+    padding: 180px 0px 0px 322px;
 }
 
 /* HEADER */
@@ -233,4 +233,18 @@ button {
 .task-three,
 .do-two {
     transform-origin: right center;
+}
+
+/* sidebar */
+
+.nav-active-summary {
+    background-color: var(--active-sidebar);
+    color: white;
+    font-weight: bold;
+
+    pointer-events: none;
+}
+
+@view-transition {
+  navigation: auto;
 }

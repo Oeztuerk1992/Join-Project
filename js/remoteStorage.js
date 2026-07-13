@@ -14,8 +14,7 @@ async function prepareUserDataForPost(users) {
             firstName: users[index].name.firstName,
             lastName: users[index].name.lastName,
             mail: users[index].mail,
-            password: users[index].password,
-            phoneNo: users[index].phoneNo
+            password: users[index].password
         };
         
         registeredUser.push(userData);

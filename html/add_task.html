@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Task</title>
-    <link rel="stylesheet" href="../styles/add_task.css">
-</head>
-<body>
-
+    <link rel="stylesheet" href="../styles/add_task.css" />
+    <link rel="stylesheet" href="../styles/sidebar.css" />
+  </head>
+  <body>
     <div class="app">
 
         <!-- Sidebar wird später geladen -->
@@ -110,15 +110,74 @@
 
                                 <label>Assigned to</label>
 
-                                <div class="dropdown">
+    <div class="dropdown-container">
 
-                                    <span>Select contacts to assign</span>
+        <div class="dropdown" onclick="toggleDropdown()">
 
-                                    <img src="../assets/icons/dropdown/Property 1=Default.svg">
+            <span>Select contacts to assign</span>
 
-                                </div>
+            <img
+                id="dropdownArrow"
+                src="../assets/icons/dropdown/Property 1=Default.svg"
+                alt="">
 
-                            </div>
+        </div>
+
+        <div id="dropdownMenu" class="dropdown-menu">
+
+            <div class="dropdown-item">
+
+                <div class="contact-info">
+
+                    <div class="contact-circle blue">
+                        TK
+                    </div>
+
+                    <span>Testkontakt 1</span>
+
+                </div>
+
+                <input type="checkbox">
+
+            </div>
+
+            <div class="dropdown-item">
+
+                <div class="contact-info">
+
+                    <div class="contact-circle orange">
+                        TM
+                    </div>
+
+                    <span>Testkontakt 2</span>
+
+                </div>
+
+                <input type="checkbox">
+
+            </div>
+
+            <div class="dropdown-item">
+
+                <div class="contact-info">
+
+                    <div class="contact-circle purple">
+                        TS
+                    </div>
+
+                    <span>Testkontakt 3</span>
+
+                </div>
+
+                <input type="checkbox">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
 
                             <div class="input-group">
 
@@ -138,19 +197,30 @@
 
                                 <label>Subtasks</label>
 
-                                <div class="subtask-input">
+                  <div class="subtask-input active">
 
-                                    <input
-                                        type="text"
-                                        placeholder="Add new subtask">
+    <input
+        type="text"
+        placeholder="Add new subtask">
 
-                                </div>
+    <div class="subtask-actions">
 
-                            </div>
+        <button>
+            <img src="../assets/icons/edit_delete/Property 1=close.svg">
+        </button>
 
-                        </div>
+        <div class="subtask-divider"></div>
 
-                    </div>
+        <button>
+            <img src="../assets/icons/edit_delete/Property 1=check.svg">
+        </button>
+
+    </div>
+
+</div>
+                </div>
+              </div>
+            </div>
 
                     <div class="bottom-area">
 
@@ -185,6 +255,17 @@
         </main>
 
     </div>
+    <script>
+      function toggleDropdown() {
 
-</body>
+    document
+        .getElementById("dropdownMenu")
+        .classList.toggle("show");
+
+    document
+        .getElementById("dropdownArrow")
+        .classList.toggle("rotate");
+}
+    </script>
+  </body>
 </html>

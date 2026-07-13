@@ -10,6 +10,115 @@ body {
     background: #F6F7F8;
     font-family: 'Inter', sans-serif;
 }
+.dropdown-container{
+    position:relative;
+}
+
+.dropdown{
+
+    height:48px;
+
+    border:1px solid #D1D1D1;
+    border-radius:10px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:0 16px;
+
+    background:white;
+
+    cursor:pointer;
+}
+
+.dropdown img{
+
+    width:20px;
+
+    transition:.2s;
+}
+
+.dropdown-menu{
+
+    position:absolute;
+
+    top:55px;
+
+    width:100%;
+
+    display:none;
+
+    background:white;
+
+    border-radius:10px;
+
+    box-shadow:0 4px 12px rgba(0,0,0,.15);
+
+    overflow:hidden;
+
+    z-index:5;
+}
+
+.dropdown-menu.show{
+
+    display:block;
+}
+
+.dropdown-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 12px 16px;
+}
+
+.dropdown-item:hover{
+
+    background:#F6F7F8;
+}
+
+
+.contact-info{
+
+    display:flex;
+    align-items:center;
+        white-space: nowrap;
+
+    gap:12px;
+}
+
+.contact-circle {
+    width: 40px;
+    height: 40px;
+
+    min-width: 40px;
+    min-height: 40px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.blue{
+    background:#29ABE2;
+}
+
+.orange{
+    background:#FF7A00;
+}
+
+.purple{
+    background:#9327FF;
+}
 
 .app {
     display: flex;
@@ -18,9 +127,8 @@ body {
 
 /* ---------- Main Content ---------- */
 
-.content {
-    flex: 1;
-    padding: 40px 70px;
+.content-addtask {
+    padding: 180px 0px 0px 322px;
 }
 
 /* ---------- Header ---------- */
@@ -68,6 +176,8 @@ body {
     flex: 1;
     display: flex;
     flex-direction: column;
+
+    width: 440px;
 }
 
 .separator {
@@ -91,7 +201,6 @@ body {
 
 input,
 textarea {
-    width: 100%;
     border: 1px solid #D1D1D1;
     border-radius: 10px;
     padding: 12px 16px;
@@ -103,6 +212,45 @@ textarea {
 input:focus,
 textarea:focus {
     border-color: #29ABE2;
+}
+
+.subtask-input {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    height: 48px;
+
+    border: 1px solid #D1D1D1;
+    border-radius: 10px;
+
+    padding: 0 12px;
+
+    background: white;
+}
+
+.subtask-input.active {
+    border-bottom: 2px solid #29ABE2;
+}
+
+.subtask-actions {
+    display: none;
+    align-items: center;
+    gap: 8px;
+}
+
+.subtask-input.active .subtask-actions {
+    display: flex;
+}
+
+.subtask-input.active .subtask-add-btn {
+    display: none;
+}
+
+.subtask-divider {
+    width: 1px;
+    height: 20px;
+    background: #D1D1D1;
 }
 
 textarea {
@@ -159,6 +307,28 @@ textarea {
 
 .priority:hover {
     box-shadow: 0 4px 4px rgba(0, 0, 0, .15);
+}
+
+.priority.active img {
+    filter: brightness(0) invert(1);
+}
+
+.priority.urgent.active {
+    background: #FF3D00;
+    color: #fff;
+    border-color: #FF3D00;
+}
+
+.priority.medium.active {
+    background: #FFA800;
+    color: #fff;
+    border-color: #FFA800;
+}
+
+.priority.low.active {
+    background: #7AE229;
+    color: #fff;
+    border-color: #7AE229;
 }
 /* ---------- Dropdown ---------- */
 
@@ -264,4 +434,81 @@ textarea {
 
 .create-btn:hover {
     background: #29ABE2;
+}
+
+.add-task-overlay {
+    position: fixed;
+    padding: 30px;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+    background-color: white;
+    display: none;
+
+    z-index: 1000;
+    
+    border-radius: 30px;
+    width: 80%;
+    overflow-y: auto;
+
+    box-shadow: 0 8px 30px rgba(0, 0, 0, .15);
+}
+
+.add-task-overlay.show {
+    display: block;
+}
+
+.add-task-overlay.show {
+    display: block;
+}
+
+.btn-close-overlay {
+    position: absolute;
+    top: 32px;
+    right: 32px;
+
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: none;
+    background: transparent;
+
+    font-size: 30px;
+    color: #2A3647;
+
+    cursor: pointer;
+
+    border-radius: 50%;
+}
+
+.btn-close-overlay:hover {
+    background: #EEEEEE;
+}
+
+
+.add-task-overlay.show .add-task-container h1 {
+    font-size: 46px;
+    margin-bottom: 40px;
+}
+
+.add-task-overlay.show .bottom-area {
+        margin-top: 40px; }
+
+/* sidebar */
+
+.nav-active-task {
+    background-color: var(--active-sidebar);
+    color: white;
+    font-weight: bold;
+    
+    pointer-events: none;
+}
+
+@view-transition {
+  navigation: auto;
 }

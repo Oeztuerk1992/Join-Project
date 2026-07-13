@@ -19,11 +19,90 @@
     <link rel="stylesheet" href="../styles/colors.css" />
     <link rel="stylesheet" href="../styles/font.css" />
     <link rel="stylesheet" href="../styles/sidebar.css" />
-    <link rel="stylesheet" href="../style.css" />
     <link rel="stylesheet" href="../styles/board.css" />
+    <link rel="stylesheet" href="../styles/add_task.css" />
   </head>
-  <body>
-    <div id="main-layout"></div>
+  <body onload="initBoard()">
+    <div id="main-layout">
+      <div class="sidebar">
+        <div class="sidebar-top">
+          <div class="join-logo">
+            <img
+              src="../assets/img/logo/favicon_light.svg"
+              alt="Join logo"
+              class="join-logo-img"
+            />
+          </div>
+          <div class="sidebar-nav-container">
+            <nav class="sidebar-nav">
+              <a class="nav-item" href="../html/summary.html">
+                <img
+                  src="../assets/icons/template/summary-icon.svg"
+                  alt="img-summary"
+                />
+                <span>Summary</span>
+              </a>
+              <a class="nav-item" href="../html/add_task.html">
+                <img
+                  src="../assets/icons/template/add-task-icon.svg"
+                  alt="img-add-task"
+                />
+                <span>Add Task</span>
+              </a>
+              <a class="nav-item nav-active-board" href="../html/board.html">
+                <img
+                  src="../assets/icons/template/board_active-icon.svg"
+                  alt="img-board"
+                />
+                <span>Board</span>
+              </a>
+              <a class="nav-item" href="../html/contacts.html">
+                <img
+                  src="../assets/icons/template/contacts-icon.svg"
+                  alt="img-contacts"
+                />
+                <span>Contacts</span>
+              </a>
+            </nav>
+          </div>
+        </div>
+        <div class="sidebar-footer">
+          <a href="privacy_policy.html">Privacy Policy</a>
+          <a href="legal_notice.html">Legal notice</a>
+        </div>
+      </div>
+
+      <header class="header">
+        <div class="container-header">
+          <div class="header-left">
+            <span class="title-kanban">Kanban Project Management Tool</span>
+          </div>
+          <nav class="header-right">
+            <a href="help.html" title="Help">
+                <img
+                  class="header-help"  
+                  src="../assets/icons/help_icon.svg"
+                  alt="help-img"
+                />
+            </a>
+            <button class="user-menu" onclick="toggleUserMenu()">
+              <div class="circle">
+                <span id="initials-user" class="user-initials"></span>
+              </div>
+            </button>
+          </nav>
+        </div>
+      </header>
+
+      <dialog id="user-nav" class="nav-user">
+        <ul>
+          <li><a href="legal_notice.html">Legal Notice</a></li>
+          <li><a href="privacy_policy.html">Privacy Policy</a></li>
+          <li><a href="../index.html" onclick="logout()">Log out</a></li>
+        </ul>
+      </dialog>
+    </div>
+
     <div id="content" class="content-board">
       <header class="header-board">
         <h1>Board</h1>
@@ -42,13 +121,17 @@
                   <input
                     type="button"
                     class="btn-search-task"
-                    onclick="filterAndShowCurrentTask(document.getElementById('input-text').value)"
+                    onclick="
+                      filterAndShowCurrentTask(
+                        document.getElementById('input-text').value,
+                      )
+                    "
                   />
                 </div>
               </div>
             </div>
           </article>
-          <button class="btn-add-task" onclick="getToAddTask()"></button>
+          <button class="btn-add-task" onclick="openAddTaskOverlay()"></button>
         </section>
       </header>
       <main>
@@ -56,7 +139,10 @@
           <article class="kanban-column">
             <div class="kanban-header">
               <h2>To do</h2>
-              <button class="btn-add-kanban plus-btn-default" onclick="getToAddTask()"></button>
+              <button
+                class="btn-add-kanban plus-btn-default"
+                onclick="openAddTaskOverlay()"
+              ></button>
             </div>
             <div class="kanban-content">
               <div draggable="true" class="task"></div>
@@ -66,7 +152,10 @@
           <article class="kanban-column">
             <div class="kanban-header">
               <h2>In progress</h2>
-              <button class="btn-add-kanban plus-btn-default" onclick="getToAddTask()"></button>
+              <button
+                class="btn-add-kanban plus-btn-default"
+                onclick="openAddTaskOverlay()"
+              ></button>
             </div>
             <div class="kanban-content">
               <div draggable="true" class="task"></div>
@@ -76,7 +165,10 @@
           <article class="kanban-column">
             <div class="kanban-header">
               <h2>Await feedback</h2>
-              <button class="btn-add-kanban plus-btn-default" onclick="getToAddTask()"></button>
+              <button
+                class="btn-add-kanban plus-btn-default"
+                onclick="openAddTaskOverlay()"
+              ></button>
             </div>
             <div class="kanban-content">
               <div draggable="true" class="task"></div>
@@ -307,15 +399,141 @@
             </form>
           </div>
         </dialog>
+        <div id="add-task-overlay" class="add-task-overlay">
+          <section class="add-task-container">
+            <button class="btn-close-overlay" onclick="closeAddTaskOverlay()">
+              ✕
+            </button>
+
+            <h1>Add Task</h1>
+
+            <form id="addTaskForm">
+              <div class="form-wrapper">
+                <!-- LINKER BEREICH -->
+
+                <div class="left-side">
+                  <div class="input-group">
+                    <label>Title<span>*</span></label>
+
+                    <input type="text" placeholder="Enter a title" />
+                  </div>
+
+                  <div class="input-group">
+                    <label>Description</label>
+
+                    <div class="textarea-wrapper">
+                      <textarea placeholder="Enter a Description"></textarea>
+
+                      <img
+                        class="textarea-icon"
+                        src="../assets/icons/description/Capa 1.svg"
+                        alt=""
+                      />
+                    </div>
+                  </div>
+
+                  <div class="input-group">
+                    <label>Due date<span>*</span></label>
+
+                    <input type="date" />
+                  </div>
+                </div>
+
+                <div class="separator"></div>
+
+                <!-- RECHTER BEREICH -->
+
+                <div class="right-side">
+                  <div class="input-group">
+                    <label>Priority</label>
+
+                    <div class="priority-container">
+                      <button
+                        onclick="this.classList.toggle('active')"
+                        type="button"
+                        class="priority urgent"
+                      >
+                        Urgent
+                        <img
+                          src="../assets/icons/priority/Property 1=Urgent.svg"
+                        />
+                      </button>
+
+                      <button
+                        onclick="this.classList.toggle('active')"
+                        type="button"
+                        class="priority medium"
+                      >
+                        Medium
+                        <img
+                          src="../assets/icons/priority/Property 1=Medium.svg"
+                        />
+                      </button>
+
+                      <button
+                        onclick="this.classList.toggle('active')"
+                        type="button"
+                        class="priority low"
+                      >
+                        Low
+                        <img
+                          src="../assets/icons/priority/Property 1=Low.svg"
+                        />
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="input-group">
+                    <label>Assigned to</label>
+
+                    <div class="dropdown">
+                      <span>Select contacts to assign</span>
+
+                      <img
+                        src="../assets/icons/dropdown/Property 1=Default.svg"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="input-group">
+                    <label>Category<span>*</span></label>
+
+                    <div class="dropdown">
+                      <span>Select task category</span>
+
+                      <img
+                        src="../assets/icons/dropdown/Property 1=Default.svg"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="input-group">
+                    <label>Subtasks</label>
+
+                    <div class="subtask-input">
+                      <input type="text" placeholder="Add new subtask" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bottom-area">
+                <p><span>*</span>This field is required</p>
+
+                <div class="button-area">
+                  <button type="reset" class="clear-btn">Clear</button>
+
+                  <button type="submit" class="create-btn">Create Task</button>
+                </div>
+              </div>
+            </form>
+          </section>
+        </div>
       </main>
     </div>
-    <script>
-      fetch("../assets/templates/desktop_template.html")
-        .then((response) => response.text())
-        .then((data) => {
-          document.getElementById("main-layout").innerHTML = data;
-        });
-    </script>
-    <script src="../js/board.js"></script>
+    <script src="../js/board.js"></script>    
+    <script src="../js/desktop_template.js"></script>
+    <script src="../js/add_task.js"></script>
   </body>
 </html>
+

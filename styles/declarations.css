@@ -1,14 +1,14 @@
 .content-privacy {
     max-width: 1000px;
-    padding: 200px 0px 60px 322px;
+    padding: 180px 0px 60px 322px;
 }
 .content-legalnotice {
     max-width: 1000px;
-    padding: 200px 0px 60px 322px;
+    padding: 180px 0px 60px 322px;
 }
 .content-help {
     max-width: 1000px;
-    padding: 200px 0px 60px 322px;
+    padding: 180px 0px 60px 322px;
 }
 .highlight {
     color: var(--color-info-privacy);
@@ -68,4 +68,29 @@ li::marker {
     left: auto;
     right: auto;
     bottom: auto;
+}
+
+/* sidebar */
+
+.link-legal-notice {
+    background-color: var(--active-sidebar);
+    color: white;
+    font-weight: bold;
+    
+    pointer-events: none;
+}
+.link-privacy-policy {
+    background-color: var(--active-sidebar);
+    color: white;
+    font-weight: bold;
+    
+    pointer-events: none;
+}
+
+@view-transition {
+  navigation: auto;
+}
+
+.hidden {
+    display: none;
 }

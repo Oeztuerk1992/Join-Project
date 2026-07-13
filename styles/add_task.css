@@ -213,6 +213,45 @@ textarea:focus {
     border-color: #29ABE2;
 }
 
+.subtask-input {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    height: 48px;
+
+    border: 1px solid #D1D1D1;
+    border-radius: 10px;
+
+    padding: 0 12px;
+
+    background: white;
+}
+
+.subtask-input.active {
+    border-bottom: 2px solid #29ABE2;
+}
+
+.subtask-actions {
+    display: none;
+    align-items: center;
+    gap: 8px;
+}
+
+.subtask-input.active .subtask-actions {
+    display: flex;
+}
+
+.subtask-input.active .subtask-add-btn {
+    display: none;
+}
+
+.subtask-divider {
+    width: 1px;
+    height: 20px;
+    background: #D1D1D1;
+}
+
 textarea {
     resize: none;
     height: 120px;

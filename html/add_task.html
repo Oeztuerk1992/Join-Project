@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Add Task</title>
     <link rel="stylesheet" href="../styles/add_task.css" />
+    <link rel="stylesheet" href="../styles/sidebar.css" />
   </head>
   <body>
     <div class="app">
@@ -188,9 +189,27 @@
                 <div class="input-group">
                   <label>Subtasks</label>
 
-                  <div class="subtask-input">
-                    <input type="text" placeholder="Add new subtask" />
-                  </div>
+                  <div class="subtask-input active">
+
+    <input
+        type="text"
+        placeholder="Add new subtask">
+
+    <div class="subtask-actions">
+
+        <button>
+            <img src="../assets/icons/edit_delete/Property 1=close.svg">
+        </button>
+
+        <div class="subtask-divider"></div>
+
+        <button>
+            <img src="../assets/icons/edit_delete/Property 1=check.svg">
+        </button>
+
+    </div>
+
+</div>
                 </div>
               </div>
             </div>

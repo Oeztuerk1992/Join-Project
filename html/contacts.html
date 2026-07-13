@@ -10,19 +10,19 @@
     <link rel="stylesheet" href="../styles/contact.css" />
     <link
       rel="icon"
-      href="/assets/img/logo/favicon_light.svg"
+      href="../assets/img/logo/favicon_light.svg"
       media="(prefers-color-scheme: dark)"
       type="image/svg+xml"
     />
 
     <link
       rel="icon"
-      href="/assets/img/logo/favicon_dark.svg"
+      href="../assets/img/logo/favicon_dark.svg"
       media="(prefers-color-scheme: light)"
       type="image/svg+xml"
     />
   </head>
-  <body>
+  <body onload="initContacts()">
     <div id="main-layout">
       <div class="sidebar">
         <div class="sidebar-top">
@@ -56,9 +56,9 @@
                 />
                 <span>Board</span>
               </a>
-              <a class="nav-item" href="../html/contacts.html">
+              <a class="nav-item nav-active-contacts" href="../html/contacts.html">
                 <img
-                  src="../assets/icons/template/contacts-icon.svg"
+                  src="../assets/icons/template/contacts_active-icon.svg"
                   alt="img-contacts"
                 />
                 <span>Contacts</span>
@@ -78,16 +78,16 @@
             <span class="title-kanban">Kanban Project Management Tool</span>
           </div>
           <nav class="header-right">
-            <a href="help.html" title="Help" aria-label="Help">
-              <img
-                src="../assets/icons/help_icon.svg"
-                alt="Help"
-                class="header-help"
-              />
+            <a href="help.html" title="Help">
+                <img
+                  class="header-help"  
+                  src="../assets/icons/help_icon.svg"
+                  alt="help-img"
+                />
             </a>
             <button class="user-menu" onclick="toggleUserMenu()">
               <div class="circle">
-                <span class="user-initials">SM</span>
+                <span id="initials-user" class="user-initials"></span>
               </div>
             </button>
           </nav>
@@ -96,10 +96,9 @@
 
       <dialog id="user-nav" class="nav-user">
         <ul>
-          <li><a href="help.html">Help</a></li>
           <li><a href="legal_notice.html">Legal Notice</a></li>
           <li><a href="privacy_policy.html">Privacy Policy</a></li>
-          <li><a href="../index.html">Log out</a></li>
+          <li><a href="../index.html" onclick="logout()">Log out</a></li>
         </ul>
       </dialog>
     </div>
@@ -110,7 +109,7 @@
           Add new contact
           <img
             class="person_add"
-            src="/assets/icons/contact/person_add.png"
+            src="../assets/icons/contact/person_add.png"
             alt=""
           />
         </button>
@@ -142,7 +141,7 @@
     <div class="overlay" id="overlay">
       <div class="overlay-container">
         <div class="overlay-left">
-          <img class="join_logo" src="/assets/img/join-logo.png" alt="" />
+          <img class="join_logo" src="../assets/img/join-logo.png" alt="" />
           <span class="add_title">Add contact</span>
           <span class="p-tag">Tasks are better with a team!</span>
           <span class="line"></span>
@@ -150,7 +149,7 @@
         <div class="overlay-right">
           <span class="overlay-close" onclick="closeOverlay()">X</span>
           <div class="avatar-placeholder">
-            <img class="user" src="/assets/icons/contact/user.png" alt="" />
+            <img class="user" src="../assets/icons/contact/user.png" alt="" />
           </div>
           <div class="input-container">
             <div class="input-wrapper">
@@ -161,7 +160,7 @@
                 class="input-field"
               />
               <img
-                src="/assets/icons/contact/person.png"
+                src="../assets/icons/contact/person.png"
                 alt=""
                 class="input-icon"
               />
@@ -174,7 +173,7 @@
                 class="input-field"
               />
               <img
-                src="/assets/icons/contact/mail.png"
+                src="../assets/icons/contact/mail.png"
                 alt=""
                 class="input-icon"
               />
@@ -187,7 +186,7 @@
                 class="input-field"
               />
               <img
-                src="/assets/icons/contact/call.png"
+                src="../assets/icons/contact/call.png"
                 alt=""
                 class="input-icon"
               />
@@ -211,14 +210,14 @@
     <div class="overlay" id="overlayEdit">
       <div class="overlay-container">
         <div class="overlay-left">
-          <img class="join_logo" src="/assets/img/join-logo.png" alt="" />
+          <img class="join_logo" src="../assets/img/join-logo.png" alt="" />
           <span class="add_title">Edit contact</span>
           <span class="line"></span>
         </div>
         <div class="overlay-right">
           <span class="overlay-close" onclick="closeEditOverlay()">X</span>
           <div class="avatar-placeholder">
-            <img class="user" src="/assets/icons/contact/user.png" alt="" />
+            <img class="user" src="../assets/icons/contact/user.png" alt="" />
           </div>
           <div class="input-container">
             <div class="input-wrapper">
@@ -229,7 +228,7 @@
                 class="input-field"
               />
               <img
-                src="/assets/icons/contact/person.png"
+                src="../assets/icons/contact/person.png"
                 alt=""
                 class="input-icon"
               />
@@ -242,7 +241,7 @@
                 class="input-field"
               />
               <img
-                src="/assets/icons/contact/mail.png"
+                src="../assets/icons/contact/mail.png"
                 alt=""
                 class="input-icon"
               />
@@ -255,7 +254,7 @@
                 class="input-field"
               />
               <img
-                src="/assets/icons/contact/call.png"
+                src="../assets/icons/contact/call.png"
                 alt=""
                 class="input-icon"
               />

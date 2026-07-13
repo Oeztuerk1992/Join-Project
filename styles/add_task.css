@@ -351,3 +351,17 @@ textarea {
 
 .add-task-overlay.show .bottom-area {
         margin-top: 40px; }
+
+/* sidebar */
+
+.nav-active-task {
+    background-color: var(--active-sidebar);
+    color: white;
+    font-weight: bold;
+    
+    pointer-events: none;
+}
+
+@view-transition {
+  navigation: auto;
+}

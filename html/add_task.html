@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../styles/font.css" />
     <link rel="stylesheet" href="../styles/sidebar.css" />
   </head>
-  <body>
+  <body onload="initAddTask()">
     <div class="app">
 
       <div id="main-layout">
@@ -31,9 +31,9 @@
                   />
                   <span>Summary</span>
                 </a>
-                <a class="nav-item" href="../html/add_task.html">
+                <a class="nav-item nav-active-task" href="../html/add_task.html">
                   <img
-                    src="../assets/icons/template/add-task-icon.svg"
+                    src="../assets/icons/template/add-task_active-icon.svg"
                     alt="img-add-task"
                   />
                   <span>Add Task</span>
@@ -67,30 +67,29 @@
               <span class="title-kanban">Kanban Project Management Tool</span>
             </div>
             <nav class="header-right">
-              <a href="help.html" title="Help" aria-label="Help">
+              <a href="help.html" title="Help">
                 <img
+                  class="header-help"  
                   src="../assets/icons/help_icon.svg"
-                  alt="Help"
-                  class="header-help"
+                  alt="help-img"
                 />
               </a>
               <button class="user-menu" onclick="toggleUserMenu()">
                 <div class="circle">
-                  <span class="user-initials">SM</span>
+                  <span id="initials-user" class="user-initials"></span>
                 </div>
               </button>
             </nav>
           </div>
         </header>
   
-        <dialog id="user-nav" class="nav-user">
-          <ul>
-            <li><a href="help.html">Help</a></li>
-            <li><a href="legal_notice.html">Legal Notice</a></li>
-            <li><a href="privacy_policy.html">Privacy Policy</a></li>
-            <li><a href="../index.html">Log out</a></li>
-          </ul>
-        </dialog>
+      <dialog id="user-nav" class="nav-user">
+        <ul>
+          <li><a href="legal_notice.html">Legal Notice</a></li>
+          <li><a href="privacy_policy.html">Privacy Policy</a></li>
+          <li><a href="../index.html" onclick="logout()">Log out</a></li>
+        </ul>
+      </dialog>
       </div>
 
       <main class="content-addtask">
@@ -227,3 +226,4 @@
     <script src="../js/desktop_template.js"></script>
   </body>
 </html>
+

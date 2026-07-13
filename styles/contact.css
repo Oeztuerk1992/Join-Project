@@ -399,3 +399,17 @@ font-size: 27px;
 .edit, .delete{
     cursor: pointer;
 }
+
+/* sidebar */
+
+.nav-active-contacts {
+    background-color: var(--active-sidebar);
+    color: white;
+    font-weight: bold;
+    
+    pointer-events: none;
+}
+
+@view-transition {
+  navigation: auto;
+}

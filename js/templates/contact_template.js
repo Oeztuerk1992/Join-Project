@@ -1,7 +1,8 @@
-function createContactTemplate(capitalizedName, initials, email, randomColor, phone) {
+function createContactTemplate(capitalizedName, initials, email, randomColor, phone, id) {
     return `
     <div class="alphabet-divider"></div>
     <div class="contact-item"
+        data-id="${id}"
         data-name="${capitalizedName}"
         data-initials="${initials}"
         data-email="${email}"

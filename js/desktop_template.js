@@ -35,3 +35,22 @@ document.addEventListener("click", (event) => {
 function logout() {
     sessionStorage.clear();
 }
+
+function getUserProfile() {
+
+    if (loggedInUser === 'guest') {
+        userProfile.textContent = "G";
+    } else {
+
+    const name = loggedInUser.split(" ");
+    
+    const initials =
+        name[0][0].toUpperCase() +
+        (name.length > 1
+            ? name[name.length - 1][0].toUpperCase()
+            : '');
+
+    userProfile.textContent = initials;
+
+    }
+}

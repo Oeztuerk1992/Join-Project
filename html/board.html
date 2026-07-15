@@ -123,9 +123,7 @@
                     class="btn-search-task"
                     onclick="
                       filterAndShowCurrentTask(
-                        document.getElementById('input-text').value,
-                      )
-                    "
+                        document.getElementById('input-text').value)"
                   />
                 </div>
               </div>
@@ -144,10 +142,8 @@
                 onclick="openAddTaskOverlay()"
               ></button>
             </div>
-            <div class="kanban-content">
-              <div draggable="true" class="task"></div>
-              <div class="no-task-feedback">No tasks To do</div>
-            </div>
+            <div id="kanban-to-do" class="kanban-content" ondrop="moveTo('kanban-to-do'); removeHighlight()" ondragover="allowDrop(event); highlight('kanban-to-do')"></div>
+            <div id="empty-spot-drag"></div>
           </article>
           <article class="kanban-column">
             <div class="kanban-header">
@@ -157,10 +153,8 @@
                 onclick="openAddTaskOverlay()"
               ></button>
             </div>
-            <div class="kanban-content">
-              <div draggable="true" class="task"></div>
-              <div class="no-task-feedback">No tasks To do</div>
-            </div>
+            <div id="kanban-in-progress" class="kanban-content" ondrop="moveTo('kanban-in-progress'); removeHighlight()" ondragover="allowDrop(event); highlight('kanban-in-progress')"></div>
+            <div id="empty-spot-drag"></div>
           </article>
           <article class="kanban-column">
             <div class="kanban-header">
@@ -170,140 +164,17 @@
                 onclick="openAddTaskOverlay()"
               ></button>
             </div>
-            <div class="kanban-content">
-              <div draggable="true" class="task"></div>
-              <div class="no-task-feedback">No tasks To do</div>
-            </div>
+            <div id="kanban-feedback" class="kanban-content" ondrop="moveTo('kanban-feedback'); removeHighlight()" ondragover="allowDrop(event); highlight('kanban-feedback')"></div>
+            <div id="empty-spot-drag"></div>
           </article>
           <article class="kanban-column">
             <div class="kanban-header">
               <h2>Done</h2>
             </div>
-            <div class="kanban-content">
-              <div draggable="true" class="task"></div>
-              <div class="no-task-feedback">No tasks To do</div>
-            </div>
+            <div id="kanban-done" class="kanban-content" ondrop="moveTo('kanban-done'); removeHighlight()" ondragover="allowDrop(event); highlight('kanban-done')"></div>
+            <div id="empty-spot-drag"></div>
           </article>
         </section>
-        <section class="mini-card" id="card-mini" onclick="openTaskOverlay()">
-          <div class="frame-mini-card">
-            <header class="header-mini-card">
-              <h3 class="card-label" id="label-card">
-                <img
-                  src="../assets/icons/board/cards/cat_userstory.svg"
-                  alt="img-label-card"
-                />
-              </h3>
-              <h4 class="title-task" id="task-title">Contact Form & Imprint</h4>
-              <p class="description-task" id="task-description">
-                Create a contact form and imprint page...
-              </p>
-            </header>
-            <article class="container-subtask" id="subtask">
-              <div class="subtask-bar-wrapper" id="status-subtask">
-                <div class="subtask-bar"></div>
-              </div>
-              <div class="count-status" id="status-count">1/2 Subtasks</div>
-            </article>
-            <article class="responsibility-mini-card">
-              <div class="member-badge" id="badge-member">
-                <div class="user-abbr user1">AM</div>
-                <div class="user-abbr user2">EM</div>
-                <div class="user-abbr user3">MB</div>
-              </div>
-              <div class="priority-task" id="task-prio">
-                <img
-                  src="../assets/icons/board/cards/prio_high.svg"
-                  alt="img-prio"
-                />
-              </div>
-            </article>
-          </div>
-        </section>
-        <dialog id="task-overlay" class="view-task-overlay modal-class">
-          <div class="frame-view-task">
-            <header class="header-view-task">
-              <div class="headline-view-task">
-                <h3 class="card-label-view" id="label-card-view">
-                  <div class="user-label"></div>
-                </h3>
-                <button class="btn-close" onclick="closeTaskOverlay()"></button>
-              </div>
-              <h4 class="title-task-view" id="task-title-view">
-                Kochwelt Page & Recipe Recommender
-              </h4>
-              <p class="description-task-view" id="task-description-view">
-                Build start page with recipe recommendation.
-              </p>
-            </header>
-            <article class="set-responsibilities">
-              <div class="set-date">
-                <span class="due-date-text">Due date:</span>
-                <div class="due-date">10/05/2023</div>
-              </div>
-              <div class="set-priority">
-                <span class="priority-long-text">Priority:</span>
-                <div class="priority-long">
-                  <span class="text-long-prio">Medium</span>
-                  <div class="img-long-prio"></div>
-                </div>
-              </div>
-              <div class="assignment-to-user">
-                <span class="text-assigned">Assigned To:</span>
-                <div class="member-badge-view" id="badge-member-view">
-                  <div class="container-user">
-                    <div class="user-abbr">AM</div>
-                    <div class="name-to-badge">Anton Mayer</div>
-                  </div>
-                  <div class="container-user">
-                    <div class="user-abbr">EM</div>
-                    <div class="name-to-badge">Emmanuel Mauer</div>
-                  </div>
-                  <div class="container-user">
-                    <div class="user-abbr">MB</div>
-                    <div class="name-to-badge">Marcel Bauer</div>
-                  </div>
-                </div>
-              </div>
-            </article>
-            <article class="subtask-status">
-              <span class="title-subtask">Subtasks</span>
-              <div class="container-subtasks" id="subtasks-view">
-                <label class="container-checkbox">
-                  <div class="background-checkbox">
-                    <input type="checkbox" class="checkbox-subtask" />
-                  </div>
-                  <p class="description-subtask">
-                    Implement Recipe Recommendation
-                  </p>
-                </label>
-                <label class="container-checkbox">
-                  <div class="background-checkbox">
-                    <input type="checkbox" class="checkbox-subtask" />
-                  </div>
-                  <p class="description-subtask">Start Page Layout</p>
-                </label>
-              </div>
-            </article>
-            <article class="edit-btn">
-              <div class="frame-edit-btn">
-                <button class="delete-task-view">
-                  <figure class="container-img-delete">
-                    <div class="img-delete"></div>
-                    <figcaption class="text-delete">Delete</figcaption>
-                  </figure>
-                </button>
-                <div class="seperator-view-task"></div>
-                <button class="edit-task-view" onclick="getEditOverlay()">
-                  <figure class="container-img-edit">
-                    <div class="img-edit"></div>
-                    <figcaption class="text-edit">Edit</figcaption>
-                  </figure>
-                </button>
-              </div>
-            </article>
-          </div>
-        </dialog>
         <dialog id="edit-overlay" class="edit-task-overlay modal-class">
           <div class="frame-view-edit-task">
             <header class="header-form">
@@ -533,7 +404,7 @@
     </div>
     <script src="../js/board.js"></script>    
     <script src="../js/desktop_template.js"></script>
+    <script src="../js/templates/board_template.js"></script>
     <script src="../js/add_task.js"></script>
   </body>
 </html>
-

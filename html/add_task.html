@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Add Task</title>
-        <link
+    <link
       rel="icon"
       href="../assets/img/logo/favicon_light.svg"
       media="(prefers-color-scheme: dark)"
@@ -20,10 +20,10 @@
     <link rel="stylesheet" href="../styles/colors.css" />
     <link rel="stylesheet" href="../styles/font.css" />
     <link rel="stylesheet" href="../styles/sidebar.css" />
+    <script src="../js/add_task.js"></script>
   </head>
   <body onload="initAddTask()">
     <div class="app">
-
       <div id="main-layout">
         <div class="sidebar">
           <div class="sidebar-top">
@@ -43,7 +43,10 @@
                   />
                   <span>Summary</span>
                 </a>
-                <a class="nav-item nav-active-task" href="../html/add_task.html">
+                <a
+                  class="nav-item nav-active-task"
+                  href="../html/add_task.html"
+                >
                   <img
                     src="../assets/icons/template/add-task_active-icon.svg"
                     alt="img-add-task"
@@ -72,7 +75,7 @@
             <a href="legal_notice.html">Legal notice</a>
           </div>
         </div>
-  
+
         <header class="header">
           <div class="container-header">
             <div class="header-left">
@@ -81,7 +84,7 @@
             <nav class="header-right">
               <a href="help.html" title="Help">
                 <img
-                  class="header-help"  
+                  class="header-help"
                   src="../assets/icons/help_icon.svg"
                   alt="help-img"
                 />
@@ -94,14 +97,14 @@
             </nav>
           </div>
         </header>
-  
-      <dialog id="user-nav" class="nav-user">
-        <ul>
-          <li><a href="legal_notice.html">Legal Notice</a></li>
-          <li><a href="privacy_policy.html">Privacy Policy</a></li>
-          <li><a href="../index.html" onclick="logout()">Log out</a></li>
-        </ul>
-      </dialog>
+
+        <dialog id="user-nav" class="nav-user">
+          <ul>
+            <li><a href="legal_notice.html">Legal Notice</a></li>
+            <li><a href="privacy_policy.html">Privacy Policy</a></li>
+            <li><a href="../index.html" onclick="logout()">Log out</a></li>
+          </ul>
+        </dialog>
       </div>
 
       <main class="content-addtask">
@@ -116,14 +119,21 @@
                 <div class="input-group">
                   <label>Title<span>*</span></label>
 
-                  <input type="text" placeholder="Enter a title" />
+                  <input
+                    type="text"
+                    id="taskTitle"
+                    placeholder="Enter a title"
+                  />
                 </div>
 
                 <div class="input-group">
                   <label>Description</label>
 
                   <div class="textarea-wrapper">
-                    <textarea placeholder="Enter a Description"></textarea>
+                    <textarea
+                      id="taskDescription"
+                      placeholder="Enter a Description"
+                    ></textarea>
 
                     <img
                       class="textarea-icon"
@@ -136,7 +146,7 @@
                 <div class="input-group">
                   <label>Due date<span>*</span></label>
 
-                  <input type="date" />
+                  <input type="date" id="taskDate" />
                 </div>
               </div>
 
@@ -188,114 +198,135 @@
                 </div>
 
                 <div class="input-group">
+                  <label>Assigned to</label>
 
-    <label>Assigned to</label>
+                  <div class="dropdown-container">
+                    <div class="dropdown" onclick="toggleDropdown()">
+                      <span>Select contacts to assign</span>
 
-    <div class="dropdown-container">
+                      <img
+                        id="dropdownArrow"
+                        src="../assets/icons/dropdown/Property 1=Default.svg"
+                        alt=""
+                      />
+                    </div>
 
-        <div class="dropdown" onclick="toggleDropdown()">
+                    <div id="dropdownMenu" class="dropdown-menu">
+                      <div class="dropdown-item">
+                        <div class="contact-info">
+                          <div class="contact-circle blue">TK</div>
 
-            <span>Select contacts to assign</span>
+                          <span>Testkontakt 1</span>
+                        </div>
+
+                        <input type="checkbox" />
+                      </div>
+
+                      <div class="dropdown-item">
+                        <div class="contact-info">
+                          <div class="contact-circle orange">TM</div>
+
+                          <span>Testkontakt 2</span>
+                        </div>
+
+                        <input type="checkbox" />
+                      </div>
+
+                      <div class="dropdown-item">
+                        <div class="contact-info">
+                          <div class="contact-circle purple">TS</div>
+
+                          <span>Testkontakt 3</span>
+                        </div>
+
+                        <input type="checkbox" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="input-group">
+
+    <label>Category<span>*</span></label>
+
+
+    <div class="dropdown-container category-dropdown">
+
+
+        <div class="dropdown" onclick="toggleCategoryDropdown()">
+
+            <span id="selectedCategory">
+                Select task category
+            </span>
+
 
             <img
-                id="dropdownArrow"
+                id="categoryArrow"
                 src="../assets/icons/dropdown/Property 1=Default.svg"
-                alt="">
+                alt=""
+            />
 
         </div>
 
-        <div id="dropdownMenu" class="dropdown-menu">
 
-            <div class="dropdown-item">
 
-                <div class="contact-info">
+        <div id="categoryMenu" class="dropdown-menu">
 
-                    <div class="contact-circle blue">
-                        TK
-                    </div>
 
-                    <span>Testkontakt 1</span>
+            <div 
+                class="dropdown-item category-item"
+                onclick="selectCategory('Technical Task')"
+            >
 
-                </div>
-
-                <input type="checkbox">
+                <span>
+                    Technical Task
+                </span>
 
             </div>
 
-            <div class="dropdown-item">
 
-                <div class="contact-info">
 
-                    <div class="contact-circle orange">
-                        TM
-                    </div>
+            <div 
+                class="dropdown-item category-item"
+                onclick="selectCategory('User Story')"
+            >
 
-                    <span>Testkontakt 2</span>
-
-                </div>
-
-                <input type="checkbox">
+                <span>
+                    User Story
+                </span>
 
             </div>
 
-            <div class="dropdown-item">
-
-                <div class="contact-info">
-
-                    <div class="contact-circle purple">
-                        TS
-                    </div>
-
-                    <span>Testkontakt 3</span>
-
-                </div>
-
-                <input type="checkbox">
-
-            </div>
 
         </div>
+
 
     </div>
 
 </div>
-
-                <div class="input-group">
-                  <label>Category<span>*</span></label>
-
-                  <div class="dropdown">
-                    <span>Select task category</span>
-
-                    <img
-                      src="../assets/icons/dropdown/Property 1=Default.svg"
-                    />
-                  </div>
-                </div>
 
                 <div class="input-group">
                   <label>Subtasks</label>
 
                   <div class="subtask-input active">
+                    <input type="text" placeholder="Add new subtask" />
 
-    <input
-        type="text"
-        placeholder="Add new subtask">
+                    <div class="subtask-actions">
+                      <button>
+                        <img
+                          src="../assets/icons/edit_delete/Property 1=close.svg"
+                        />
+                      </button>
 
-    <div class="subtask-actions">
+                      <div class="subtask-divider"></div>
 
-        <button>
-            <img src="../assets/icons/edit_delete/Property 1=close.svg">
-        </button>
-
-        <div class="subtask-divider"></div>
-
-        <button>
-            <img src="../assets/icons/edit_delete/Property 1=check.svg">
-        </button>
-
-    </div>
-
-</div>
+                      <button>
+                        <img
+                          src="../assets/icons/edit_delete/Property 1=check.svg"
+                        />
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -306,25 +337,14 @@
               <div class="button-area">
                 <button type="reset" class="clear-btn">Clear</button>
 
-                <button type="submit" class="create-btn">Create Task</button>
+                <button onclick="createTask()" type="button" class="create-btn">
+                  Create Task
+                </button>
               </div>
             </div>
           </form>
         </section>
       </main>
     </div>
-    <script>
-      function toggleDropdown() {
-
-    document
-        .getElementById("dropdownMenu")
-        .classList.toggle("show");
-
-    document
-        .getElementById("dropdownArrow")
-        .classList.toggle("rotate");
-}
-    </script>
   </body>
 </html>
-

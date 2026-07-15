@@ -1,7 +1,8 @@
-function createContactTemplate(capitalizedName, initials, email, randomColor, phone) {
+function createContactTemplate(capitalizedName, initials, email, randomColor, phone, id) {
     return `
     <div class="alphabet-divider"></div>
     <div class="contact-item"
+        data-id="${id}"
         data-name="${capitalizedName}"
         data-initials="${initials}"
         data-email="${email}"
@@ -38,8 +39,8 @@ function showContact(el) {
             <div class="contact-detail-name">
                 <span class="nameUser">${name}</span>
                 <div class="contact-detail-actions">
-                    <span class="edit" onclick="openEditOverlay()">Edit</span>
-                    <span class="delete" onclick="deleteContact()">Delete</span>
+                    <span class="edit" onclick="openEditOverlay()"><img src="../assets/icons/contact/edit.png" alt="edit"></span>
+                    <span class="delete" onclick="deleteContact()"><img src="../assets/icons/contact/delete.png" alt="delete"></span>
                 </div>
             </div>
         </div>

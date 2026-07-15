@@ -27,14 +27,28 @@ function closeOverlay(){
 
 function getRandomColor() {
     const colors = [];
-    for (let colorIndex = 1; colorIndex <= 15; colorIndex++) colors.push(`var(--badge-color-${colorIndex})`);
+    for (let colorNumber = 1; colorNumber <= 15; colorNumber++) colors.push(`var(--badge-color-${colorNumber})`);
     return colors[Math.floor(Math.random() * colors.length)];
 }
 
+function capitalizeName(name) {
+    const words = name.split(' ');
+    const capitalizedWords = words.map(word => word.charAt(0).toUpperCase() + word.slice(1));
+    return capitalizedWords.join(' ');
+}
+
+function getInitials(capitalizedName) {
+    const words = capitalizedName.split(' ');
+    const firstLetters = words.map(word => word.charAt(0));
+    return firstLetters.join('');
+}
+
 function buildContact(name) {
-    const capitalizedName = name.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-    const initials = capitalizedName.split(' ').map(w => w.charAt(0)).join('');
-    return { capitalizedName, initials, email: emailInput.value.trim(), phone: phoneInput.value.trim(), randomColor: getRandomColor() };
+    const capitalizedName = capitalizeName(name);
+    const initials = getInitials(capitalizedName);
+    const email = emailInput.value.trim();
+    const phone = phoneInput.value.trim();
+    return { capitalizedName, initials, email, phone, randomColor: getRandomColor() };
 }
 
 function clearInputs(){
@@ -43,35 +57,90 @@ function clearInputs(){
     phoneInput.value = '';
 }
 
-function createContact() {
-    const name = nameInput.value.trim();
-    if (!name || !emailInput.value.trim() || !phoneInput.value.trim()) {
+function inputsAreValid() {
+    if (!nameInput.value.trim() || !emailInput.value.trim() || !phoneInput.value.trim()) {
         alert('Please fill in all fields.');
-        return;
+        return false;
     }
-    const exists = contacts.find(c => c.email === emailInput.value.trim());
+    return true;
+}
+
+function emailAlreadyExists() {
+    const exists = contacts.find(contact => contact.email === emailInput.value.trim());
     if (exists) {
         alert('Contact with this email already exists.');
-        return;
+        return true;
     }
-    contacts.push(buildContact(name));
-    contacts.sort((a, b) => a.capitalizedName.localeCompare(b.capitalizedName));
+    return false;
+}
+
+async function postContactToFirebase(contact) {
+    let response = await fetch(BASE_URL + "contacts.json", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(contact)
+    });
+    return await response.json();
+}
+
+async function createContact() {
+    if (!inputsAreValid()) return;
+    if (emailAlreadyExists()) return;
+    const newContact = buildContact(nameInput.value.trim());
+    const result = await postContactToFirebase(newContact);
+    newContact.id = result.name;
+    contacts.push(newContact);
+    sortContacts();
     renderContacts();
     closeOverlay();
     clearInputs();
 }
 
+async function loadContactsFromFirebase() {
+    let response = await fetch(BASE_URL + "contacts.json");
+    let data = await response.json();
+    contacts = [];
+    if (data) fillContactsList(data);
+    sortContacts();
+    renderContacts();
+}
+
+function fillContactsList(data) {
+    const keys = Object.keys(data);
+    for (let keyIndex = 0; keyIndex < keys.length; keyIndex++) {
+        const contact = data[keys[keyIndex]];
+        contact.id = keys[keyIndex];
+        contacts.push(contact);
+    }
+}
+
+function sortContacts() {
+    contacts.sort((a, b) => a.capitalizedName.localeCompare(b.capitalizedName));
+}
+
 function renderContacts(){
     newContactMessage.innerHTML = '';
     let currentLetter = '';
-    for(let contactIndex = 0; contactIndex < contacts.length; contactIndex++){
-        const letter = contacts[contactIndex].capitalizedName.charAt(0);
-        if(letter !== currentLetter){
-            currentLetter = letter;
-            newContactMessage.innerHTML += createLetterTemplate(letter); 
-        }
-        newContactMessage.innerHTML += createContactTemplate(contacts[contactIndex].capitalizedName, contacts[contactIndex].initials, contacts[contactIndex].email, contacts[contactIndex].randomColor, contacts[contactIndex].phone);
+    for (let contactIndex = 0; contactIndex < contacts.length; contactIndex++) {
+        const contact = contacts[contactIndex];
+        currentLetter = renderLetterIfNew(contact, currentLetter);
+        newContactMessage.innerHTML += buildContactHtml(contact);
     }
+}
+
+function renderLetterIfNew(contact, currentLetter) {
+    const letter = contact.capitalizedName.charAt(0);
+    if (letter !== currentLetter) {
+        newContactMessage.innerHTML += createLetterTemplate(letter);
+        return letter;
+    }
+    return currentLetter;
+}
+
+function buildContactHtml(contact) {
+    return createContactTemplate(contact.capitalizedName, contact.initials, contact.email, contact.randomColor, contact.phone, contact.id);
 }
 
 function openEditOverlay() {
@@ -89,23 +158,52 @@ function closeEditOverlay() {
     setTimeout(() => overlay.style.display = 'none', 300);
 }
 
-function saveContact() {
-    const index = contacts.findIndex(c => c.capitalizedName === activeContact.name);
-    contacts[index].capitalizedName = document.getElementById('edit-name').value.trim();
-    contacts[index].email = document.getElementById('edit-email').value.trim();
-    contacts[index].phone = document.getElementById('edit-phone').value.trim();
-    contacts.sort((a, b) => a.capitalizedName.localeCompare(b.capitalizedName));
-    renderContacts();
-    closeEditOverlay();
-    const updatedName = contacts[index].capitalizedName;
-    const updatedEl = document.querySelector(`[data-name="${updatedName}"]`);
-    showContact(updatedEl);
+async function putContactToFirebase(id, contact) {
+    let response = await fetch(BASE_URL + "contacts/" + id + ".json", {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(contact)
+    });
+    return await response.json();
 }
 
-function deleteContact() {
-    const index = contacts.findIndex(c => c.capitalizedName === activeContact.name);
+function readEditInputs() {
+    const newName = document.getElementById('edit-name').value.trim();
+    const initials = getInitials(newName);
+    const email = document.getElementById('edit-email').value.trim();
+    const phone = document.getElementById('edit-phone').value.trim();
+    return { capitalizedName: newName, initials, email, phone };
+}
+
+async function saveContact() {
+    const id = activeContact.id;
+    const index = contacts.findIndex(contact => contact.id === id);
+    const edited = readEditInputs();
+    edited.randomColor = contacts[index].randomColor;
+    contacts[index] = { ...edited, id };
+    await putContactToFirebase(id, edited);
+    sortContacts();
+    renderContacts();
+    closeEditOverlay();
+    showContact(document.querySelector(`[data-id="${id}"]`));
+}
+
+async function deleteContactFromFirebase(id) {
+    await fetch(BASE_URL + "contacts/" + id + ".json", {
+        method: "DELETE"
+    });
+}
+
+async function deleteContact() {
+    const id = activeContact.id;
+    const index = contacts.findIndex(contact => contact.id === id);
+    await deleteContactFromFirebase(id);
     contacts.splice(index, 1);
     document.querySelector('.contact-detail-panel').innerHTML = '';
     activeContact = null;
     renderContacts();
 }
+
+loadContactsFromFirebase();

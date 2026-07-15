@@ -204,7 +204,7 @@ body {
 
 .user-initials {
     color: var(--color-info-privacy);
-    font-size: 16px;
+    font-size: 20px;
     font-weight: bold;
     
     display: flex;
@@ -275,6 +275,7 @@ body {
     justify-content: center;
     align-items: center;
 }
+
 
 
 

@@ -27,12 +27,15 @@ function openOverlay(){
     }, 10);
 }
 
-function closeOverlay(){
+function closeOverlay() {
     const overlay = document.getElementById('overlay');
     overlay.classList.remove('open');
     setTimeout(() => {
         overlay.style.display = 'none';
     }, 300);
+    document.getElementById('name').value = '';
+    document.getElementById('email').value = '';
+    document.getElementById('phone').value = '';
 }
 
 function getRandomColor() {
@@ -212,7 +215,9 @@ async function deleteContact() {
     await deleteContactFromFirebase(id);
     contacts.splice(index, 1);
     document.querySelector('.contact-detail-panel').innerHTML = '';
+    closeEditOverlay();
     activeContact = null;
+    activeContactEl = null;
     renderContacts();
 }
 

@@ -7,6 +7,20 @@ let contacts = [];
 
 function initContacts() {
     getUserProfile();
+    initScrollbar();
+    const overlay = document.getElementById('overlay');
+    overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) {
+            closeOverlay();
+        }
+    });
+    
+    const overlayEdit = document.getElementById('overlayEdit');
+    overlayEdit.addEventListener('click', function(e) {
+        if (e.target === overlayEdit) {
+            closeEditOverlay();
+        }
+    });
 }
 
 function getUserProfile() {
@@ -141,6 +155,21 @@ function renderContacts(){
         currentLetter = renderLetterIfNew(contact, currentLetter);
         newContactMessage.innerHTML += buildContactHtml(contact);
     }
+    const liste = document.querySelector('.new-contact');
+    const divider = document.querySelector('.divider');
+     if (liste.scrollHeight > liste.clientHeight) {
+        divider.style.display = 'flex';
+    } else {
+        divider.style.display = 'none';
+    }
+}
+
+function scrollToTop() {
+    document.querySelector('.new-contact').scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function scrollToBottom() {
+    document.querySelector('.new-contact').scrollTo({top: 99999, behavior: 'smooth'});
 }
 
 function renderLetterIfNew(contact, currentLetter) {
@@ -160,6 +189,9 @@ function openEditOverlay() {
     document.getElementById('edit-name').value = activeContact.name;
     document.getElementById('edit-email').value = activeContact.email;
     document.getElementById('edit-phone').value = activeContact.phone;
+    const avatar = document.getElementById('edit-avatar');
+    avatar.innerHTML = activeContact.initials;
+    avatar.style.backgroundColor = activeContact.color;
     const overlay = document.getElementById('overlayEdit');
     overlay.style.display = 'flex';
     setTimeout(() => overlay.classList.add('open'), 10);
@@ -219,6 +251,18 @@ async function deleteContact() {
     activeContact = null;
     activeContactEl = null;
     renderContacts();
+}
+
+function initScrollbar() {
+    const liste = document.querySelector('.new-contact');
+    const thumb = document.querySelector('.custom-thumb');
+    const leiste = document.querySelector('.custom-scrollbar');
+    thumb.style.height = '56px';
+    liste.addEventListener('scroll', function() {
+        const scrollProzent = liste.scrollTop / (liste.scrollHeight - liste.clientHeight);
+        const thumbPosition = scrollProzent * (leiste.clientHeight - 56);
+        thumb.style.top = thumbPosition + 'px';
+    });
 }
 
 loadContactsFromFirebase();

@@ -3,7 +3,8 @@ const emailInput = document.getElementById('email');
 const phoneInput = document.getElementById('phone');
 const newContactMessage = document.getElementById('new-contact-message');
 let contacts = [];
-
+let activeContact = null;
+let activeContactEl = null;
 
 function initContacts() {
     getUserProfile();
@@ -66,6 +67,32 @@ function buildContact(name) {
     const email = emailInput.value.trim();
     const phone = phoneInput.value.trim();
     return { capitalizedName, initials, email, phone, randomColor: getRandomColor() };
+}
+
+function showContact(el) {
+    if (activeContact) {
+        activeContactEl.classList.remove('active');
+    }
+    
+    activeContactEl = el;
+    el.classList.add('active');
+    activeContact = el.dataset;
+
+    const panel = document.querySelector('.contact-detail-panel');
+    panel.classList.remove('visible');
+
+    setTimeout(function() {
+        panel.innerHTML = createContactDetailTemplate(
+            activeContact.name,
+            activeContact.initials,
+            activeContact.email,
+            activeContact.phone,
+            activeContact.color
+        );
+        setTimeout(function() {
+            panel.classList.add('visible');
+        }, 10);
+    }, 200);
 }
 
 function clearInputs(){
@@ -148,10 +175,11 @@ function renderContacts(){
     const liste = document.querySelector('.new-contact');
     const divider = document.querySelector('.divider');
      if (liste.scrollHeight > liste.clientHeight) {
-        divider.style.display = 'flex';
+        divider.style.visibility = 'visible';
     } else {
-        divider.style.display = 'none';
+        divider.style.visibility = 'hidden';
     }
+    initScrollbar();
 }
 
 function scrollToTop() {
@@ -247,12 +275,20 @@ function initScrollbar() {
     const liste = document.querySelector('.new-contact');
     const thumb = document.querySelector('.custom-thumb');
     const leiste = document.querySelector('.custom-scrollbar');
+    
     thumb.style.height = '56px';
-    liste.addEventListener('scroll', function() {
-        const scrollProzent = liste.scrollTop / (liste.scrollHeight - liste.clientHeight);
-        const thumbPosition = scrollProzent * (leiste.clientHeight - 56);
-        thumb.style.top = thumbPosition + 'px';
-    });
+    liste.removeEventListener('scroll', updateScrollbar);
+    liste.addEventListener('scroll', updateScrollbar);
+}
+
+function updateScrollbar() {
+    const liste = document.querySelector('.new-contact');
+    const thumb = document.querySelector('.custom-thumb');
+    const leiste = document.querySelector('.custom-scrollbar');
+    
+    const scrollProzent = liste.scrollTop / (liste.scrollHeight - liste.clientHeight);
+    const thumbPosition = scrollProzent * (leiste.clientHeight - 56);
+    thumb.style.top = thumbPosition + 'px';
 }
 
 loadContactsFromFirebase();

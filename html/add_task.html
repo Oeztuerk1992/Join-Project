@@ -160,9 +160,10 @@
 
                   <div class="priority-container">
                     <button
+                    id="urgent"
                       type="button"
                       class="priority urgent"
-                      onclick="this.classList.toggle('active')"
+                      onclick="setPriority(this)"
                     >
                       <span>Urgent</span>
                       <img
@@ -172,9 +173,10 @@
                     </button>
 
                     <button
+                    id="medium"
                       type="button"
                       class="priority medium"
-                      onclick="this.classList.toggle('active')"
+                      onclick="setPriority(this)"
                     >
                       <span>Medium</span>
                       <img
@@ -184,9 +186,10 @@
                     </button>
 
                     <button
+                    id="low"
                       type="button"
                       class="priority low"
-                      onclick="this.classList.toggle('active')"
+                      onclick="setPriority(this)"
                     >
                       <span>Low</span>
                       <img
@@ -212,35 +215,7 @@
                     </div>
 
                     <div id="dropdownMenu" class="dropdown-menu">
-                      <div class="dropdown-item">
-                        <div class="contact-info">
-                          <div class="contact-circle blue">TK</div>
-
-                          <span>Testkontakt 1</span>
-                        </div>
-
-                        <input type="checkbox" />
-                      </div>
-
-                      <div class="dropdown-item">
-                        <div class="contact-info">
-                          <div class="contact-circle orange">TM</div>
-
-                          <span>Testkontakt 2</span>
-                        </div>
-
-                        <input type="checkbox" />
-                      </div>
-
-                      <div class="dropdown-item">
-                        <div class="contact-info">
-                          <div class="contact-circle purple">TS</div>
-
-                          <span>Testkontakt 3</span>
-                        </div>
-
-                        <input type="checkbox" />
-                      </div>
+                      
                     </div>
                   </div>
                 </div>

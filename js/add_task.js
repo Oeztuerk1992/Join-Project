@@ -1,5 +1,24 @@
-function initAddTask() {
-  getUserProfile();
+const BASE_URL = "https://remotestoragejoin-8faac-default-rtdb.europe-west1.firebasedatabase.app/";
+
+
+
+async function initAddTask() {
+        await loadContacts();
+
+    getUserProfile();
+
+
+}
+
+function setPriority(selectedButton) {
+
+    let buttons = document.querySelectorAll(".priority");
+
+    buttons.forEach(button => {
+        button.classList.remove("active");
+    });
+
+    selectedButton.classList.add("active");
 }
 
 function toggleDropdown() {
@@ -68,7 +87,6 @@ function closeAddTaskOverlay() {
   document.getElementById("add-task-overlay").classList.remove("show");
 }
 
-const BASE_URL = "https://remotestoragejoin-8faac-default-rtdb.europe-west1.firebasedatabase.app/";
 
 async function postTaskData(task) {
 
@@ -127,25 +145,17 @@ function getAssignedUsers() {
     let assignedUsers = [];
 
     let checkedUsers = document.querySelectorAll(
-        ".dropdown-item input[type='checkbox']:checked"
+        "#dropdownMenu input[type='checkbox']:checked"
     );
 
-
     checkedUsers.forEach(user => {
-
-        let userName = user
-            .closest(".dropdown-item")
-            .querySelector(".contact-info span")
-            .innerText;
-
-
-        assignedUsers.push(userName);
-
+        assignedUsers.push(user.value);
     });
-
 
     return assignedUsers;
 }
+
+
 
 function getCategory(){
 
@@ -185,6 +195,47 @@ function getSubtasks() {
     return subtasks;
 }
 
+async function loadContacts() {
+    let response = await fetch(BASE_URL + "contacts.json");
+    let contacts = await response.json();
+    renderContacts(contacts);
+}
 
+function renderContacts(contacts) {
+
+    let dropdownMenu = document.getElementById("dropdownMenu");
+
+    dropdownMenu.innerHTML = "";
+
+    for (const id in contacts) {
+
+        let contact = contacts[id];
+
+        dropdownMenu.innerHTML += `
+            <div class="dropdown-item">
+
+                <div class="contact-info">
+
+                    <div
+                        class="contact-circle"
+                        style="background:${contact.randomColor};">
+
+                        ${contact.initials}
+
+                    </div>
+
+                    <span>${contact.capitalizedName}</span>
+
+                </div>
+
+                <input
+                    type="checkbox"
+                    value="${id}"
+                >
+
+            </div>
+        `;
+    }
+}
 
 

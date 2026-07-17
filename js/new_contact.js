@@ -23,16 +23,6 @@ function initContacts() {
     });
 }
 
-function getUserProfile() {
-    if (loggedInUser === 'guest') {
-        userProfile.textContent = "G";
-    } else {
-    const name = loggedInUser.split(" ");
-    const initials = name[0][0].toUpperCase() + name[1][0].toUpperCase();
-    userProfile.textContent = initials;
-    }
-}
-
 function openOverlay(){
     const overlay = document.getElementById('overlay');
     overlay.style.display = 'flex';

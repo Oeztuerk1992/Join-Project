@@ -100,16 +100,21 @@ function checkPrivacyPolicy() {
 }
 
 async function registerNewUser() {
+    const capitalize = (str) => {
+        const lower = str.toLowerCase();
+        return lower.charAt(0).toUpperCase() + lower.slice(1);
+    };
+
     const fullName = document.getElementById('signup-name').value.trim();
     const nameParts = fullName.split(/\s+/);
 
-    const lastName = nameParts.pop();
-    const firstName = nameParts.join(' ');
+    const lastName = capitalize(nameParts.pop());
+    const firstName = nameParts.map(capitalize).join(' ');
 
     signUpNewUser.push({
         name: {
-            firstName: firstName,
-            lastName: lastName,
+            firstName,
+            lastName,
         },
         mail: document.getElementById('signup-mail').value,
         password: document.getElementById('signup-pw').value
@@ -118,6 +123,7 @@ async function registerNewUser() {
     await prepareUserDataForPost(signUpNewUser);
     showSignupConfirmation();
 }
+
 
 // confirmation info shows up //
 

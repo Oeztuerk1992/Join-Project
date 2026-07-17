@@ -45,21 +45,6 @@ function checkForHelpBtn() {
     helpBtn.style.display = 'none';
 }
 
-function getUserProfile() {
-
-    if (loggedInUser === null) {
-        return;
-    }
-
-    if (loggedInUser === 'guest') {
-        userProfile.textContent = "G";
-    } else {
-        const name = loggedInUser.split(" ");
-        const initials = name[0][0].toUpperCase() + name[1][0].toUpperCase();
-        userProfile.textContent = initials;
-    }
-}
-
 // functions for help-html //
 
 function goBack() {

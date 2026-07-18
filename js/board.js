@@ -1,7 +1,5 @@
 // variables //
 
-const editOverlay = document.getElementById('edit-overlay');
-
 const placeholder = document.getElementById('empty-spot-drag');
 
 let currentDraggedElement;
@@ -11,8 +9,8 @@ let tasks = [
         id: 0,
         'taskStatus': 'Await feedback',
         'category': 'User Story',
-        'title': 'Contact Form & Imprint',
-        'description': 'Define CSS naming conventions and structure.',
+        'title': 'Kochwelt Page & Recipe Recommender',
+        'description': 'Define CSS naming conventions and structure fdfdfdfdfdfdfdfddfdfdfd.',
         'dueDate': '30.07.2026',
         'priority': 'Urgent',
         'assignedTo': [
@@ -23,16 +21,20 @@ let tasks = [
             {
                 name: 'Max Mustermann',
                 color: '--badge-color-2'
+            },
+            {
+                name: 'Wolfgang Ball',
+                color: '--badge-color-3'
             }
         ],
         subtasks: [
             {
                 title: 'Create layout',
-                status: 'Done'
+                status: 'open'
             },
             {
                 title: 'Implement form',
-                status: 'Open'
+                status: 'done'
             }
         ]
     },
@@ -40,8 +42,8 @@ let tasks = [
         id: 1,
         'taskStatus': 'To do',
         'category': 'User Story',
-        'title': 'Contact Form & Imprint',
-        'description': 'Define CSS naming conventions and structure.',
+        'title': 'Contact Form & Imprint ddddddddddeeeeeeeeeeeeeeeeeeeeeeed',
+        'description': 'Define CSS naming conventions and structuredddddddddddddddddddd.',
         'dueDate': '30.07.2026',
         'priority': 'Urgent',
         'assignedTo': [
@@ -57,11 +59,11 @@ let tasks = [
         subtasks: [
             {
                 title: 'Create layout',
-                status: 'Done'
+                status: 'done'
             },
             {
                 title: 'Implement form',
-                status: 'Open'
+                status: 'open'
             }
         ]
     },
@@ -86,11 +88,11 @@ let tasks = [
         subtasks: [
             {
                 title: 'Create layout',
-                status: 'Done'
+                status: 'done'
             },
             {
                 title: 'Implement form',
-                status: 'Open'
+                status: 'done'
             }
         ]
     },
@@ -119,11 +121,11 @@ let tasks = [
         subtasks: [
             {
                 title: 'Create layout',
-                status: 'Open'
+                status: 'open'
             },
             {
                 title: 'Implement form',
-                status: 'Open'
+                status: 'open'
             }
         ]
     }];
@@ -190,7 +192,7 @@ function getImgPrio(priority) {
             <img src="../assets/icons/board/cards/prio_high.svg" alt="img-prio-high">`
 }
 
-function getAssignedContacts(contacts) {
+function getAssignedContactBadges(contacts) {
     return contacts.map(contact => {
         const parts = contact.name.split(' ');
 
@@ -211,7 +213,7 @@ function getStatusSubtasks(subtasks) {
     let numberOfDoneSubtasks = 0;
 
     for (let index = 0; index < subtasks.length; index++) {
-        if (subtasks[index].status === 'Done') {
+        if (subtasks[index].status === 'done') {
             numberOfDoneSubtasks++;
         }
     }
@@ -223,7 +225,7 @@ function getSubtaskProgress(subtasks) {
     let done = 0;
 
     for (let index = 0; index < subtasks.length; index++) {
-        if (subtasks[index].status === 'Done') {
+        if (subtasks[index].status === 'done') {
             done++;
         }
     }
@@ -305,24 +307,113 @@ function openTaskOverlay(id) {
 
         dialog = document.getElementById(`task-overlay-${id}`);
     }
-
     dialog.showModal();
+    
+    dialog.classList.remove('modal-exit');
+    
+    requestAnimationFrame(() => {
+        dialog.classList.add('modal-enter');
+    });
 }
 
 function closeTaskOverlay(id) {
+    const taskOverlay = document.getElementById(`task-overlay-${id}`);
+
+    taskOverlay.classList.remove('modal-enter');
+    taskOverlay.classList.add('modal-exit');
+
+    taskOverlay.addEventListener(
+        'animationend',
+        () => {
+            taskOverlay.close();
+            taskOverlay.classList.remove('modal-exit');
+        },
+        { once: true }
+    );
+}
+
+function closeTaskOverlayNoAnimation(id) {
 
     const taskOverlay = document.getElementById(`task-overlay-${id}`);
 
     taskOverlay.close();
 }
 
-// Edit Overlay //
 
-function getEditOverlay() {
-    taskOverlay.close();
-    editOverlay.showModal();
+function getAssignedContactNames(contacts) {
+    
+    return contacts.map(contact => {
+        const usernames = contact.name;
+
+        return `<div class="contact-names-overlay">
+                ${usernames}</div>
+                `;
+    }).join('');
 }
 
-function closeEditOverlay() {
+function getSubtasksOverlay(subtasks, id) {
+    
+    let listSubtasks = '';
+
+    for (let index = 0; index < subtasks.length; index++) {
+        listSubtasks += generateSubtaskHTML(subtasks, id, index);
+    }
+
+    return listSubtasks;
+}
+
+function generateSubtaskHTML(subtasks, id, index) {
+
+    return `
+            <label id="subtask-${id}-${index}" class="container-checkbox">
+                <div class="background-checkbox">
+                    <input type="checkbox" class="checkbox-subtask" ${subtasks[index].status === "done" ? "checked" : ""}/>
+                </div>
+                <p class="description-subtask">
+                    ${subtasks[index].title}
+                </p>
+            </label>
+            `
+}
+
+// Edit Overlay //
+
+function getEditOverlay(id) {
+    const task = tasks.find(task => task.id ===id);
+
+    let dialog = document.getElementById(`edit-overlay-${id}`);
+
+    if (!dialog) {
+        document.body.insertAdjacentHTML(
+            "beforeend",
+            generateEditOverlayHTML(task)
+        );
+
+        dialog = document.getElementById(`edit-overlay-${id}`);
+    }
+    closeTaskOverlayNoAnimation(id);
+    dialog.showModal();
+}
+
+
+function closeEditOverlay(id) {
+    const editOverlay = document.getElementById(`edit-overlay-${id}`);
+
+    editOverlay.classList.remove('modal-enter');
+    editOverlay.classList.add('modal-exit');
+
+    editOverlay.addEventListener(
+        'animationend',
+        () => {
+            editOverlay.close();
+            editOverlay.classList.remove('modal-exit');
+        },
+        { once: true }
+    );
+}
+
+function closeEditOverlayNoAnimation(id) {
+    const editOverlay = document.getElementById(`edit-overlay-${id}`);
+
     editOverlay.close();
 }

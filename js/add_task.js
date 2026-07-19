@@ -87,7 +87,16 @@ function closeAddTaskOverlay() {
   document.getElementById("add-task-overlay").classList.remove("show");
 }
 
+function toggleDropdown() {
 
+  document
+      .getElementById("dropdownMenu")
+      .classList.toggle("show");
+
+  document
+      .getElementById("dropdownArrow")
+      .classList.toggle("rotate");
+}
 async function postTaskData(task) {
 
     let response = await fetch(BASE_URL + "tasks.json", {

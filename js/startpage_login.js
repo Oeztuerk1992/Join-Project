@@ -43,7 +43,7 @@ window.addEventListener("load", () => {
 
 async function initLogin() {
     modalLogin.show();
-    onloadUsers();
+    await onloadUsers();
 }
 
 // Modal overlays //

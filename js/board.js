@@ -141,7 +141,7 @@ function getToAddTask() {
     window.location.href = 'add_task.html';
 }
 
-function updateTasksforBoard() {
+function updateTasksforBoard(tasksToShow = tasks) {
     const columns = {
         'To do': document.getElementById('kanban-to-do'),
         'In progress': document.getElementById('kanban-in-progress'),
@@ -149,16 +149,11 @@ function updateTasksforBoard() {
         'Done': document.getElementById('kanban-done')
     };
 
-    Object.values(columns).forEach(column => {
-        column.innerHTML = '';
-    });
+    Object.values(columns).forEach(column => column.innerHTML = '');
 
-    tasks.forEach(element => {
+    tasksToShow.forEach(element => {
         const column = columns[element.taskStatus];
-
-        if (column) {
-            column.innerHTML += generateTaskMiniCardHTML(element);
-        }
+        if (column) column.innerHTML += generateTaskMiniCardHTML(element);
     });
 
     Object.values(columns).forEach(column => {
@@ -417,3 +412,17 @@ function closeEditOverlayNoAnimation(id) {
 
     editOverlay.close();
 }
+
+function filterAndShowCurrentTask(filterWord) {
+    const currentTasks = tasks.filter(task =>
+        task.title.toLowerCase().includes(filterWord.toLowerCase()) ||
+        task.description.toLowerCase().includes(filterWord.toLowerCase())
+    );
+    updateTasksforBoard(currentTasks);
+}
+
+document.getElementById('input-text').addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+        filterAndShowCurrentTask(event.target.value);
+    }
+});

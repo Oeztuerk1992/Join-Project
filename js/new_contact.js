@@ -3,10 +3,25 @@ const emailInput = document.getElementById('email');
 const phoneInput = document.getElementById('phone');
 const newContactMessage = document.getElementById('new-contact-message');
 let contacts = [];
-
+let activeContact = null;
+let activeContactEl = null;
 
 function initContacts() {
     getUserProfile();
+    initScrollbar();
+    const overlay = document.getElementById('overlay');
+    overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) {
+            closeOverlay();
+        }
+    });
+    
+    const overlayEdit = document.getElementById('overlayEdit');
+    overlayEdit.addEventListener('click', function(e) {
+        if (e.target === overlayEdit) {
+            closeEditOverlay();
+        }
+    });
 }
 
 function openOverlay(){
@@ -17,12 +32,15 @@ function openOverlay(){
     }, 10);
 }
 
-function closeOverlay(){
+function closeOverlay() {
     const overlay = document.getElementById('overlay');
     overlay.classList.remove('open');
     setTimeout(() => {
         overlay.style.display = 'none';
     }, 300);
+    document.getElementById('name').value = '';
+    document.getElementById('email').value = '';
+    document.getElementById('phone').value = '';
 }
 
 function getRandomColor() {
@@ -49,6 +67,32 @@ function buildContact(name) {
     const email = emailInput.value.trim();
     const phone = phoneInput.value.trim();
     return { capitalizedName, initials, email, phone, randomColor: getRandomColor() };
+}
+
+function showContact(el) {
+    if (activeContact) {
+        activeContactEl.classList.remove('active');
+    }
+    
+    activeContactEl = el;
+    el.classList.add('active');
+    activeContact = el.dataset;
+
+    const panel = document.querySelector('.contact-detail-panel');
+    panel.classList.remove('visible');
+
+    setTimeout(function() {
+        panel.innerHTML = createContactDetailTemplate(
+            activeContact.name,
+            activeContact.initials,
+            activeContact.email,
+            activeContact.phone,
+            activeContact.color
+        );
+        setTimeout(function() {
+            panel.classList.add('visible');
+        }, 10);
+    }, 200);
 }
 
 function clearInputs(){
@@ -128,6 +172,22 @@ function renderContacts(){
         currentLetter = renderLetterIfNew(contact, currentLetter);
         newContactMessage.innerHTML += buildContactHtml(contact);
     }
+    const liste = document.querySelector('.new-contact');
+    const divider = document.querySelector('.divider');
+     if (liste.scrollHeight > liste.clientHeight) {
+        divider.style.visibility = 'visible';
+    } else {
+        divider.style.visibility = 'hidden';
+    }
+    initScrollbar();
+}
+
+function scrollToTop() {
+    document.querySelector('.new-contact').scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function scrollToBottom() {
+    document.querySelector('.new-contact').scrollTo({top: 99999, behavior: 'smooth'});
 }
 
 function renderLetterIfNew(contact, currentLetter) {
@@ -147,6 +207,9 @@ function openEditOverlay() {
     document.getElementById('edit-name').value = activeContact.name;
     document.getElementById('edit-email').value = activeContact.email;
     document.getElementById('edit-phone').value = activeContact.phone;
+    const avatar = document.getElementById('edit-avatar');
+    avatar.innerHTML = activeContact.initials;
+    avatar.style.backgroundColor = activeContact.color;
     const overlay = document.getElementById('overlayEdit');
     overlay.style.display = 'flex';
     setTimeout(() => overlay.classList.add('open'), 10);
@@ -202,8 +265,30 @@ async function deleteContact() {
     await deleteContactFromFirebase(id);
     contacts.splice(index, 1);
     document.querySelector('.contact-detail-panel').innerHTML = '';
+    closeEditOverlay();
     activeContact = null;
+    activeContactEl = null;
     renderContacts();
+}
+
+function initScrollbar() {
+    const liste = document.querySelector('.new-contact');
+    const thumb = document.querySelector('.custom-thumb');
+    const leiste = document.querySelector('.custom-scrollbar');
+    
+    thumb.style.height = '56px';
+    liste.removeEventListener('scroll', updateScrollbar);
+    liste.addEventListener('scroll', updateScrollbar);
+}
+
+function updateScrollbar() {
+    const liste = document.querySelector('.new-contact');
+    const thumb = document.querySelector('.custom-thumb');
+    const leiste = document.querySelector('.custom-scrollbar');
+    
+    const scrollProzent = liste.scrollTop / (liste.scrollHeight - liste.clientHeight);
+    const thumbPosition = scrollProzent * (leiste.clientHeight - 56);
+    thumb.style.top = thumbPosition + 'px';
 }
 
 loadContactsFromFirebase();

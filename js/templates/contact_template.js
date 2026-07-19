@@ -22,25 +22,19 @@ function createLetterTemplate(letter) {
     return `<div class="alphabet-letter">${letter}</div>`;
 }
 
-let activeContact = null;
-let activeContactEl = null;
-
-function showContact(el) {
-    if (activeContact) activeContactEl.classList.remove('active');
-    activeContactEl = el;
-    el.classList.add('active');
-    activeContact = el.dataset;
-
-    const { name, initials, email, phone, color } = activeContact;
-    const panel = document.querySelector('.contact-detail-panel');
-    panel.innerHTML = `
+function createContactDetailTemplate(name, initials, email, phone, color) {
+    return `
         <div class="contact-detail-header">
             <div class="contact-detail-badge" style="background-color: ${color}">${initials}</div>
             <div class="contact-detail-name">
                 <span class="nameUser">${name}</span>
                 <div class="contact-detail-actions">
-                    <span class="edit" onclick="openEditOverlay()"><img src="../assets/icons/contact/edit.png" alt="edit"></span>
-                    <span class="delete" onclick="deleteContact()"><img src="../assets/icons/contact/delete.png" alt="delete"></span>
+                    <span class="edit" onclick="openEditOverlay()">
+                        <img src="../assets/icons/contact/edit.png" alt="edit">
+                    </span>
+                    <span class="delete" onclick="deleteContact()">
+                        <img src="../assets/icons/contact/delete.png" alt="delete">
+                    </span>
                 </div>
             </div>
         </div>
@@ -52,6 +46,4 @@ function showContact(el) {
             <p class="phone">${phone}</p>
         </div>
     `;
-    panel.classList.remove('visible');
-    setTimeout(() => panel.classList.add('visible'), 10);
 }

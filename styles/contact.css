@@ -1,7 +1,10 @@
-.right-side{
+.right-side {
     display: flex;
-    padding: 96px 0px 0px 232px;
+    padding-top: 96px;
+    margin-left: 232px;
     opacity: 1;
+    align-items: stretch;
+    min-height: 100vh;
 }
 
 .btn_new_contact{
@@ -34,32 +37,43 @@
 }
 
 .new-contact{
-    height: 100vh;
+    flex: 1;
     width: 430px;
+    height: calc(100vh - 96px);
     padding: 32px 24px;
     opacity: 1;
     overflow-y: scroll;
     overflow-x: hidden;
     box-shadow: 4px 0px 6px 0px rgba(0, 0, 0, 0.08);
-    background : rgba(255, 255, 255, 1);
+    background: rgba(255, 255, 255, 1);
+    scrollbar-width: none;
 }
 
-.contact-info {
+.new-contact::-webkit-scrollbar {
+    display: none;
+}
+
+.contact-info{
     flex: 1;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 32px;
-    background: rgba(246, 247, 248, 1);
-    box-shadow: 4px 0px 6px 0px rgba(0, 0, 0, 0.08);
     overflow: hidden;
     padding: 32px;
+    position: sticky;
+    top: 96px;
+    height: calc(100vh - 96px);
 }
 
 .contact-details{
     gap: 32px;
     opacity: 1;
     margin: 70px 56px 78px 67px;
+}
+
+.contact-name-email .email{
+    color: var(--color-3);
 }
 
 .header-title{
@@ -77,7 +91,7 @@
     font-size: 61px;
 }
 
-.title-subtitle {
+.title-subtitle{
     font-size: 27px;
     color: var(--sidebar-background);
 }
@@ -137,6 +151,7 @@
     font-weight: 700;
     font-style: bold;
     font-size: 61px;
+    margin-top: 32px;
 }
 
 .p-tag{
@@ -153,12 +168,21 @@ font-size: 27px;
 }
 
 .overlay-right{
+    position: relative;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     gap: 32px;
     flex: 1;
+    padding: 24px;
+}
+
+.overlay-content{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 32px;
 }
 
 .overlay.open .overlay-container {
@@ -167,23 +191,38 @@ font-size: 27px;
 
 .overlay-close{
     position: absolute;
-    top: 24px;
-    right: 24px;
-    width: 24px;
-    height: 24px;
+    top: 48px;
+    right: 48px;
+    width: 32px;
+    height: 32px;
     cursor: pointer;
     font-size: 20px;
     color: var(--color-1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.overlay-close:hover{
+    background-color: rgba(217, 217, 217, 1);
+    border-radius: 56px;
+    cursor: pointer;
 }
 
 .avatar-placeholder{
     width: 120px;
     height: 120px;
+    margin-right: 32px;
     border-radius: 70px;
     border: none;
     display: flex;
     align-items: center;
     justify-content: center;
+    color: white;
+    font-size: 47px;
+    font-weight: 700;
+    border: 3px solid rgba(255, 255, 255, 1);
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.4);
 }
 
 .user{
@@ -214,7 +253,6 @@ font-size: 27px;
     position: relative;
     width: 422px;
     display: flex;
-
 }
 
 .input-icon{
@@ -232,7 +270,7 @@ font-size: 27px;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 24px;
+    gap: 32px;
 }
 
 .btn-cancel{
@@ -248,6 +286,11 @@ font-size: 27px;
     cursor: pointer;
 }
 
+.btn-cancel:hover{
+    border: 2px solid var(--border-input-active);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
 .btn-create {
     width: 214px;
     height: 57px;
@@ -259,6 +302,11 @@ font-size: 27px;
     color: white;
     font-size: 16px;
     cursor: pointer;
+}
+
+.btn-create:hover{
+    background: var(--border-input-active);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
 .email{
@@ -277,11 +325,11 @@ font-size: 27px;
     cursor: pointer;
 }
 
-.contact-item:hover {
+.contact-item:hover{
     background-color: rgba(0, 0, 0, 0.05);
 }
 
-.contact-item.active {
+.contact-item.active{
     background-color: rgba(42, 54, 71, 1);
     color: white;
 }
@@ -345,14 +393,14 @@ font-size: 27px;
     overflow: visible;
 }
 
-.contact-detail-actions {
+.contact-detail-actions{
     display: flex;
     flex-direction: row;
     gap: 16px;
     align-items: center;
 }
 
-.contact-detail-panel.visible {
+.contact-detail-panel.visible{
     transform: translateX(0);
 }
 
@@ -365,13 +413,13 @@ font-size: 27px;
     gap: 24px;
 }
 
-.contact-detail-info {
+.contact-detail-info{
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
 
-.contact-detail-badge {
+.contact-detail-badge{
     width: 120px;
     height: 120px;
     border-radius: 50%;
@@ -385,7 +433,7 @@ font-size: 27px;
     box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.4);
 }
 
-.contact-detail-name {
+.contact-detail-name{
     display: flex;
     flex-direction: column;
 }
@@ -409,7 +457,7 @@ font-size: 27px;
     font-size: 16px;
 }
 
-.edit, .delete {
+.edit, .delete{
     display: flex;
     align-items: center;
     gap: 13px;
@@ -419,28 +467,107 @@ font-size: 27px;
     cursor: pointer;
 }
 
-.edit img {
+.edit img{
     content: url('../assets/icons/contact/edit.png');
 }
 
-.edit:hover img {
+.edit:hover img{
     content: url('../assets/icons/contact/edit-hover.png');
 }
 
-.delete img {
+.delete img{
     content: url('../assets/icons/contact/delete.png');
 }
 
-.delete:hover img {
+.delete:hover img{
     content: url('../assets/icons/contact/delete-hover.png');
 }
 
 /* sidebar */
 
-.nav-active-contacts {
+.nav-active-contacts{
     background-color: var(--active-sidebar);
     color: white;
     font-weight: bold;
     
     pointer-events: none;
+}
+
+@view-transition {
+  navigation: auto;
+}
+
+.new-contact-wrapper{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 96px);
+    width: 430px;
+    flex-shrink: 0;
+}
+
+.scroll-buttons{
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    position: fixed;
+    left: 653px;
+    top: 96px;
+    bottom: 0;
+    z-index: 100;
+}
+
+
+.scroll-buttons button{
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.new-contact::-webkit-scrollbar{
+    width: 8px;
+    height: 53px;
+}
+
+.new-contact::-webkit-scrollbar-thumb{
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+}
+
+.new-contact::-webkit-scrollbar-track{
+    background: transparent;
+}
+
+.divider {
+    width: 24px;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255, 255, 255, 1);
+    flex-shrink: 0;
+    visibility: hidden;
+}
+
+.divider button{
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.custom-scrollbar{
+    flex: 1;
+    width: 8px;
+    position: relative;
+    background: transparent;
+}
+
+.custom-thumb{
+    position: absolute;
+    width: 8px;
+    height: 53px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
 }

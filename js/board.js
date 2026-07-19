@@ -43,7 +43,7 @@ let tasks = [
         'taskStatus': 'To do',
         'category': 'User Story',
         'title': 'Contact Form & Imprint ddddddddddeeeeeeeeeeeeeeeeeeeeeeed',
-        'description': 'Define koch CSS naming conventions and structuredddddddddddddddddddd.',
+        'description': 'Define CSS naming conventions and structuredddddddddddddddddddd.',
         'dueDate': '30.07.2026',
         'priority': 'Urgent',
         'assignedTo': [

@@ -121,7 +121,7 @@ function generateEditOverlayHTML(element) {
                 <input
                   type="text"
                   class="input input-title"
-                  id="title-input-${element.id}"
+                  id="title-input"
                   name="title-input"
                   required
                   placeholder="Enter a title"
@@ -133,7 +133,7 @@ function generateEditOverlayHTML(element) {
                 >
                 <textarea
                   class="input input-description"
-                  id="description-input-${element.id}"
+                  id="description-input"
                   name="description-input"
                   required
                   placeholder="Enter a Description"
@@ -145,7 +145,7 @@ function generateEditOverlayHTML(element) {
                 <input
                   type="date"
                   class="input input-date"
-                  id="date-input-${element.id}"
+                  id="date-input"
                   name="date-input"
                   required
                   placeholder="dd/mm/yyyy"
@@ -180,7 +180,7 @@ function generateEditOverlayHTML(element) {
                   />
                   <button class="btn-set-resp"></button>
                 </div>
-                <div id="myDropdown-${element.id}" class="dropdown-content" hidden>
+                <div id="myDropdown" class="dropdown-content" hidden>
                   <div class="container-dropdown">
                     <div class="list-user-name">
                       <div class="user-abbr">EF</div>

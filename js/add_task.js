@@ -4,9 +4,7 @@ const BASE_URL = "https://remotestoragejoin-8faac-default-rtdb.europe-west1.fire
 
 async function initAddTask() {
         await loadContacts();
-
-    getUserProfile();
-
+            getUserProfile();
 
 }
 
@@ -62,20 +60,6 @@ function selectCategory(category) {
     document
         .getElementById("categoryArrow")
         .classList.remove("rotate");
-
-}
-
-function getUserProfile() {
-
-  if (loggedInUser === 'guest') {
-      userProfile.textContent = "G";
-  } else {
-
-  const name = loggedInUser.split(" ");
-  const initials = name[0][0].toUpperCase() + name[1][0].toUpperCase();
-  userProfile.textContent = initials;
-
-  }
 
 }
 

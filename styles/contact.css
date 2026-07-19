@@ -493,10 +493,6 @@ font-size: 27px;
     pointer-events: none;
 }
 
-@view-transition {
-  navigation: auto;
-}
-
 .new-contact-wrapper{
     position: relative;
     display: flex;

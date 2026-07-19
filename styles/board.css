@@ -1050,10 +1050,6 @@ dialog {
     pointer-events: none;
 }
 
-@view-transition {
-    navigation: auto;
-}
-
 /* overlay */
 
 .assigned-user-overlay {
@@ -1100,6 +1096,22 @@ dialog {
     transform: scale(1.01);
     background: var(--border-input-active);
     box-shadow: 0px 4px 4px 0px var(--box-shadow-choose-prio);
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: lightblue;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--title-kanban);
+  border-radius: 10px;
 }
 
 /* Handle on hover */

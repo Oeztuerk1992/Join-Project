@@ -444,7 +444,3 @@ font-size: 27px;
     
     pointer-events: none;
 }
-
-@view-transition {
-  navigation: auto;
-}

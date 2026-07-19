@@ -508,7 +508,3 @@ textarea {
     
     pointer-events: none;
 }
-
-@view-transition {
-  navigation: auto;
-}

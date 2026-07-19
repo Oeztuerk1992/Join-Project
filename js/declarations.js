@@ -10,9 +10,8 @@ function initDeclarations() {
     
     checkForHeader();
     checkForSidebar();
-    checkForHelpBtn();
-
     getUserProfile();
+    document.body.classList.add('ready');
 }
 
 function checkForHeader() {
@@ -21,9 +20,6 @@ function checkForHeader() {
         currentPage.includes('legal_notice.html') ||
         currentPage.includes('privacy_policy.html');
 
-    if (isInfoPage && !loggedInUser) {
-        rightHeader.classList.add('hidden');
-    }
     if (isInfoPage && !loggedInUser) {
         rightHeader.classList.add('hidden');
     }
@@ -39,10 +35,6 @@ function checkForSidebar() {
         leftSideBar.classList.remove('hidden');
         sideBarGuest.classList.add('hidden');
     }
-}
-
-function checkForHelpBtn() {
-    helpBtn.style.display = 'none';
 }
 
 // functions for help-html //

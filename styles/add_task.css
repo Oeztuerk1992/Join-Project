@@ -331,7 +331,12 @@ textarea {
     border-color: #7AE229;
 }
 /* ---------- Dropdown ---------- */
-
+#assignedContactsDisplay {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+}
 .dropdown {
     height: 48px;
     border: 1px solid #D1D1D1;

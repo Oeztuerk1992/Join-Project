@@ -1,6 +1,7 @@
 const BASE_URL = "https://remotestoragejoin-8faac-default-rtdb.europe-west1.firebasedatabase.app/";
 
 
+let allContacts = {}; // global speichern, damit wir später darauf zugreifen können
 
 async function initAddTask() {
         await loadContacts();
@@ -45,6 +46,70 @@ function toggleCategoryDropdown() {
 
 }
 
+let subtasks = [];
+
+function toggleSubtaskActions() {
+
+    let input = document.getElementById("subtaskInput");
+    let container = document.getElementById("subtaskInputContainer");
+
+    if (input.value.trim() !== "") {
+        container.classList.add("active");
+    } else {
+        container.classList.remove("active");
+    }
+}
+
+function addSubtask() {
+
+    let input = document.getElementById("subtaskInput");
+    let value = input.value.trim();
+
+    if (value === "") {
+        return;
+    }
+
+    subtasks.push(value);
+    input.value = "";
+
+    toggleSubtaskActions();
+    renderSubtasks();
+}
+
+function clearSubtaskInput() {
+
+    let input = document.getElementById("subtaskInput");
+    input.value = "";
+
+    toggleSubtaskActions();
+}
+
+function renderSubtasks() {
+
+    let list = document.getElementById("subtaskList");
+    list.innerHTML = "";
+
+    subtasks.forEach((subtask, index) => {
+
+        list.innerHTML += `
+            <li class="subtask-item">
+                <span>${subtask}</span>
+                <button onclick="deleteSubtask(${index})">
+                    <img src="../assets/icons/edit_delete/Property 1=close.svg" />
+                </button>
+            </li>
+        `;
+    });
+}
+
+function deleteSubtask(index) {
+    subtasks.splice(index, 1);
+    renderSubtasks();
+}
+
+function getSubtasks() {
+    return subtasks;
+}
 
 
 function selectCategory(category) {
@@ -197,14 +262,13 @@ function getSubtasks() {
 
 async function loadContacts() {
     let response = await fetch(BASE_URL + "contacts.json");
-    let contacts = await response.json();
-    renderContacts(contacts);
+    allContacts = await response.json();
+    renderContacts(allContacts);
 }
 
 function renderContacts(contacts) {
 
     let dropdownMenu = document.getElementById("dropdownMenu");
-
     dropdownMenu.innerHTML = "";
 
     for (const id in contacts) {
@@ -213,29 +277,39 @@ function renderContacts(contacts) {
 
         dropdownMenu.innerHTML += `
             <div class="dropdown-item">
-
                 <div class="contact-info">
-
-                    <div
-                        class="contact-circle"
-                        style="background:${contact.randomColor};">
-
+                    <div class="contact-circle" style="background:${contact.randomColor};">
                         ${contact.initials}
-
                     </div>
-
                     <span>${contact.capitalizedName}</span>
-
                 </div>
-
                 <input
                     type="checkbox"
                     value="${id}"
+                    onchange="renderAssignedContacts()"
                 >
-
             </div>
         `;
     }
 }
 
+function renderAssignedContacts() {
 
+    let display = document.getElementById("assignedContactsDisplay");
+    display.innerHTML = "";
+
+    let checkedUsers = document.querySelectorAll(
+        "#dropdownMenu input[type='checkbox']:checked"
+    );
+
+    checkedUsers.forEach(checkbox => {
+
+        let contact = allContacts[checkbox.value];
+
+        display.innerHTML += `
+            <div class="contact-circle small" style="background:${contact.randomColor};">
+                ${contact.initials}
+            </div>
+        `;
+    });
+}

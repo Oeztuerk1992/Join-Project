@@ -173,7 +173,7 @@
                     </button>
 
                     <button
-                    id="medium"
+                    
                       type="button"
                       class="priority medium"
                       onclick="setPriority(this)"
@@ -218,6 +218,7 @@
                       
                     </div>
                   </div>
+                   <div id="assignedContactsDisplay"></div>
                 </div>
 
                 <div class="input-group">
@@ -283,8 +284,8 @@
                 <div class="input-group">
                   <label>Subtasks</label>
 
-                  <div class="subtask-input active">
-                    <input type="text" placeholder="Add new subtask" />
+                  <div class="subtask-input " id="subtaskInputContainer" onclick="toggleSubtaskActions()">
+                    <input type="text" id="subtaskInput" placeholder="Add new subtask" />
 
                     <div class="subtask-actions">
                       <button>
@@ -302,6 +303,7 @@
                       </button>
                     </div>
                   </div>
+                  <ul id="subtaskList" class="subtask-list"></ul>
                 </div>
               </div>
             </div>

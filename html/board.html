@@ -175,101 +175,6 @@
             <div id="empty-spot-drag"></div>
           </article>
         </section>
-        <dialog id="edit-overlay" class="edit-task-overlay modal-class">
-          <div class="frame-view-edit-task">
-            <header class="header-form">
-              <div class="headline-edit-task">
-                <div></div>
-                <button class="btn-close" onclick="closeEditOverlay()"></button>
-              </div>
-            </header>
-            <form class="form-for-edit-task">
-              <div class="container-form">
-                <label class="label-form" for="title-input">Title</label>
-                <input
-                  type="text"
-                  class="input input-title"
-                  id="title-input"
-                  name="title-input"
-                  required
-                  placeholder="Enter a title"
-                /><br />
-              </div>
-              <div class="container-form">
-                <label class="label-form" for="description-input"
-                  >Description</label
-                >
-                <textarea
-                  class="input input-description"
-                  id="description-input"
-                  name="description-input"
-                  required
-                  placeholder="Enter a Description"
-                ></textarea
-                ><br />
-              </div>
-              <div class="container-form">
-                <label class="label-form" for="date-input">Due Date</label>
-                <input
-                  type="date"
-                  class="input input-date"
-                  id="date-input"
-                  name="date-input"
-                  required
-                  placeholder="dd/mm/yyyy"
-                /><br />
-              </div>
-              <div class="set-up-prio-in-edit-mode">
-                <span class="title-prio-in-edit-mode">Priority</span>
-                <div class="btn-prio-in-edit-mode">
-                  <button class="btn-prio-edit">
-                    <span>Urgent</span>
-                    <div class="img-prio-urgent checked-urgent"></div>
-                  </button>
-                  <button class="btn-prio-edit">
-                    <span>Medium</span>
-                    <div class="img-prio-medium checked-medium"></div>
-                  </button>
-                  <button class="btn-prio-edit">
-                    <span>Low</span>
-                    <div class="img-prio-low checked-low"></div>
-                  </button>
-                </div>
-              </div>
-              <div class="container-dropdown-user">
-                <span class="title-dropdown-menu"
-                  >Assigned to (kommt von Rico)</span
-                >
-                <div class="container-btn-dropdown">
-                  <input
-                    type="text"
-                    class="search-in-dropdown"
-                    placeholder="Select contacts to assign"
-                  />
-                  <button class="btn-set-resp"></button>
-                </div>
-                <div id="myDropdown" class="dropdown-content" hidden>
-                  <div class="container-dropdown">
-                    <div class="list-user-name">
-                      <div class="user-abbr">EF</div>
-                      <div class="full-name-user">Eva Fischer</div>
-                    </div>
-                    <input type="checkbox" class="add-remove-user-task" />
-                  </div>
-                </div>
-                <div class="user-chosen-for-task">
-                  <div class="user-for-tasks">EF</div>
-                  <div class="user-for-tasks">MB</div>
-                </div>
-              </div>
-              <div class="container-edit-subtask">
-                <span class="title-dropdown-menu"
-                  >Subtask (kommt von Rico)</span
-                >
-              </div>
-            </form>
-          </div>
-        </dialog>
         <div id="add-task-overlay" class="add-task-overlay">
           <section class="add-task-container">
             <button class="btn-close-overlay" onclick="closeAddTaskOverlay()">
@@ -326,7 +231,7 @@
                       >
                         Urgent
                         <img
-                          src="../assets/icons/priority/Property 1=Urgent.svg"
+                          src="../assets/icons/priority/Urgent.svg"
                         />
                       </button>
 
@@ -337,7 +242,7 @@
                       >
                         Medium
                         <img
-                          src="../assets/icons/priority/Property 1=Medium.svg"
+                          src="../assets/icons/priority/Medium.svg"
                         />
                       </button>
 
@@ -348,7 +253,7 @@
                       >
                         Low
                         <img
-                          src="../assets/icons/priority/Property 1=Low.svg"
+                          src="../assets/icons/priority/Low.svg"
                         />
                       </button>
                     </div>
@@ -361,7 +266,7 @@
                       <span>Select contacts to assign</span>
 
                       <img
-                        src="../assets/icons/dropdown/Property 1=Default.svg"
+                        src="../assets/icons/dropdown/Default.svg"
                       />
                     </div>
                   </div>
@@ -373,7 +278,7 @@
                       <span>Select task category</span>
 
                       <img
-                        src="../assets/icons/dropdown/Property 1=Default.svg"
+                        src="../assets/icons/dropdown/Default.svg"
                       />
                     </div>
                   </div>
@@ -402,9 +307,9 @@
         </div>
       </main>
     </div>
-    <script src="../js/board.js"></script>    
+    <script src="../js/board.js"></script>
     <script src="../js/desktop_template.js"></script>
-    <script src="../js/templates/board_template.js"></script>
+    <script src="../js/templates/board_template.js"></script>    
     <script src="../js/add_task.js"></script>
   </body>
 </html>

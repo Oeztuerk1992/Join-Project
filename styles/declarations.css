@@ -87,10 +87,10 @@ li::marker {
     pointer-events: none;
 }
 
-@view-transition {
-  navigation: auto;
-}
-
 .hidden {
     display: none;
+}
+body:not(.ready) #right-header,
+body:not(.ready) #nav-sidebar {
+    visibility: hidden;
 }

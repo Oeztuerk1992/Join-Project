@@ -5,9 +5,7 @@ let allContacts = {}; // global speichern, damit wir spÃ¤ter darauf zugreifen kÃ
 
 async function initAddTask() {
         await loadContacts();
-
-    getUserProfile();
-
+            getUserProfile();
 
 }
 
@@ -47,17 +45,14 @@ function toggleCategoryDropdown() {
 }
 
 let subtasks = [];
+let editingIndex = null;
 
-function toggleSubtaskActions() {
+function showSubtaskActions() {
+    document.getElementById("subtaskInputContainer").classList.add("active");
+}
 
-    let input = document.getElementById("subtaskInput");
-    let container = document.getElementById("subtaskInputContainer");
-
-    if (input.value.trim() !== "") {
-        container.classList.add("active");
-    } else {
-        container.classList.remove("active");
-    }
+function hideSubtaskActions() {
+    document.getElementById("subtaskInputContainer").classList.remove("active");
 }
 
 function addSubtask() {
@@ -72,7 +67,7 @@ function addSubtask() {
     subtasks.push(value);
     input.value = "";
 
-    toggleSubtaskActions();
+    hideSubtaskActions();
     renderSubtasks();
 }
 
@@ -81,7 +76,7 @@ function clearSubtaskInput() {
     let input = document.getElementById("subtaskInput");
     input.value = "";
 
-    toggleSubtaskActions();
+    hideSubtaskActions();
 }
 
 function renderSubtasks() {
@@ -91,19 +86,67 @@ function renderSubtasks() {
 
     subtasks.forEach((subtask, index) => {
 
-        list.innerHTML += `
-            <li class="subtask-item">
-                <span>${subtask}</span>
-                <button onclick="deleteSubtask(${index})">
-                    <img src="../assets/icons/edit_delete/Property 1=close.svg" />
-                </button>
-            </li>
-        `;
+        if (editingIndex === index) {
+
+            list.innerHTML += `
+                <li class="subtask-item editing">
+                    <input 
+                        type="text" 
+                        id="editSubtaskInput${index}" 
+                        value="${subtask}"
+                    />
+                    <div class="subtask-edit-actions" style="display:flex;">
+                        <button onclick="deleteSubtask(${index})" type="button">
+                            <img src="../assets/icons/edit_delete/delete.svg"/>
+                            
+                        </button>
+                        <button onclick="saveSubtaskEdit(${index})" type="button">
+                            <img src="../assets/icons/edit_delete/check.svg"/>
+                        </button>
+                    </div>
+                </li>
+            `;
+
+        } else {
+
+            list.innerHTML += `
+                <li class="subtask-item">
+                    <span>${subtask}</span>
+                    <div class="subtask-edit-actions">
+                        <button onclick="startEditSubtask(${index})">
+                            <img src="../assets/icons/edit_delete/edit.svg" />
+                        </button>
+                        <button onclick="deleteSubtask(${index})">
+                            <img src="../assets/icons/edit_delete/delete.svg" />
+                        </button>
+                    </div>
+                </li>
+            `;
+        }
     });
+}
+
+function startEditSubtask(index) {
+    editingIndex = index;
+    renderSubtasks();
+}
+
+function saveSubtaskEdit(index) {
+
+    let input = document.getElementById("editSubtaskInput" + index);
+    let value = input.value.trim();
+
+    if (value !== "") {
+        subtasks[index] = value;
+    }
+
+    editingIndex = null;
+    renderSubtasks();
 }
 
 function deleteSubtask(index) {
     subtasks.splice(index, 1);
+    editingIndex = null;
     renderSubtasks();
 }
 
@@ -130,20 +173,6 @@ function selectCategory(category) {
 
 }
 
-function getUserProfile() {
-
-  if (loggedInUser === 'guest') {
-      userProfile.textContent = "G";
-  } else {
-
-  const name = loggedInUser.split(" ");
-  const initials = name[0][0].toUpperCase() + name[1][0].toUpperCase();
-  userProfile.textContent = initials;
-
-  }
-
-}
-
 function openAddTaskOverlay() {
   document.getElementById("add-task-overlay").classList.add("show");
 }
@@ -152,7 +181,16 @@ function closeAddTaskOverlay() {
   document.getElementById("add-task-overlay").classList.remove("show");
 }
 
+function toggleDropdown() {
 
+  document
+      .getElementById("dropdownMenu")
+      .classList.toggle("show");
+
+  document
+      .getElementById("dropdownArrow")
+      .classList.toggle("rotate");
+}
 async function postTaskData(task) {
 
     let response = await fetch(BASE_URL + "tasks.json", {

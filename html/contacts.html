@@ -104,40 +104,45 @@
     </div>
 
     <main class="right-side">
-      <div class="new-contact">
-        <button class="btn_new_contact" onclick="openOverlay()" type="button">
-          Add new contact
-          <img
-            class="person_add"
-            src="../assets/icons/contact/person_add.png"
-            alt=""
-          />
-        </button>
-        <div id="new-contact-message"></div>
-      </div>
-      <div class="contact-info">
+    <div class="new-contact-wrapper">
+        <div class="new-contact">
+            <button class="btn_new_contact" onclick="openOverlay()" type="button">
+                Add new contact
+                <img class="person_add" src="../assets/icons/contact/person_add.png" alt="" />
+            </button>
+            <div id="new-contact-message"></div>
+        </div>
+    </div>
+   <div class="divider">
+    <button onclick="scrollToTop()"><img src="../assets/icons/contact/high.png" alt="up"></button>
+    <div class="custom-scrollbar">
+        <div class="custom-thumb"></div>
+    </div>
+    <button onclick="scrollToBottom()"><img src="../assets/icons/contact/down.png" alt="down"></button>
+</div>
+    <div class="contact-info">
         <div class="contact-details">
-          <div class="header-title">
-            <h2 class="title-contact">Contacts</h2>
-            <div class="title-divider"></div>
-            <span class="title-subtitle">Better with a team</span>
-          </div>
+            <div class="header-title">
+                <h2 class="title-contact">Contacts</h2>
+                <div class="title-divider"></div>
+                <span class="title-subtitle">Better with a team</span>
+            </div>
         </div>
         <div class="contact-detail-panel">
-          <div class="contact-detail-header">
-            <div class="contact-detail-badge"></div>
-            <div class="contact-detail-name">
-              <h2></h2>
-              <div class="contact-detail-actions"></div>
+            <div class="contact-detail-header">
+                <div class="contact-detail-badge"></div>
+                <div class="contact-detail-name">
+                    <h2></h2>
+                    <div class="contact-detail-actions"></div>
+                </div>
             </div>
-          </div>
-          <div id="contact-detail-info" class="contact-detail-info">
-            <p class="contact-detail-email"></p>
-            <p class="contact-detail-phone"></p>
-          </div>
+            <div id="contact-detail-info" class="contact-detail-info">
+                <p class="contact-detail-email"></p>
+                <p class="contact-detail-phone"></p>
+            </div>
         </div>
-      </div>
-    </main>
+    </div>
+</main>
     <div class="overlay" id="overlay">
       <div class="overlay-container">
         <div class="overlay-left">
@@ -191,7 +196,7 @@
                 class="input-icon"
               />
             </div>
-            <div class="overly-buttons">
+            <div class="overlay-buttons">
               <button class="btn-cancel" onclick="closeOverlay()">
                 Cancel X
               </button>
@@ -207,78 +212,43 @@
         </div>
       </div>
     </div>
-    <div class="overlay" id="overlayEdit">
-      <div class="overlay-container">
+   <div class="overlay" id="overlayEdit">
+    <div class="overlay-container">
         <div class="overlay-left">
-          <img class="join_logo" src="../assets/img/join-logo.png" alt="" />
-          <span class="add_title">Edit contact</span>
-          <span class="line"></span>
+            <img class="join_logo" src="../assets/img/join-logo.png" alt="" />
+            <span class="add_title">Edit contact</span>
+            <span class="line"></span>
         </div>
         <div class="overlay-right">
-          <span class="overlay-close" onclick="closeEditOverlay()">X</span>
-          <div class="avatar-placeholder">
-            <img class="user" src="../assets/icons/contact/user.png" alt="" />
-          </div>
-          <div class="input-container">
-            <div class="input-wrapper">
-              <input
-                id="edit-name"
-                type="text"
-                placeholder="Name"
-                class="input-field"
-              />
-              <img
-                src="../assets/icons/contact/person.png"
-                alt=""
-                class="input-icon"
-              />
+            <span class="overlay-close" onclick="closeEditOverlay()">X</span>
+            <div class="overlay-content">
+                <div class="avatar-placeholder" id="edit-avatar"></div>
+                <div class="input-container">
+                    <div class="input-wrapper">
+                        <input id="edit-name" type="text" placeholder="Name" class="input-field" />
+                        <img src="../assets/icons/contact/person.png" alt="" class="input-icon" />
+                    </div>
+                    <div class="input-wrapper">
+                        <input id="edit-email" type="text" placeholder="Email" class="input-field" />
+                        <img src="../assets/icons/contact/mail.png" alt="" class="input-icon" />
+                    </div>
+                    <div class="input-wrapper">
+                        <input id="edit-phone" type="text" placeholder="Phone" class="input-field" />
+                        <img src="../assets/icons/contact/call.png" alt="" class="input-icon" />
+                    </div>
+                    <div class="overlay-buttons">
+                        <button class="btn-cancel" onclick="deleteContact()">Delete</button>
+                        <button id="save-contact" class="btn-create" onclick="saveContact()">Save ✓</button>
+                    </div>
+                </div>
             </div>
-            <div class="input-wrapper">
-              <input
-                id="edit-email"
-                type="text"
-                placeholder="Email"
-                class="input-field"
-              />
-              <img
-                src="../assets/icons/contact/mail.png"
-                alt=""
-                class="input-icon"
-              />
-            </div>
-            <div class="input-wrapper">
-              <input
-                id="edit-phone"
-                type="text"
-                placeholder="Phone"
-                class="input-field"
-              />
-              <img
-                src="../assets/icons/contact/call.png"
-                alt=""
-                class="input-icon"
-              />
-            </div>
-            <div class="overly-buttons">
-              <button class="btn-cancel" onclick="deleteContact()">
-                Delete
-              </button>
-              <button
-                id="save-contact"
-                class="btn-create"
-                onclick="saveContact()"
-              >
-                Save ✓
-              </button>
-            </div>
-          </div>
         </div>
-      </div>
-    </div>
+    </div> 
+</div>
+    <script src="../js/desktop_template.js"></script>
     <script src="../js/remoteStorage.js"></script>
     <script src="../js/templates/contact_template.js"></script>
     <script src="../js/new_contact.js"></script>
-    <script src="../js/desktop_template.js"></script>
   </body>
 </html>
 

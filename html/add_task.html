@@ -167,7 +167,7 @@
                     >
                       <span>Urgent</span>
                       <img
-                        src="../assets/icons/priority/Property 1=Urgent.svg"
+                        src="../assets/icons/priority/Urgent.svg"
                         alt=""
                       />
                     </button>
@@ -180,7 +180,7 @@
                     >
                       <span>Medium</span>
                       <img
-                        src="../assets/icons/priority/Property 1=Medium.svg"
+                        src="../assets/icons/priority/Medium.svg"
                         alt=""
                       />
                     </button>
@@ -193,7 +193,7 @@
                     >
                       <span>Low</span>
                       <img
-                        src="../assets/icons/priority/Property 1=Low.svg"
+                        src="../assets/icons/priority/Low.svg"
                         alt=""
                       />
                     </button>
@@ -209,7 +209,7 @@
 
                       <img
                         id="dropdownArrow"
-                        src="../assets/icons/dropdown/Property 1=Default.svg"
+                        src="../assets/icons/dropdown/Default.svg"
                         alt=""
                       />
                     </div>
@@ -238,7 +238,7 @@
 
             <img
                 id="categoryArrow"
-                src="../assets/icons/dropdown/Property 1=Default.svg"
+                src="../assets/icons/dropdown/Default.svg"
                 alt=""
             />
 
@@ -282,29 +282,32 @@
 </div>
 
                 <div class="input-group">
-                  <label>Subtasks</label>
+  <label>Subtasks</label>
 
-                  <div class="subtask-input " id="subtaskInputContainer" onclick="toggleSubtaskActions()">
-                    <input type="text" id="subtaskInput" placeholder="Add new subtask" />
+  <div id="subtaskInputContainer" class="subtask-input">
+    <input 
+      type="text" 
+      id="subtaskInput" 
+      placeholder="Add new subtask"
+      onfocus="showSubtaskActions()"
+      oninput="showSubtaskActions()"
+    />
 
-                    <div class="subtask-actions">
-                      <button>
-                        <img
-                          src="../assets/icons/edit_delete/Property 1=close.svg"
-                        />
-                      </button>
+    <div id="subtaskActions" class="subtask-actions">
+      <button onclick="clearSubtaskInput()" type="button">
+        <img src="../assets/icons/edit_delete/close.svg" />
+      </button>
 
-                      <div class="subtask-divider"></div>
+      <div class="subtask-divider"></div>
 
-                      <button>
-                        <img
-                          src="../assets/icons/edit_delete/Property 1=check.svg"
-                        />
-                      </button>
-                    </div>
-                  </div>
-                  <ul id="subtaskList" class="subtask-list"></ul>
-                </div>
+      <button onclick="addSubtask()" type="button">
+        <img src="../assets/icons/edit_delete/check.svg" />
+      </button>
+    </div>
+  </div>
+
+  <ul id="subtaskList" class="subtask-list"></ul>
+</div>
               </div>
             </div>
 
@@ -323,5 +326,7 @@
         </section>
       </main>
     </div>
+    <script src="../js/add_task.js"></script>
+    <script src="../js/desktop_template.js"></script>
   </body>
 </html>

@@ -8,7 +8,7 @@ body {
     display: flex;
     min-height: 100vh;
     margin: 0;
-    background-color: var(--background-board);
+    background-color: var(--background-body);
 }
 
 .sidebar-nav-container{
@@ -100,24 +100,19 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center ;
-    
     margin-top: 330px;
-
 }
 
 .sidebar-footer a {
     color: var(--color-footer);
     text-decoration: none;
     font-size: 16px;
-
     display: flex;
     align-items: center;
-
     gap: 8px;
     width: 232px;
     height: 46px;
     padding: 8px 56px;
-
     transition: background-color 100ms ease,
                 transform 100ms ease;
 }
@@ -130,16 +125,13 @@ body {
 .container-header {
     height: 96px;
     max-width: 1208px;
-    
     position: fixed;
     top: 0;
     left: 232px;
     width: calc(100% - 232px);
-
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     background-color: rgba(255,255, 255,1);
     padding: 20px 40px 20px 96px;
     box-shadow: 0px 4px 4px 0px rgb(0, 0, 0, 0.1);
@@ -155,7 +147,6 @@ body {
     height: 20px;
     cursor: pointer;
     transition: width 0.2s, height 0.2s;
-
     color: var(--border-color-grey);
     margin-top: 5px;
     transition: background-color 100ms ease,
@@ -191,12 +182,10 @@ body {
     height: 48px;
     border-radius: 50%;
     background-color: white;
-
     border: 3px solid var(--color-1);
     cursor: pointer;
-    transition: background-color 100ms ease,
-                transform 100ms ease;
 }
+
 .circle:hover, 
 .circle.active {
     background-color: var(--background-color-user);
@@ -206,11 +195,9 @@ body {
     color: var(--color-info-privacy);
     font-size: 20px;
     font-weight: bold;
-    
     display: flex;
     align-items: center;
     justify-content: center;
-
     height: 100%;
 }
 
@@ -218,20 +205,17 @@ body {
     list-style: none;
     padding: 0;
     margin: 0;
-
     font-size: 16px;
     width: 130px;
     height: 46px;
     padding-left: 16px;
-
     display: flex;
     align-items: center;
-
     cursor: pointer;
-
     transition: background-color 100ms ease,
                 transform 100ms ease;
 }
+
 .nav-user a,
 .nav-user a:visited,
 .nav-user a:hover,
@@ -244,6 +228,7 @@ body {
 .nav-user li:hover {
     background-color: var(--hover-sidebar);
 }
+
 .nav-user li:hover a {
     color: white;
     font-weight: bold;
@@ -253,17 +238,15 @@ body {
     position: absolute;
     top: 96px;
     left: 1270px;
-
     width: 150px;
     height: 160px;
-
     border: 1px solid var(--sidebar-background);
     background-color: var(--sidebar-background);
     box-shadow: var(--box-shadow-signup-info);
     border-radius: 20px 0 20px 20px;
-
     color: var(--color-user-nav);
 }
+
 .nav-user button {
     border: unset;
     background-color: transparent;
@@ -274,8 +257,5 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 1000;
 }
-
-
-
-

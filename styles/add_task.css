@@ -252,7 +252,37 @@ textarea:focus {
     height: 20px;
     background: #D1D1D1;
 }
+.subtask-actions {
+    display: none;
+}
 
+.subtask-input.active .subtask-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.subtask-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.subtask-item .subtask-edit-actions {
+    display: none;
+    gap: 8px;
+}
+
+.subtask-item:hover .subtask-edit-actions {
+    display: flex;
+}
+
+.subtask-item.editing input {
+    border: none;
+    border-bottom: 1px solid #ccc;
+    outline: none;
+    width: 100%;
+}
 textarea {
     resize: none;
     height: 120px;
@@ -512,8 +542,4 @@ textarea {
     font-weight: bold;
     
     pointer-events: none;
-}
-
-@view-transition {
-  navigation: auto;
 }

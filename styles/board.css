@@ -26,7 +26,7 @@ h1 {
 }
 
 .search-container {
-  width: 312px;
+  width: 314px;
   height: 48px;
 
   border-radius: 10px;
@@ -45,7 +45,7 @@ h1 {
 }
 
 .filter-container {
-  width: 280px;
+  width: 312px;
   display: flex;
   padding: 8px 16px;
 }
@@ -53,15 +53,18 @@ h1 {
 .container-btn {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
 
-  width: 48px;
+  width: 55px;
   height: 32px;
   padding: 0;
+  flex-shrink: 0;
 }
 
 .search-task {
   width: 232px;
   border: none;
+  flex-shrink: 0;
 
   font-size: 20px;
   font-weight: 400;
@@ -76,22 +79,22 @@ h1 {
 }
 
 .container-search-task {
-  width: 44px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.btn-search-task {
-    width: 17px;
-    height: 17px;
+.btn-search-task{
+  width: 17px;
+  height: 17px;
 
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: right;
-    background-color: transparent;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
 
   background-image: url("../assets/icons/board/header/search_default.svg");
 
@@ -177,10 +180,6 @@ h2 {
   background-image: url("../assets/icons/board/main/plus_btn_default.svg");
 }
 
-.plus-btn-hover {
-  background-image: url("../assets/icons/board/main/plus_btn_hover.svg");
-}
-
 .no-task-feedback {
   height: 48px;
   border-radius: 10px;
@@ -207,7 +206,7 @@ h2 {
   background-color: var(--background-no-task-feedback);
 }
 
-.btn-search-task:active {
+.btn-search-task:hover {
   background-image: url("../assets/icons/board/header/search_hover.svg");
 }
 
@@ -634,7 +633,7 @@ input[type="checkbox"] {
     background-repeat: no-repeat;
     background-position: center;
 
-    border: none;
+    border: none !important;
 }
 
 .background-checkbox {
@@ -771,7 +770,7 @@ input[type="checkbox"]:checked {
 }
 
 .frame-view-edit-task {
-  padding: 40px 40px 40px 40px;
+  padding: 0px 40px 40px 40px;
 }
 
 .headline-edit-task {
@@ -782,8 +781,7 @@ input[type="checkbox"]:checked {
 
 .form-for-edit-task {
   width: 445px;
-  height: 700px;
-
+  height: 1000px;
   padding-top: 20px;
 }
 
@@ -850,30 +848,6 @@ input[type="checkbox"]:checked {
   font-size: 20px;
 
   transition: box-shadow 0.2s ease, transform 0.2s ease;
-}
-
-.img-prio-urgent {
-  background-image: url("../assets/icons/board/cards/prio_high.svg");
-  width: 20px;
-  height: 15px;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-.img-prio-medium {
-  background-image: url("../assets/icons/board/cards/prio_medium.svg");
-  width: 20px;
-  height: 8px;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-.img-prio-low {
-  background-image: url("../assets/icons/board/cards/prio_low.svg");
-  width: 20px;
-  height: 15px;
-  background-repeat: no-repeat;
-  background-position: center;
 }
 
 .btn-prio-in-edit-mode {
@@ -951,15 +925,15 @@ input[type="checkbox"]:checked {
   background-color: var(--background-no-task-feedback);
 }
 
-.user-chosen-for-task {
-    padding-top: 20px;
+.assign-contact {
+    padding-top: 10px;
 
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.user-for-tasks {
+.contact-for-tasks {
   width: 42px;
   height: 42px;
   border-radius: 50%;
@@ -1117,4 +1091,48 @@ dialog {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: var(--hover);
+}
+
+.scroll-wrapper {
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  width: 505px;
+  max-height: 750px;
+}
+
+.scroll-wrapper::-webkit-scrollbar-track {
+  margin-top: 100px;
+}
+
+.list-subtasks::-webkit-scrollbar-track {
+  margin-top: 10px;
+}
+
+.header-form {
+  padding-top: 30px;
+}
+
+.list-subtasks.remove-scrollbar {
+    max-height: unset;
+    overflow: hidden;
+}
+.assign-contact.margin-badge {
+  margin-left: 10px;
+}
+.header-add-task {
+  align-items: unset;
+}
+
+.cancel-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+
+  font-size: 20px;
+}
+.cancel-btn img {
+  width: 24px;
+  height: 24px;
+  padding-top: 2px;
 }

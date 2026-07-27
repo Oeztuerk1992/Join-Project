@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="../styles/board.css" />
     <link rel="stylesheet" href="../styles/add_task.css" />
   </head>
+
   <body onload="initBoard()">
     <div id="main-layout">
       <div class="sidebar">
@@ -79,11 +80,11 @@
           </div>
           <nav class="header-right">
             <a href="help.html" title="Help">
-                <img
-                  class="header-help"  
-                  src="../assets/icons/help_icon.svg"
-                  alt="help-img"
-                />
+              <img
+                class="header-help"
+                src="../assets/icons/help_icon.svg"
+                alt="help-img"
+              />
             </a>
             <button class="user-menu" onclick="toggleUserMenu()">
               <div class="circle">
@@ -142,7 +143,12 @@
                 onclick="openAddTaskOverlay()"
               ></button>
             </div>
-            <div id="kanban-to-do" class="kanban-content" ondrop="moveTo('kanban-to-do'); removeHighlight()" ondragover="allowDrop(event); highlight('kanban-to-do')"></div>
+            <div
+              id="kanban-to-do"
+              class="kanban-content"
+              ondrop="moveTo('kanban-to-do'); removeHighlight()"
+              ondragover="allowDrop(event); highlight('kanban-to-do')"
+            ></div>
             <div id="empty-spot-drag"></div>
           </article>
           <article class="kanban-column">
@@ -153,7 +159,12 @@
                 onclick="openAddTaskOverlay()"
               ></button>
             </div>
-            <div id="kanban-in-progress" class="kanban-content" ondrop="moveTo('kanban-in-progress'); removeHighlight()" ondragover="allowDrop(event); highlight('kanban-in-progress')"></div>
+            <div
+              id="kanban-in-progress"
+              class="kanban-content"
+              ondrop="moveTo('kanban-in-progress'); removeHighlight()"
+              ondragover="allowDrop(event); highlight('kanban-in-progress')"
+            ></div>
             <div id="empty-spot-drag"></div>
           </article>
           <article class="kanban-column">
@@ -164,152 +175,267 @@
                 onclick="openAddTaskOverlay()"
               ></button>
             </div>
-            <div id="kanban-feedback" class="kanban-content" ondrop="moveTo('kanban-feedback'); removeHighlight()" ondragover="allowDrop(event); highlight('kanban-feedback')"></div>
+            <div
+              id="kanban-feedback"
+              class="kanban-content"
+              ondrop="moveTo('kanban-feedback'); removeHighlight()"
+              ondragover="allowDrop(event); highlight('kanban-feedback')"
+            ></div>
             <div id="empty-spot-drag"></div>
           </article>
           <article class="kanban-column">
             <div class="kanban-header">
               <h2>Done</h2>
             </div>
-            <div id="kanban-done" class="kanban-content" ondrop="moveTo('kanban-done'); removeHighlight()" ondragover="allowDrop(event); highlight('kanban-done')"></div>
+            <div
+              id="kanban-done"
+              class="kanban-content"
+              ondrop="moveTo('kanban-done'); removeHighlight()"
+              ondragover="allowDrop(event); highlight('kanban-done')"
+            ></div>
             <div id="empty-spot-drag"></div>
           </article>
         </section>
-        <div id="add-task-overlay" class="add-task-overlay">
-          <section class="add-task-container">
-            <button class="btn-close-overlay" onclick="closeAddTaskOverlay()">
-              ✕
-            </button>
 
+        <section id="add-task-overlay" class="add-task-container add-task-overlay">
+          <div class="headline-view-task header-add-task">
             <h1>Add Task</h1>
+            <button class="btn-close" onclick="closeAddTaskOverlay()"></button>
+          </div>
 
-            <form id="addTaskForm">
-              <div class="form-wrapper">
-                <!-- LINKER BEREICH -->
+          <form id="addTaskForm" class="addtask-form">
+            <div class="form-wrapper">
+              <!-- LINKER BEREICH -->
 
-                <div class="left-side">
-                  <div class="input-group">
-                    <label>Title<span>*</span></label>
+              <div class="left-side">
+                <div class="input-group">
+                  <label>Title<span class="red-required">*</span></label>
 
-                    <input type="text" placeholder="Enter a title" />
+                  <input
+                    type="text"
+                    id="taskTitle" class="hover-input"
+                    placeholder="Enter a title"
+                  />
+                </div>
+
+                <div class="input-group">
+                  <label>Description</label>
+
+                  <div class="textarea-wrapper">
+                    <textarea
+                      id="taskDescription"
+                      placeholder="Enter a Description"
+                    ></textarea>
+
+                    <img
+                      class="textarea-icon"
+                      src="../assets/icons/description/Capa 1.svg"
+                      alt=""
+                    />
                   </div>
+                </div>
 
-                  <div class="input-group">
-                    <label>Description</label>
+                <div class="input-group">
+                  <label>Due date<span class="red-required">*</span></label>
 
-                    <div class="textarea-wrapper">
-                      <textarea placeholder="Enter a Description"></textarea>
+                  <input type="date" id="taskDate" class="hover-input" required />
+                </div>
+              </div>
 
+              <div class="separator"></div>
+
+              <!-- RECHTER BEREICH -->
+
+              <div class="right-side">
+                <div class="input-group">
+                  <label>Priority</label>
+
+                  <div id="button-prio-form" class="priority-container">
+                    <button
+                      id="urgent"
+                      type="button"
+                      class="priority urgent"
+                      onclick="setPriority(this)"
+                    >
+                      <span>Urgent</span>
                       <img
-                        class="textarea-icon"
-                        src="../assets/icons/description/Capa 1.svg"
+                        src="../assets/icons/priority/Property 1=Urgent.svg"
                         alt=""
                       />
-                    </div>
-                  </div>
+                    </button>
 
-                  <div class="input-group">
-                    <label>Due date<span>*</span></label>
+                    <button
+                      id="medium"
+                      type="button"
+                      class="priority medium"
+                      onclick="setPriority(this)"
+                    >
+                      <span>Medium</span>
+                      <img
+                        src="../assets/icons/priority/Property 1=Medium.svg"
+                        alt=""
+                      />
+                    </button>
 
-                    <input type="date" />
+                    <button
+                      id="low"
+                      type="button"
+                      class="priority low"
+                      onclick="setPriority(this)"
+                    >
+                      <span>Low</span>
+                      <img
+                        src="../assets/icons/priority/Property 1=Low.svg"
+                        alt=""
+                      />
+                    </button>
                   </div>
                 </div>
 
-                <div class="separator"></div>
+                <div id="container-dropdown-menu" class="input-group">
+                  <label>Assigned to</label>
 
-                <!-- RECHTER BEREICH -->
+                  <div
+                    id="toggle-default"
+                    class="dropdown-container"
+                    onclick="toggleDropdown(this)"
+                  >
+                    <input
+                      id="dropdown-assignment"
+                      class="dropdown dropdown-assignment"
+                      placeholder="Select contacts to assign"
+                      onkeydown="showFilteredContactList(this)"
+                    />
+                    <button
+                      type="button"
+                      id="dropdownArrow"
+                      class="arrow-dropdown"
+                    ></button>
+                    <div id="dropdownMenu" class="dropdown-menu"></div>
+                  </div>
 
-                <div class="right-side">
-                  <div class="input-group">
-                    <label>Priority</label>
+                  <div
+                    id="contact-chosen-for-task"
+                    class="assign-contact"
+                  ></div>
+                </div>
 
-                    <div class="priority-container">
-                      <button
-                        onclick="this.classList.toggle('active')"
-                        type="button"
-                        class="priority urgent"
+                <div class="input-group container-categories">
+                  <label>Category<span class="red-required">*</span></label>
+
+                  <div
+                    class="dropdown-container"
+                    onclick="toggleCategoryDropdown()"
+                  >
+                    <input
+                      id="selectedCategory"
+                      class="dropdown"
+                      placeholder="Select task category"
+                      readonly
+                    />
+                    <button
+                      type="button"
+                      id="dropdownArrowCategory"
+                      class="arrow-dropdown"
+                    ></button>
+                    <div id="categoryMenu" class="dropdown-menu">
+                      <div
+                        class="dropdown-item category-item"
+                        onclick="selectCategory('Technical Task', event)"
                       >
-                        Urgent
+                        <span> Technical Task </span>
+                      </div>
+
+                      <div
+                        class="dropdown-item category-item"
+                        onclick="selectCategory('User Story', event)"
+                      >
+                        <span> User Story </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="input-group group-subtasks">
+                  <label>Subtasks</label>
+
+                  <div class="subtask-input">
+                    <input
+                      id="input-subtask-add-task"
+                      type="text"
+                      placeholder="Add new subtask"
+                    />
+
+                    <div class="subtask-actions">
+                      <button
+                        type="button"
+                        onclick="closeEditSubtask('add-task')"
+                      >
                         <img
-                          src="../assets/icons/priority/Property 1=Urgent.svg"
+                          src="../assets/icons/edit_delete/Property 1=close.svg"
                         />
                       </button>
 
-                      <button
-                        onclick="this.classList.toggle('active')"
-                        type="button"
-                        class="priority medium"
-                      >
-                        Medium
-                        <img
-                          src="../assets/icons/priority/Property 1=Medium.svg"
-                        />
-                      </button>
+                      <div class="subtask-divider"></div>
 
                       <button
-                        onclick="this.classList.toggle('active')"
                         type="button"
-                        class="priority low"
+                        onclick="saveEditSubtask('add-task')"
                       >
-                        Low
                         <img
-                          src="../assets/icons/priority/Property 1=Low.svg"
+                          src="../assets/icons/edit_delete/Property 1=check.svg"
                         />
                       </button>
                     </div>
                   </div>
 
-                  <div class="input-group">
-                    <label>Assigned to</label>
-
-                    <div class="dropdown">
-                      <span>Select contacts to assign</span>
-
-                      <img
-                        src="../assets/icons/dropdown/Property 1=Default.svg"
-                      />
-                    </div>
-                  </div>
-
-                  <div class="input-group">
-                    <label>Category<span>*</span></label>
-
-                    <div class="dropdown">
-                      <span>Select task category</span>
-
-                      <img
-                        src="../assets/icons/dropdown/Property 1=Default.svg"
-                      />
-                    </div>
-                  </div>
-
-                  <div class="input-group">
-                    <label>Subtasks</label>
-
-                    <div class="subtask-input">
-                      <input type="text" placeholder="Add new subtask" />
-                    </div>
+                  <div id="list-subtasks" class="list-subtasks">
+                    <ul
+                      id="ul-subtask-add-task"
+                      class="container-ul-subtask"
+                    ></ul>
                   </div>
                 </div>
               </div>
+            </div>
 
-              <div class="bottom-area">
-                <p><span>*</span>This field is required</p>
+            <div class="flex-grow"></div>
 
-                <div class="button-area">
-                  <button type="reset" class="clear-btn">Clear</button>
+            <div class="bottom-area">
+              <p><span class="red-required">*</span>This field is required</p>
 
-                  <button type="submit" class="create-btn">Create Task</button>
-                </div>
+              <div class="button-area">
+                <button type="button" class="clear-btn cancel-btn" onclick="closeAddTaskOverlay()">
+                  <span>Cancel</span>
+                  <img src="../assets/icons/board/icon_cancel.svg" alt="img-cancel">
+                </button>
+
+                <button onclick="createTask()" type="button" class="create-btn">
+                  Create Task
+                </button>
               </div>
-            </form>
-          </section>
-        </div>
+            </div>
+          </form>
+        </section>
+
+        <dialog id="confirmation-dialog" class="confirm">
+          <span>Task added to Board</span>
+          <img
+            src="../assets/icons/template/board_active-icon.svg"
+            alt="board-img"
+          />
+        </dialog>
+
       </main>
     </div>
     <script src="../js/board.js"></script>
     <script src="../js/desktop_template.js"></script>
-    <script src="../js/templates/board_template.js"></script>    
+    <script src="../js/templates/board_template.js"></script>
+    <script src="../js/templates/add_task_template.js"></script>
     <script src="../js/add_task.js"></script>
+    <script src="../js/signup.js"></script>
+    <script src="../js/remoteStorage.js"></script>
+    <script src="../js/summary.js"></script>
+    
   </body>
 </html>

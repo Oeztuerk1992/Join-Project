@@ -15,21 +15,18 @@ body {
 }
 
 .dropdown{
-
-    height:48px;
-
-    border:1px solid #D1D1D1;
-    border-radius:10px;
+    height: 48px;
+    width: 440px;
+    border: 1px solid var(--font-legalnotice);
+    background-color: white;
+    color: var(--border-color-input);
+    border-radius: 10px;
+    padding: 0;
+    cursor: pointer;
 
     display:flex;
     justify-content:space-between;
     align-items:center;
-
-    padding:0 16px;
-
-    background:white;
-
-    cursor:pointer;
 }
 
 .dropdown img{
@@ -42,50 +39,58 @@ body {
 .dropdown-menu{
 
     position:absolute;
-
-    top:55px;
-
+    top:48px;
     width:100%;
-
     display:none;
-
     background:white;
-
     border-radius:10px;
-
     box-shadow:0 4px 12px rgba(0,0,0,.15);
-
     overflow:hidden;
-
     z-index:5;
 }
 
 .dropdown-menu.show{
-
     display:block;
+}
+.show {
+    display: block;
 }
 
 .dropdown-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
+    color: black;
     padding: 12px 16px;
+}
+.dropdown-item input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+}
+
+.category-item {
+    font-size: 20px;
 }
 
 .dropdown-item:hover{
-
-    background:#F6F7F8;
+    background-color: var(--background-status-bar-default);
+}
+.dropdown-item.selected {
+    background-color: var(--sidebar-background);
+    color: white;
 }
 
+.dropdown-item.selected:hover {
+    background-color: var(--active-sidebar);
+}
 
-.contact-info{
-
-    display:flex;
-    align-items:center;
-        white-space: nowrap;
-
-    gap:12px;
+.contact-info {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    font-size: 20px;
+    font-weight: 400;
+    gap: 12px;
 }
 
 .contact-circle {
@@ -106,6 +111,7 @@ body {
     color: white;
     font-size: 14px;
     font-weight: 500;
+    border: 2px solid white;
 }
 
 .blue{
@@ -199,20 +205,53 @@ body {
     font-size: 20px;
 }
 
-input:not(.search-task),
+input:not(.search-task,.btn-search-task),
 textarea {
-    border: 1px solid #D1D1D1;
+    width: 440px;
+    height: 48px;
+
+    border: 1px solid var(--font-legalnotice);
+    color: black;
+
     border-radius: 10px;
     padding: 12px 16px;
     font-size: 20px;
-    font-family: inherit;
-    outline: none;
+    font-weight: 400;
+
+    cursor: pointer;
 }
 
-input:focus,
-textarea:focus {
-    border-color: #29ABE2;
+input.hover-input:hover {
+    border: 1px solid var(--color-footer) !important;
 }
+
+
+.textarea-wrapper textarea:hover {
+    border: 1px solid var(--color-footer);
+}
+.dropdown-container:hover {
+    border: 1px solid var(--color-footer);
+}
+
+input:not(.search-task)::placeholder,
+textarea::placeholder {
+    color: var(--border-color-input);
+}
+
+input:not(.search-task):focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--border-input-active);
+}
+
+input[type="date"] {
+    color: var(--border-color-input);
+}
+
+input[type="date"]:valid {
+    color: black;
+}
+
 
 .subtask-input {
     display: flex;
@@ -224,8 +263,6 @@ textarea:focus {
     border: 1px solid #D1D1D1;
     border-radius: 10px;
 
-    padding: 0 12px;
-
     background: white;
 }
 
@@ -236,7 +273,8 @@ textarea:focus {
 .subtask-actions {
     display: none;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
+    padding-right: 16px;
 }
 
 .subtask-input.active .subtask-actions {
@@ -332,27 +370,74 @@ textarea {
 }
 /* ---------- Dropdown ---------- */
 
-.dropdown {
+.dropdown-container {
     height: 48px;
-    border: 1px solid #D1D1D1;
-    border-radius: 10px;
-    background: white;
-    padding: 0 16px;
-
+    width: 440px;
+    
     display: flex;
     justify-content: space-between;
     align-items: center;
+    
+    border: 1px solid var(--font-legalnotice);
+    border-radius: 10px;
+
+    background-color: white;
+    color: var(--border-color-input);
+    cursor: pointer;
+}
+.arrow-dropdown {
+    width: 24px;
+    height: 24px;
+
+    margin-right: 20px;
+    border: unset;
+    background-color: transparent;
+
+    background-image: url("../assets/icons/dropdown/Property 1=Default.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 
     cursor: pointer;
 }
-
-.dropdown:hover {
-    border-color: #29ABE2;
+.arrow-dropdown:hover {
+    border-radius: 30%;
+    background-color: var(--background-no-task-feedback);
 }
 
-.dropdown img {
-    width: 20px;
+.rotate {
+  transform: rotate(180deg);
 }
+
+.dropdown-item input[type="checkbox"] {
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    background-image: url(../assets/icons/board/cards/check-btn.svg);
+    background-size: 24px 24px;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: none;
+}
+.dropdown-item input[type="checkbox"]:checked {
+    background-image: url(../assets/icons/dropdown/check_active.svg);
+}
+
+
+
+
+.dropdown-container input {
+    border: none;
+    height: 46px;
+}
+input.dropdown::placeholder {
+    color: black;
+}
+.dropdown-container:focus-within {
+    border-color: var(--border-input-active);
+}
+
 
 /* ---------- Subtask ---------- */
 
@@ -373,7 +458,8 @@ textarea {
 }
 
 .subtask-input button {
-    width: 48px;
+    width: 24px;
+    height: 24px;
     border: none;
     background: white;
     cursor: pointer;
@@ -383,8 +469,6 @@ textarea {
 /* ---------- Footer ---------- */
 
 .bottom-area {
-    margin-top: 60px;
-
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -394,8 +478,8 @@ textarea {
     font-size: 16px;
 }
 
-.bottom-area p span {
-    color: #FF8190;
+.red-required {
+    color: red;
 }
 
 /* ---------- Buttons ---------- */
@@ -422,8 +506,8 @@ textarea {
 }
 
 .clear-btn:hover {
-    border-color: #29ABE2;
-    color: #29ABE2;
+    transform: scale(1.01);
+    box-shadow: 0px 4px 4px 0px var(--box-shadow-choose-prio);
 }
 
 .create-btn {
@@ -433,14 +517,20 @@ textarea {
 }
 
 .create-btn:hover {
-    background: #29ABE2;
+    transform: scale(1.01);
+    background: var(--border-input-active);
+    box-shadow: 0px 4px 4px 0px var(--box-shadow-choose-prio);
 }
 
+
 .add-task-overlay {
+    max-width: 1100px;
+    max-height: 870px;
+    
     position: fixed;
     padding: 30px;
-    top: 50%;
-    left: 50%;
+    top: 55%;
+    left: 45%;
 
     transform: translate(-50%, -50%);
     background-color: white;
@@ -507,4 +597,233 @@ textarea {
     font-weight: bold;
     
     pointer-events: none;
+}
+
+/* Subtasks */
+
+.container-ul-subtask {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.list-subtasks {
+    padding-top: 10px;
+}
+
+.li-subtask {
+    font-size: 16px;
+    font-weight: 400;
+    margin-left: 15px;
+}
+.container-subtask-li {
+    height: 32px;
+    width: 440px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+
+    padding: 4px 16px 4px 30px;
+}
+
+.container-subtask-li:hover {
+    border-radius: 10px;
+    background-color: var(--background-no-task-feedback);
+}
+
+.container-edit-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease;
+}
+
+.container-subtask-li:hover .container-edit-btn {
+    opacity: 1;
+    visibility: visible;
+}
+
+.container-edit-btn img{
+    width: 16px;
+}
+.container-edit-btn button {
+    width: 24px;
+    height: 24px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: none;
+    cursor: pointer;
+    
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.container-edit-btn img {
+    width: 16px;
+    height: 16px;
+    display: block;
+}
+
+.edit-button {
+    background-image: url("../assets/icons/edit_delete/edit.svg");
+}
+.edit-button:hover {
+    background-image: url("../assets/icons/edit_delete/edit_hover.svg");
+}
+
+.delete-button, .delete-button-edit {
+    background-image: url("../assets/icons/edit_delete/delete.svg");
+}
+.delete-button:hover {
+    background-image: url("../assets/icons/edit_delete/delete_hover.svg");
+}
+.delete-button-edit:hover {
+    border-radius: 50%;
+    background-color: var(--background-no-task-feedback);
+}
+
+.subtask-actions {
+    display: none;
+}
+
+.subtask-input:focus-within .subtask-actions {
+    display: flex;
+}
+
+.subtask-input button:hover {
+  border-radius: 50%;
+  background-color: var(--background-no-task-feedback);
+}
+.save-edited-task:hover {
+  border-radius: 50%;
+  background-color: var(--background-no-task-feedback);
+}
+
+.subtask-input {
+
+  border: 1px solid var(--font-legalnotice);
+  background-color: white;
+  color: var(--border-color-input);
+}
+.subtask-input:hover {
+  border: 1px solid var(--color-footer);
+}
+.subtask-input:focus-within {
+  border: 1px solid var(--border-input-active);
+}
+.subtask-input:focus-within {
+  color: black;
+}
+
+.subtask-edit-mode {
+    background: white !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    padding-right: 16px !important;
+    border-bottom: 1px solid black;
+}
+.subtask-edit-mode:hover {
+    border-radius: 0 !important;
+}
+.btn-inner-html {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.container-edit-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.subtask-edit-input {
+    height: 32px !important;
+    width: 100%;
+    border: none !important;
+    outline: none;
+    font-size: 16px !important;
+    font-family: inherit;
+    background: transparent;
+    border-radius: 0 !important;
+    padding: 0;
+
+
+}
+.container-edit-btn img {
+    width: 24px;
+    height: 24px;
+}
+.always-visible {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+.list-subtasks {
+    max-height: 100px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: lightblue;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--title-kanban);
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--hover);
+}
+
+.addtask-form {
+    height: 630px;
+    display: flex;
+    flex-direction: column;
+}
+
+.confirm {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, 100vh);
+    transition: transform 0.8s ease-in-out;
+
+    z-index: 1000;
+
+    font-size: 20px;
+    background-color: var(--sidebar-background);
+    box-shadow: var(--box-shadow-signup-info);
+    color: white;
+
+    width: 300px;
+    height: 70px;
+    border-radius: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.confirm::backdrop {
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(1px);
+}
+
+.confirm.show {
+    transform: translate(-50%, -50%);
 }

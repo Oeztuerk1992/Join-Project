@@ -1,159 +1,67 @@
-// variables //
+// Variables //
 
 const placeholder = document.getElementById('empty-spot-drag');
-
 let currentDraggedElement;
+let tasks = [];
 
-let tasks = [
-    {
-        id: 0,
-        'taskStatus': 'Await feedback',
-        'category': 'User Story',
-        'title': 'Kochwelt Page & Recipe Recommender',
-        'description': 'Define CSS naming conventions and structure fdfdfdfdfdfdfdfddfdfdfd.',
-        'dueDate': '30.07.2026',
-        'priority': 'Urgent',
-        'assignedTo': [
-            {
-                name: 'Sofia Müller',
-                color: '--badge-color-1'
-            },
-            {
-                name: 'Max Mustermann',
-                color: '--badge-color-2'
-            },
-            {
-                name: 'Wolfgang Ball',
-                color: '--badge-color-3'
-            }
-        ],
-        subtasks: [
-            {
-                title: 'Create layout',
-                status: 'open'
-            },
-            {
-                title: 'Implement form',
-                status: 'done'
-            }
-        ]
-    },
-     {
-        id: 1,
-        'taskStatus': 'To do',
-        'category': 'User Story',
-        'title': 'Contact Form & Imprint ddddddddddeeeeeeeeeeeeeeeeeeeeeeed',
-        'description': 'Define CSS naming conventions and structuredddddddddddddddddddd.',
-        'dueDate': '30.07.2026',
-        'priority': 'Urgent',
-        'assignedTo': [
-            {
-                name: 'Sofia Müller',
-                color: '--badge-color-1'
-            },
-            {
-                name: 'Max Mustermann',
-                color: '--badge-color-2'
-            }
-        ],
-        subtasks: [
-            {
-                title: 'Create layout',
-                status: 'done'
-            },
-            {
-                title: 'Implement form',
-                status: 'open'
-            }
-        ]
-    },
-     {
-        id: 2,
-        'taskStatus': 'Done',
-        'category': 'User Story',
-        'title': 'Contact Form & Imprint',
-        'description': 'Define CSS naming conventions and structure.',
-        'dueDate': '30.07.2026',
-        'priority': 'Urgent',
-        'assignedTo': [
-            {
-                name: 'Sofia Müller',
-                color: '--badge-color-1'
-            },
-            {
-                name: 'Max Mustermann',
-                color: '--badge-color-2'
-            }
-        ],
-        subtasks: [
-            {
-                title: 'Create layout',
-                status: 'done'
-            },
-            {
-                title: 'Implement form',
-                status: 'done'
-            }
-        ]
-    },
-    {
-        id: 3,
-        'taskStatus': 'Done',
-        'category': 'Technical Task',
-        'title': 'Testmodul',
-        'description': 'Preparations for testmodul',
-        'dueDate': '10.07.2026',
-        'priority': 'Medium',
-        'assignedTo': [
-            {
-                name: 'Sofia Müller',
-                color: '--badge-color-1'
-            },
-            {
-                name: 'Max Mustermann',
-                color: '--badge-color-2'
-            },
-            {
-                name: 'Wolfgang Ball',
-                color: '--badge-color-3'
-            }
-        ],
-        subtasks: [
-            {
-                title: 'Create layout',
-                status: 'open'
-            },
-            {
-                title: 'Implement form',
-                status: 'open'
-            }
-        ]
-    }];
-
-// functions //
-
-function initBoard() {
-    getUserProfile();
-    updateTasksforBoard();
-}
-
-function getToAddTask() {
-    window.location.href = 'add_task.html';
-}
-
-function updateTasksforBoard(tasksToShow = tasks) {
-    const columns = {
+const columns = {
         'To do': document.getElementById('kanban-to-do'),
         'In progress': document.getElementById('kanban-in-progress'),
         'Await feedback': document.getElementById('kanban-feedback'),
         'Done': document.getElementById('kanban-done')
     };
 
+// Functions //
+
+// Init and Loading //
+
+async function initBoard() {
+    await initAddTask();
+    await loadTasks();
+
+    updateTasksforBoard();
+}
+
+async function loadTasks() {
+    try {
+        const response = await fetch(BASE_URL + "tasks.json");
+
+        if (!response.ok) {
+            throw new Error("Loading failed");
+        }
+
+        const data = await response.json();
+
+        tasks = data
+            ? Object.entries(data).map(([id, task]) => ({
+                  id: id.substring(1),
+                  title: task.title || "",
+                  description: task.description || "",
+                  dueDate: task.dueDate || "",
+                  priority: task.priority || "",
+                  assignedTo: task.assignedTo || [],
+                  category: task.category || "",
+                  subtasks: task.subtasks || [],
+                  taskStatus: task.taskStatus || "To do"
+              }))
+            : [];
+    } catch (error) {
+        console.error("Error loading tasks:", error);
+        tasks = [];
+    }
+}
+
+// Board //
+
+function updateTasksforBoard(tasksToShow = tasks) {
     Object.values(columns).forEach(column => column.innerHTML = '');
 
-    tasksToShow.forEach(element => {
-        const column = columns[element.taskStatus];
-        if (column) column.innerHTML += generateTaskMiniCardHTML(element);
+    tasksToShow.forEach(task => {
+        const column = columns[task.taskStatus];
+
+        if (column) {
+            column.innerHTML += generateTaskMiniCardHTML(task);
+        }
     });
 
     Object.values(columns).forEach(column => {
@@ -163,32 +71,30 @@ function updateTasksforBoard(tasksToShow = tasks) {
     });
 }
 
+// Functions for generating minicard-HTML //
+
 function getTaskCategory(category) {
-    if (category === 'User Story') {
-        return `
-            <div class="category-user-story">User Story</div>
-            `
+    if (category === 'User Story') { 
+
+        return generateTaskCategoryUserStoryHTML();
     }
-    return `
-            <div class="category-technical-task">Technical Task</div>
-            `
+    return generateTaskCategoryTechnicalTaskHTML();
 }
 
 function getImgPrio(priority) {
     if (priority === 'Low') {
-        return `
-            <img src="../assets/icons/board/cards/prio_low.svg" alt="img-prio-low">`
+
+        return generateImgPrioLowHTML(); 
     }
     if (priority === 'Medium') {
-        return `
-            <img src="../assets/icons/board/cards/prio_medium.svg" alt="img-prio-medium">`
+
+        return generateImgPrioMediumHTML();
     }
-    return `
-            <img src="../assets/icons/board/cards/prio_high.svg" alt="img-prio-high">`
+        return generateImgPrioHighHTML();
 }
 
-function getAssignedContactBadges(contacts) {
-    return contacts.map(contact => {
+function getAssignedContactBadges(assignments) {
+    return assignments.map(contact => {
         const parts = contact.name.split(' ');
 
         const initials =
@@ -197,10 +103,8 @@ function getAssignedContactBadges(contacts) {
                 ? parts[parts.length - 1][0].toUpperCase()
                 : '');
 
-        return `<div class="user-abbr" 
-                style="background-color: var(${contact.color})">
-                ${initials}</div>
-                `;
+        return generateBadgesHTML(contact.color, initials);
+
     }).join('');
 }
 
@@ -212,11 +116,12 @@ function getStatusSubtasks(subtasks) {
             numberOfDoneSubtasks++;
         }
     }
-
     return `${numberOfDoneSubtasks}/${subtasks.length} Subtasks`;
 }
 
 function getSubtaskProgress(subtasks) {
+    if (!subtasks.length) return 0;
+
     let done = 0;
 
     for (let index = 0; index < subtasks.length; index++) {
@@ -224,15 +129,10 @@ function getSubtaskProgress(subtasks) {
             done++;
         }
     }
-
     return (done / subtasks.length) * 100;
 }
 
-function generateEmptyCardHTML() {
-    return `
-            <div class="no-task-feedback">No tasks To do</div>
-            `        
-}
+// Functions for drag and drop //
 
 function startDragging(id) {
     currentDraggedElement = id;
@@ -242,7 +142,6 @@ function startDragging(id) {
 }
 
 function endDragging(id) {
-
     const card = document.getElementById(`card-mini-${id}`);
     card.classList.remove('dragging');
     
@@ -253,21 +152,24 @@ function allowDrop(event) {
     event.preventDefault();
 }
 
-function moveTo(taskCat) {
-    
-const categoryStatus = {
-        'kanban-to-do' : 'To do',
-        'kanban-in-progress' : 'In progress',
-        'kanban-feedback' : 'Await feedback',
-        'kanban-done' : 'Done'
+async function moveTo(taskCat) {
+    const categoryStatus = {
+        'kanban-to-do': 'To do',
+        'kanban-in-progress': 'In progress',
+        'kanban-feedback': 'Await feedback',
+        'kanban-done': 'Done'
     };
+    const task = tasks.find(task => task.id === currentDraggedElement);
 
-    tasks[currentDraggedElement]['taskStatus'] = categoryStatus[taskCat];
-    updateTasksforBoard();
+    if (task) {
+        task.taskStatus = categoryStatus[taskCat];
+
+        await saveTaskCategory(currentDraggedElement, task.taskStatus);
+        updateTasksforBoard();
+    }
 }
 
 function highlight(id) {
-    
     const currentColumn = document.getElementById(`card-mini-${currentDraggedElement}`).parentElement;
     const target = document.getElementById(id);
 
@@ -286,29 +188,29 @@ function removeHighlight() {
     placeholder.classList.remove('drag-area-highlight');
 }
 
+// Functions for generating task overlay //
 
-// Task Overlay //
-
-function openTaskOverlay(id) {
+function openTaskOverlay(id, placeholder) {
     const task = tasks.find(task => task.id === id);
 
     let dialog = document.getElementById(`task-overlay-${id}`);
 
-    if (!dialog) {
-        document.body.insertAdjacentHTML(
-            "beforeend",
-            generateTaskOverlayHTML(task)
-        );
-
-        dialog = document.getElementById(`task-overlay-${id}`);
+    if (dialog) {
+        dialog.remove();
     }
+    document.body.insertAdjacentHTML(
+        "beforeend",
+        generateTaskOverlayHTML(task)
+    );
+
+    dialog = document.getElementById(`task-overlay-${id}`);
     dialog.showModal();
-    
     dialog.classList.remove('modal-exit');
     
+    if (placeholder === 'animation') {
     requestAnimationFrame(() => {
         dialog.classList.add('modal-enter');
-    });
+    });}
 }
 
 function closeTaskOverlay(id) {
@@ -328,68 +230,78 @@ function closeTaskOverlay(id) {
 }
 
 function closeTaskOverlayNoAnimation(id) {
-
     const taskOverlay = document.getElementById(`task-overlay-${id}`);
-
     taskOverlay.close();
 }
 
+// Functions for generating task-overlay-HTML //
+
+function getDateFormat(date) {
+    let oldDate = date;
+    
+    let newDate =
+        oldDate.substring(8, 10) + "." +
+        oldDate.substring(5, 7) + "." +
+        oldDate.substring(0, 4);
+
+    return newDate;
+}
+
+function setActivePriority(priority) {
+    document.querySelectorAll(".priority").forEach(button => {
+        button.classList.toggle("active", button.value === priority);
+    });
+}
 
 function getAssignedContactNames(contacts) {
-    
     return contacts.map(contact => {
         const usernames = contact.name;
 
-        return `<div class="contact-names-overlay">
-                ${usernames}</div>
-                `;
+        return generateUserNamesHTML(usernames);
     }).join('');
 }
 
 function getSubtasksOverlay(subtasks, id) {
-    
     let listSubtasks = '';
 
     for (let index = 0; index < subtasks.length; index++) {
         listSubtasks += generateSubtaskHTML(subtasks, id, index);
     }
-
     return listSubtasks;
 }
 
-function generateSubtaskHTML(subtasks, id, index) {
-
-    return `
-            <label id="subtask-${id}-${index}" class="container-checkbox">
-                <div class="background-checkbox">
-                    <input type="checkbox" class="checkbox-subtask" ${subtasks[index].status === "done" ? "checked" : ""}/>
-                </div>
-                <p class="description-subtask">
-                    ${subtasks[index].title}
-                </p>
-            </label>
-            `
-}
-
-// Edit Overlay //
+// Functions for generating edit overlay //
 
 function getEditOverlay(id) {
-    const task = tasks.find(task => task.id ===id);
-
+    const task = tasks.find(task => task.id === id);
     let dialog = document.getElementById(`edit-overlay-${id}`);
 
-    if (!dialog) {
-        document.body.insertAdjacentHTML(
-            "beforeend",
-            generateEditOverlayHTML(task)
-        );
-
-        dialog = document.getElementById(`edit-overlay-${id}`);
+    if (dialog) {
+        dialog.remove();
     }
+
+    document.body.insertAdjacentHTML(
+        "beforeend",
+        generateEditOverlayHTML(task)
+    );
+
+    dialog = document.getElementById(`edit-overlay-${id}`);
+    const menu = document.getElementById(`dropdownMenu-${id}`);
+    renderContacts(contacts, menu, task.assignedTo);
+
     closeTaskOverlayNoAnimation(id);
     dialog.showModal();
+    setActivePriority(task.priority);
 }
 
+function getSubtasksEditOverlay(subtasks, id) {
+    let listSubtasks = '';
+
+    for (let index = 0; index < subtasks.length; index++) {
+        listSubtasks += generateSubtaskEditHTML(subtasks, id, index);
+    }
+    return listSubtasks;
+}
 
 function closeEditOverlay(id) {
     const editOverlay = document.getElementById(`edit-overlay-${id}`);
@@ -409,9 +321,10 @@ function closeEditOverlay(id) {
 
 function closeEditOverlayNoAnimation(id) {
     const editOverlay = document.getElementById(`edit-overlay-${id}`);
-
     editOverlay.close();
 }
+
+// function for search-bar, filtering tasks //
 
 function filterAndShowCurrentTask(filterWord) {
     const currentTasks = tasks.filter(task =>
@@ -421,8 +334,162 @@ function filterAndShowCurrentTask(filterWord) {
     updateTasksforBoard(currentTasks);
 }
 
+// function for opening/closing modal "add-task" //
+
+function openAddTaskOverlay() {
+    document.getElementById("add-task-overlay").classList.add("show");
+}
+
+function closeAddTaskOverlay() {
+    document.getElementById("add-task-overlay").classList.remove("show");
+}
+
+// delete function //
+
+async function deleteTask(id) {
+    const response = await fetch(`${BASE_URL}/tasks/-${id}.json`, {
+        method: "DELETE",
+    });
+
+    let responseToJson = await response.json();
+    closeTaskOverlay(id);
+
+    await loadTasks();
+    updateTasksforBoard();
+
+    return responseToJson;
+}
+
+// save/put functions //
+
+async function saveTaskCategory(id, data) {
+    const response = await fetch(`${BASE_URL}/tasks/-${id}/taskStatus.json`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    });
+    await loadTasks();
+
+    return response.json();
+}
+
+async function saveEditTask(id) {
+    const updatedTask = {
+        title: document.getElementById(`title-input-${id}`).value,
+        description: document.getElementById(`description-input-${id}`).value,
+        dueDate: document.getElementById(`date-input-${id}`).value,
+        priority: getSelectedPriority(id),
+        assignedTo: getAssignedContacts(id),
+        subtasks: getUpdatedSubtasks(id)
+    };
+
+    const response = await fetch(`${BASE_URL}/tasks/-${id}.json`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedTask),
+    });
+
+    if (!response.ok) {
+        throw new Error("Failed to update task");
+    }
+    procedureAfterSave(id);
+    return response.json();
+}
+
+async function procedureAfterSave(id) {
+    await loadTasks();
+    updateTasksforBoard();
+
+    closeEditOverlayNoAnimation(id);
+
+    const oldOverlay = document.getElementById(`task-overlay-${id}`);
+    if (oldOverlay) {
+        oldOverlay.remove();
+    }
+
+    openTaskOverlay(id, 'no animation');
+}
+
+function getSelectedPriority(id) {
+    const activeBtn = document
+        .getElementById(`prio-btn-${id}`)
+        ?.querySelector(".active");
+
+    return activeBtn ? activeBtn.value: "";
+}
+
+function getAssignedContacts(id) {
+    const selectedContacts = document
+        .getElementById(`dropdownMenu-${id}`)
+        ?.querySelectorAll(".selected");
+
+    return selectedContacts
+        ? Array.from(selectedContacts).map(contact => {
+              const circle = contact.querySelector('.contact-circle');
+              const nameElement = contact.querySelector('.contact-info span');
+              return {
+                  name: nameElement.textContent,
+                  color: circle.style.cssText
+              };
+          })
+        : [];
+}
+
+function getUpdatedSubtasks(id) {
+    const subtaskElements = document.querySelectorAll(`#ul-subtask-${id} .container-subtask-li`);
+
+    return Array.from(subtaskElements).map(container => ({
+        title: container.querySelector('.li-subtask').textContent.trim(),
+        status: container.dataset.status || "open"
+    }));
+}
+
+async function toggleStatusSubtask(subtaskId, taskId, index) {
+    let label = document.getElementById(subtaskId);
+    let checkbox = label.querySelector('.checkbox-subtask');
+    const newStatus = checkbox.checked ? 'done' : 'open';
+
+    checkbox.value = newStatus;
+
+    const task = tasks.find(task => task.id === taskId);
+    task.subtasks[index].status = newStatus;
+
+    const response = await fetch(`${BASE_URL}/tasks/-${taskId}/subtasks.json`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(task.subtasks),
+    });
+
+    if (!response.ok) {
+        checkbox.checked = !checkbox.checked;
+        checkbox.value = checkbox.checked ? 'done' : 'open';
+        task.subtasks[index].status = checkbox.value;
+        return;
+    }
+
+    updateMiniCardSubtaskProgress(taskId, task.subtasks);
+}
+
+function updateMiniCardSubtaskProgress(taskId, subtasks) {
+    const bar = document.querySelector(`#status-subtask-${taskId} .subtask-bar`);
+    const count = document.getElementById(`status-count-${taskId}`);
+
+    if (bar) bar.style.width = `${getSubtaskProgress(subtasks)}%`;
+    if (count) count.textContent = getStatusSubtasks(subtasks);
+}
+
+// Event Listeners //
+
+// filter //
+
 document.getElementById('input-text').addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
         filterAndShowCurrentTask(event.target.value);
     }
 });
+
+

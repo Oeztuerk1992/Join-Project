@@ -129,7 +129,7 @@ async function registerNewUser() {
 
 function showSignupConfirmation() {
 
-    const confirmation = document.getElementById("signup-confirmation");
+    const confirmation = document.getElementById("confirmation-dialog");
 
     confirmation.showModal();
 

@@ -1,182 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="icon"
-      href="../assets/img/logo/favicon_light.svg"
-      media="(prefers-color-scheme: dark)"
-      type="image/svg+xml"
-    />
-    <link
-      rel="icon"
-      href="../assets/img/logo/favicon_dark.svg"
-      media="(prefers-color-scheme: light)"
-      type="image/svg+xml"
-    />
-    <title>Summary</title>
-    <link rel="stylesheet" href="../styles/colors.css" />
-    <link rel="stylesheet" href="../styles/font.css" />
-    <link rel="stylesheet" href="../styles/sidebar.css" />
-    <link rel="stylesheet" href="../styles/summary.css" />
-  </head>
 
-  <body onload="initSummary()">
-    <div id="main-layout">
-      <div class="sidebar">
-        <div class="sidebar-top">
-          <div class="join-logo">
-            <img
-              src="../assets/img/logo/favicon_light.svg"
-              alt="Join logo"
-              class="join-logo-img"
-            />
-          </div>
-          <div class="sidebar-nav-container">
-            <nav class="sidebar-nav">
-              <a class="nav-item nav-active-summary" href="../html/summary.html">
-                <img
-                  src="../assets/icons/template/summary_active-icon.svg"
-                  alt="img-summary"
-                />
-                <span>Summary</span>
-              </a>
-              <a class="nav-item" href="../html/add_task.html">
-                <img
-                  src="../assets/icons/template/add-task-icon.svg"
-                  alt="img-add-task"
-                />
-                <span>Add Task</span>
-              </a>
-              <a class="nav-item" href="../html/board.html">
-                <img
-                  src="../assets/icons/template/board-icon.svg"
-                  alt="img-board"
-                />
-                <span>Board</span>
-              </a>
-              <a class="nav-item" href="../html/contacts.html">
-                <img
-                  src="../assets/icons/template/contacts-icon.svg"
-                  alt="img-contacts"
-                />
-                <span>Contacts</span>
-              </a>
-            </nav>
-          </div>
-        </div>
-        <div class="sidebar-footer">
-          <a href="privacy_policy.html">Privacy Policy</a>
-          <a href="legal_notice.html">Legal notice</a>
-        </div>
-      </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="../assets/img/logo/favicon_light.svg" media="(prefers-color-scheme: dark)"
+    type="image/svg+xml" />
+  <link rel="icon" href="../assets/img/logo/favicon_dark.svg" media="(prefers-color-scheme: light)"
+    type="image/svg+xml" />
+  <title>Summary</title>
+  <link rel="stylesheet" href="../styles/colors.css" />
+  <link rel="stylesheet" href="../styles/font.css" />
+  <link rel="stylesheet" href="../styles/sidebar.css" />
+  <link rel="stylesheet" href="../styles/summary.css" />
+</head>
 
-      <header class="header">
-        <div class="container-header">
-          <div class="header-left">
-            <span class="title-kanban">Kanban Project Management Tool</span>
-          </div>
-          <nav class="header-right">
-            <a href="help.html" title="Help">
-                <img
-                  class="header-help"  
-                  src="../assets/icons/help_icon.svg"
-                  alt="help-img"
-                />
+<body onload="initSummary()">
+  <div id="main-layout">
+    <div class="sidebar">
+      <div class="sidebar-top">
+        <div class="join-logo">
+          <img src="../assets/img/logo/favicon_light.svg" alt="Join logo" class="join-logo-img" />
+        </div>
+        <div class="sidebar-nav-container">
+          <nav class="sidebar-nav">
+            <a class="nav-item nav-active-summary" href="../html/summary.html">
+              <img src="../assets/icons/template/summary_active-icon.svg" alt="img-summary" />
+              <span>Summary</span>
             </a>
-            <button class="user-menu" onclick="toggleUserMenu()">
-              <div class="circle">
-                <span id="initials-user" class="user-initials"></span>
-              </div>
-            </button>
+            <a class="nav-item" href="../html/add_task.html">
+              <img src="../assets/icons/template/add-task-icon.svg" alt="img-add-task" />
+              <span>Add Task</span>
+            </a>
+            <a class="nav-item" href="../html/board.html">
+              <img src="../assets/icons/template/board-icon.svg" alt="img-board" />
+              <span>Board</span>
+            </a>
+            <a class="nav-item" href="../html/contacts.html">
+              <img src="../assets/icons/template/contacts-icon.svg" alt="img-contacts" />
+              <span>Contacts</span>
+            </a>
           </nav>
         </div>
-      </header>
-
-      <dialog id="user-nav" class="nav-user">
-        <ul>
-          <li><a href="legal_notice.html">Legal Notice</a></li>
-          <li><a href="privacy_policy.html">Privacy Policy</a></li>
-          <li><a href="../index.html" onclick="logout()">Log out</a></li>
-        </ul>
-      </dialog>
+      </div>
+      <div class="sidebar-footer">
+        <a href="privacy_policy.html">Privacy Policy</a>
+        <a href="legal_notice.html">Legal notice</a>
+      </div>
     </div>
 
-    <div id="content" class="content-summary">
-      <header class="container-headline">
-        <h1>Join 360</h1>
-        <div class="seperator"></div>
-        <h2>Key Metrics at a Glance</h2>
-      </header>
-      <main>
-        <section class="container-do">
-          <button id="btn-to-do" class="to-do do-one" onclick="getToBoard()">
-            <div class="img-to-do"></div>
-            <div class="container-to-do">
-              <div id="count-do" class="count">1</div>
-              <h3 id="description-do" class="description">To-do</h3>
+    <header class="header">
+      <div class="container-header">
+        <div class="header-left">
+          <span class="title-kanban">Kanban Project Management Tool</span>
+        </div>
+        <nav class="header-right">
+          <a href="help.html" title="Help">
+            <img class="header-help" src="../assets/icons/help_icon.svg" alt="help-img" />
+          </a>
+          <button class="user-menu" onclick="toggleUserMenu()">
+            <div class="circle">
+              <span id="initials-user" class="user-initials"></span>
             </div>
           </button>
-          <button id="btn-done" class="to-do do-two" onclick="getToBoard()">
-            <div class="img-done"></div>
-            <div class="container-to-do">
-              <div id="count-done" class="count">1</div>
-              <h3 id="description-done" class="description">Done</h3>
-            </div>
-          </button>
-        </section>
-        <section class="container-urgent">
-          <button id="btn-urgent" class="urgent" onclick="getToBoard()">
-            <div class="img-urgent"></div>
-            <div class="urgent-content">
-              <div id="count-urgent" class="count">1</div>
-              <h3 id="description-urgent" class="description">Urgent</h3>
-            </div>
-            <div class="seperator-urgent"></div>
-            <div class="timeline-urgent">
-              <div class="date-urgent">October 16, 2022</div>
-              <p class="info-deadline">Upcoming Deadline</p>
-            </div>
-          </button>
-          <h4 id="greeting-guest" class="greeting hidden">
-            <span id="greet-time-guest"></span>
-          </h4>
-          <h4 id="greeting-user" class="greeting hidden">
-            <span id="greet-time"></span><br /><span id="greet-user-name" class="greet-user"></span>
-          </h4>
-        </section>
-        <section class="container-tasks">
-          <button
-            id="btn-tasks-in-board"
-            class="tasks task-one"
-            onclick="getToBoard()"
-          >
-            <div class="count">5</div>
-            <h3 class="description">Tasks in<br />Board</h3>
-          </button>
-          <button
-            id="btn-tasks-in-progress"
-            class="tasks task-two"
-            onclick="getToBoard()"
-          >
-            <div class="count">2</div>
-            <h3 class="description">Tasks in<br />Progress</h3>
-          </button>
-          <button
-            id="btn-awaiting-feedback"
-            class="tasks task-three"
-            onclick="getToBoard()"
-          >
-            <div class="count">2</div>
-            <h3 class="description">Awaiting Feedback</h3>
-          </button>
-        </section>
-      </main>
-    </div>
-    <script src="../js/summary.js"></script>
-    <script src="../js/desktop_template.js"></script>
-  </body>
+        </nav>
+      </div>
+    </header>
+
+    <dialog id="user-nav" class="nav-user">
+      <ul>
+        <li><a href="legal_notice.html">Legal Notice</a></li>
+        <li><a href="privacy_policy.html">Privacy Policy</a></li>
+        <li><a href="../index.html" onclick="logout()">Log out</a></li>
+      </ul>
+    </dialog>
+  </div>
+
+  <div id="content" class="content-summary">
+    <header class="container-headline">
+      <h1>Join 360</h1>
+      <div class="seperator"></div>
+      <h2>Key Metrics at a Glance</h2>
+    </header>
+    <main>
+      <section class="container-do">
+        <button id="btn-to-do" class="to-do do-one" onclick="getToBoard()">
+          <div class="img-to-do"></div>
+          <div class="container-to-do">
+            <div id="count-do" class="count">1</div>
+            <h3 id="description-do" class="description">To-do</h3>
+          </div>
+        </button>
+        <button id="btn-done" class="to-do do-two" onclick="getToBoard()">
+          <div class="img-done"></div>
+          <div class="container-to-do">
+            <div id="count-done" class="count">1</div>
+            <h3 id="description-done" class="description">Done</h3>
+          </div>
+        </button>
+      </section>
+      <section class="container-urgent">
+        <button id="btn-urgent" class="urgent" onclick="getToBoard()">
+          <div class="img-urgent"></div>
+          <div class="urgent-content">
+            <div id="count-urgent" class="count">1</div>
+            <h3 id="description-urgent" class="description">Urgent</h3>
+          </div>
+          <div class="seperator-urgent"></div>
+          <div class="timeline-urgent">
+            <div class="date-urgent">October 16, 2022</div>
+            <p class="info-deadline">Upcoming Deadline</p>
+          </div>
+        </button>
+        <h4 id="greeting-guest" class="greeting hidden">
+          <span id="greet-time-guest"></span>
+        </h4>
+        <h4 id="greeting-user" class="greeting hidden">
+          <span id="greet-time"></span><br /><span id="greet-user-name" class="greet-user"></span>
+        </h4>
+      </section>
+      <section class="container-tasks">
+        <button id="btn-tasks-in-board" class="tasks task-one" onclick="getToBoard()">
+          <div class="count">5</div>
+          <h3 class="description">Tasks in<br />Board</h3>
+        </button>
+        <button id="btn-tasks-in-progress" class="tasks task-two" onclick="getToBoard()">
+          <div class="count">2</div>
+          <h3 class="description">Tasks in<br />Progress</h3>
+        </button>
+        <button id="btn-awaiting-feedback" class="tasks task-three" onclick="getToBoard()">
+          <div class="count">2</div>
+          <h3 class="description">Awaiting Feedback</h3>
+        </button>
+      </section>
+    </main>
+  </div>
+  <script src="../js/summary.js"></script>
+  <script src="../js/desktop_template.js"></script>
+</body>
+
 </html>
 
 

@@ -373,7 +373,7 @@ dialog {
     border: 1px solid var(--border-input-fail);
 }
 
-.signup-confirm {
+.confirm {
     position: fixed;
     left: 50%;
     top: 50%;
@@ -396,12 +396,12 @@ dialog {
     align-items: center;
     justify-content: center;
 }
-.signup-confirm::backdrop {
+.confirm::backdrop {
     background: rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(1px);
 }
 
-.signup-confirm.show {
+.confirm.show {
     transform: translate(-50%, -50%);
 }
 
@@ -464,6 +464,14 @@ input[type="password"]::-webkit-textfield-decoration-container {
 .make-pw-visible {
     background-image: url("../assets/icons/login/visibility.svg");
 }
+
+
+
+
+
+
+
+
 
 
 

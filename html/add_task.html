@@ -82,14 +82,14 @@
       <section class="add-task-container">
         <h1>Add Task</h1>
 
-        <form id="addTaskForm" class="addtask-form">
+        <form id="addTaskForm" class="addtask-form" onsubmit= "return checkFormDataAddTask(event, 'To do')" novalidate>
           <div class="form-wrapper">
             <!-- LINKER BEREICH -->
 
             <div class="left-side">
-              <div class="input-group">
-                <label>Title<span class="red-required">*</span></label>
 
+              <div class="input-group">
+                <label>Title<span class="red-required">*</span><span id="feedback-title" class="info-failed hidden">This field is required.</span></label>
                 <input type="text" id="taskTitle" class="hover-input" placeholder="Enter a title" />
               </div>
 
@@ -104,7 +104,7 @@
               </div>
 
               <div class="input-group">
-                <label>Due date<span class="red-required">*</span></label>
+                <label>Due date<span class="red-required">*</span><span id="feedback-duedate" class="info-failed hidden">This field is required.</span></label>
 
                 <input type="date" id="taskDate" class="hover-input" required />
               </div>
@@ -124,7 +124,7 @@
                     <img src="../assets/icons/priority/Property 1=Urgent.svg" alt="" />
                   </button>
 
-                  <button id="medium" type="button" class="priority medium" onclick="setPriority(this)">
+                  <button id="medium" type="button" class="priority medium active" onclick="setPriority(this)">
                     <span>Medium</span>
                     <img src="../assets/icons/priority/Property 1=Medium.svg" alt="" />
                   </button>
@@ -149,9 +149,9 @@
               </div>
 
               <div class="input-group container-categories">
-                <label>Category<span class="red-required">*</span></label>
+                <label>Category<span class="red-required">*</span><span id="feedback-category" class="info-failed hidden">This field is required.</span></label>
 
-                <div class="dropdown-container" onclick="toggleCategoryDropdown()">
+                <div id="category-border" class="dropdown-container" onclick="toggleCategoryDropdown()">
                   <input id="selectedCategory" class="dropdown" placeholder="Select task category" readonly>
                   <button type="button" id="dropdownArrowCategory" class="arrow-dropdown"></button>
                   <div id="categoryMenu" class="dropdown-menu">
@@ -205,7 +205,7 @@
             <div class="button-area">
               <button type="button" class="clear-btn" onclick="clearForm()">Clear</button>
 
-              <button onclick="createTask()" type="button" class="create-btn">
+              <button type="submit" class="create-btn">
                 Create Task
               </button>
             </div>
@@ -224,6 +224,8 @@
   <script src="../js/remoteStorage.js"></script>
   <script src="../js/summary.js"></script>
   <script src="../js/signup.js"></script>
+  <!-- <script src="/script.js"></script> -->
 </body>
 
 </html>
+

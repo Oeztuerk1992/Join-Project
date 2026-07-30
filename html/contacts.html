@@ -1,255 +1,223 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Contacts</title>
-    <link rel="stylesheet" href="../styles/colors.css" />
-    <link rel="stylesheet" href="../styles/font.css" />
-    <link rel="stylesheet" href="../styles/sidebar.css" />
-    <link rel="stylesheet" href="../styles/contact.css" />
-    <link
-      rel="icon"
-      href="../assets/img/logo/favicon_light.svg"
-      media="(prefers-color-scheme: dark)"
-      type="image/svg+xml"
-    />
 
-    <link
-      rel="icon"
-      href="../assets/img/logo/favicon_dark.svg"
-      media="(prefers-color-scheme: light)"
-      type="image/svg+xml"
-    />
-  </head>
-  <body onload="initContacts()">
-    <div id="main-layout">
-      <div class="sidebar">
-        <div class="sidebar-top">
-          <div class="join-logo">
-            <img
-              src="../assets/img/logo/favicon_light.svg"
-              alt="Join logo"
-              class="join-logo-img"
-            />
-          </div>
-          <div class="sidebar-nav-container">
-            <nav class="sidebar-nav">
-              <a class="nav-item" href="../html/summary.html">
-                <img
-                  src="../assets/icons/template/summary-icon.svg"
-                  alt="img-summary"
-                />
-                <span>Summary</span>
-              </a>
-              <a class="nav-item" href="../html/add_task.html">
-                <img
-                  src="../assets/icons/template/add-task-icon.svg"
-                  alt="img-add-task"
-                />
-                <span>Add Task</span>
-              </a>
-              <a class="nav-item" href="../html/board.html">
-                <img
-                  src="../assets/icons/template/board-icon.svg"
-                  alt="img-board"
-                />
-                <span>Board</span>
-              </a>
-              <a class="nav-item nav-active-contacts" href="../html/contacts.html">
-                <img
-                  src="../assets/icons/template/contacts_active-icon.svg"
-                  alt="img-contacts"
-                />
-                <span>Contacts</span>
-              </a>
-            </nav>
-          </div>
-        </div>
-        <div class="sidebar-footer">
-          <a href="privacy_policy.html">Privacy Policy</a>
-          <a href="legal_notice.html">Legal notice</a>
-        </div>
-      </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contacts</title>
+  <link rel="stylesheet" href="../styles/colors.css" />
+  <link rel="stylesheet" href="../styles/font.css" />
+  <link rel="stylesheet" href="../styles/sidebar.css" />
+  <link rel="stylesheet" href="../styles/contact.css" />
+  <link rel="stylesheet" href="../styles/login.css" />
+  <link rel="icon" href="../assets/img/logo/favicon_light.svg" media="(prefers-color-scheme: dark)"
+    type="image/svg+xml" />
 
-      <header class="header">
-        <div class="container-header">
-          <div class="header-left">
-            <span class="title-kanban">Kanban Project Management Tool</span>
-          </div>
-          <nav class="header-right">
-            <a href="help.html" title="Help">
-                <img
-                  class="header-help"  
-                  src="../assets/icons/help_icon.svg"
-                  alt="help-img"
-                />
+  <link rel="icon" href="../assets/img/logo/favicon_dark.svg" media="(prefers-color-scheme: light)"
+    type="image/svg+xml" />
+</head>
+
+<body onload="initContacts()">
+  <div id="main-layout">
+    <div class="sidebar">
+      <div class="sidebar-top">
+        <div class="join-logo">
+          <img src="../assets/img/logo/favicon_light.svg" alt="Join logo" class="join-logo-img" />
+        </div>
+        <div class="sidebar-nav-container">
+          <nav class="sidebar-nav">
+            <a class="nav-item" href="../html/summary.html">
+              <img src="../assets/icons/template/summary-icon.svg" alt="img-summary" />
+              <span>Summary</span>
             </a>
-            <button class="user-menu" onclick="toggleUserMenu()">
-              <div class="circle">
-                <span id="initials-user" class="user-initials"></span>
-              </div>
-            </button>
+            <a class="nav-item" href="../html/add_task.html">
+              <img src="../assets/icons/template/add-task-icon.svg" alt="img-add-task" />
+              <span>Add Task</span>
+            </a>
+            <a class="nav-item" href="../html/board.html">
+              <img src="../assets/icons/template/board-icon.svg" alt="img-board" />
+              <span>Board</span>
+            </a>
+            <a class="nav-item nav-active-contacts" href="../html/contacts.html">
+              <img src="../assets/icons/template/contacts_active-icon.svg" alt="img-contacts" />
+              <span>Contacts</span>
+            </a>
           </nav>
         </div>
-      </header>
-
-      <dialog id="user-nav" class="nav-user">
-        <ul>
-          <li><a href="legal_notice.html">Legal Notice</a></li>
-          <li><a href="privacy_policy.html">Privacy Policy</a></li>
-          <li><a href="../index.html" onclick="logout()">Log out</a></li>
-        </ul>
-      </dialog>
+      </div>
+      <div class="sidebar-footer">
+        <a href="privacy_policy.html">Privacy Policy</a>
+        <a href="legal_notice.html">Legal notice</a>
+      </div>
     </div>
 
-    <main class="right-side">
+    <header class="header">
+      <div class="container-header">
+        <div class="header-left">
+          <span class="title-kanban">Kanban Project Management Tool</span>
+        </div>
+        <nav class="header-right">
+          <a href="help.html" title="Help">
+            <img class="header-help" src="../assets/icons/help_icon.svg" alt="help-img" />
+          </a>
+          <button class="user-menu" onclick="toggleUserMenu()">
+            <div class="circle">
+              <span id="initials-user" class="user-initials"></span>
+            </div>
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <dialog id="user-nav" class="nav-user">
+      <ul>
+        <li><a href="legal_notice.html">Legal Notice</a></li>
+        <li><a href="privacy_policy.html">Privacy Policy</a></li>
+        <li><a href="../index.html" onclick="logout()">Log out</a></li>
+      </ul>
+    </dialog>
+  </div>
+
+  <main class="right-side">
     <div class="new-contact-wrapper">
-        <div class="new-contact">
-            <button class="btn_new_contact" onclick="openOverlay()" type="button">
-                Add new contact
-                <img class="person_add" src="../assets/icons/contact/person_add.png" alt="" />
-            </button>
-            <div id="new-contact-message"></div>
-        </div>
+      <div class="new-contact">
+        <button class="btn_new_contact" onclick="openOverlay()" type="button">
+          Add new contact
+          <img class="person_add" src="../assets/icons/contact/person_add.png" alt="" />
+        </button>
+        <div id="new-contact-message"></div>
+      </div>
     </div>
-   <div class="divider">
-    <button onclick="scrollToTop()"><img src="../assets/icons/contact/high.png" alt="up"></button>
-    <div class="custom-scrollbar">
+    <div class="divider">
+      <button onclick="scrollToTop()"><img src="../assets/icons/contact/high.png" alt="up"></button>
+      <div class="custom-scrollbar">
         <div class="custom-thumb"></div>
+      </div>
+      <button onclick="scrollToBottom()"><img src="../assets/icons/contact/down.png" alt="down"></button>
     </div>
-    <button onclick="scrollToBottom()"><img src="../assets/icons/contact/down.png" alt="down"></button>
-</div>
     <div class="contact-info">
-        <div class="contact-details">
-            <div class="header-title">
-                <h2 class="title-contact">Contacts</h2>
-                <div class="title-divider"></div>
-                <span class="title-subtitle">Better with a team</span>
-            </div>
+      <div class="contact-details">
+        <div class="header-title">
+          <h2 class="title-contact">Contacts</h2>
+          <div class="title-divider"></div>
+          <span class="title-subtitle">Better with a team</span>
         </div>
-        <div class="contact-detail-panel">
-            <div class="contact-detail-header">
-                <div class="contact-detail-badge"></div>
-                <div class="contact-detail-name">
-                    <h2></h2>
-                    <div class="contact-detail-actions"></div>
-                </div>
-            </div>
-            <div id="contact-detail-info" class="contact-detail-info">
-                <p class="contact-detail-email"></p>
-                <p class="contact-detail-phone"></p>
-            </div>
-        </div>
-    </div>
-</main>
-    <div class="overlay" id="overlay">
-      <div class="overlay-container">
-        <div class="overlay-left">
-          <img class="join_logo" src="../assets/img/join-logo.png" alt="" />
-          <span class="add_title">Add contact</span>
-          <span class="p-tag">Tasks are better with a team!</span>
-          <span class="line"></span>
-        </div>
-        <div class="overlay-right">
-          <span class="overlay-close" onclick="closeOverlay()">X</span>
-          <div class="avatar-placeholder">
-            <img class="user" src="../assets/icons/contact/user.png" alt="" />
+      </div>
+      <div class="contact-detail-panel">
+        <div class="contact-detail-header">
+          <div class="contact-detail-badge"></div>
+          <div class="contact-detail-name">
+            <h2></h2>
+            <div class="contact-detail-actions"></div>
           </div>
+        </div>
+        <div id="contact-detail-info" class="contact-detail-info">
+          <p class="contact-detail-email"></p>
+          <p class="contact-detail-phone"></p>
+        </div>
+      </div>
+    </div>
+    <dialog id="confirmation-dialog" class="confirm">
+      Contact succesfully created
+    </dialog>
+  </main>
+  <div class="overlay" id="overlay">
+    <div class="overlay-container">
+      <div class="overlay-left">
+        <img class="join_logo" src="../assets/img/join-logo.png" alt="" />
+        <span class="add_title">Add contact</span>
+        <span class="p-tag">Tasks are better with a team!</span>
+        <span class="line"></span>
+      </div>
+      <div class="overlay-right">
+        <button class="overlay-close" onclick="closeOverlay('add')"></button>
+        <div class="avatar-placeholder">
+          <img class="user" src="../assets/icons/contact/user.png" alt="" />
+        </div>
+        <div class="input-container">
+          <form id="form-for-contact" class="container-form-add-contact"
+            onsubmit="return checkFormDataContactOverlay(event, 'add')" novalidate>
+            <div id="container-input-name-contact" class="input-wrapper">
+              <input id="name" type="text" placeholder="Name" class="input-field" />
+              <img src="../assets/icons/contact/person.png" alt="" class="input-icon" />
+            </div>
+            <label for="name" id="feedback-name-contact" class="info-failed hidden">Please enter both your first and
+              last name.</label>
+            <div id="container-input-mail-contact" class="input-wrapper">
+              <input id="email" type="text" placeholder="Email" class="input-field" />
+              <img src="../assets/icons/contact/mail.png" alt="" class="input-icon" />
+            </div>
+            <label for="email" id="feedback-mail-contact" class="info-failed hidden"></label>
+            <div id="container-input-phone-contact" class="input-wrapper">
+              <input id="phone" type="text" placeholder="Phone" class="input-field" />
+              <img src="../assets/icons/contact/call.png" alt="" class="input-icon" />
+            </div>
+            <label for="phone" id="feedback-phone-contact" class="info-failed hidden"></label>
+          </form>
+          <div class="overlay-buttons">
+            <button type="button" class="btn-cancel" onclick="closeOverlay('add')">
+              Cancel ✖
+            </button>
+            <button id="create-contact" type="submit" form="form-for-contact" class="btn-create">
+              Create contact ✓
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="overlay" id="overlayEdit">
+    <div class="overlay-container">
+      <div class="overlay-left">
+        <img class="join_logo" src="../assets/img/join-logo.png" alt="" />
+        <span class="add_title">Edit contact</span>
+        <span class="line"></span>
+      </div>
+      <div class="overlay-right">
+        <button class="overlay-close" onclick="closeContactEditOverlay('edit')"></button>
+        <div class="overlay-content">
+          <div class="avatar-placeholder" id="edit-avatar"></div>
           <div class="input-container">
-            <div class="input-wrapper">
-              <input
-                id="name"
-                type="text"
-                placeholder="Name"
-                class="input-field"
-              />
-              <img
-                src="../assets/icons/contact/person.png"
-                alt=""
-                class="input-icon"
-              />
-            </div>
-            <div class="input-wrapper">
-              <input
-                id="email"
-                type="text"
-                placeholder="Email"
-                class="input-field"
-              />
-              <img
-                src="../assets/icons/contact/mail.png"
-                alt=""
-                class="input-icon"
-              />
-            </div>
-            <div class="input-wrapper">
-              <input
-                id="phone"
-                type="text"
-                placeholder="Phone"
-                class="input-field"
-              />
-              <img
-                src="../assets/icons/contact/call.png"
-                alt=""
-                class="input-icon"
-              />
-            </div>
+            <form id="form-for-edit-contact" class="container-form-add-contact"
+              onsubmit="return checkFormDataContactOverlay(event, 'edit')" novalidate>
+              <div id="container-input-name-contact-edit" class="input-wrapper">
+                <input id="name-edit" type="text" placeholder="Name" class="input-field" />
+                <img src="../assets/icons/contact/person.png" alt="" class="input-icon" />
+              </div>
+              <label for="name-edit" id="feedback-name-contact-edit" class="info-failed hidden">Please enter both your
+                first and last name.</label>
+              <div id="container-input-mail-contact-edit" class="input-wrapper">
+                <input id="email-edit" type="text" placeholder="Email" class="input-field" />
+                <img src="../assets/icons/contact/mail.png" alt="" class="input-icon" />
+              </div>
+              <label for="email-edit" id="feedback-mail-contact-edit" class="info-failed hidden"></label>
+              <div id="container-input-phone-contact-edit" class="input-wrapper">
+                <input id="phone-edit" type="text" placeholder="Phone" class="input-field" />
+                <img src="../assets/icons/contact/call.png" alt="" class="input-icon" />
+              </div>
+              <label for="phone-edit" id="feedback-phone-contact-edit" class="info-failed hidden"></label>
+            </form>
             <div class="overlay-buttons">
-              <button class="btn-cancel" onclick="closeOverlay()">
-                Cancel X
-              </button>
-              <button
-                id="create-contact"
-                class="btn-create"
-                onclick="createContact()"
-              >
-                Create contact ✓
-              </button>
+              <button type="button" class="btn-cancel" onclick="deleteContact()">Delete</button>
+              <button type="submit" form="form-for-edit-contact" id="save-contact" class="btn-create">Save ✓</button>
             </div>
           </div>
         </div>
       </div>
     </div>
-   <div class="overlay" id="overlayEdit">
-    <div class="overlay-container">
-        <div class="overlay-left">
-            <img class="join_logo" src="../assets/img/join-logo.png" alt="" />
-            <span class="add_title">Edit contact</span>
-            <span class="line"></span>
-        </div>
-        <div class="overlay-right">
-            <span class="overlay-close" onclick="closeEditOverlay()">X</span>
-            <div class="overlay-content">
-                <div class="avatar-placeholder" id="edit-avatar"></div>
-                <div class="input-container">
-                    <div class="input-wrapper">
-                        <input id="edit-name" type="text" placeholder="Name" class="input-field" />
-                        <img src="../assets/icons/contact/person.png" alt="" class="input-icon" />
-                    </div>
-                    <div class="input-wrapper">
-                        <input id="edit-email" type="text" placeholder="Email" class="input-field" />
-                        <img src="../assets/icons/contact/mail.png" alt="" class="input-icon" />
-                    </div>
-                    <div class="input-wrapper">
-                        <input id="edit-phone" type="text" placeholder="Phone" class="input-field" />
-                        <img src="../assets/icons/contact/call.png" alt="" class="input-icon" />
-                    </div>
-                    <div class="overlay-buttons">
-                        <button class="btn-cancel" onclick="deleteContact()">Delete</button>
-                        <button id="save-contact" class="btn-create" onclick="saveContact()">Save ✓</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> 
-</div>
-    <script src="../js/desktop_template.js"></script>
-    <script src="../js/remoteStorage.js"></script>
-    <script src="../js/templates/contact_template.js"></script>
-    <script src="../js/new_contact.js"></script>
-  </body>
+  </div>
+  <script src="../js/remoteStorage.js"></script>
+  <script src="../js/templates/contact_template.js"></script>
+  <script src="../js/new_contact.js"></script>
+  <script src="../js/desktop_template.js"></script>
+  <script src="../js/signup.js"></script>
+  <script src="../js/startpage_login.js"></script>
+  <script src="../js/login.js"></script>
+  <script src="../js/board.js"></script>
+  <!-- <script src="/script.js"></script> -->
+
+</body>
+
 </html>
 
 

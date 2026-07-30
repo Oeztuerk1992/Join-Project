@@ -224,6 +224,9 @@ textarea {
 input.hover-input:hover {
     border: 1px solid var(--color-footer) !important;
 }
+textarea.hover-input:hover {
+    border: 1px solid var(--color-footer) !important;
+}
 
 
 .textarea-wrapper textarea:hover {
@@ -534,7 +537,6 @@ input.dropdown::placeholder {
 
     transform: translate(-50%, -50%);
     background-color: white;
-    display: none;
 
     z-index: 1000;
     
@@ -826,4 +828,15 @@ input.dropdown::placeholder {
 
 .confirm.show {
     transform: translate(-50%, -50%);
+}
+.info-failed {
+    color: red;
+    font-size: 16px;
+    padding-left: 15px;
+}
+.hidden {
+    display: none;
+}
+.fail-red-border {
+    border: 1px solid var(--border-input-fail) !important;
 }

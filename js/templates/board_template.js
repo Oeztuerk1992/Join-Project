@@ -78,10 +78,9 @@ function generateEmptyCardHTML() {
 }
 
 function generateTaskOverlayHTML(element) {
-  return `
+  return`
     <dialog id="task-overlay-${element.id}" class="view-task-overlay modal-class" >
-      <div class="frame-view-task">
-        <header class="header-view-task">
+      <header class="header-view-task">
           <div class="headline-view-task">
             <h3 id="label-card-view-${element.id}" class="card-label-view">
               ${getTaskCategory(element.category)}
@@ -94,8 +93,10 @@ function generateTaskOverlayHTML(element) {
           <p id="task-description-view-${element.id}" class="description-task-view">
             ${element.description}
           </p>
-        </header>
-        <article class="set-responsibilities">
+      </header>
+      <div class="scroll-wrapper-task">
+        <div class="frame-view-task">
+          <article class="set-responsibilities">
           <div class="set-date">
             <span class="due-date-text">Due date:</span>
             <div class="due-date">${getDateFormat(element.dueDate)}</div>
@@ -120,15 +121,17 @@ function generateTaskOverlayHTML(element) {
               </div>
             </div>
           </div>
-        </article>
-        <article class="subtask-status">
+          </article>
+          <article class="subtask-status">
           <span class="title-subtask">Subtasks</span>
           <div id="subtasks-view-${element.id}" class="container-subtasks">
             ${getSubtasksOverlay(element.subtasks, element.id)}
           </div>
-        </article>
-        <div class="flex-grow"></div>
-        <article class="edit-btn">
+          </article>
+        </div>
+      </div>
+      <div class="flex-grow"></div>
+      <article class="edit-btn">
           <div class="frame-edit-btn">
             <button class="delete-task-view" onclick="deleteTask('${element.id}')">
               <figure class="container-img-delete">
@@ -144,8 +147,7 @@ function generateTaskOverlayHTML(element) {
               </figure>
             </button>
           </div>
-        </article>
-      </div>
+      </article>
     </dialog>
     `;
 }
@@ -172,20 +174,20 @@ function generateSubtaskHTML(subtasks, id, index) {
 function generateEditOverlayHTML(element) {
   return`
     <dialog id="edit-overlay-${element.id}" class="edit-task-overlay modal-class" >
-      <div class="scroll-wrapper">
-        <header class="header-form">
+      <header class="header-form">
               <div class="headline-edit-task">
                 <div></div>
                 <button class="btn-close" onclick="closeEditOverlay('${element.id}')"></button>
               </div>
-          </header>
+      </header>
+      <div class="scroll-wrapper">
         <div class="frame-view-edit-task">
-          <form class="form-for-edit-task">
+          <form id="edit-form-${element.id}" class="form-for-edit-task" onsubmit= "return checkFormDataEditOverlay('${element.id}')" novalidate>
             <div class="container-form">
-              <label class="label-form" for="title-input">Title</label>
+              <label class="label-form" for="title-input">Title<span id="feedback-title-${element.id}" class="info-failed hidden">This field is required.</span></label>
               <input
                 type="text"
-                class="input input-title"
+                class="input input-title hover-input"
                 id="title-input-${element.id}"
                 name="title-input"
                 required
@@ -198,7 +200,7 @@ function generateEditOverlayHTML(element) {
               >Description</label
               >
               <textarea
-                class="input input-description"
+                class="input input-description hover-input"
                 id="description-input-${element.id}"
                 name="description-input"
                 required
@@ -207,10 +209,10 @@ function generateEditOverlayHTML(element) {
               ><br />
             </div>
             <div class="container-form">
-              <label class="label-form" for="date-input">Due Date</label>
+              <label class="label-form" for="date-input">Due Date<span id="feedback-duedate-${element.id}" class="info-failed hidden">This field is required.</span></label>
               <input
                 type="date"
-                class="input input-date"
+                class="input input-date hover-input"
                 id="date-input-${element.id}"
                 name="date-input"
                 required
@@ -227,7 +229,7 @@ function generateEditOverlayHTML(element) {
                     alt=""
                   />
                 </button>
-                <button type="button" class="btn-prio-edit priority medium" value="Medium" onclick="setPriority(this)">
+                <button type="button" class="btn-prio-edit priority medium active" value="Medium" onclick="setPriority(this)">
                   <span>Medium</span>
                   <img
                     src="../assets/icons/priority/Property 1=Medium.svg"
@@ -255,7 +257,7 @@ function generateEditOverlayHTML(element) {
             <div class="input-group group-subtasks">
               <label>Subtasks</label>
               <div class="subtask-input">
-                <input id="input-subtask-${element.id}" type="text" placeholder="Add new subtask" />
+                <input id="input-subtask-${element.id}" class="subtask-enter" type="text" placeholder="Add new subtask" />
                 <div class="subtask-actions">
                   <button type="button" onclick="closeEditSubtask('${element.id}')">
                     <img src="../assets/icons/edit_delete/Property 1=close.svg" />
@@ -273,7 +275,7 @@ function generateEditOverlayHTML(element) {
           </form>
         </div>
       </div>
-      <button type="submit" class="confirm-edit-btn" onclick="saveEditTask('${element.id}')">
+      <button type="submit" form="edit-form-${element.id}" class="confirm-edit-btn">
         <span>Ok</span>
         <img class="check-mark" src="../assets/icons/board/check.svg" alt="img-check-mark">
       </button>
@@ -293,4 +295,6 @@ function generateSubtaskEditHTML(subtasks, id, index) {
             </div>
             `;
 }
+
+
 

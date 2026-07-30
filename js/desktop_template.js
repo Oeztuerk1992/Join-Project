@@ -32,11 +32,6 @@ document.addEventListener("click", (event) => {
     }
 });
 
-
-
-
-
-
 function logout() {
     sessionStorage.clear();
 }

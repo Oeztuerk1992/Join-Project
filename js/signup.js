@@ -1,14 +1,19 @@
 // Sign-up form //
 
+const info = document.getElementById("feedback-mail");
+const inputMail = document.getElementById("input-signup-mail");
+
+
 function checkFormDataSignup(event) {
     event.preventDefault();
 
-    const isValid =
-        checkUserName() &&
-        checkUserMail() &&
-        checkUserPw() &&
-        checkUserPwConfirm() &&
-        checkPrivacyPolicy();
+    const isNameValid = checkUserName();
+    const isMailValid = checkUserMail();
+    const isPwValid = checkUserPw();
+    const isPwConfirmValid = checkUserPwConfirm();
+    const isPrivacyValid = checkPrivacyPolicy();
+        
+    const isValid = isNameValid && isMailValid && isPwValid && isPwConfirmValid && isPrivacyValid;
 
     if (isValid) {
         registerNewUser();
@@ -36,23 +41,37 @@ function checkUserName() {
 }
 
 function checkUserMail() {
-    const info = document.getElementById("feedback-mail");
-    const inputMail = document.getElementById("input-signup-mail");
+    const email = mailUser.value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (
-        mailUser.value.includes("@") &&
-        !mailUser.value.startsWith("@") &&
-        !mailUser.value.endsWith("@")
-    ) {
-        info.classList.add("hidden");
-        inputMail.classList.remove('fail-red-border');
-
-        return true;
+    if (!emailRegex.test(email)) {
+        info.classList.remove("hidden");
+        inputMail.classList.add("fail-red-border");
+        info.textContent = "Please enter your email address in a valid format."
+        return false;
+    }
+    if (!emailAlreadyExists()) {
+        return false;
     }
 
-    info.classList.remove('hidden');
-    inputMail.classList.add('fail-red-border');
-    return false;
+    info.classList.add("hidden");
+    inputMail.classList.remove("fail-red-border");
+    return true;
+}
+
+function emailAlreadyExists() {
+    const mailExistsContact = contacts.some(contact => contact.email === mailUser.value.trim());
+    const mailExistsUser = registeredUser.some(user => user.mail === mailUser.value.trim());
+
+    if (mailExistsContact || mailExistsUser) {
+        info.classList.remove('hidden');
+        info.textContent = 'This email address is already taken.';
+        inputMail.classList.add('fail-red-border');
+        return false;
+    }
+    info.classList.add('hidden');
+    inputMail.classList.remove('fail-red-border');
+    return true;
 }
 
 function checkUserPw() {
@@ -120,14 +139,43 @@ async function registerNewUser() {
         password: document.getElementById('signup-pw').value
     });
 
+    const email = document.getElementById('signup-mail').value;
     await prepareUserDataForPost(signUpNewUser);
-    showSignupConfirmation();
+    await createContactFromUser(fullName, email);
+    
+    showConfirmation();
 }
+
+// create contact-object for registered user //
+
+async function createContactFromUser(fullName, email) {
+
+    const capitalizedName = capitalizeName(fullName);
+    const initials = getInitials(capitalizedName);
+
+    const contact = {
+        capitalizedName,
+        initials,
+        email,
+        phone: "",
+        randomColor: getRandomColor()
+    };
+
+    await fetch(BASE_URL + "contacts.json", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(contact)
+    });
+}
+
+
 
 
 // confirmation info shows up //
 
-function showSignupConfirmation() {
+function showConfirmation() {
 
     const confirmation = document.getElementById("confirmation-dialog");
 
@@ -141,3 +189,11 @@ function showSignupConfirmation() {
         getLoginModal();
     }, 2000);
 }
+
+// Event Listeners //
+
+document.getElementById("signup-name")?.addEventListener("input", checkUserName);
+
+document.getElementById("input-signup-mail")?.addEventListener("input", checkUserMail);
+
+document.getElementById("privacy-policy")?.addEventListener("change", checkPrivacyPolicy);

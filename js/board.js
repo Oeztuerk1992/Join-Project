@@ -2,6 +2,7 @@
 
 const placeholder = document.getElementById('empty-spot-drag');
 let currentDraggedElement;
+let currentColumn;
 let tasks = [];
 
 const columns = {
@@ -42,7 +43,8 @@ async function loadTasks() {
                   assignedTo: task.assignedTo || [],
                   category: task.category || "",
                   subtasks: task.subtasks || [],
-                  taskStatus: task.taskStatus || "To do"
+                  taskStatus: task.taskStatus || "To do",
+                  dragOrder: task.dragOrder || 0,
               }))
             : [];
     } catch (error) {
@@ -56,13 +58,15 @@ async function loadTasks() {
 function updateTasksforBoard(tasksToShow = tasks) {
     Object.values(columns).forEach(column => column.innerHTML = '');
 
-    tasksToShow.forEach(task => {
-        const column = columns[task.taskStatus];
+    tasksToShow
+        .sort((a, b) => a.dragOrder - b.dragOrder)
+        .forEach(task => {
+            const column = columns[task.taskStatus];
 
-        if (column) {
-            column.innerHTML += generateTaskMiniCardHTML(task);
-        }
-    });
+            if (column) {
+                column.innerHTML += generateTaskMiniCardHTML(task);
+            }
+        });
 
     Object.values(columns).forEach(column => {
         if (column.innerHTML.trim() === '') {
@@ -163,8 +167,11 @@ async function moveTo(taskCat) {
 
     if (task) {
         task.taskStatus = categoryStatus[taskCat];
+        task.dragOrder = Date.now();
 
         await saveTaskCategory(currentDraggedElement, task.taskStatus);
+        await saveTaskOrder(currentDraggedElement, task.dragOrder);
+
         updateTasksforBoard();
     }
 }
@@ -306,6 +313,8 @@ function getSubtasksEditOverlay(subtasks, id) {
 function closeEditOverlay(id) {
     const editOverlay = document.getElementById(`edit-overlay-${id}`);
 
+    if (!editOverlay) return;
+
     editOverlay.classList.remove('modal-enter');
     editOverlay.classList.add('modal-exit');
 
@@ -313,7 +322,7 @@ function closeEditOverlay(id) {
         'animationend',
         () => {
             editOverlay.close();
-            editOverlay.classList.remove('modal-exit');
+            editOverlay.remove();
         },
         { once: true }
     );
@@ -327,21 +336,56 @@ function closeEditOverlayNoAnimation(id) {
 // function for search-bar, filtering tasks //
 
 function filterAndShowCurrentTask(filterWord) {
+    const search = filterWord.toLowerCase();
+    const filterInfo = document.getElementById('filter-info');
+
     const currentTasks = tasks.filter(task =>
-        task.title.toLowerCase().includes(filterWord.toLowerCase()) ||
-        task.description.toLowerCase().includes(filterWord.toLowerCase())
+        (task.title || '').toLowerCase().includes(search) ||
+        (task.description || '').toLowerCase().includes(search)
     );
+
     updateTasksforBoard(currentTasks);
+
+    if (currentTasks.length === 0) {
+        filterInfo.classList.remove('hidden');
+    } else {
+        filterInfo.classList.add('hidden');
+    }
 }
 
 // function for opening/closing modal "add-task" //
 
-function openAddTaskOverlay() {
-    document.getElementById("add-task-overlay").classList.add("show");
+function openAddTaskOverlay(column) {
+    const dialog = document.getElementById("add-task-overlay");
+
+    dialog.classList.remove('modal-enter');
+    dialog.classList.remove('modal-exit');
+
+    dialog.showModal();
+
+    requestAnimationFrame(() => {
+        dialog.classList.add('modal-enter');
+    });
+    if (column) {
+        currentColumn = column;
+    }
 }
 
 function closeAddTaskOverlay() {
-    document.getElementById("add-task-overlay").classList.remove("show");
+    const dialog = document.getElementById("add-task-overlay");
+
+    dialog.classList.remove('modal-enter');
+    dialog.classList.add('modal-exit');
+
+    dialog.addEventListener(
+        'animationend',
+        () => {
+            dialog.close();
+            clearForm();
+            dialog.classList.remove('modal-exit');
+        },
+        { once: true }
+    );
 }
 
 // delete function //
@@ -364,6 +408,19 @@ async function deleteTask(id) {
 
 async function saveTaskCategory(id, data) {
     const response = await fetch(`${BASE_URL}/tasks/-${id}/taskStatus.json`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    });
+    await loadTasks();
+
+    return response.json();
+}
+
+async function saveTaskOrder(id, data) {
+    const response = await fetch(`${BASE_URL}/tasks/-${id}/dragOrder.json`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
@@ -432,6 +489,7 @@ function getAssignedContacts(id) {
               const circle = contact.querySelector('.contact-circle');
               const nameElement = contact.querySelector('.contact-info span');
               return {
+                  id: contact.dataset.id,
                   name: nameElement.textContent,
                   color: circle.style.cssText
               };
@@ -482,14 +540,89 @@ function updateMiniCardSubtaskProgress(taskId, subtasks) {
     if (count) count.textContent = getStatusSubtasks(subtasks);
 }
 
+// functions for form validation, edit-overlay //
+
+function checkFormDataEditOverlay(id) {
+    
+    const isValid =
+        checkEditTitleName(id) &&
+        checkEditDueDate(id)
+
+    if (isValid) {
+        saveEditTask(id);
+    }
+
+    return false;
+}
+
+function checkEditTitleName(id) {
+    const info = document.getElementById(`feedback-title-${id}`);
+    const inputName = document.getElementById(`title-input-${id}`);
+
+    if (inputName.value.trim()) {
+            info.classList.add("hidden");
+            inputName.classList.remove("fail-red-border");
+            return true;
+        }
+
+        info.classList.remove("hidden");
+        inputName.classList.add("fail-red-border");
+        return false;
+}
+
+function checkEditDueDate(id) {
+    const info = document.getElementById(`feedback-duedate-${id}`);
+    const inputDate = document.getElementById(`date-input-${id}`);
+
+    if (inputDate.value) {
+        info.classList.add("hidden");
+        inputDate.classList.remove("fail-red-border");
+        return true;
+    }
+
+    info.classList.remove("hidden");
+    inputDate.classList.add("fail-red-border");
+    return false;
+}
+
 // Event Listeners //
+
+document.addEventListener('keydown', (event) => {
+    if (
+        event.target.classList.contains('subtask-enter') &&
+        event.key === 'Enter'
+    ) {
+        event.preventDefault();
+
+        const id = event.target.id.replace('input-subtask-', '');
+        saveEditSubtask(id);
+    }
+});
+
+document.addEventListener("input", (event) => {
+    if (event.target.classList.contains("input-title")) {
+        const id = event.target.id.replace("title-input-", "");
+        checkEditTitleName(id);
+    }
+
+    if (event.target.classList.contains("input-date")) {
+        const id = event.target.id.replace("date-input-", "");
+        checkEditDueDate(id);
+    }
+});
 
 // filter //
 
-document.getElementById('input-text').addEventListener('keydown', (event) => {
+if (document.getElementById('input-text')) {
+    document.getElementById('input-text').addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
         filterAndShowCurrentTask(event.target.value);
     }
-});
+    });
+}
+
+
+
+
 
 

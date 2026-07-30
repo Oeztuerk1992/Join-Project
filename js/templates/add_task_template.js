@@ -1,6 +1,6 @@
 function generateContactListHTML(contact, id, isSelected = false) {
     return `
-            <div class="dropdown-item ${isSelected ? 'selected' : ''}" onclick="event.stopPropagation(); toggleCheckbox(this)">
+            <div class="dropdown-item ${isSelected ? 'selected' : ''}" data-id="${id}" onclick="event.stopPropagation(); toggleCheckbox(this)">
                 <div class="contact-info">
                     <div id="${id}"
                         class="contact-circle"
@@ -16,7 +16,7 @@ function generateContactListHTML(contact, id, isSelected = false) {
 
 function generateContactYourProfileHTML(loggedInUser, isSelected = false) {
     return`
-            <div id="dropdown-your-profile" class="dropdown-item ${isSelected ? 'selected' : ''}" onclick="event.stopPropagation(); toggleCheckbox(this)">
+            <div id="dropdown-your-profile" class="dropdown-item ${isSelected ? 'selected' : ''}" data-id="your-profile" onclick="event.stopPropagation(); toggleCheckbox(this)">
                 <div class="contact-info">
                     <div id="your-profile-badge"
                         class="contact-circle"

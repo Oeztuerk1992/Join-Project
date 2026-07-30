@@ -26,17 +26,27 @@ const btnPwThree = document.getElementById('btn-pw-three');
 const signUpNewUser = [];
 const registeredUser = [];
 
-// Loading logo //
+// Loading logo, once per browser-session and after logout //
 
 window.addEventListener("load", () => {
-    setTimeout(() => {
-        logo.classList.add("move-logo");
-    }, 500);
+    const splashShown = sessionStorage.getItem("splashShown");
 
-    setTimeout(() => {
+    if (!splashShown) {
+        sessionStorage.setItem("splashShown", "true");
+
+        setTimeout(() => {
+            logo.classList.add("move-logo");
+        }, 500);
+
+        setTimeout(() => {
+            splash.classList.add("hide");
+            container.classList.remove("hidden-splash");
+        }, 1200);
+    } else {
+
         splash.classList.add("hide");
         container.classList.remove("hidden-splash");
-    }, 1200);
+    }
 });
 
 // Init //
@@ -44,6 +54,7 @@ window.addEventListener("load", () => {
 async function initLogin() {
     modalLogin.show();
     await onloadUsers();
+    await loadContactsFromFirebase();
 }
 
 // Modal overlays //
@@ -51,14 +62,29 @@ async function initLogin() {
 function getSignupModal() {
     modalLogin.close();
     document.getElementById('form-for-signup').reset();
-    modalSignup.show();
+    resetValidation();
+
+    modalSignup.showModal();
     signupBtn.style.display = 'none';
 }
 
 function getLoginModal() {
     modalSignup.close();
+    document.getElementById('form-for-login').reset();
+    resetValidation();
+
     modalLogin.show();
     signupBtn.style.display = 'flex';
+}
+
+function resetValidation() {
+    document.querySelectorAll(".fail-red-border").forEach(element => {
+        element.classList.remove("fail-red-border");
+    });
+
+    document.querySelectorAll(".info-failed").forEach(element => {
+        element.classList.add("hidden");
+    });
 }
 
 // Go to other pages //

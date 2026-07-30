@@ -217,7 +217,8 @@ input::placeholder {
 
 .signup-card {
     width: 520px;
-    height: 650px;
+    min-height: 650px;
+    max-height: 90vh;
     background: white;
     border-radius: 30px;
     padding: 48px;
@@ -464,6 +465,14 @@ input[type="password"]::-webkit-textfield-decoration-container {
 .make-pw-visible {
     background-image: url("../assets/icons/login/visibility.svg");
 }
+
+
+
+
+
+
+
+
 
 
 

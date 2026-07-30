@@ -9,6 +9,11 @@ const dropDownMenuCategories = document.getElementById('categoryMenu');
 const container = document.getElementById('toggle-default');
 const dropDownMenuAssignments = document.querySelector("#toggle-default .dropdown-menu");
 
+const feedbackTitle = document.getElementById("feedback-title");
+const feedbackDuedate = document.getElementById("feedback-duedate");
+const feedbackCategory = document.getElementById("feedback-category");
+const borderCategory = document.getElementById("category-border");
+
 let contacts = {};
 
 // Functions //
@@ -23,6 +28,56 @@ async function initAddTask() {
     renderContacts(contacts, menu);
 }
 
+// functions for form validation //
+
+function checkFormDataAddTask(event, column) {
+    event.preventDefault();
+
+    const isValid =
+        checkTitleName() &&
+        checkDueDate() &&
+        checkTaskCategory();
+
+    if (isValid) {
+        createTask(column);
+    }
+
+    return false;
+}
+
+function checkTitleName() {
+    if (titleForm.value.trim()) {
+        feedbackTitle.classList.add("hidden");
+        titleForm.classList.remove("fail-red-border");
+        return true;
+    }
+    feedbackTitle.classList.remove("hidden");
+    titleForm.classList.add("fail-red-border");
+    return false;
+}
+
+function checkDueDate() {
+    if (dateForm.value) {
+        feedbackDuedate.classList.add("hidden");
+        dateForm.classList.remove("fail-red-border");
+        return true;
+    }
+    feedbackDuedate.classList.remove("hidden");
+    dateForm.classList.add("fail-red-border");
+    return false;
+}
+
+function checkTaskCategory() {
+    if (categoryForm.value.trim()) {
+        feedbackCategory.classList.add("hidden");
+        borderCategory.classList.remove("fail-red-border");
+        return true;
+    }
+    feedbackCategory.classList.remove("hidden");
+    borderCategory.classList.add("fail-red-border");
+    return false;
+}
+
 // functions for form content //
 
 function setPriority(selectedButton) {
@@ -32,7 +87,7 @@ function setPriority(selectedButton) {
     } else {
         let buttons = document.querySelectorAll(".priority");
         buttons.forEach(button => { button.classList.remove("active"); });
-
+        
         selectedButton.classList.add("active");
     }
 }
@@ -48,6 +103,7 @@ function selectCategory(category, event) {
     document.getElementById("selectedCategory").value = category;
     document.getElementById("categoryMenu").classList.remove("show");
     document.getElementById("dropdownArrowCategory").classList.remove("rotate");
+    checkTaskCategory();
 }
 
 function toggleDropdown(container) {
@@ -86,8 +142,8 @@ async function postTaskData(task) {
     return await response.json();
 }
 
-async function createTask() {
-    let taskData = {
+async function createTask(column) {
+    const taskData = {
         title: titleForm.value,
         description: descriptionForm.value,
         dueDate: dateForm.value,
@@ -95,14 +151,22 @@ async function createTask() {
         assignedTo: getAssignedUsers(),
         category: categoryForm.value,
         subtasks: getSubtasks(subtasksForm),
-        taskStatus: 'To do'
+        taskStatus: column || 'To do',
+        dragOrder: Date.now() 
     };
-    await postTaskData(taskData);
-    showSignupConfirmation();
-    await new Promise(resolve => setTimeout(resolve, 2000));
 
-    clearForm();
-    getToBoard();
+    try {
+        await postTaskData(taskData);
+
+        showConfirmation();
+
+        await new Promise(resolve => setTimeout(resolve, 2000));
+
+        clearForm();
+        getToBoard();
+    } catch (error) {
+        console.error(error);
+    }
 }
 
 function getPriority() {
@@ -116,17 +180,22 @@ function getPriority() {
 
 function getAssignedUsers() {
     const assignedContacts = [];
-    const selectedContacts = document.querySelectorAll('.dropdown-item.selected');
+
+    const selectedContacts = document.querySelectorAll(
+        '#dropdownMenu .dropdown-item.selected'
+    );
 
     selectedContacts.forEach(contact => {
         const circle = contact.querySelector('.contact-circle');
         const nameElement = contact.querySelector('.contact-info span');
 
         assignedContacts.push({
+            id: contact.dataset.id,
             name: nameElement.textContent,
             color: circle.style.cssText
         });
     });
+
     return assignedContacts;
 }
 
@@ -147,14 +216,15 @@ function getSubtasks(taskContainer) {
 
 async function loadContacts() {
     const response = await fetch(BASE_URL + "contacts.json");
-    contacts = await response.json();
+    contacts = await response.json() || {};
 }
 
 function renderContacts(contacts, menu, assignedTo = [], filterWord = "") {
     menu.innerHTML = "";
+
     checkCurrentLogin(menu, assignedTo, filterWord);
 
-    const assignedNames = assignedTo.map(c => c.name);
+    const assignedIds = assignedTo.map(c => c.id);
 
     const sortedContacts = Object.entries(contacts).sort((a, b) => {
         const firstNameA = a[1].capitalizedName.split(" ")[0];
@@ -163,8 +233,14 @@ function renderContacts(contacts, menu, assignedTo = [], filterWord = "") {
     });
 
     for (const [id, contact] of sortedContacts) {
-        const isSelected = assignedNames.includes(contact.capitalizedName);
-        menu.innerHTML += generateContactListHTML(contact, id, isSelected);
+
+        const isSelected = assignedIds.includes(id);
+
+        menu.innerHTML += generateContactListHTML(
+            contact,
+            id,
+            isSelected
+        );
     }
 }
 
@@ -192,20 +268,32 @@ function toggleCheckbox(element) {
 }
 
 function filterAndShowCurrentContacts(filterWord, inputElement) {
-    const menu = inputElement.closest('.dropdown-container')?.querySelector('.dropdown-menu');
+    const menu = inputElement
+        .closest('.dropdown-container')
+        ?.querySelector('.dropdown-menu');
+
     if (!menu) return;
 
-    const selectedNames = Array.from(menu.querySelectorAll('.dropdown-item.selected'))
-        .map(item => item.querySelector('.contact-info span').textContent);
+    const selectedIds = Array.from(
+        menu.querySelectorAll('.dropdown-item.selected')
+    ).map(item => item.dataset.id);
 
     const currentContacts = Object.fromEntries(
         Object.entries(contacts).filter(([id, contact]) =>
-            contact.capitalizedName.toLowerCase().includes(filterWord.toLowerCase())
+            contact.capitalizedName
+                .toLowerCase()
+                .includes(filterWord.toLowerCase())
         )
     );
 
-    const assignedTo = selectedNames.map(name => ({ name }));
-    renderContacts(currentContacts, menu, assignedTo, filterWord);
+    const assignedTo = selectedIds.map(id => ({ id }));
+
+    renderContacts(
+        currentContacts,
+        menu,
+        assignedTo,
+        filterWord
+    );
 }
 
 function getContactBadges(container) {
@@ -294,21 +382,38 @@ function saveEditedSubtask(button) {
 // clear form //
 
 function clearForm() {
+
     titleForm.value = "";
     descriptionForm.value = "";
     dateForm.value = "";
     categoryForm.value = "";
     subtasksForm.innerHTML = "";
-
-    document.querySelectorAll(".priority").forEach(button => { button.classList.remove("active"); });
+    resetPrioBtn();
     document.querySelectorAll(".dropdown-item").forEach(contact => {contact.classList.remove("selected");
-
+    
     const checkbox = contact.querySelector('input[type="checkbox"]');
         if (checkbox) {
             checkbox.checked = false;
         }
     });
+    resetRequiredFields(); 
     getContactBadges(container);
+}
+
+function resetPrioBtn() {
+    document.querySelectorAll(".priority").forEach(button => { button.classList.remove("active"); });
+    document.querySelectorAll(".medium").forEach(button => { button.classList.add("active"); });
+}
+
+function resetRequiredFields() {
+    feedbackTitle.classList.add("hidden");
+    titleForm.classList.remove("fail-red-border");
+    
+    feedbackDuedate.classList.add("hidden");
+    dateForm.classList.remove("fail-red-border");
+        
+    feedbackCategory.classList.add("hidden");
+    borderCategory.classList.remove("fail-red-border");
 }
 
 // Event Listeners //
@@ -350,3 +455,9 @@ document.addEventListener("click", (event) => {
         document.getElementById("selectedCategory").placeholder = "Select task category";
     }
 });
+
+document.getElementById("taskTitle")?.addEventListener("input", checkTitleName);
+
+document.getElementById("taskDate")?.addEventListener("change", checkDueDate);
+
+document.getElementById("selectedCategory")?.addEventListener("input", checkTaskCategory);

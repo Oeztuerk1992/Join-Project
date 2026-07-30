@@ -115,6 +115,7 @@
                 id="input-text"
                 class="search-task"
                 placeholder="Find Task"
+                onkeyup="filterAndShowCurrentTask(this.value)"
               />
               <div class="container-btn">
                 <div class="seperator"></div>
@@ -129,8 +130,9 @@
                 </div>
               </div>
             </div>
+            <p id="filter-info" class="filter-result hidden">Keine Ergebnisse gefunden.</p>
           </article>
-          <button class="btn-add-task" onclick="openAddTaskOverlay()"></button>
+          <button class="btn-add-task" onclick="openAddTaskOverlay('To do')"></button>
         </section>
       </header>
       <main>
@@ -140,7 +142,7 @@
               <h2>To do</h2>
               <button
                 class="btn-add-kanban plus-btn-default"
-                onclick="openAddTaskOverlay()"
+                onclick="openAddTaskOverlay('To do')"
               ></button>
             </div>
             <div
@@ -156,7 +158,7 @@
               <h2>In progress</h2>
               <button
                 class="btn-add-kanban plus-btn-default"
-                onclick="openAddTaskOverlay()"
+                onclick="openAddTaskOverlay('In progress')"
               ></button>
             </div>
             <div
@@ -172,7 +174,7 @@
               <h2>Await feedback</h2>
               <button
                 class="btn-add-kanban plus-btn-default"
-                onclick="openAddTaskOverlay()"
+                onclick="openAddTaskOverlay('Await feedback')"
               ></button>
             </div>
             <div
@@ -197,26 +199,22 @@
           </article>
         </section>
 
-        <section id="add-task-overlay" class="add-task-container add-task-overlay">
+        <dialog id="add-task-overlay" class="add-task-container add-task-overlay">
           <div class="headline-view-task header-add-task">
             <h1>Add Task</h1>
             <button class="btn-close" onclick="closeAddTaskOverlay()"></button>
           </div>
 
-          <form id="addTaskForm" class="addtask-form">
+          <form id="addTaskForm" class="addtask-form" onsubmit= "return checkFormDataAddTask(event, currentColumn)" novalidate>
             <div class="form-wrapper">
               <!-- LINKER BEREICH -->
 
               <div class="left-side">
+                
                 <div class="input-group">
-                  <label>Title<span class="red-required">*</span></label>
-
-                  <input
-                    type="text"
-                    id="taskTitle" class="hover-input"
-                    placeholder="Enter a title"
-                  />
-                </div>
+                  <label>Title<span class="red-required">*</span><span id="feedback-title" class="info-failed hidden">This field is required.</span></label>
+                  <input type="text" id="taskTitle" class="hover-input" placeholder="Enter a title" />
+               </div>
 
                 <div class="input-group">
                   <label>Description</label>
@@ -236,8 +234,7 @@
                 </div>
 
                 <div class="input-group">
-                  <label>Due date<span class="red-required">*</span></label>
-
+                  <label>Due date<span class="red-required">*</span><span id="feedback-duedate" class="info-failed hidden">This field is required.</span></label>
                   <input type="date" id="taskDate" class="hover-input" required />
                 </div>
               </div>
@@ -267,7 +264,7 @@
                     <button
                       id="medium"
                       type="button"
-                      class="priority medium"
+                      class="priority medium active"
                       onclick="setPriority(this)"
                     >
                       <span>Medium</span>
@@ -321,9 +318,10 @@
                 </div>
 
                 <div class="input-group container-categories">
-                  <label>Category<span class="red-required">*</span></label>
+                  <label>Category<span class="red-required">*</span><span id="feedback-category" class="info-failed hidden">This field is required.</span></label>
 
                   <div
+                    id="category-border"
                     class="dropdown-container"
                     onclick="toggleCategoryDropdown()"
                   >
@@ -407,16 +405,16 @@
               <div class="button-area">
                 <button type="button" class="clear-btn cancel-btn" onclick="closeAddTaskOverlay()">
                   <span>Cancel</span>
-                  <img src="../assets/icons/board/icon_cancel.svg" alt="img-cancel">
+                  <img src="../assets/icons/close-btn/close-btn-default.svg" alt="img-cancel">
                 </button>
 
-                <button onclick="createTask()" type="button" class="create-btn">
+                <button type="submit" class="create-btn">
                   Create Task
                 </button>
               </div>
             </div>
           </form>
-        </section>
+        </dialog>
 
         <dialog id="confirmation-dialog" class="confirm">
           <span>Task added to Board</span>
@@ -436,6 +434,8 @@
     <script src="../js/signup.js"></script>
     <script src="../js/remoteStorage.js"></script>
     <script src="../js/summary.js"></script>
+    <!-- <script src="/script.js"></script> -->
     
   </body>
 </html>
+

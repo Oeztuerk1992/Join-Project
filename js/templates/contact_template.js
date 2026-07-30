@@ -1,25 +1,27 @@
 function createContactTemplate(capitalizedName, initials, email, randomColor, phone, id) {
     return `
-    <div class="alphabet-divider"></div>
-    <div class="contact-item"
-        data-id="${id}"
-        data-name="${capitalizedName}"
-        data-initials="${initials}"
-        data-email="${email}"
-        data-phone="${phone}"
-        data-color="${randomColor}"
-        onclick="showContact(this)">
-        <div class="contact-badge" style="background-color: ${randomColor}">${initials}</div>
-        <div class="contact-name-email">
-            <span class="name">${capitalizedName}</span>
-            <span class="email">${email}</span>
+        <div class="contact-item"
+            data-id="${id}"
+            data-name="${capitalizedName}"
+            data-initials="${initials}"
+            data-email="${email}"
+            data-phone="${phone}"
+            data-color="${randomColor}"
+            onclick="showContact(this)">
+            <div class="contact-badge" style="background-color: ${randomColor}">${initials}</div>
+            <div class="contact-name-email">
+                <span class="name">${capitalizedName}</span>
+                <span class="email">${email}</span>
+            </div>
         </div>
-    </div>
-    `;
+        `;
 }
 
 function createLetterTemplate(letter) {
-    return `<div class="alphabet-letter">${letter}</div>`;
+    return `
+        <div class="alphabet-letter">${letter}</div>
+        <div class="alphabet-divider"></div>
+        `;
 }
 
 function createContactDetailTemplate(name, initials, email, phone, color) {

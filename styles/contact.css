@@ -69,11 +69,12 @@
 .contact-details{
     gap: 32px;
     opacity: 1;
-    margin: 70px 56px 78px 67px;
+    margin: 80px 56px 30px 37px;
 }
 
 .contact-name-email .email{
     color: var(--color-3);
+    font-size: 16px;
 }
 
 .header-title{
@@ -192,21 +193,25 @@ font-size: 27px;
 .overlay-close{
     position: absolute;
     top: 48px;
-    right: 48px;
-    width: 32px;
-    height: 32px;
-    cursor: pointer;
-    font-size: 20px;
-    color: var(--color-1);
+    right: 75px;
+    
     display: flex;
     align-items: center;
     justify-content: center;
+
+    background-image: url("../assets/icons/close-btn/close-btn-default.svg");
+    width: 32px;
+    height: 32px;
+    background-color: transparent;
 }
 
-.overlay-close:hover{
-    background-color: rgba(217, 217, 217, 1);
-    border-radius: 56px;
-    cursor: pointer;
+.overlay-close:hover {
+    background-image: url("../assets/icons/close-btn/close-btn-hover.svg");
+}
+
+button {
+  cursor: pointer;
+  border: unset;
 }
 
 .avatar-placeholder{
@@ -225,65 +230,82 @@ font-size: 27px;
     box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.4);
 }
 
-.user{
-    width: 120px;
-    height: 120px;
+.user {
     object-fit: contain;
 }
 
-.input-container{
-    width: 422px;
+.input-container {
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 16px;
+}
+
+.container-form-add-contact {
+    width: 420px;
+    display: flex;
+    flex-direction: column;
     color: var(--seperator-urgent);
 }
 
-.input-field{
-    border-radius: 10px;
-    height: 50px;
-    padding: 13px 21px;
-    border: 1px solid var(--seperator-urgent);
-    outline: none;
-    font-size: 20px;
+.input-wrapper {
     width: 100%;
+    width: 420px;
+    
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 10px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color-input);
 }
 
-.input-wrapper{
-    position: relative;
-    width: 422px;
-    display: flex;
+.input-wrapper input {
+    height: 48px;
+    border: none;
+    font-size: 20px;
+    padding: 0 30px 0 10px;
+    outline: none;
+    width: 100%;
+    flex: 1;
+}
+
+.input-wrapper:has(input:focus) {
+    border: 1px solid var(--border-input-active);
+}
+
+.input-wrapper.fail-red-border {
+    border: 1px solid var(--border-input-fail);
 }
 
 .input-icon{
-    position: absolute;
-    right: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
 }
 
 .overlay-buttons{
-    width: 364px;
     height: 57px;
     display: flex;
-    justify-content: center;
     align-items: center;
     gap: 32px;
+    padding-top: 30px;
 }
 
 .btn-cancel{
-    width: 126px;
-    height: 56px;
+    width: 140px;
+    height: 60px;
     gap: 4px;
     border-radius: 10px;
     border: 1px solid var(--color-1);
     padding: 16px;
     background: white;
     color: var(--color-1);
-    font-size: 16px;
+    font-size: 21px;
+    font-weight: bold;
     cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .btn-cancel:hover{
@@ -292,16 +314,21 @@ font-size: 27px;
 }
 
 .btn-create {
-    width: 214px;
-    height: 57px;
+    width: 210px;
+    height: 60px;
     gap: 4px;
     border-radius: 10px;
     border: none;
     padding: 16px;
     background: var(--color-1);
     color: white;
-    font-size: 16px;
+    font-size: 21px;
+    font-weight: bold;
     cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .btn-create:hover{
@@ -348,8 +375,8 @@ font-size: 27px;
 
 .alphabet-divider{
     width: 352px;
-    height: 16px;
     border-bottom: 1px solid var(--seperator-urgent);
+    margin: 10px 0px;
 }
 
 .contact-badge{
@@ -361,12 +388,12 @@ font-size: 27px;
     align-items: center;
     justify-content: center;
     color: white;
-    font-weight: 700;
-    font-size: 14px;
+    font-size: 16px;
+    border: 2px solid white;
 }
 
 .contact-name-email{
-    width: 149px;
+    width: 227px;
     height: 48px;
     display: flex;
     justify-content: center;
@@ -374,9 +401,8 @@ font-size: 27px;
     gap: 2px;
 }
 
-.name{
+.name {
     font-weight: 400;
-    font-style: Regular;
     font-size: 20px;
 }
 
@@ -386,7 +412,7 @@ font-size: 27px;
     display: flex;
     flex-direction: column;
     gap: 21px;
-    margin-left: 64px;
+    margin-left: 37px;
     margin-top: 32px;
     transform: translateX(100%);
     transition: transform 0.3s ease;
@@ -396,8 +422,9 @@ font-size: 27px;
 .contact-detail-actions{
     display: flex;
     flex-direction: row;
-    gap: 16px;
+    gap: 32px;
     align-items: center;
+    padding-top: 5px;
 }
 
 .contact-detail-panel.visible{
@@ -410,7 +437,7 @@ font-size: 27px;
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 24px;
+    gap: 50px;
 }
 
 .contact-detail-info{
@@ -448,13 +475,14 @@ font-size: 27px;
     font-weight: 400;
     font-style: Regular;
     font-size: 20px;
-    padding: 26px 0px 26px 0px;
+    padding: 26px 0px 10px 0px;
 }
 
 .label{
     font-weight: 700;
     font-style: bold;
     font-size: 16px;
+    padding-top: 16px;
 }
 
 .edit, .delete{
@@ -491,6 +519,10 @@ font-size: 27px;
     font-weight: bold;
     
     pointer-events: none;
+}
+
+@view-transition {
+  navigation: auto;
 }
 
 .new-contact-wrapper{
@@ -543,7 +575,6 @@ font-size: 27px;
     align-items: center;
     background: rgba(255, 255, 255, 1);
     flex-shrink: 0;
-    visibility: hidden;
 }
 
 .divider button{

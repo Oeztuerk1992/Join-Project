@@ -1,33 +1,59 @@
 function generateContactListHTML(contact, id, isSelected = false) {
     return `
-            <div class="dropdown-item ${isSelected ? 'selected' : ''}" data-id="${id}" onclick="event.stopPropagation(); toggleCheckbox(this)">
-                <div class="contact-info">
-                    <div id="${id}"
-                        class="contact-circle"
-                        style="background:${contact.randomColor};">
-                        ${contact.initials}
-                    </div>
-                    <span>${contact.capitalizedName}</span>
+        <div class="dropdown-item ${isSelected ? 'selected' : ''}"
+             data-id="${id}"
+             onclick="event.stopPropagation(); toggleCheckbox(this)">
+
+            <div class="contact-info">
+                <div id="${id}"
+                     class="contact-circle"
+                     style="background:${contact.randomColor};">
+                    ${contact.initials}
                 </div>
-                <input type="checkbox" value="${id}" ${isSelected ? 'checked' : ''} onclick="event.stopPropagation(); toggleCheckbox(this)">
+
+                <span class="contact-name">
+                    ${contact.capitalizedName}
+                </span>
             </div>
-            `;
+
+            <input type="checkbox"
+                   value="${id}"
+                   ${isSelected ? 'checked' : ''}
+                   onclick="event.stopPropagation(); toggleCheckbox(this)">
+        </div>
+    `;
 }
 
-function generateContactYourProfileHTML(loggedInUser, isSelected = false) {
-    return`
-            <div id="dropdown-your-profile" class="dropdown-item ${isSelected ? 'selected' : ''}" data-id="your-profile" onclick="event.stopPropagation(); toggleCheckbox(this)">
-                <div class="contact-info">
-                    <div id="your-profile-badge"
-                        class="contact-circle"
-                        style="background:var(--badge-color-14)">
-                        ${userProfile.textContent}
-                    </div>
-                    <span>${loggedInUser}</span><span>(You)</span>
+function generateContactYourProfileHTML(contact, id, isSelected = false) {
+    return `
+        <div
+            id="dropdown-your-profile"
+            class="dropdown-item ${isSelected ? 'selected' : ''}"
+            data-id="${id}"
+            onclick="event.stopPropagation(); toggleCheckbox(this)">
+
+            <div class="contact-info">
+                <div
+                    id="your-profile-badge-${id}"
+                    class="contact-circle"
+                    style="background:${contact.randomColor};">
+                    ${contact.initials}
                 </div>
-                <input type="checkbox" value="your-profile" ${isSelected ? 'checked' : ''} onclick="event.stopPropagation(); toggleCheckbox(this)">
+
+                <span class="contact-name">
+                    ${contact.capitalizedName}
+                </span>
+
+                <span class="you-label">(You)</span>
             </div>
-            `;
+
+            <input
+                type="checkbox"
+                value="${id}"
+                ${isSelected ? 'checked' : ''}
+                onclick="event.stopPropagation(); toggleCheckbox(this)">
+        </div>
+    `;
 }
 
 function generateContactBadgeHTML(initials, color) {

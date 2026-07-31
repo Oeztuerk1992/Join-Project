@@ -89,8 +89,9 @@ function resetValidation() {
 
 // Go to other pages //
 
-function getToSummary(userName) {
+function getToSummary(userName, userMail) {
     sessionStorage.setItem('loggedInUser', userName);
+    sessionStorage.setItem('loggedInUserEmail', userMail);
     window.location.href = './html/summary.html';
 }
 

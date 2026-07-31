@@ -28,7 +28,7 @@ function checkFormDataLogin(event) {
     if (user) {
         loginMail.value = "";
         loginPw.value = "";
-        getToSummary(`${user.firstName} ${user.lastName}`);
+        getToSummary(`${user.firstName} ${user.lastName}`, `${user.mail}`);
     }
     return false;
 }

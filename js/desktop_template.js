@@ -4,6 +4,8 @@ const userMenu = document.getElementById("user-nav");
 const circle = document.querySelector('.circle');
 
 const loggedInUser = sessionStorage.getItem('loggedInUser');
+const loggedInUserEmail = sessionStorage.getItem('loggedInUserEmail');
+
 const userProfile = document.getElementById('initials-user');
 
 // functions //

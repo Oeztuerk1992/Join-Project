@@ -33,10 +33,11 @@ async function initAddTask() {
 function checkFormDataAddTask(event, column) {
     event.preventDefault();
 
-    const isValid =
-        checkTitleName() &&
-        checkDueDate() &&
-        checkTaskCategory();
+    const isNameValid = checkTitleName();
+    const isDateValid = checkDueDate();
+    const isCategoryValid = checkTaskCategory();
+        
+    const isValid = isNameValid && isDateValid && isCategoryValid;
 
     if (isValid) {
         createTask(column);
@@ -187,7 +188,7 @@ function getAssignedUsers() {
 
     selectedContacts.forEach(contact => {
         const circle = contact.querySelector('.contact-circle');
-        const nameElement = contact.querySelector('.contact-info span');
+        const nameElement = contact.querySelector('.contact-name');
 
         assignedContacts.push({
             id: contact.dataset.id,
@@ -195,7 +196,6 @@ function getAssignedUsers() {
             color: circle.style.cssText
         });
     });
-
     return assignedContacts;
 }
 
@@ -232,26 +232,52 @@ function renderContacts(contacts, menu, assignedTo = [], filterWord = "") {
         return firstNameA.localeCompare(firstNameB);
     });
 
-    for (const [id, contact] of sortedContacts) {
+    const currentContactId = loggedInUserEmail
+    ? Object.entries(contacts).find(
+          ([id, contact]) => contact.email === loggedInUserEmail)?.[0]: null;
 
-        const isSelected = assignedIds.includes(id);
+   for (const [id, contact] of sortedContacts) {
 
-        menu.innerHTML += generateContactListHTML(
-            contact,
-            id,
-            isSelected
-        );
+    if (id === currentContactId) continue;
+
+    const isSelected = assignedIds.includes(id);
+
+    menu.innerHTML += generateContactListHTML(
+        contact,
+        id,
+        isSelected
+    );
     }
 }
 
 function checkCurrentLogin(dropdownMenu, assignedTo = [], filterWord = "") {
+    if (loggedInUser === "guest") return;
+
+    const currentContactEntry = Object.entries(contacts).find(
+        ([id, contact]) => contact.email === loggedInUserEmail
+    );
+
+    if (!currentContactEntry) return;
+
+    const [contactId, contact] = currentContactEntry;
+
     if (
-        loggedInUser !== "guest" &&
-        loggedInUser.toLowerCase().includes(filterWord.toLowerCase())
+        !contact.capitalizedName
+            .toLowerCase()
+            .includes(filterWord.toLowerCase())
     ) {
-        const isSelected = assignedTo.some(c => c.name === loggedInUser);
-        dropdownMenu.innerHTML += generateContactYourProfileHTML(loggedInUser, isSelected);
+        return;
     }
+
+    const isSelected = assignedTo.some(
+        c => c.id === contactId
+    );
+
+    dropdownMenu.innerHTML += generateContactYourProfileHTML(
+        contact,
+        contactId,
+        isSelected
+    );
 }
 
 function toggleCheckbox(element) {
@@ -311,15 +337,13 @@ function getContactBadges(container) {
 
 function renderDropdownContacts(child, badgeContainer) {
     const circle = child.querySelector('.contact-circle');
-    const initials = circle.textContent;
-    const color = circle.style.cssText;
+    const initials = circle.textContent.trim();
+    const color = circle.style.background;
 
-    if (child.id === 'dropdown-your-profile') {
-        badgeContainer.innerHTML += generateYourProfileBadgeHTML();
-
-    } else {
-        badgeContainer.innerHTML += generateContactBadgeHTML(initials, color);
-    }
+    badgeContainer.innerHTML += generateContactBadgeHTML(
+        initials,
+        `background:${color};`
+    );
 }
 
 /* functions "subtask" */

@@ -183,7 +183,7 @@ body {
     display: flex;
     flex-direction: column;
 
-    width: 440px;
+    max-width: 440px;
 }
 
 .separator {
@@ -227,7 +227,6 @@ input.hover-input:hover {
 textarea.hover-input:hover {
     border: 1px solid var(--color-footer) !important;
 }
-
 
 .textarea-wrapper textarea:hover {
     border: 1px solid var(--color-footer);
@@ -306,9 +305,10 @@ textarea {
 
 .textarea-wrapper textarea {
     width: 100%;
-    height: 120px;
+    max-height: 200px;
+    min-height: 100px;
     padding: 12px 16px;
-    resize: none; /* Standard-Icon ausblenden */
+    resize: vertical;
 }
 
 .textarea-icon {
@@ -840,3 +840,4 @@ input.dropdown::placeholder {
 .fail-red-border {
     border: 1px solid var(--border-input-fail) !important;
 }
+

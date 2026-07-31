@@ -449,7 +449,9 @@ function emailAlreadyExistsContact(filterWord) {
     }
 
     const mailExistsUser = registeredUser.some(
-        user => user.mail === email
+    user =>
+        user.mail === email &&
+        user.mail !== activeContact?.email
     );
 
     if (mailExistsContact || mailExistsUser) {

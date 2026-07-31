@@ -97,14 +97,20 @@ function getImgPrio(priority) {
         return generateImgPrioHighHTML();
 }
 
-function getAssignedContactBadges(assignments) {
+function getAssignedContactBadges(assignments = []) {
     return assignments.map(contact => {
-        const parts = contact.name.split(' ');
+
+        if (!contact?.name) {
+            console.warn('Invalid assigned contact:', contact);
+            return '';
+        }
+
+        const parts = contact.name.trim().split(' ');
 
         const initials =
-            parts[0][0].toUpperCase() +
+            (parts[0]?.[0] || '').toUpperCase() +
             (parts.length > 1
-                ? parts[parts.length - 1][0].toUpperCase()
+                ? (parts[parts.length - 1]?.[0] || '').toUpperCase()
                 : '');
 
         return generateBadgesHTML(contact.color, initials);
@@ -487,10 +493,11 @@ function getAssignedContacts(id) {
     return selectedContacts
         ? Array.from(selectedContacts).map(contact => {
               const circle = contact.querySelector('.contact-circle');
-              const nameElement = contact.querySelector('.contact-info span');
+              const nameElement = contact.querySelector('.contact-name');
+
               return {
                   id: contact.dataset.id,
-                  name: nameElement.textContent,
+                  name: nameElement?.textContent || '',
                   color: circle.style.cssText
               };
           })
@@ -620,6 +627,8 @@ if (document.getElementById('input-text')) {
     }
     });
 }
+
+
 
 
 

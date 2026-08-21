@@ -2,195 +2,237 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="../assets/img/logo/favicon_light.svg" media="(prefers-color-scheme: dark)"
-        type="image/svg+xml" />
-    <link rel="icon" href="../assets/img/logo/favicon_dark.svg" media="(prefers-color-scheme: light)"
-        type="image/svg+xml" />
-    <title>Legal Notice</title>
-    <link rel="stylesheet" href="../styles/colors.css" />
-    <link rel="stylesheet" href="../styles/font.css" />
-    <link rel="stylesheet" href="../styles/sidebar.css" />
-    <link rel="stylesheet" href="../styles/declarations.css" />
-    
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="../assets/img/favicon/favicon_light.svg" media="(prefers-color-scheme: dark)"
+    type="image/svg+xml" />
+  <link rel="icon" href="../assets/img/favicon/favicon_dark.svg" media="(prefers-color-scheme: light)"
+    type="image/svg+xml" />
+  <title>Legal Notice</title>
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="../styles/colors.css" />
+  <link rel="stylesheet" href="../styles/font.css" />
+  <link rel="stylesheet" href="../styles/sidebar.css" />
+  <link rel="stylesheet" href="../styles/sidebar_mobile.css" />
+  <link rel="stylesheet" href="../styles/login_layout.css" />
+  <link rel="stylesheet" href="../styles/login_components.css" />
+  <link rel="stylesheet" href="../styles/declarations.css" />
 </head>
 
 <body onload="initDeclarations()">
-    <div id="main-layout">
-        <div class="sidebar">
-          <div class="sidebar-top">
-            <div class="join-logo">
-              <img
-                src="../assets/img/logo/favicon_light.svg"
-                alt="Join logo"
-                class="join-logo-img"
-              />
-            </div>
-            <div class="sidebar-nav-container">
-              <nav id="nav-sidebar" class="sidebar-nav">
-                <a class="nav-item" href="../html/summary.html">
-                  <img
-                    src="../assets/icons/template/summary-icon.svg"
-                    alt="img-summary"
-                  />
-                  <span>Summary</span>
-                </a>
-                <a class="nav-item" href="../html/add_task.html">
-                  <img
-                    src="../assets/icons/template/add-task-icon.svg"
-                    alt="img-add-task"
-                  />
-                  <span>Add Task</span>
-                </a>
-                <a class="nav-item" href="../html/board.html">
-                  <img
-                    src="../assets/icons/template/board-icon.svg"
-                    alt="img-board"
-                  />
-                  <span>Board</span>
-                </a>
-                <a class="nav-item" href="../html/contacts.html">
-                  <img
-                    src="../assets/icons/template/contacts-icon.svg"
-                    alt="img-contacts"
-                  />
-                  <span>Contacts</span>
-                </a>
-              </nav>
-              <nav id="sidebar-guest" class="sidebar-nav sidebar-back hidden">
-                <a class="nav-item" href="../index.html">
-                  <img
-                    src="../assets/icons/template/back-login-icon.svg"
-                    alt="img-back-login"
-                  />
-                  <span>Log In</span>
-                </a>
-              </nav>
-            </div>
-          </div>
-          <div class="sidebar-footer">
-            <a href="privacy_policy.html">Privacy Policy</a>
-            <a class="link-legal-notice" href="legal_notice.html">Legal notice</a>
-          </div>
+  <div id="main-layout" class="desktop-template">
+    <div class="sidebar">
+      <div class="sidebar-top">
+        <div class="join-logo">
+          <img src="../assets/img/favicon/favicon_light.svg" alt="Join logo" class="join-logo-img" />
         </div>
-  
-        <header class="header">
-          <div class="container-header">
-            <div class="header-left">
-              <span class="title-kanban">Kanban Project Management Tool</span>
-            </div>
-            <nav id="right-header" class="header-right">
-              <a id="help-btn" href="help.html" title="Help">
-              </a>
-              <button class="user-menu" onclick="toggleUserMenu()">
-                <div class="circle">
-                  <span id="initials-user" class="user-initials"></span>
-                </div>
-              </button>
-            </nav>
-          </div>
-        </header>
-  
-      <dialog id="user-nav" class="nav-user">
-        <ul>
-          <li><a href="legal_notice.html">Legal Notice</a></li>
-          <li><a href="privacy_policy.html">Privacy Policy</a></li>
-          <li><a href="../index.html" onclick="logout()">Log out</a></li>
-        </ul>
-      </dialog>
+        <div class="sidebar-nav-container">
+          <nav id="nav-sidebar" class="sidebar-nav">
+            <a class="nav-item" href="../html/summary.html">
+              <img src="../assets/img/desktop_template/summary-icon.svg" alt="img-summary" />
+              <span>Summary</span>
+            </a>
+            <a class="nav-item" href="../html/add_task.html">
+              <img src="../assets/img/desktop_template/add-task-icon.svg" alt="img-add-task" />
+              <span>Add Task</span>
+            </a>
+            <a class="nav-item" href="../html/board.html">
+              <img src="../assets/img/desktop_template/board-icon.svg" alt="img-board" />
+              <span>Board</span>
+            </a>
+            <a class="nav-item" href="../html/contacts.html">
+              <img src="../assets/img/desktop_template/contacts-icon.svg" alt="img-contacts" />
+              <span>Contacts</span>
+            </a>
+          </nav>
+          <nav id="sidebar-guest" class="sidebar-nav sidebar-back hidden">
+            <a class="nav-item" href="../index.html">
+              <img src="../assets/img/desktop_template/back-login-icon.svg" alt="img-back-login" />
+              <span>Log In</span>
+            </a>
+          </nav>
+        </div>
       </div>
-
-    <div id="content" class="content-legalnotice">
-        <h1>Legal Notice</h1>
-        <h2>Imprint</h2>
-        <p>
-            Mehmet Sefa Gürcan<br>
-            Rico Elmerich<br>
-            Sinan Öztürk<br><br>
-            Mehmet Sefa Gürcan<br>
-            Brombeerstraße 30<br>
-            80331 Munich<br>
-        </p>
-
-        <h2>Contact Information</h2>
-        <p> Mehmet Sefa Gürcan<br>
-            Phone: &#91;phone number&#93;<br>
-            Email: &#91;email adress&#93;</p>
-        </p>
-        <h3>Acceptance of terms</h3>
-        <p>By accessing and using <span class="highlight">Join</span> (Product), you acknowledge and agree to
-            the following terms and conditions, and any policies, guidelines, or amendments thereto that may be
-            presented to
-            you from time to time. We, the listed students, may update or change the terms and conditions from time to
-            time
-            without notice.</p>
-
-        <h3>Scope and ownership of the product</h3>
-        <p>
-            <span class="highlight">Join</span> has been developed as part of a student group project in a web
-            development bootcamp at the <span class="highlight">Developer Akademie GmbH</span>. It has an
-            educational purpose and is not intended for extensive personal & business usage. As such, we cannot
-            guarantee
-            consistent availability, reliability, accuracy, or any other aspect
-            of quality regarding this Product.
-        </p>
-        <p>The design of <span class="highlight">Join</span> is owned by the <span class="highlight">Developer Akademie GmbH</span>. Unauthorized use,
-            reproduction,
-            modification,
-            distribution, or replication of the design is strictly prohibited.</p>
-
-        <h3>Proprietary rights</h3>
-        <p>Aside from the design owned by <span class="highlight">Developer Akademie GmbH</span>, we, the
-            listed
-            students, retain all proprietary rights in <span class="highlight">Join</span>, including any
-            associated copyrighted material, trademarks, and other proprietary information.</p>
-
-        <h3>Use of the product</h3>
-        <p>
-            <span class="highlight">Join</span> is intended to be used for lawful purposes only, in accordance
-            with all applicable laws and regulations. Any use of <span class="highlight">Join</span> for
-            illegal
-            activities, or to harass, harm, threaten, or intimidate another person, is strictly prohibited. You are
-            solely
-            responsible for your interactions with other users of
-            <span class="highlight">Join</span>.
-        </p>
-
-        <h3>Disclaimer of warranties and limitation of liability</h3>
-        <p>
-            <span class="highlight">Join</span> is provided "as is" without warranty of any kind, whether
-            express
-            or implied, including but not limited to the implied warranties of merchantability, fitness for a particular
-            purpose, and non-infringement. In no event will we, the listed students, or the <span class="highlight">Developer
-                Akademie</span>, be liable for any direct,
-            indirect, incidental, special, consequential or exemplary damages, including but not limited to, damages for
-            loss of profits, goodwill, use, data, or other intangible losses, even if we have been advised of the
-            possibility of such damages, arising out of or in connection with the use or performance of
-            <span class="highlight">Join</span>.
-        </p>
-
-        <h3>Indemnity</h3>
-        <p>
-            You agree to indemnify, defend and hold harmless us, the listed students, the Developer Akademie, and our
-            affiliates, partners, officers, directors, agents, and employees, from and against any claim, demand, loss,
-            damage, cost, or liability (including reasonable legal fees) arising out of or relating to your use of
-            <span class="highlight">Join</span> and/or your breach of this
-            Legal Notice.
-        </p>
-
-        <p>For any questions or notices, please contact us at <a
-                href="mailto: testmail@hotmail.de">testmail@hotmail.de</a>.</p>
-        <br>
-        <p>Date: July 25, 2026</p>
-        <br>
-
-        <p>Source: <a href="https://www.e-recht24.de">https://www.e-recht24.de</a></p>
+      <div class="footer-flex-grow"></div>
+      <div class="sidebar-footer">
+        <a href="privacy_policy.html">Privacy Policy</a>
+        <a class="link-legal-notice" href="legal_notice.html">Legal notice</a>
+      </div>
     </div>
-    <script src="../js/declarations.js"></script>
-    <script src="../js/desktop_template.js"></script>
+    <header class="header">
+      <div class="container-header">
+        <div class="header-left">
+          <span class="title-kanban">Kanban Project Management Tool</span>
+        </div>
+        <nav id="right-header" class="header-right">
+          <a id="help-btn" href="help.html" title="Help">
+            <img style="width: 20px"/>
+          </a>
+          <div class="user-menu-container">
+            <button class="user-menu" onclick="toggleUserMenu('desktop')">
+              <div class="circle">
+                <span id="initials-user" class="user-initials"></span>
+              </div>
+            </button>
+            <dialog id="user-nav" class="nav-user">
+              <ul>
+                <li><a href="legal_notice.html">Legal Notice</a></li>
+                <li><a href="privacy_policy.html">Privacy Policy</a></li>
+                <li><a href="../index.html" onclick="logout()">Log out</a></li>
+              </ul>
+            </dialog>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+  </div>
+  <div class="mobile-template hidden">
+   <header class="header-mobile">
+      <div class="container-header-mobile">
+        <div class="container-join-logo">
+          <img src="../assets/img/favicon/favicon_dark.svg" alt="Join logo" class="join-logo-img-mobile" />
+        </div>
+        <nav id="right-header-mobile" class="header-nav-mobile">
+          <div class="user-menu-container">
+            <button class="user-menu" onclick="toggleUserMenu('mobile')">
+              <div class="circle-mobile">
+                <span id="initials-user-mobile" class="user-initials-mobile"></span>
+              </div>
+            </button>
+            <dialog id="user-nav-mobile" class="nav-user nav-user-mobile">
+              <ul>
+                <li><a href="help.html">Help</a></li>
+                <li><a href="legal_notice.html">Legal Notice</a></li>
+                <li><a href="privacy_policy.html">Privacy Policy</a></li>
+                <li><a href="../index.html" onclick="logout()">Log out</a></li>
+              </ul>
+            </dialog>
+          </div>
+        </nav>
+      </div>
+   </header>
+  </div>
+  <div id="content" class="content-legalnotice">
+    <div class="headline-h1 title-declaration">
+      <h1>Legal Notice</h1>
+      <button class="back-btn btn-declarations btn-legal" id="back-legal" onclick="goBack()"></button>
+    </div>
+    <div class="scroll-wrapper-declaration">
+      <h2>Imprint</h2>
+      <p>
+        Mehmet Sefa Gürcan<br>
+        Rico Elmerich<br>
+        Sinan Öztürk<br><br>
+        Mehmet Sefa Gürcan<br>
+        Brombeerstraße 30<br>
+        80331 Munich<br>
+      </p>
+      <h2>Contact Information</h2>
+      <p> Mehmet Sefa Gürcan<br>
+        Phone: &#91;phone number&#93;<br>
+        Email: &#91;email adress&#93;</p>
+      </p>
+      <h3>Acceptance of terms</h3>
+      <p>By accessing and using <span class="highlight">Join</span> (Product), you acknowledge and agree to
+        the following terms and conditions, and any policies, guidelines, or amendments thereto that may be
+        presented to
+        you from time to time. We, the listed students, may update or change the terms and conditions from time to
+        time
+        without notice.</p>
+      <h3>Scope and ownership of the product</h3>
+      <p>
+        <span class="highlight">Join</span> has been developed as part of a student group project in a web
+        development bootcamp at the <span class="highlight">Developer Akademie GmbH</span>. It has an
+        educational purpose and is not intended for extensive personal & business usage. As such, we cannot
+        guarantee
+        consistent availability, reliability, accuracy, or any other aspect
+        of quality regarding this Product.
+      </p>
+      <p>The design of <span class="highlight">Join</span> is owned by the <span class="highlight">Developer Akademie
+          GmbH</span>. Unauthorized use,
+        reproduction,
+        modification,
+        distribution, or replication of the design is strictly prohibited.</p>
+      <h3>Proprietary rights</h3>
+      <p>Aside from the design owned by <span class="highlight">Developer Akademie GmbH</span>, we, the
+        listed
+        students, retain all proprietary rights in <span class="highlight">Join</span>, including any
+        associated copyrighted material, trademarks, and other proprietary information.</p>
+      <h3>Use of the product</h3>
+      <p>
+        <span class="highlight">Join</span> is intended to be used for lawful purposes only, in accordance
+        with all applicable laws and regulations. Any use of <span class="highlight">Join</span> for
+        illegal
+        activities, or to harass, harm, threaten, or intimidate another person, is strictly prohibited. You are
+        solely
+        responsible for your interactions with other users of
+        <span class="highlight">Join</span>.
+      </p>
+      <h3>Disclaimer of warranties and limitation of liability</h3>
+      <p>
+        <span class="highlight">Join</span> is provided "as is" without warranty of any kind, whether
+        express
+        or implied, including but not limited to the implied warranties of merchantability, fitness for a particular
+        purpose, and non-infringement. In no event will we, the listed students, or the <span class="highlight">Developer
+          Akademie</span>, be liable for any direct,
+        indirect, incidental, special, consequential or exemplary damages, including but not limited to, damages for
+        loss of profits, goodwill, use, data, or other intangible losses, even if we have been advised of the
+        possibility of such damages, arising out of or in connection with the use or performance of
+        <span class="highlight">Join</span>.
+      </p>
+      <h3>Indemnity</h3>
+      <p>
+        You agree to indemnify, defend and hold harmless us, the listed students, the Developer Akademie, and our
+        affiliates, partners, officers, directors, agents, and employees, from and against any claim, demand, loss,
+        damage, cost, or liability (including reasonable legal fees) arising out of or relating to your use of
+        <span class="highlight">Join</span> and/or your breach of this
+        Legal Notice.
+      </p>
+      <p>For any questions or notices, please contact us at <a href="mailto: testmail@hotmail.de">testmail@hotmail.de</a>.
+      </p>
+      <br>
+      <p>Date: July 25, 2026</p>
+      <br>
+      <p>Source: <a href="https://www.e-recht24.de">https://www.e-recht24.de</a></p>
+    </div>
+  </div>
+  <div class="mobile-template hidden">
+        <footer class="footer-mobile">
+            <nav id="nav-sidebar-mobile" class="container-footer-mobile">
+                <a class="nav-item-mobile nav-active-summary" href="../html/summary.html">
+                    <img src="../assets/img/desktop_template/summary-icon.svg" alt="img-summary" />
+                    <span>Summary</span>
+                </a>
+                <a class="nav-item-mobile" href="../html/add_task.html">
+                    <img src="../assets/img/desktop_template/add-task-icon.svg" alt="img-add-task" />
+                    <span>Add Task</span>
+                </a>
+                <a class="nav-item-mobile" href="../html/board.html">
+                    <img src="../assets/img/desktop_template/board-icon.svg" alt="img-board" />
+                    <span>Board</span>
+                </a>
+                <a class="nav-item-mobile" href="../html/contacts.html">
+                    <img src="../assets/img/desktop_template/contacts-icon.svg" alt="img-contacts" />
+                    <span>Contacts</span>
+                </a>
+            </nav>
+            <div id="sidebar-guest-mobile" class="container-footer-mobile hidden">
+                <nav class="mobile-login-btn">
+                    <a class="nav-item-mobile" href="../index.html">
+                        <img src="../assets/img/desktop_template/back-login-icon.svg" alt="img-back-login" />
+                        <span>Log In</span>
+                    </a>
+                </nav>
+                <nav class="flexbox-declaration-mobile">
+                    <a class="nav-item-mobile" href="privacy_policy.html"><span>Privacy Policy</span></a>
+                    <a class="nav-item-mobile link-legal-notice" href="legal_notice.html"><span>Legal notice</span></a>
+                </nav>
+            </div>
+        </footer>
+  </div>
+  <script src="../scripts/declarations.js"></script>
+  <script src="../scripts/desktop_template.js"></script>
 </body>
 
 </html>
-
-

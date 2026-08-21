@@ -1,124 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="icon"
-      href="../assets/img/logo/favicon_light.svg"
-      media="(prefers-color-scheme: dark)"
-      type="image/svg+xml"
-    />
-    <link
-      rel="icon"
-      href="../assets/img/logo/favicon_dark.svg"
-      media="(prefers-color-scheme: light)"
-      type="image/svg+xml"
-    />
-    <title>Help</title>
-    <link rel="stylesheet" href="../styles/colors.css" />
-    <link rel="stylesheet" href="../styles/font.css" />
-    <link rel="stylesheet" href="../styles/sidebar.css" />
-    <link rel="stylesheet" href="../styles/login.css" />
-    <link rel="stylesheet" href="../styles/declarations.css" />
-  </head>
 
-  <body onload="initDeclarations()">
-    <div id="main-layout">
-      <div class="sidebar">
-        <div class="sidebar-top">
-          <div class="join-logo">
-            <img
-              src="../assets/img/logo/favicon_light.svg"
-              alt="Join logo"
-              class="join-logo-img"
-            />
-          </div>
-          <div class="sidebar-nav-container">
-            <nav id="nav-sidebar" class="sidebar-nav">
-              <a class="nav-item" href="../html/summary.html">
-                <img
-                  src="../assets/icons/template/summary-icon.svg"
-                  alt="img-summary"
-                />
-                <span>Summary</span>
-              </a>
-              <a class="nav-item" href="../html/add_task.html">
-                <img
-                  src="../assets/icons/template/add-task-icon.svg"
-                  alt="img-add-task"
-                />
-                <span>Add Task</span>
-              </a>
-              <a class="nav-item" href="../html/board.html">
-                <img
-                  src="../assets/icons/template/board-icon.svg"
-                  alt="img-board"
-                />
-                <span>Board</span>
-              </a>
-              <a class="nav-item" href="../html/contacts.html">
-                <img
-                  src="../assets/icons/template/contacts-icon.svg"
-                  alt="img-contacts"
-                />
-                <span>Contacts</span>
-              </a>
-            </nav>
-            <nav id="sidebar-guest" class="sidebar-nav sidebar-back hidden"></nav>
-          </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="../assets/img/favicon/favicon_light.svg" media="(prefers-color-scheme: dark)"
+    type="image/svg+xml" />
+  <link rel="icon" href="../assets/img/favicon/favicon_dark.svg" media="(prefers-color-scheme: light)"
+    type="image/svg+xml" />
+  <title>Help</title>
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="../styles/colors.css" />
+  <link rel="stylesheet" href="../styles/font.css" />
+  <link rel="stylesheet" href="../styles/sidebar.css" />
+  <link rel="stylesheet" href="../styles/sidebar_mobile.css" />
+  <link rel="stylesheet" href="../styles/login_layout.css" />
+  <link rel="stylesheet" href="../styles/login_components.css" />
+  <link rel="stylesheet" href="../styles/declarations.css" />
+</head>
+
+<body onload="initDeclarations()">
+  <div id="main-layout" class="desktop-template" >
+    <div class="sidebar">
+      <div class="sidebar-top">
+        <div class="join-logo">
+          <img src="../assets/img/favicon/favicon_light.svg" alt="Join logo" class="join-logo-img" />
         </div>
-        <div class="sidebar-footer">
-          <a href="privacy_policy.html">Privacy Policy</a>
-          <a href="legal_notice.html">Legal notice</a>
+        <div class="sidebar-nav-container">
+          <nav id="nav-sidebar" class="sidebar-nav">
+            <a class="nav-item" href="../html/summary.html">
+              <img src="../assets/img/desktop_template/summary-icon.svg" alt="img-summary" />
+              <span>Summary</span>
+            </a>
+            <a class="nav-item" href="../html/add_task.html">
+              <img src="../assets/img/desktop_template/add-task-icon.svg" alt="img-add-task" />
+              <span>Add Task</span>
+            </a>
+            <a class="nav-item" href="../html/board.html">
+              <img src="../assets/img/desktop_template/board-icon.svg" alt="img-board" />
+              <span>Board</span>
+            </a>
+            <a class="nav-item" href="../html/contacts.html">
+              <img src="../assets/img/desktop_template/contacts-icon.svg" alt="img-contacts" />
+              <span>Contacts</span>
+            </a>
+          </nav>
+          <nav id="sidebar-guest" class="sidebar-nav sidebar-back hidden"></nav>
         </div>
       </div>
-
-      <header class="header">
-        <div class="container-header">
-          <div class="header-left">
-            <span class="title-kanban">Kanban Project Management Tool</span>
-          </div>
-          <nav class="header-right">
-            <a id="help-btn" href="help.html" title="Help">
-            </a>
-            <button class="user-menu" onclick="toggleUserMenu()">
+      <div class="footer-flex-grow"></div>
+      <div class="sidebar-footer">
+        <a href="privacy_policy.html">Privacy Policy</a>
+        <a href="legal_notice.html">Legal notice</a>
+      </div>
+    </div>
+    <header class="header">
+      <div class="container-header">
+        <div class="header-left">
+          <span class="title-kanban">Kanban Project Management Tool</span>
+        </div>
+        <nav class="header-right">
+          <a id="help-btn" href="help.html" title="Help">
+            <img style="width: 20px" />
+          </a>
+          <div class="user-menu-container">
+            <button class="user-menu" onclick="toggleUserMenu('desktop')">
               <div class="circle">
                 <span id="initials-user" class="user-initials"></span>
               </div>
             </button>
-          </nav>
-        </div>
-      </header>
-
-      <dialog id="user-nav" class="nav-user">
-        <ul>
-          <li><a href="legal_notice.html">Legal Notice</a></li>
-          <li><a href="privacy_policy.html">Privacy Policy</a></li>
-          <li><a href="../index.html" onclick="logout()">Log out</a></li>
-        </ul>
-      </dialog>
-    </div>
-
-    <div id="content" class="content-help">
-      <div class="headline-h1">
-        <h1>Help</h1>
-        <button class="back-btn btn-help" id="back-help" onclick="goBack()"></button>
+            <dialog id="user-nav" class="nav-user">
+              <ul>
+                <li><a href="legal_notice.html">Legal Notice</a></li>
+                <li><a href="privacy_policy.html">Privacy Policy</a></li>
+                <li><a href="../index.html" onclick="logout()">Log out</a></li>
+              </ul>
+            </dialog>
+          </div>
+        </nav>
       </div>
-      <p>
-        Welcome to the help page for <span class="highlight">Join</span>, your
-        guide to using our kanban project management tool. Here, we'll provide
-        an overview of what <span class="highlight">Join</span> is, how it can
-        benefit you, and how to use it.
-      </p>
-
+    </header>
+  </div>
+  <div class="mobile-template hidden">
+   <header class="header-mobile">
+      <div class="container-header-mobile">
+        <div class="container-join-logo">
+          <img src="../assets/img/favicon/favicon_dark.svg" alt="Join logo" class="join-logo-img-mobile" />
+        </div>
+        <nav class="header-nav-mobile">
+          <div class="user-menu-container">
+            <button class="user-menu" onclick="toggleUserMenu('mobile')">
+              <div class="circle-mobile">
+                <span id="initials-user-mobile" class="user-initials-mobile"></span>
+              </div>
+            </button>
+            <dialog id="user-nav-mobile" class="nav-user nav-user-mobile">
+              <ul>
+                <li><a href="help.html">Help</a></li>
+                <li><a href="legal_notice.html">Legal Notice</a></li>
+                <li><a href="privacy_policy.html">Privacy Policy</a></li>
+                <li><a href="../index.html" onclick="logout()">Log out</a></li>
+              </ul>
+            </dialog>
+          </div>
+        </nav>
+      </div>
+   </header>
+  </div>
+  <div id="content" class="content-help">
+    <div class="headline-h1">
+      <h1>Help</h1>
+      <button class="back-btn btn-declarations" id="back-help" onclick="goBack()"></button>
+    </div>
+    <p class="help-info-text">
+      Welcome to the help page for <span class="highlight">Join</span>, your
+      guide to using our kanban project management tool. Here, we'll provide
+      an overview of what <span class="highlight">Join</span> is, how it can
+      benefit you, and how to use it.
+    </p>
+    <div class="scroll-wrapper-declaration">
       <h2>What is Join?</h2>
       <p>
         <span class="highlight">Join</span> is a kanban-based project management
         tool designed and built by a group of dedicated students as part of
         their web development bootcamp at the Developer Akademie.
       </p>
-
       <p>
         Kanban, a Japanese term meaning "billboard", is a highly effective
         method to visualize work, limit work-in-progress, and maximize
@@ -126,7 +132,6 @@
         principles of kanban to help users manage their tasks and projects in an
         intuitive, visual interface.
       </p>
-
       <p>
         It is important to note that <span class="highlight">Join</span> is
         designed as an educational exercise and is not intended for extensive
@@ -135,13 +140,11 @@
         accuracy, or other aspects of quality regarding
         <span class="highlight">Join</span>.
       </p>
-
       <h2>How to use it</h2>
       <p>
         Here is a step-by-step guide on how to use
         <span class="highlight">Join</span>:
       </p>
-
       <ol>
         <li>
           <h3>Exploring the Board</h3>
@@ -189,43 +192,43 @@
           </p>
         </li>
       </ol>
-
       <p>
         Remember that using <span class="highlight">Join</span> effectively
         requires consistent updates from you and your team to ensure the board
         reflects the current state of your project.
       </p>
-
       <p>
         Have more questions about <span class="highlight">Join</span>? Feel free
         to contact us at
-        <a class="highlight" href="mailto: testmail@hotmail.de"
-          >testmail@hotmail.de</a
-        >. We're here to help you!
+        <a class="highlight" href="mailto: testmail@hotmail.de">testmail@hotmail.de</a>. We're here to help you!
       </p>
-
-      <h2>Enjoy using Join!</h2>
+      <h2>Enjoy using Join!</h2><br><br>
     </div>
-    <script src="../js/declarations.js"></script>
-    <script src="../js/desktop_template.js"></script>
-  </body>
+  </div>
+  <div class="mobile-template hidden">
+    <footer class="footer-mobile">
+      <nav class="container-footer-mobile">
+        <a class="nav-item-mobile nav-active-summary" href="../html/summary.html">
+          <img src="../assets/img/desktop_template/summary-icon.svg" alt="img-summary" />
+          <span>Summary</span>
+        </a>
+        <a class="nav-item-mobile" href="../html/add_task.html">
+          <img src="../assets/img/desktop_template/add-task-icon.svg" alt="img-add-task" />
+          <span>Add Task</span>
+        </a>
+        <a class="nav-item-mobile" href="../html/board.html">
+          <img src="../assets/img/desktop_template/board-icon.svg" alt="img-board" />
+          <span>Board</span>
+        </a>
+        <a class="nav-item-mobile" href="../html/contacts.html">
+          <img src="../assets/img/desktop_template/contacts-icon.svg" alt="img-contacts" />
+          <span>Contacts</span>
+        </a>
+      </nav>
+    </footer>
+  </div>
+  <script src="../scripts/declarations.js"></script>
+  <script src="../scripts/desktop_template.js"></script>
+</body>
+
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

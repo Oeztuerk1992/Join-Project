@@ -5,52 +5,59 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Add Task</title>
-  <link rel="icon" href="../assets/img/logo/favicon_light.svg" media="(prefers-color-scheme: dark)"
+  <link rel="icon" href="../assets/img/favicon/favicon_light.svg" media="(prefers-color-scheme: dark)"
     type="image/svg+xml" />
-  <link rel="icon" href="../assets/img/logo/favicon_dark.svg" media="(prefers-color-scheme: light)"
+  <link rel="icon" href="../assets/img/favicon/favicon_dark.svg" media="(prefers-color-scheme: light)"
     type="image/svg+xml" />
-  <link rel="stylesheet" href="../styles/add_task.css" />
-  <link rel="stylesheet" href="../styles/board.css" />
+  <link rel="stylesheet" href="../styles.css" />
   <link rel="stylesheet" href="../styles/colors.css" />
   <link rel="stylesheet" href="../styles/font.css" />
+  <link rel="stylesheet" href="../styles/add_task.css" />
+  <link rel="stylesheet" href="../styles/add_task_layout.css" />
+  <link rel="stylesheet" href="../styles/add_task_subtask.css" />
   <link rel="stylesheet" href="../styles/sidebar.css" />
+  <link rel="stylesheet" href="../styles/sidebar_mobile.css" />
+  <link rel="stylesheet" href="../styles/board_layout.css" />
+  <link rel="stylesheet" href="../styles/board_kanban.css" />
+  <link rel="stylesheet" href="../styles/board_view_task.css" />
+  <link rel="stylesheet" href="../styles/board_edit_task.css" />
 </head>
 
 <body onload="initAddTask()">
   <div class="app">
-    <div id="main-layout">
+    <div id="main-layout" class="desktop-template">
       <div class="sidebar">
         <div class="sidebar-top">
           <div class="join-logo">
-            <img src="../assets/img/logo/favicon_light.svg" alt="Join logo" class="join-logo-img" />
+            <img src="../assets/img/favicon/favicon_light.svg" alt="Join logo" class="join-logo-img" />
           </div>
           <div class="sidebar-nav-container">
             <nav class="sidebar-nav">
               <a class="nav-item" href="../html/summary.html">
-                <img src="../assets/icons/template/summary-icon.svg" alt="img-summary" />
+                <img src="../assets/img/desktop_template/summary-icon.svg" alt="img-summary" />
                 <span>Summary</span>
               </a>
               <a class="nav-item nav-active-task" href="../html/add_task.html">
-                <img src="../assets/icons/template/add-task_active-icon.svg" alt="img-add-task" />
+                <img src="../assets/img/desktop_template/add-task_active-icon.svg" alt="img-add-task" />
                 <span>Add Task</span>
               </a>
               <a class="nav-item" href="../html/board.html">
-                <img src="../assets/icons/template/board-icon.svg" alt="img-board" />
+                <img src="../assets/img/desktop_template/board-icon.svg" alt="img-board" />
                 <span>Board</span>
               </a>
               <a class="nav-item" href="../html/contacts.html">
-                <img src="../assets/icons/template/contacts-icon.svg" alt="img-contacts" />
+                <img src="../assets/img/desktop_template/contacts-icon.svg" alt="img-contacts" />
                 <span>Contacts</span>
               </a>
             </nav>
           </div>
         </div>
+        <div class="footer-flex-grow"></div>
         <div class="sidebar-footer">
           <a href="privacy_policy.html">Privacy Policy</a>
           <a href="legal_notice.html">Legal notice</a>
         </div>
       </div>
-
       <header class="header">
         <div class="container-header">
           <div class="header-left">
@@ -58,97 +65,110 @@
           </div>
           <nav class="header-right">
             <a href="help.html" title="Help">
-              <img class="header-help" src="../assets/icons/help_icon.svg" alt="help-img" />
+              <img class="header-help" src="../assets/img/help/help_icon.svg" alt="help-img" />
             </a>
-            <button class="user-menu" onclick="toggleUserMenu()">
-              <div class="circle">
-                <span id="initials-user" class="user-initials"></span>
-              </div>
-            </button>
+            <div class="user-menu-container">
+              <button class="user-menu" onclick="toggleUserMenu('desktop')">
+                <div class="circle">
+                  <span id="initials-user" class="user-initials"></span>
+                </div>
+              </button>
+              <dialog id="user-nav" class="nav-user">
+                <ul>
+                  <li><a href="legal_notice.html">Legal Notice</a></li>
+                  <li><a href="privacy_policy.html">Privacy Policy</a></li>
+                  <li><a href="../index.html" onclick="logout()">Log out</a></li>
+                </ul>
+              </dialog>
+            </div>
           </nav>
         </div>
       </header>
-
-      <dialog id="user-nav" class="nav-user">
-        <ul>
-          <li><a href="legal_notice.html">Legal Notice</a></li>
-          <li><a href="privacy_policy.html">Privacy Policy</a></li>
-          <li><a href="../index.html" onclick="logout()">Log out</a></li>
-        </ul>
-      </dialog>
     </div>
-
+    <div class="mobile-template hidden">
+      <header class="header-mobile">
+        <div class="container-header-mobile">
+          <div class="container-join-logo">
+            <img src="../assets/img/favicon/favicon_dark.svg" alt="Join logo" class="join-logo-img-mobile" />
+          </div>
+          <nav class="header-nav-mobile">
+            <div class="user-menu-container">
+              <button class="user-menu" onclick="toggleUserMenu('mobile')">
+                <div class="circle-mobile">
+                  <span id="initials-user-mobile" class="user-initials-mobile"></span>
+                </div>
+              </button>
+              <dialog id="user-nav-mobile" class="nav-user nav-user-mobile">
+                <ul>
+                  <li><a href="help.html">Help</a></li>
+                  <li><a href="legal_notice.html">Legal Notice</a></li>
+                  <li><a href="privacy_policy.html">Privacy Policy</a></li>
+                  <li><a href="../index.html" onclick="logout()">Log out</a></li>
+                </ul>
+              </dialog>
+            </div>
+          </nav>
+        </div>
+      </header>
+    </div>
     <main class="content-addtask">
       <section class="add-task-container">
         <h1>Add Task</h1>
-
-        <form id="addTaskForm" class="addtask-form" onsubmit= "return checkFormDataAddTask(event, 'To do')" novalidate>
-          <div class="form-wrapper">
+        <form id="addTaskForm" class="addtask-form" onsubmit="return checkFormDataAddTask(event, 'To do')" novalidate>
+          <div class="form-wrapper scroll-wrapper-addtask">
             <!-- LINKER BEREICH -->
-
             <div class="left-side">
-
               <div class="input-group">
-                <label>Title<span class="red-required">*</span><span id="feedback-title" class="info-failed hidden">This field is required.</span></label>
+                <label>Title<span class="red-required">*</span><span id="feedback-title" class="info-failed hidden">This
+                    field is required.</span></label>
                 <input type="text" id="taskTitle" class="hover-input" placeholder="Enter a title" />
               </div>
-
               <div class="input-group">
                 <label>Description</label>
-
                 <div class="textarea-wrapper">
-                  <textarea id="taskDescription" placeholder="Enter a Description"></textarea>
-                  </div>
+                  <textarea id="taskDescription" class="hover-input" placeholder="Enter a Description"></textarea>
+                </div>
               </div>
 
               <div class="input-group">
-                <label>Due date<span class="red-required">*</span><span id="feedback-duedate" class="info-failed hidden">This field is required.</span></label>
-
+                <label>Due date<span class="red-required">*</span><span id="feedback-duedate"
+                    class="info-failed hidden">This field is required.</span></label>
                 <input type="date" id="taskDate" class="hover-input" required />
               </div>
             </div>
-
             <div class="separator"></div>
-
             <!-- RECHTER BEREICH -->
-
             <div class="right-side">
               <div class="input-group">
                 <label>Priority</label>
-
                 <div id="button-prio-form" class="priority-container">
                   <button id="urgent" type="button" class="priority urgent" onclick="setPriority(this)">
                     <span>Urgent</span>
-                    <img src="../assets/icons/priority/Property 1=Urgent.svg" alt="" />
+                    <img src="../assets/img/priority/Property 1=Urgent.svg" alt="" />
                   </button>
-
                   <button id="medium" type="button" class="priority medium active" onclick="setPriority(this)">
                     <span>Medium</span>
-                    <img src="../assets/icons/priority/Property 1=Medium.svg" alt="" />
+                    <img src="../assets/img/priority/Property 1=Medium.svg" alt="" />
                   </button>
-
                   <button id="low" type="button" class="priority low" onclick="setPriority(this)">
                     <span>Low</span>
-                    <img src="../assets/icons/priority/Property 1=Low.svg" alt="" />
+                    <img src="../assets/img/priority/Property 1=Low.svg" alt="" />
                   </button>
                 </div>
               </div>
-
               <div id="container-dropdown-menu" class="input-group">
                 <label>Assigned to</label>
-
                 <div id="toggle-default" class="dropdown-container" onclick="toggleDropdown(this)">
-                  <input id="dropdown-assignment" class="dropdown dropdown-assignment" placeholder="Select contacts to assign" onkeydown="showFilteredContactList(this)">
+                  <input id="dropdown-assignment" class="dropdown dropdown-assignment"
+                    placeholder="Select contacts to assign" onkeydown="showFilteredContactList(this)">
                   <button type="button" id="dropdownArrow" class="arrow-dropdown"></button>
                   <div id="dropdownMenu" class="dropdown-menu"></div>
                 </div>
-
                 <div id="contact-chosen-for-task" class="assign-contact"></div>
               </div>
-
               <div class="input-group container-categories">
-                <label>Category<span class="red-required">*</span><span id="feedback-category" class="info-failed hidden">This field is required.</span></label>
-
+                <label>Category<span class="red-required">*</span><span id="feedback-category"
+                    class="info-failed hidden">This field is required.</span></label>
                 <div id="category-border" class="dropdown-container" onclick="toggleCategoryDropdown()">
                   <input id="selectedCategory" class="dropdown" placeholder="Select task category" readonly>
                   <button type="button" id="dropdownArrowCategory" class="arrow-dropdown"></button>
@@ -158,7 +178,6 @@
                         Technical Task
                       </span>
                     </div>
-
                     <div class="dropdown-item category-item" onclick="selectCategory('User Story', event)">
                       <span>
                         User Story
@@ -167,64 +186,78 @@
                   </div>
                 </div>
               </div>
-
               <div class="input-group group-subtasks">
                 <label>Subtasks</label>
-
                 <div class="subtask-input">
-                  <input id="input-subtask-add-task" type="text" placeholder="Add new subtask" />
-
+                  <input id="input-subtask-add-task" class="subtask-enter" type="text" placeholder="Add new subtask" />
                   <div class="subtask-actions">
                     <button type="button" onclick="closeEditSubtask('add-task')">
-                      <img src="../assets/icons/edit_delete/Property 1=close.svg" />
+                      <img src="../assets/img/edit_delete/Property 1=close.svg" />
                     </button>
-
                     <div class="subtask-divider"></div>
-
                     <button type="button" onclick="saveEditSubtask('add-task')">
-                      <img src="../assets/icons/edit_delete/Property 1=check.svg" />
+                      <img src="../assets/img/edit_delete/Property 1=check.svg" />
                     </button>
                   </div>
                 </div>
-
                 <div id="list-subtasks" class="list-subtasks">
                   <ul id="ul-subtask-add-task" class="container-ul-subtask"></ul>
                 </div>
-
               </div>
-            </div>
-          </div>
-
-          <div class="flex-grow"></div>
-
-          <div class="bottom-area">
-            <p><span class="red-required">*</span>This field is required</p>
-
-            <div class="button-area">
-              <button type="button" class="clear-btn" onclick="clearForm()">Clear</button>
-
-              <button type="submit" class="create-btn">
-                Create Task
-              </button>
+              <p class="required-information-for-mobile"><span class="red-required">*</span>This field is required.</p>
+              <p id="subtask-edit-feedback-add-task-mobile" class="subtask-edit-feedback-for-mobile hidden"><span class="red-required">*</span>Please finish editing the 
+                subtasks.</p>
             </div>
           </div>
         </form>
+        <div class="bottom-area">
+          <p class="required-information"><span class="red-required">*</span>This field is required.</p>
+          <p id="subtask-edit-feedback-add-task" class="subtask-edit-feedback hidden"><span class="red-required">*</span>Please finish editing the subtasks.</p>
+          <div class="button-area">
+            <button type="button" class="clear-btn" onclick="clearForm()">Clear<span id="close-mobile" class="close-for-mobile">✖</span></button>
+            <button type="submit" form="addTaskForm" class="create-btn">
+              Create Task
+            </button>
+          </div>
+        </div>
       </section>
       <dialog id="confirmation-dialog" class="confirm">
         <span>Task added to Board</span>
-        <img src="../assets/icons/template/board_active-icon.svg" alt="board-img">
+        <img src="../assets/img/desktop_template/board_active-icon.svg" alt="board-img">
       </dialog>
     </main>
+    <div class="mobile-template hidden">
+      <footer class="footer-mobile">
+        <nav class="container-footer-mobile">
+          <a class="nav-item-mobile" href="../html/summary.html">
+            <img src="../assets/img/desktop_template/summary-icon.svg" alt="img-summary" />
+            <span>Summary</span>
+          </a>
+          <a class="nav-item-mobile nav-active-task" href="../html/add_task.html">
+            <img src="../assets/img/desktop_template/add-task-icon.svg" alt="img-add-task" />
+            <span>Add Task</span>
+          </a>
+          <a class="nav-item-mobile" href="../html/board.html">
+            <img src="../assets/img/desktop_template/board-icon.svg" alt="img-board" />
+            <span>Board</span>
+          </a>
+          <a class="nav-item-mobile" href="../html/contacts.html">
+            <img src="../assets/img/desktop_template/contacts-icon.svg" alt="img-contacts" />
+            <span>Contacts</span>
+          </a>
+        </nav>
+      </footer>
+    </div>
   </div>
-  <script src="../js/add_task.js"></script>
-  <script src="../js/templates/add_task_template.js"></script>
-  <script src="../js/desktop_template.js"></script>
-  <script src="../js/remoteStorage.js"></script>
-  <script src="../js/summary.js"></script>
-  <script src="../js/signup.js"></script>
-  <!-- <script src="/script.js"></script> -->
+  <script src="../script.js"></script>
+  <script src="../scripts/add_task.js"></script>
+  <script src="../scripts/add_task_api.js"></script>
+  <script src="../scripts/add_task_validation.js"></script>
+  <script src="../scripts/templates/add_task_template.js"></script>
+  <script src="../scripts/desktop_template.js"></script>
+  <script src="../scripts/startpage_api.js"></script>
+  <script src="../scripts/startpage_signup.js"></script>
+  <script src="../scripts/summary.js"></script>
 </body>
 
 </html>
-
-

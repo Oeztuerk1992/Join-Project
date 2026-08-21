@@ -1,36 +1,66 @@
 :root {
-  /* colors */
 
-  --background-body: rgba(246, 247, 248, 1);
+  /* ========================================
+     BLUE
+  ======================================== */
 
-  --sidebar-background: rgba(42, 54, 71, 1);
-  --hover-sidebar: rgba(9, 25, 49, 1);
-  --font-legalnotice: rgba(168, 168, 168, 1);
-  --hover: rgb(41,171,226);
-  --seperator-summary: rgba(41, 171, 226, 1);
-  --seperator-urgent: rgba(209, 209, 209, 1);
-  --border-btn: rgba(0, 0, 0, 0.1);
-  --border-add-btn-kanban: rgba(0, 0, 0, 0.25);
+  --color-blue-50: rgba(246, 247, 248, 1);
+  --color-blue-100: rgba(240, 240, 240, 1);
+  --color-blue-200: rgba(12, 46, 98, 0.12);
+  --color-blue-600: rgba(0, 124, 238, 1);
+  --color-blue-700: rgba(41, 171, 226, 1);
+  --color-blue-800: rgba(69, 137, 255, 1);
+  --color-blue-navy-900: rgba(42, 54, 71, 1);
+  --color-blue-navy-950: rgba(42, 61, 89, 1);
+  --color-blue-navy-1000: rgba(9, 25, 49, 1);
 
-  --background-board: rgba(240, 240, 240, 1);
-  --background-status-bar: rgba(69, 137, 255, 1);
-  --background-status-bar-default: rgba(244, 244, 244, 1);
-  --border-color-grey: rgba(104, 104, 104, 1);
-  --border-color-input: rgba(209, 209, 209, 1);
-  --border-input-active: rgba(18, 70, 88, 1);
-  --border-input-fail: rgba(230, 0, 38, 1);
-  --color-info-privacy: rgba(18, 70, 88, 1);
+  --color-light-blue: rgba(173, 216, 230, 1);
+  --color-blue-petrol: rgba(18, 70, 88, 1);
+  --color-green: rgba(122, 226, 41, 1);
 
-  --background-color-user: rgba(12, 46, 98, 0.12);
-  --color-user-nav: rgba(205, 205, 205, 1);
-  --hover-sidebar: rgba(42, 61, 89, 1);
-  --active-sidebar: rgba(9, 25, 49, 1);
-  --color-footer: rgba(231, 231, 231, 1);
+  /* ========================================
+     GRAY
+  ======================================== */
+
+  --color-gray-100: rgba(244, 244, 244, 1);
+  --color-gray-200: rgba(238, 238, 238, 1);
+  --color-gray-300: rgba(209, 209, 209, 1);
+  --color-gray-500: rgba(205, 205, 205, 1);
+  --color-gray-600: rgba(168, 168, 168, 1);
+  --color-gray-700: rgba(104, 104, 104, 1);
+
+  /* ========================================
+     WHITE
+  ======================================== */
+
+  --color-white: rgba(255, 255, 255, 1);
+
+  /* ========================================
+     RED
+  ======================================== */
+
+  --color-red-100: rgba(230, 0, 38, 1);
+  --color-red-200:rgba(255, 61, 0, 1);
+  --color-orange: rgba(255, 168, 0, 1);
+
+  /* ========================================
+     BLACK (BORDER & SHADOW)
+  ======================================== */
+
+  --color-black: rgba(0, 0, 0, 1);
+  --color-black-05: rgba(0, 0, 0, 0.05);
+  --color-black-08: rgba(0, 0, 0, 0.08);
+  --color-black-10: rgba(0, 0, 0, 0.10);
+  --color-black-16: rgba(0, 0, 0, 0.16);
+  --color-black-20: rgba(0, 0, 0, 0.20);
+  --color-black-25: rgba(0, 0, 0, 0.25);
+  --color-black-40: rgba(0, 0, 0, 0.40);
+  --color-black-50: rgba(0, 0, 0, 0.50);
+
+   /* ========================================
+     BADGE COLORS FOR USERS
+  ======================================== */
   
-
-  /* board */
-
-  /* badge colors for board user */
   --badge-color-1: rgba(255, 122, 0, 1);
   --badge-color-2: rgba(255, 94, 179, 1);
   --badge-color-3: rgba(110, 82, 255, 1);
@@ -47,39 +77,4 @@
   --badge-color-14: rgba(255, 70, 70, 1);
   --badge-color-15: rgba(255, 187, 43, 1);
 
-  --title-kanban: rgba(66, 82, 110, 1);
-  --background-no-task-feedback: rgba(231, 231, 231, 1);
-  --box-shadow-mini-card: rgba(0, 0, 0, 0.08);
-  --box-shadow-view-overlay: rgba(0, 0, 0, 0.16);
-  --box-shadow-prio: rgba(0, 0, 0, 0.1);
-  --box-shadow-choose-prio: rgba(0, 0, 0, 0.25);
-  --box-shadow-signup-info: rgba(0, 0, 0, 0.4);
-
-
-/* contact */
-
-/* colors for contacts*/
---color-1: rgba(42, 54, 71, 1);
---color-2: rgba(255, 255, 255, 1);
---color-3: rgba(0, 124, 238, 1);
-
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

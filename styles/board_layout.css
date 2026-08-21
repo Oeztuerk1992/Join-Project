@@ -1,0 +1,169 @@
+/* Content */
+
+.content-board {
+  padding: 34px 0px 0px 290px;
+}
+
+
+/* Header */
+
+.header-board {
+  display: flex;
+  align-items: center;
+  gap: 575px;
+
+  padding-bottom: 40px;
+}
+h1 {
+  font-size: 61px;
+  font-weight: 700;
+}
+.task-bar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+
+/* Search */
+
+.search-container {
+  width: 314px;
+  height: 48px;
+
+  border-radius: 10px;
+  border: 1px solid var(--color-gray-600);
+  background-color: var(--color-white);
+  color: var(--color-gray-300);
+}
+.search-container:hover {
+  border: 1px solid var(--color-gray-300);
+}
+.search-container:focus-within {
+  border: 1px solid var(--color-blue-petrol);
+}
+.filter-container {
+  width: 312px;
+  display: flex;
+  padding: 8px 16px;
+}
+.search-task {
+  width: 232px;
+  border: none;
+  flex-shrink: 0;
+
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--color-gray-300);
+}
+.search-task:focus-within {
+  color: var(--color-black);
+}
+.search-task:not(:placeholder-shown)
+  ~ .container-btn
+  .container-search-task
+  .btn-search-task {
+  background-image: url("../assets/img/board/header/search_hover.svg");
+}
+.search-task:not(:placeholder-shown)
+  ~ .container-btn
+  .container-search-task {
+  border-radius: 50%;
+  background-color: var(--color-gray-300);
+}
+.container-btn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  width: 55px;
+  height: 32px;
+  padding: 0;
+  flex-shrink: 0;
+}
+.container-search-task {
+  width: 30px;
+  height: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-search-task{
+  width: 17px;
+  height: 17px;
+
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
+
+  background-image: url("../assets/img/board/header/search_default.svg");
+
+  cursor: pointer;
+}
+.seperator {
+  background-color: var(--color-gray-300);
+  width: 1px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+
+/* Add Task */
+
+.btn-add-task {
+  width: 160px;
+  height: 48px;
+  border-radius: 10px;
+
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
+
+  background-image: url("../assets/img/board/header/add_task_default.svg");
+}
+
+
+/* General Elements */
+
+button {
+  cursor: pointer;
+  border: unset;
+}
+input {
+  border: unset;
+}
+input::placeholder {
+  color: var(--color-gray-300);
+}
+
+
+/* Filter result */
+
+.filter-result.hidden {
+    display: none;
+}
+.filter-result {
+  color: var(--color-red-100);;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 15px;
+}
+
+
+/* Sidebar */
+
+.nav-active-board {
+    background-color: var(--color-blue-navy-1000);
+    color: var(--color-white);
+    font-weight: bold;
+
+    pointer-events: none;
+}
+.nav-active-board span{
+    color: var(--color-white);
+}

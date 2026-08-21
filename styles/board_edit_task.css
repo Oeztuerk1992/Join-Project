@@ -1,0 +1,302 @@
+/* Edit task overlay */
+
+.edit-task-overlay {
+  width: 525px;
+  height: 930px;
+  border-radius: 30px;
+
+  background-color: var(--color-white);
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.16);
+}
+.edit-task-overlay::backdrop {
+    background-color: var(--color-black-50);
+}
+.frame-view-edit-task {
+  padding: 0px 40px 40px 40px;
+}
+.headline-edit-task {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.form-for-edit-task {
+  width: 445px;
+  height: 900px;
+  padding-top: 20px;
+}
+.container-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.label-form {
+  font-size: 20px;
+  color: var(--color-blue-navy-900);
+}
+.input {
+  border: 1px solid var(--color-gray-300);
+  border-radius: 10px;
+
+  font-size: 20px;
+  padding-left: 15px;
+}
+.input-title,
+.input-date {
+  height: 48px;
+}
+.input-description {
+  min-height: 120px;
+  height: auto;
+
+  line-height: 1.4;
+  resize: vertical;
+}
+.input-date {
+  padding-right: 20px;
+}
+.input-title::placeholder,
+.input-description::placeholder,
+.input-date::placeholder {
+  color: var(--color-gray-300);
+}
+.title-prio-in-edit-mode {
+  font-size: 19px;
+  font-weight: bold;
+  color: var(--color-blue-navy-900);
+}
+.btn-prio-edit {
+  width: 138px;
+  height: 56px;
+  border-radius: 10px;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-black-10);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  font-size: 20px;
+
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.btn-prio-in-edit-mode {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  gap: 20px;
+  padding-top: 10px;
+}
+.btn-prio-edit:hover {
+  box-shadow: 0px 4px 4px 0px var(--color-black-25);
+}
+.checked-urgent:active {
+  background-color: var(--color-black);
+}
+
+
+/* Dropdown Menu */
+
+.container-dropdown-user {
+  padding-top: 20px;
+}
+.title-dropdown-menu {
+  font-size: 20px;
+  color: var(--color-blue-navy-900);
+}
+.container-btn-dropdown {
+  margin-top: 10px;
+
+  width: 440px;
+  height: 48px;
+
+  border-radius: 10px;
+  border: 1px solid var(--color-gray-300);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.container-btn-dropdown:hover {
+  box-shadow: 0px 4px 4px 0px var(--color-black-25);
+}
+.search-in-dropdown {
+  font-size: 20px;
+  padding: 12px 16px;
+  width: 100%;
+  border-radius: 10px;
+}
+.search-in-dropdown::placeholder {
+  color: var(--color-black);
+}
+.btn-set-resp {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: transparent;
+
+  background-image: url("../assets/img/board/cards/open-arrow.svg");
+  background-size: 24px 24px;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  margin-right: 10px;
+}
+.btn-set-resp:hover {
+  background-color: var(--color-gray-300);
+}
+.assign-contact {
+  padding-top: 10px;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.contact-for-tasks {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid white;
+  background-color: var(--badge-color-1);
+  font-size: 16px;
+  color: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dropdown-content {
+  width: 410px;
+  height: 48px;
+}
+.container-dropdown,
+.list-user-name {
+  display: flex;
+  align-items: center;
+}
+.container-dropdown {
+  padding: 10px;
+  justify-content: space-between;
+  border-radius: 10px;
+}
+.container-dropdown:hover {
+  background-color: whitesmoke;
+}
+.container-dropdown:has(input[type="checkbox"]:checked) {
+  background-color: var(--color-blue-navy-900);
+  color: var(--color-white);
+}
+.add-remove-user-task:checked {
+  background-color: whitesmoke;
+  border-radius: 10px;
+}
+.list-user-name {
+  gap: 20px;
+  padding-left: 20px;
+}
+.add-remove-user-task {
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  background-image: url(../assets/img/board/cards/check-btn.svg);
+  background-size: 24px 24px;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+}
+.container-edit-subtask {
+  padding-top: 20px;
+}
+.confirm-edit-btn {
+  width: 90px;
+  height: 60px;
+
+  background-color: var(--color-blue-navy-900);
+  border-radius: 10px;
+  color: var(--color-white);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+
+ /*  position: fixed;
+  right: 40px;
+  bottom: 40px; */
+}
+.confirm-edit-btn span {
+  font-size: 21px;
+  font-weight: bold;
+}
+.confirm-edit-btn:hover {
+  transform: scale(1.01);
+  background: var(--color-blue-petrol);
+  box-shadow: 0px 4px 4px 0px var(--color-black-25);
+}
+.check-mark {
+  width: 16px;
+}
+.header-form {
+  padding: 30px 40px 0px 40px;
+}
+
+/* Scrollbar */
+
+.scroll-wrapper {
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  width: 505px;
+  max-height: 710px;
+}
+.scroll-wrapper::-webkit-scrollbar-track {
+  margin-top: 55px;
+}
+.list-subtasks::-webkit-scrollbar-track {
+  margin-top: 10px;
+}
+.list-subtasks.remove-scrollbar {
+  max-height: unset;
+  overflow: hidden;
+}
+.assign-contact.margin-badge {
+  margin-left: 10px;
+}
+.header-add-task {
+  align-items: unset;
+}
+.cancel-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.cancel-btn span {
+  font-size: 20px;
+  padding-left: 6px;
+}
+.cancel-btn img {
+  width: 28px;
+  height: 28px;
+  padding-top: 2px;
+}
+.edit-btn {
+  padding: 20px 40px 40px 40px;
+}
+.flex-grow {
+  flex: 1;
+}
+
+
+/* Modal */
+
+dialog {
+  border: none;
+  padding: 0;
+}
+.modal-class {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+}

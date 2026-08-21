@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="../assets/img/favicon/favicon_light.svg" media="(prefers-color-scheme: dark)"
+    type="image/svg+xml" />
+  <link rel="icon" href="../assets/img/favicon/favicon_dark.svg" media="(prefers-color-scheme: light)"
+    type="image/svg+xml" />
+  <title>Template-Sidebar-Mobile</title>
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="../styles/colors.css" />
+  <link rel="stylesheet" href="../styles/font.css" />
+  <link rel="stylesheet" href="../styles/sidebar_mobile.css" />
+  <link rel="stylesheet" href="../styles/sidebar.css" />
+</head>
+
+<body>
+  <div id="main-layout-mobile" class="mobile-template">
+    <header class="header-mobile">
+      <div class="container-header-mobile">
+        <div class="container-join-logo">
+          <img src="../assets/img/favicon/favicon_dark.svg" alt="Join logo" class="join-logo-img-mobile" />
+        </div>
+        <nav id="right-header-mobile" class="header-nav-mobile">
+          <div class="user-menu-container">
+            <button class="user-menu" onclick="toggleUserMenu()">
+              <div class="circle-mobile">
+                <span id="initials-user" class="user-initials-mobile">GM</span>
+              </div>
+            </button>
+            <dialog id="user-nav" class="nav-user nav-user-mobile">
+              <ul>
+                <li><a href="help.html">Help</a></li>
+                <li><a href="legal_notice.html">Legal Notice</a></li>
+                <li><a href="privacy_policy.html">Privacy Policy</a></li>
+                <li><a href="../index.html" onclick="logout()">Log out</a></li>
+              </ul>
+            </dialog>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <footer class="footer-mobile">
+      <nav class="container-footer-mobile hidden">
+        <a class="nav-item-mobile" href="../html/summary.html">
+          <img src="../assets/img/desktop_template/summary-icon.svg" alt="img-summary" />
+          <span>Summary</span>
+        </a>
+        <a class="nav-item-mobile" href="../html/add_task.html">
+          <img src="../assets/img/desktop_template/add-task-icon.svg" alt="img-add-task" />
+          <span>Add Task</span>
+        </a>
+        <a class="nav-item-mobile" href="../html/board.html">
+          <img src="../assets/img/desktop_template/board-icon.svg" alt="img-board" />
+          <span>Board</span>
+        </a>
+        <a class="nav-item-mobile" href="../html/contacts.html">
+          <img src="../assets/img/desktop_template/contacts-icon.svg" alt="img-contacts" />
+          <span>Contacts</span>
+        </a>
+      </nav>
+      <div id="sidebar-guest-mobile" class="container-footer-mobile">
+        <nav class="mobile-login-btn">
+            <a class="nav-item-mobile" href="../index.html">
+              <img src="../assets/img/desktop_template/back-login-icon.svg" alt="img-back-login" />
+              <span>Log In</span>
+            </a>
+        </nav>
+        <nav class="flexbox-declaration-mobile">
+          <a class="nav-item-mobile" href="privacy_policy.html"><span>Privacy Policy</span></a>
+          <a class="nav-item-mobile" href="legal_notice.html"><span>Legal notice</span></a>
+        </nav>
+      </div>
+    </footer>
+  </div>
+
+
+
+
+  <script src="../scripts/desktop_template.js"></script>
+</body>
+
+</html>

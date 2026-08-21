@@ -4,51 +4,53 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" href="../assets/img/logo/favicon_light.svg" media="(prefers-color-scheme: dark)"
+  <link rel="icon" href="../assets/img/favicon/favicon_light.svg" media="(prefers-color-scheme: dark)"
     type="image/svg+xml" />
-  <link rel="icon" href="../assets/img/logo/favicon_dark.svg" media="(prefers-color-scheme: light)"
+  <link rel="icon" href="../assets/img/favicon/favicon_dark.svg" media="(prefers-color-scheme: light)"
     type="image/svg+xml" />
   <title>Summary</title>
+  <link rel="stylesheet" href="../styles.css" />
   <link rel="stylesheet" href="../styles/colors.css" />
   <link rel="stylesheet" href="../styles/font.css" />
   <link rel="stylesheet" href="../styles/sidebar.css" />
+  <link rel="stylesheet" href="../styles/sidebar_mobile.css" />
   <link rel="stylesheet" href="../styles/summary.css" />
 </head>
 
 <body onload="initSummary()">
-  <div id="main-layout">
+  <div id="main-layout" class="desktop-template" >
     <div class="sidebar">
       <div class="sidebar-top">
         <div class="join-logo">
-          <img src="../assets/img/logo/favicon_light.svg" alt="Join logo" class="join-logo-img" />
+          <img src="../assets/img/favicon/favicon_light.svg" alt="Join logo" class="join-logo-img" />
         </div>
         <div class="sidebar-nav-container">
           <nav class="sidebar-nav">
             <a class="nav-item nav-active-summary" href="../html/summary.html">
-              <img src="../assets/icons/template/summary_active-icon.svg" alt="img-summary" />
+              <img src="../assets/img/desktop_template/summary_active-icon.svg" alt="img-summary" />
               <span>Summary</span>
             </a>
             <a class="nav-item" href="../html/add_task.html">
-              <img src="../assets/icons/template/add-task-icon.svg" alt="img-add-task" />
+              <img src="../assets/img/desktop_template/add-task-icon.svg" alt="img-add-task" />
               <span>Add Task</span>
             </a>
             <a class="nav-item" href="../html/board.html">
-              <img src="../assets/icons/template/board-icon.svg" alt="img-board" />
+              <img src="../assets/img/desktop_template/board-icon.svg" alt="img-board" />
               <span>Board</span>
             </a>
             <a class="nav-item" href="../html/contacts.html">
-              <img src="../assets/icons/template/contacts-icon.svg" alt="img-contacts" />
+              <img src="../assets/img/desktop_template/contacts-icon.svg" alt="img-contacts" />
               <span>Contacts</span>
             </a>
           </nav>
         </div>
       </div>
+      <div class="footer-flex-grow"></div>
       <div class="sidebar-footer">
         <a href="privacy_policy.html">Privacy Policy</a>
         <a href="legal_notice.html">Legal notice</a>
       </div>
     </div>
-
     <header class="header">
       <div class="container-header">
         <div class="header-left">
@@ -56,33 +58,59 @@
         </div>
         <nav class="header-right">
           <a href="help.html" title="Help">
-            <img class="header-help" src="../assets/icons/help_icon.svg" alt="help-img" />
+            <img class="header-help" src="../assets/img/help/help_icon.svg" alt="help-img" />
           </a>
-          <button class="user-menu" onclick="toggleUserMenu()">
-            <div class="circle">
-              <span id="initials-user" class="user-initials"></span>
-            </div>
-          </button>
+          <div class="user-menu-container">
+            <button class="user-menu" onclick="toggleUserMenu('desktop')">
+              <div class="circle">
+                <span id="initials-user" class="user-initials"></span>
+              </div>
+            </button>
+            <dialog id="user-nav" class="nav-user">
+              <ul>
+                <li><a href="legal_notice.html">Legal Notice</a></li>
+                <li><a href="privacy_policy.html">Privacy Policy</a></li>
+                <li><a href="../index.html" onclick="logout()">Log out</a></li>
+              </ul>
+            </dialog>
+          </div>
         </nav>
       </div>
     </header>
-
-    <dialog id="user-nav" class="nav-user">
-      <ul>
-        <li><a href="legal_notice.html">Legal Notice</a></li>
-        <li><a href="privacy_policy.html">Privacy Policy</a></li>
-        <li><a href="../index.html" onclick="logout()">Log out</a></li>
-      </ul>
-    </dialog>
   </div>
-
+  <div class="mobile-template hidden">
+   <header class="header-mobile">
+      <div class="container-header-mobile">
+        <div class="container-join-logo">
+          <img src="../assets/img/favicon/favicon_dark.svg" alt="Join logo" class="join-logo-img-mobile" />
+        </div>
+        <nav class="header-nav-mobile">
+          <div class="user-menu-container">
+            <button class="user-menu" onclick="toggleUserMenu('mobile')">
+              <div class="circle-mobile">
+                <span id="initials-user-mobile" class="user-initials-mobile"></span>
+              </div>
+            </button>
+            <dialog id="user-nav-mobile" class="nav-user nav-user-mobile">
+              <ul>
+                <li><a href="help.html">Help</a></li>
+                <li><a href="legal_notice.html">Legal Notice</a></li>
+                <li><a href="privacy_policy.html">Privacy Policy</a></li>
+                <li><a href="../index.html" onclick="logout()">Log out</a></li>
+              </ul>
+            </dialog>
+          </div>
+        </nav>
+      </div>
+   </header>
+  </div>
   <div id="content" class="content-summary">
     <header class="container-headline">
       <h1>Join 360</h1>
       <div class="seperator"></div>
       <h2>Key Metrics at a Glance</h2>
     </header>
-    <main>
+    <main class="main-summary">
       <section class="container-do">
         <button id="btn-to-do" class="to-do do-one" onclick="getToBoard()">
           <div class="img-to-do"></div>
@@ -135,13 +163,33 @@
       </section>
     </main>
   </div>
-  <script src="../js/summary.js"></script>
-  <script src="../js/desktop_template.js"></script>
-  <script src="../js/board.js"></script>
-  <script src="../js/remoteStorage.js"></script>
-  <!-- <script src="/script.js"></script> -->
+  <div class="mobile-template hidden">
+    <footer class="footer-mobile">
+      <nav class="container-footer-mobile">
+        <a class="nav-item-mobile nav-active-summary" href="../html/summary.html">
+          <img src="../assets/img/desktop_template/summary-icon.svg" alt="img-summary" />
+          <span>Summary</span>
+        </a>
+        <a class="nav-item-mobile" href="../html/add_task.html">
+          <img src="../assets/img/desktop_template/add-task-icon.svg" alt="img-add-task" />
+          <span>Add Task</span>
+        </a>
+        <a class="nav-item-mobile" href="../html/board.html">
+          <img src="../assets/img/desktop_template/board-icon.svg" alt="img-board" />
+          <span>Board</span>
+        </a>
+        <a class="nav-item-mobile" href="../html/contacts.html">
+          <img src="../assets/img/desktop_template/contacts-icon.svg" alt="img-contacts" />
+          <span>Contacts</span>
+        </a>
+      </nav>
+    </footer>
+  </div>
+  <script src="../scripts/summary.js"></script>
+  <script src="../scripts/desktop_template.js"></script>
+  <script src="../scripts/board.js"></script>
+  <script src="../scripts/board_api.js"></script>
+  <script src="../scripts/startpage_api.js"></script>
 </body>
 
 </html>
-
-

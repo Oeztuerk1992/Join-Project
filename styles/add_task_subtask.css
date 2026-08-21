@@ -1,0 +1,190 @@
+/* Subtask */
+
+.subtask-input {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    height: 48px;
+
+    border: 1px solid var(--color-gray-600);
+    border-radius: 10px;
+
+    overflow: hidden;
+
+    background: var(--color-white);
+    color: var(--color-gray-300);
+}
+.subtask-input input {
+    border: none;
+}
+.subtask-input input:focus {
+    border: none;
+}
+.subtask-input button {
+    width: 24px;
+    height: 24px;
+    border: none;
+    background: var(--color-white);
+    cursor: pointer;
+    font-size: 24px;
+}
+.container-ul-subtask {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.li-subtask {
+    font-size: 16px;
+    font-weight: 400;
+    margin-left: 15px;
+}
+.container-subtask-li {
+    min-height: 32px;
+    height: auto;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+
+    padding: 4px 16px 4px 30px;
+}
+.subtask-text {
+    flex: 1;
+    min-width: 0;
+    white-space: normal;
+    word-break: break-word;
+}
+.container-subtask-li:hover {
+    border-radius: 10px;
+    background-color: var(--color-gray-300);
+}
+.container-edit-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease;
+}
+.container-subtask-li:hover .container-edit-btn {
+    opacity: 1;
+    visibility: visible;
+}
+.container-edit-btn button {
+    width: 24px;
+    height: 24px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: none;
+    cursor: pointer;
+
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.edit-button {
+    background-image: url("../assets/img/edit_delete/edit.svg");
+}
+.edit-button:hover {
+    background-image: url("../assets/img/edit_delete/edit_hover.svg");
+}
+.delete-button,
+.delete-button-edit {
+    background-image: url("../assets/img/edit_delete/delete.svg");
+}
+.delete-button:hover {
+    background-image: url("../assets/img/edit_delete/delete_hover.svg");
+}
+.delete-button-edit:hover {
+    border-radius: 50%;
+    background-color: var(--color-gray-300);
+}
+.subtask-input:focus-within .subtask-actions {
+    display: flex;
+}
+.subtask-input button:hover {
+    border-radius: 50%;
+    background-color: var(--color-gray-300);
+}
+.save-edited-task:hover {
+    border-radius: 50%;
+    background-color: var(--color-gray-300);
+}
+.subtask-input:hover {
+    border: 1px solid var(--color-gray-300);
+}
+.subtask-input:focus-within {
+    border: 1px solid var(--color-blue-petrol);
+    color: var(--color-black);
+}
+.subtask-edit-mode {
+    background: var(--color-white) !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    padding-right: 16px !important;
+    border-bottom: 1px solid var(--color-black);
+}
+.color-red {
+    color: var(--color-red-100) !important;
+}
+.subtask-edit-mode:hover {
+    border-radius: 0 !important;
+}
+.btn-inner-html {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.subtask-edit-input {
+    height: 32px !important;
+    width: 100%;
+    border: none !important;
+    outline: none;
+    font-size: 16px !important;
+    font-family: inherit;
+    background: transparent;
+    border-radius: 0 !important;
+    padding: 0;
+}
+.container-edit-btn img {
+    width: 24px;
+    height: 24px;
+    display: block;
+}
+.always-visible {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+.list-subtasks {
+    padding-top: 10px;
+    max-height: 100px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.subtask-input.active {
+    border-bottom: 2px solid var(--color-blue-700);
+}
+.subtask-actions {
+    display: none;
+    align-items: center;
+    gap: 6px;
+    padding-right: 16px;
+}
+.subtask-input.active .subtask-actions {
+    display: flex;
+}
+
+.subtask-input.active .subtask-add-btn {
+    display: none;
+}
+.subtask-divider {
+    width: 1px;
+    height: 20px;
+    background: var(--color-gray-300);
+}

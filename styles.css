@@ -1,0 +1,40 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Inter, sans-serif;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    background-color: var(--color-blue-50);
+    overflow: hidden;
+}
+button {
+    cursor: pointer;
+    border: unset;
+}
+.hidden {
+    display: none !important;
+}
+.hidden-feedback {
+    visibility: hidden;
+}
+
+/* Scrollbar */
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--color-light-blue);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--color-blue-navy-900);
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-blue-700);
+}

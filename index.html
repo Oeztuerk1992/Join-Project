@@ -4,25 +4,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" href="./assets/img/logo/favicon_light.svg" media="(prefers-color-scheme: dark)"
+  <link rel="icon" href="./assets/img/favicon/favicon_light.svg" media="(prefers-color-scheme: dark)"
     type="image/svg+xml" />
-  <link rel="icon" href="./assets/img/logo/favicon_dark.svg" media="(prefers-color-scheme: light)"
+  <link rel="icon" href="./assets/img/favicon/favicon_dark.svg" media="(prefers-color-scheme: light)"
     type="image/svg+xml" />
   <title>Login/Sign-up</title>
+  <link rel="stylesheet" href="./styles.css" />
   <link rel="stylesheet" href="./styles/colors.css" />
-  <link rel="stylesheet" href="./styles/login.css" />
-  
+  <link rel="stylesheet" href="./styles/font.css" />
+  <link rel="stylesheet" href="./styles/login_layout.css" />
+  <link rel="stylesheet" href="./styles/login_components.css" />
 </head>
 
 <body onload="initLogin()">
   <div id="splash" class="logo-splash"></div>
-  <img id="animated-logo" class="logo" src="./assets/icons/login/join_logo_big.svg" alt="Join Logo" />
-
-  <div class="container hidden-splash">
-    <div class="signup-section" id="open-signup">
+  <header class="header-index-page">
+    <div class="frame-header">
+      <div class="logo-container"></div>
+      <div class="signup-section" id="open-signup">
       <span class="question-signup-info">Not a Join user?</span>
       <button class="signup-btn" onclick="getSignupModal()">Sign up</button>
+      </div>
     </div>
+  </header>
+  <img id="animated-logo" class="logo" src="./assets/img/login/join_logo_big.svg" alt="Join Logo" />
+  <div class="container hidden-splash">
 
     <main class="login-wrapper">
       <dialog class="login-card modal-class" id="login-modal">
@@ -31,14 +37,14 @@
           <div class="underline-login"></div>
           <div id="login-mail-group" class="input-group">
             <input type="email" id="login-mail" placeholder="Email" />
-            <img class="icon" src="./assets/icons/login/mail.svg" alt="img-mail" />
+            <img class="icon" src="./assets/img/login/mail.svg" alt="img-mail" />
           </div>
           <div id="login-password-group" class="input-group">
             <input type="password" id="login-password" placeholder="Password" />
             <button type="button" id="btn-pw-one" class="icon toggle-pw">
             </button>
           </div>
-          <p id="feedback-login" class="info-failed fail-login hidden">
+          <p id="feedback-login" class="info-failed fail-login hidden-feedback">
             Check your email and password. Please try again.
           </p>
           <div class="button-row">
@@ -47,7 +53,6 @@
           </div>
         </form>
       </dialog>
-
       <dialog class="signup-card modal-class" id="signup-modal">
         <button class="back-btn" id="btn-close-signup" onclick="getLoginModal()"></button>
         <h1>Sign up</h1>
@@ -55,33 +60,23 @@
         <form id="form-for-signup" class="signup-form" onsubmit="return checkFormDataSignup(event)" novalidate>
           <div id="input-signup-name" class="input-group input-signup">
             <input type="text" id="signup-name" placeholder="Name" />
-            <img class="icon" src="./assets/icons/login/person.svg" alt="img-person" />
+            <img class="icon" src="./assets/img/login/person.svg" alt="img-person" />
           </div>
-          <label for="signup-name" id="feedback-name" class="info-failed hidden">Please enter both your first and last
-            name.</label>
-
           <div id="input-signup-mail" class="input-group input-signup">
             <input type="email" id="signup-mail" placeholder="Email" />
-            <img class="icon" src="./assets/icons/login/mail.svg" alt="img-mail" />
+            <img class="icon" src="./assets/img/login/mail.svg" alt="img-mail" />
           </div>
-          <label for="signup-mail" id="feedback-mail" class="info-failed hidden"></label>
-
           <div id="input-signup-pw" class="input-group input-signup">
             <input type="password" id="signup-pw" placeholder="Password" />
             <button type="button" id="btn-pw-two" class="icon toggle-pw">
             </button>
           </div>
-          <label for="signup-pw" id="feedback-pw" class="info-failed hidden">Please enter a valid password: at least 7
-            characters.</label>
-
           <div id="input-signup-confirm-pw" class="input-group input-signup">
             <input type="password" id="check-pw" placeholder="Confirm Password" />
             <button type="button" id="btn-pw-three" class="icon toggle-pw">
             </button>
           </div>
-          <label for="check-pw" id="pw-info" class="info-failed hidden">Your passwords don't match. Please try
-            again.</label>
-
+          <div id="validation-feedback" class="info-failed signup-validation-width hidden-feedback"></div>
           <div class="privacy-row">
             <input type="checkbox" id="privacy-policy" class="checkbox-privacy" />
             <label for="privacy-policy" class="privacy-label">
@@ -92,45 +87,26 @@
               </div>
             </label>
           </div>
-          <label for="privacy-policy" id="privacy-policy-info" class="info-failed hidden">Please accept the Privacy
-            Policy before proceeding.</label>
           <button type="submit" class="signup-btn btn-signup-big">Sign up</button>
         </form>
       </dialog>
-
       <dialog id="confirmation-dialog" class="confirm">
         You Signed Up successfully
       </dialog>
     </main>
-    <footer>
+    <footer class="footer-login">
       <a href="./html/privacy_policy.html">Privacy Policy</a>
       <a href="./html/legal_notice.html">Legal notice</a>
     </footer>
-    <script src="./js/startpage_login.js"></script>
-    <script src="./js/login.js"></script>
-    <script src="./js/signup.js"></script>
-    <script src="./js/remoteStorage.js"></script>
-    <script src="./js/new_contact.js"></script>
-    <script src="./js/templates/contact_template.js"></script>
-    
+    <script src="./scripts/startpage_main.js"></script>
+    <script src="./scripts/startpage_login.js"></script>
+    <script src="./scripts/startpage_signup.js"></script>
+    <script src="./scripts/startpage_api.js"></script>
+    <script src="./scripts/contact.js"></script>
+    <script src="./scripts/contact_api.js"></script>
+    <script src="./scripts/contact_validation.js"></script>
+    <script src="./scripts/templates/contact_template.js"></script>
   </div>
 </body>
 
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,10 +1,10 @@
 /* Content Summary */
 
 .content-summary {
-    padding: 180px 0px 0px 322px;
+    padding: 180px 0px 0px 290px;
 }
 
-/* HEADER */
+/* Header */
 
 .container-headline {
     display: flex;
@@ -15,7 +15,7 @@
     padding-bottom: 40px;
 }
 .seperator {
-    background-color: var(--seperator-summary);
+    background-color: var(--color-blue-700);
     width: 3px;
     height: 60px;
 }
@@ -26,10 +26,10 @@ h1 {
 h2 {
     font-size: 27px;
     font-weight: 400;
-    color: var(--sidebar-background);
+    color: var(--color-blue-navy-900);
 }
 
-/* MAIN */
+/* Main */
 
 .container-do {
     display: flex;
@@ -42,15 +42,14 @@ h2 {
     display: flex;
 }
 
-/* TO DO */
+/* To do */
 
 .to-do {
     width: 260px;
     height: 170px;
     border-radius: 30px;
-
-    border: 1px solid var(--border-btn);
-    background-color: white;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.4);
+    background-color: var(--color-white);
 
     display: flex;
     align-items: center;
@@ -69,10 +68,10 @@ h2 {
     background-position: center;
 }
 .img-to-do {
-    background-image: url("../assets/icons/btn_summary/btn_to_do.svg");
+    background-image: url("../assets/img/summary/btn_to_do.svg");
 }
 .img-done {
-    background-image: url("../assets/icons/btn_summary/btn_done.svg");
+    background-image: url("../assets/img/summary/btn_done.svg");
 }
 .count {
     font-size: 64px;
@@ -87,7 +86,7 @@ h3 {
 .description {
     font-size: 20px;
     font-weight: 400;
-    color: var(--sidebar-background);
+    color: var(--color-blue-navy-900);
 }
 .container-to-do {
     display: flex;
@@ -95,19 +94,19 @@ h3 {
     flex-direction: column;
 }
 
-/* URGENT */
+/* Urgent */
 
 .img-urgent {
     width: 60px;
     height: 60px;
 
-    background-image: url("../assets/icons/btn_summary/btn_urgent.svg");
+    background-image: url("../assets/img/summary/btn_urgent.svg");
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
 }
 .seperator-urgent {
-    background-color: var(--seperator-urgent);
+    background-color: var(--color-gray-300);
     width: 3px;
     height: 100px;
     margin-left: 20px;
@@ -119,8 +118,8 @@ h3 {
     border-radius: 30px;
 
     margin-top: 30px;
-    border: 1px solid var(--border-btn);
-    background-color: white;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.4);
+    background-color: var(--color-white);
 
     display: flex;
     justify-content: space-evenly;
@@ -140,32 +139,32 @@ h3 {
 .date-urgent {
     font-size: 21px;
     font-weight: 700;
-    color: var(--sidebar-background);
+    color: var(--color-blue-navy-900);
 }
 .info-deadline {
     font-size: 16px;
     font-weight: 400;
-    color: var(--sidebar-background);
+    color: var(--color-blue-navy-900);
 
     padding-top: 15px;
 }
 h4 {
     font-size: 47px;
     font-weight: 500;
-    color: var(--sidebar-background);
+    color: var(--color-blue-navy-900);
     
     padding-left: 80px;
 }
 
-/* TASKS */
+/* Tasks */
 
 .tasks {
     width: 170px;
     height: 170px;
     border-radius: 30px;
 
-    border: 1px solid var(--border-btn);
-    background-color: white;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.4);
+    background-color: var(--color-white);
     
     margin-top: 30px;
     display: flex;
@@ -179,52 +178,47 @@ h4 {
     gap: 20px;
 }
 
-/* GREETING */
+/* Greeting */
 
 .greeting {
     padding-top: 15px;
 }
 .greet-user {
     font-size: 64px;
-    color: var(--color-info-privacy);
+    color: var(--color-blue-petrol);
     font-weight: bold;
 }
 
-.hidden {
-    display: none;
-}
-
-
-/* BTN */
+/* Btn */
 
 button {
     cursor: pointer;
     border: unset;
 }
 
-/* HOVER EFFECTS */
+/* Hover effects */
 
 .to-do:hover,
 .tasks:hover {
-    background-color: var(--sidebar-background);
-    color: white;
+    background-color: var(--color-blue-navy-900);
+    color: var(--color-white);
     transform: scale(1.05);
 }
 .urgent:hover {
-    background-color: var(--sidebar-background);
-    color: white;
+    background-color: var(--color-blue-navy-900);
+    color: var(--color-white);
     transform: scaleY(1.025);
 }
 .to-do:hover *,
 .urgent:hover *,
 .tasks:hover * {
-    color: white;
+    color: var(--color-white);
 }
 .to-do:hover .img-to-do {
-    background-image: url("../assets/icons/btn_summary/btn_to_do_hover.svg");
+    background-image: url("../assets/img/summary/btn_to_do_hover.svg");
 }
 .to-do:hover .img-done {
-    background-image: url("../assets/icons/btn_summary/btn_done_hover.svg");
+    background-image: url("../assets/img/summary/btn_done_hover.svg");
 }
 .task-one,
 .do-one {
@@ -235,12 +229,97 @@ button {
     transform-origin: right center;
 }
 
-/* sidebar */
+/* Sidebar */
 
 .nav-active-summary {
-    background-color: var(--active-sidebar);
-    color: white;
+    background-color: var(--color-blue-navy-1000);
+    color: var(--color-white);
     font-weight: bold;
 
     pointer-events: none;
+}
+.nav-active-summary span{
+    color: var(--color-white);
+}
+
+/* Responsiveness */
+
+@media (max-width: 664px) {
+
+    .desktop-template {
+        display: none;
+    }
+    .mobile-template {
+        display: block !important;
+    }
+    .content-summary {
+        padding: 40px 15px;
+        height: calc(100dvh - 160px);
+        width: 428px;
+    }
+    .container-headline {
+        display: block;
+        align-items: center;
+        gap: 30px;
+        line-height: 1.2;
+        padding-bottom: 40px;
+    }
+    h1 {
+        font-size: 47px;
+    }
+    h2 {
+        font-size: 20px;
+        position: relative;
+        top: -85px;
+    }
+    .to-do {
+        width: 186px;
+        height: 110px;
+    }
+    .urgent {
+        width: 396px;
+        height: 110px;
+    }
+    .tasks {
+        width: 116px;
+        height: 116px;
+    }
+    .count {
+        font-size: 47px;
+    }
+    .description {
+        font-size: 16px;
+    }
+    .date-urgent {
+        font-size: 16px;
+    }
+    .greeting {
+        display: none;
+    }
+    .img-to-do, .img-done {
+        width: 40px;
+        height: 40px;
+    }
+    .img-urgent {
+        width: 40px;
+        height: 40px;
+    }
+    .seperator-urgent {
+        width: 2px;
+        height: 68px;
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+    .container-do {
+        gap: 20px;
+    }
+    .seperator {
+        transform: rotate(90deg);
+        height: 90px;
+        margin-left: 48px;
+    }
+    .main-summary {
+        position: relative;
+        top: -55px;
+    }
 }

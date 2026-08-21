@@ -1,111 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="icon"
-      href="../assets/img/logo/favicon_light.svg"
-      media="(prefers-color-scheme: dark)"
-      type="image/svg+xml"
-    />
-    <link
-      rel="icon"
-      href="../assets/img/logo/favicon_dark.svg"
-      media="(prefers-color-scheme: light)"
-      type="image/svg+xml"
-    />
-    <title>Template-Sidebar</title>
-    <link rel="stylesheet" href="../styles/colors.css" />
-    <link rel="stylesheet" href="../styles/font.css" />
-    <link rel="stylesheet" href="../styles/sidebar.css" />
-  </head>
 
-  <body>
-    <div id="main-layout">
-      <div class="sidebar">
-        <div class="sidebar-top">
-          <div class="join-logo">
-            <img
-              src="../assets/img/logo/favicon_light.svg"
-              alt="Join logo"
-              class="join-logo-img"
-            />
-          </div>
-          <div class="sidebar-nav-container">
-            <nav class="sidebar-nav">
-              <a class="nav-item" href="../html/summary.html">
-                <img
-                  src="../assets/icons/template/summary-icon.svg"
-                  alt="img-summary"
-                />
-                <span>Summary</span>
-              </a>
-              <a class="nav-item" href="../html/add_task.html">
-                <img
-                  src="../assets/icons/template/add-task-icon.svg"
-                  alt="img-add-task"
-                />
-                <span>Add Task</span>
-              </a>
-              <a class="nav-item" href="../html/board.html">
-                <img
-                  src="../assets/icons/template/board-icon.svg"
-                  alt="img-board"
-                />
-                <span>Board</span>
-              </a>
-              <a class="nav-item" href="../html/contacts.html">
-                <img
-                  src="../assets/icons/template/contacts-icon.svg"
-                  alt="img-contacts"
-                />
-                <span>Contacts</span>
-              </a>
-            </nav>
-          </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="../assets/img/favicon/favicon_light.svg" media="(prefers-color-scheme: dark)"
+    type="image/svg+xml" />
+  <link rel="icon" href="../assets/img/favicon/favicon_dark.svg" media="(prefers-color-scheme: light)"
+    type="image/svg+xml" />
+  <title>Template-Sidebar</title>
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="../styles/colors.css" />
+  <link rel="stylesheet" href="../styles/font.css" />
+  <link rel="stylesheet" href="../styles/sidebar.css" />
+</head>
+
+<body>
+  <div id="main-layout">
+    <div class="sidebar">
+      <div class="sidebar-top">
+        <div class="join-logo">
+          <img src="../assets/img/favicon/favicon_light.svg" alt="Join logo" class="join-logo-img" />
         </div>
-        <div class="sidebar-footer">
-          <a href="privacy_policy.html">Privacy Policy</a>
-          <a href="legal_notice.html">Legal notice</a>
+        <div class="sidebar-nav-container">
+          <nav class="sidebar-nav">
+            <a class="nav-item" href="../html/summary.html">
+              <img src="../assets/img/desktop_template/summary-icon.svg" alt="img-summary" />
+              <span>Summary</span>
+            </a>
+            <a class="nav-item" href="../html/add_task.html">
+              <img src="../assets/img/desktop_template/add-task-icon.svg" alt="img-add-task" />
+              <span>Add Task</span>
+            </a>
+            <a class="nav-item" href="../html/board.html">
+              <img src="../assets/img/desktop_template/board-icon.svg" alt="img-board" />
+              <span>Board</span>
+            </a>
+            <a class="nav-item" href="../html/contacts.html">
+              <img src="../assets/img/desktop_template/contacts-icon.svg" alt="img-contacts" />
+              <span>Contacts</span>
+            </a>
+          </nav>
         </div>
       </div>
-
-      <header class="header">
-        <div class="container-header">
-          <div class="header-left">
-            <span class="title-kanban">Kanban Project Management Tool</span>
-          </div>
-          <nav class="header-right">
-            <a href="help.html" title="Help">
-                <img
-                  class="header-help"  
-                  src="../assets/icons/help_icon.svg"
-                  alt="help-img"
-                />
-            </a>
+      <div class="footer-flex-grow"></div>
+      <div class="sidebar-footer">
+        <a href="privacy_policy.html">Privacy Policy</a>
+        <a href="legal_notice.html">Legal notice</a>
+      </div>
+    </div>
+    <header class="header">
+      <div class="container-header">
+        <div class="header-left">
+          <span class="title-kanban">Kanban Project Management Tool</span>
+        </div>
+        <nav class="header-right">
+          <a href="help.html" title="Help">
+            <img class="header-help" src="../assets/img/help/help_icon.svg" alt="help-img" />
+          </a>
+          <div class="user-menu-container">
             <button class="user-menu" onclick="toggleUserMenu()">
               <div class="circle">
                 <span id="initials-user" class="user-initials"></span>
               </div>
             </button>
-          </nav>
-        </div>
-      </header>
+            <dialog id="user-nav" class="nav-user">
+              <ul>
+                <li><a href="legal_notice.html">Legal Notice</a></li>
+                <li><a href="privacy_policy.html">Privacy Policy</a></li>
+                <li><a href="../index.html" onclick="logout()">Log out</a></li>
+              </ul>
+            </dialog>
+          </div>
+        </nav>
+      </div>
+    </header>
+  </div>
+  <script src="../scripts/desktop_template.js"></script>
+</body>
 
-      <dialog id="user-nav" class="nav-user">
-        <ul>
-          <li><a href="legal_notice.html">Legal Notice</a></li>
-          <li><a href="privacy_policy.html">Privacy Policy</a></li>
-          <li><a href="../index.html" onclick="logout()">Log out</a></li>
-        </ul>
-      </dialog>
-    </div>
-    <script src="../js/desktop_template.js"></script>
-  </body>
 </html>
-
-
-
-
-

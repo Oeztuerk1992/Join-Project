@@ -13,8 +13,9 @@
   <link rel="stylesheet" href="../styles/colors.css" />
   <link rel="stylesheet" href="../styles/font.css" />
   <link rel="stylesheet" href="../styles/sidebar.css" />
-  <link rel="stylesheet" href="../styles/board_layout.css" />
+  <link rel="stylesheet" href="../styles/sidebar_mobile.css" />
   <link rel="stylesheet" href="../styles/board_kanban.css" />
+  <link rel="stylesheet" href="../styles/board_layout.css" />
   <link rel="stylesheet" href="../styles/board_view_task.css" />
   <link rel="stylesheet" href="../styles/board_edit_task.css" />
   <link rel="stylesheet" href="../styles/add_task.css" />
@@ -23,7 +24,7 @@
 </head>
 
 <body onload="initBoard()">
-  <div id="main-layout">
+  <div id="main-layout" class="desktop-template">
     <div class="sidebar">
       <div class="sidebar-top">
         <div class="join-logo">
@@ -83,6 +84,32 @@
       </div>
     </header>
   </div>
+  <div class="mobile-template hidden">
+    <header class="header-mobile">
+       <div class="container-header-mobile">
+         <div class="container-join-logo">
+           <img src="../assets/img/favicon/favicon_dark.svg" alt="Join logo" class="join-logo-img-mobile" />
+         </div>
+         <nav class="header-nav-mobile">
+           <div class="user-menu-container">
+             <button class="user-menu" onclick="toggleUserMenu('mobile')">
+               <div class="circle-mobile">
+                 <span id="initials-user-mobile" class="user-initials-mobile"></span>
+               </div>
+             </button>
+             <dialog id="user-nav-mobile" class="nav-user nav-user-mobile">
+               <ul>
+                 <li><a href="help.html">Help</a></li>
+                 <li><a href="legal_notice.html">Legal Notice</a></li>
+                 <li><a href="privacy_policy.html">Privacy Policy</a></li>
+                 <li><a href="../index.html" onclick="logout()">Log out</a></li>
+               </ul>
+              </dialog>
+           </div>
+         </nav>
+       </div>
+    </header>
+   </div>
   <div id="content" class="content-board">
     <header class="header-board">
       <h1>Board</h1>
@@ -152,7 +179,7 @@
           <h1>Add Task</h1>
           <button class="btn-close" onclick="closeAddTaskOverlay()"></button>
         </div>
-        <form id="addTaskForm" class="addtask-form" onsubmit="return checkFormDataAddTask(event, currentColumn)"
+        <form id="add-task-form" class="addtask-form" onsubmit="return checkFormDataAddTask(event, currentColumn)"
           novalidate>
           <div class="form-wrapper">
             <!-- LINKER BEREICH -->
@@ -261,6 +288,28 @@
         <img src="../assets/img/desktop_template/board_active-icon.svg" alt="board-img" />
       </dialog>
     </main>
+  </div>
+  <div class="mobile-template hidden">
+    <footer class="footer-mobile">
+      <nav class="container-footer-mobile">
+        <a class="nav-item-mobile nav-active-summary" href="../html/summary.html">
+          <img src="../assets/img/desktop_template/summary-icon.svg" alt="img-summary" />
+          <span>Summary</span>
+        </a>
+        <a class="nav-item-mobile" href="../html/add_task.html">
+          <img src="../assets/img/desktop_template/add-task-icon.svg" alt="img-add-task" />
+          <span>Add Task</span>
+        </a>
+        <a class="nav-item-mobile nav-active-board" href="../html/board.html">
+          <img src="../assets/img/desktop_template/board-icon.svg" alt="img-board" />
+          <span>Board</span>
+        </a>
+        <a class="nav-item-mobile" href="../html/contacts.html">
+          <img src="../assets/img/desktop_template/contacts-icon.svg" alt="img-contacts" />
+          <span>Contacts</span>
+        </a>
+      </nav>
+    </footer>
   </div>
   <script src="../scripts/board.js"></script>
   <script src="../scripts/board_api.js"></script>

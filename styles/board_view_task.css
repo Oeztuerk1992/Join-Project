@@ -358,3 +358,74 @@ input[type="checkbox"]:checked {
         opacity: 0;
     }
 }
+
+/* Responsiveness */
+
+@media (max-width: 664px) {
+    .view-task-overlay {
+        width: 100%;
+    }
+    .scroll-wrapper-task {
+        width: 95%;
+    }
+    .title-task-view {
+        font-size: 36px;
+    }
+    .description-task-view {
+        font-size: 16px;
+    }
+    .card-label-view {
+        width: 140px;
+        height: 28px;
+    }
+    .category-technical-task {
+        padding: 4px 8px 4px 8px;
+    }
+    .card-label-view div {
+        font-size: 16px;
+    }
+    .frame-view-task span {
+        font-size: 16px;
+    }
+    .due-date {
+        font-size: 16px;
+    }
+    .name-to-badge {
+        font-size: 16px;
+    }
+    .view-task-overlay {
+        min-height: 640px;
+        max-height: 720px;
+    }
+    .edit-task-overlay {
+        width: 100%;
+        max-height: 720px;
+    }
+    .edit-task-overlay .scroll-wrapper {
+        width: 97%;
+        height: 540px;
+    }
+    .edit-task-overlay .form-for-edit-task {
+        width: 100%;
+    }
+    .btn-prio-in-edit-mode .btn-prio-edit {
+        max-width: 100px;
+        height: 44px;
+    }
+    .scroll-wrapper .frame-view-edit-task {
+        padding: 0px 20px 0px 20px;
+    }
+    .set-up-prio-in-edit-mode button {
+        gap: 0px;
+    }
+    .set-up-prio-in-edit-mode img {
+        width: 20px;
+    }
+    .form-for-edit-task label {
+        font-size: 16px;
+    }
+    .set-up-prio-in-edit-mode span{
+        font-size: 16px;
+    }
+
+}

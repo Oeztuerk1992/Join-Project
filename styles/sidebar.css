@@ -221,12 +221,13 @@
 
     border: 1px solid var(--color-blue-navy-900);
     background-color: var(--color-blue-navy-900);
-    box-shadow: var(--color-black-40);
     border-radius: 20px 0 20px 20px;
     color: var(--color-gray-500);
     box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.4);
 
     opacity: 0;
+    pointer-events: none;
+
     transform: translateX(30px);
     transition: opacity 0.3s ease,
                 transform 0.3s ease;    
@@ -240,4 +241,9 @@
     opacity: 1;
     transform: translateX(-32px);
     z-index: 1000;
+
+    pointer-events: auto;
+}
+.nav-user.open-animation button {
+    pointer-events: auto;
 }

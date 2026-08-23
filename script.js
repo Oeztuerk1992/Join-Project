@@ -106,3 +106,10 @@ function showConfirmation() {
         confirmation.close();
     }, 2000);
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const warning = document.createElement('div');
+    warning.className = 'landscape-warning';
+    warning.innerHTML = '<p>Please rotate your device to portrait mode.</p>';
+    document.body.prepend(warning);
+  });

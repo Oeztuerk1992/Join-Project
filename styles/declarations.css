@@ -146,6 +146,8 @@ body:not(.ready) {
     .footer-mobile {
         position: fixed;
         bottom: 0;
+        left: 0;
+        right: 0;
     }
     .scroll-wrapper-declaration {
         height: calc(100dvh - 320px);

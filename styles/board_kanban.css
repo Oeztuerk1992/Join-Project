@@ -79,7 +79,6 @@ h2 {
 
 .plus-btn-default:hover {
     background-image: url("../assets/img/board/main/plus_btn_hover.svg");
-    transform: scale(1.2);
 }
 .container-search-task:hover {
     border-radius: 50%;

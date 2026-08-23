@@ -83,9 +83,9 @@ function generateBadgesHTML(color, initials) {
 }
 
 
-function generateEmptyCardHTML() {
+function generateEmptyCardHTML(status) {
   return `
-          <div class="no-task-feedback">No tasks To do</div>
+          <div class="no-task-feedback">No tasks ${status}</div>
   `;
 }
 

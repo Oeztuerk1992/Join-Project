@@ -17,6 +17,7 @@ const feedbackCategory = document.getElementById("feedback-category");
 const borderCategory = document.getElementById("category-border");
 
 let contacts = {};
+let currentColumn = 'To do';
 let selectedContactIds = [];
 let hasTriedSubmit = false;
 
@@ -25,6 +26,9 @@ let hasTriedSubmit = false;
 // Init and Loading //
 
 async function initAddTask() {
+    const params = new URLSearchParams(window.location.search);
+    currentColumn = params.get('column') || 'To do';
+    
     getUserProfile();
     await loadContacts();
 

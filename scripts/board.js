@@ -6,7 +6,6 @@ let currentDraggedElement;
 let autoScrollContainer = null;
 let autoScrollDirection = 0;
 
-let currentColumn;
 let tasks = [];
 
 const columns = {
@@ -42,9 +41,9 @@ function updateTasksforBoard(tasksToShow = tasks) {
             }
         });
 
-    Object.values(columns).forEach(column => {
+    Object.entries(columns).forEach(([status, column]) => {
         if (column.innerHTML.trim() === '') {
-            column.innerHTML = generateEmptyCardHTML();
+            column.innerHTML = generateEmptyCardHTML(status);
         }
     });
 }
@@ -305,6 +304,12 @@ function filterAndShowCurrentTask(filterWord) {
 // function for opening/closing modal "add-task" //
 
 function openAddTaskOverlay(column) {
+    
+    if (window.innerWidth <= 664) {
+        window.location.href = `add_task.html?column=${encodeURIComponent(column)}`;
+        return;
+    }
+    
     const dialog = document.getElementById("add-task-overlay");
 
     dialog.classList.remove('modal-enter');

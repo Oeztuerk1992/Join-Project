@@ -114,7 +114,7 @@
     <main class="content-addtask">
       <section class="add-task-container">
         <h1>Add Task</h1>
-        <form id="addTaskForm" class="addtask-form" onsubmit="return checkFormDataAddTask(event, 'To do')" novalidate>
+        <form id="add-task-form" class="addtask-form" onsubmit="return checkFormDataAddTask(event, currentColumn)" novalidate>
           <div class="form-wrapper scroll-wrapper-addtask">
             <!-- LINKER BEREICH -->
             <div class="left-side">
@@ -215,7 +215,7 @@
           <p id="subtask-edit-feedback-add-task" class="subtask-edit-feedback hidden"><span class="red-required">*</span>Please finish editing the subtasks.</p>
           <div class="button-area">
             <button type="button" class="clear-btn" onclick="clearForm()">Clear<span id="close-mobile" class="close-for-mobile">✖</span></button>
-            <button type="submit" form="addTaskForm" class="create-btn">
+            <button type="submit" form="add-task-form" class="create-btn">
               Create Task
             </button>
           </div>

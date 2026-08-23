@@ -11,7 +11,7 @@
 }
 .container-header-mobile {
     height: 80px;
-    width: 428px;
+    width: 100%;
 
     display: flex;
     justify-content: space-between;
@@ -56,11 +56,15 @@
     position: relative;
 }
 .nav-user-mobile {
+    display: none;
     position: absolute;
     top: 100%;
     width: 150px;
     height: 204px;
     transform: translateX(10px);
+}
+.nav-user-mobile[open] {
+    display: flex;
 }
 .nav-user-mobile.open-animation {
     transform: translateX(-95px);
@@ -70,7 +74,7 @@
 
 .container-footer-mobile {
     height: 80px;
-    width: 428px;
+    width: 100%;
 
     background-color: var(--color-blue-navy-900);
     box-shadow: var(--color-black-40);

@@ -352,7 +352,7 @@
     }
     .new-contact.scrollwrapper-contacts::-webkit-scrollbar {
         display: block;
-        width: 1px;
+        width: 2px;
     }
     .new-contact.scrollwrapper-contacts {
         overflow-y: auto;

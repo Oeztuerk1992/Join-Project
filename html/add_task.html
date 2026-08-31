@@ -73,13 +73,13 @@
                   <span id="initials-user" class="user-initials"></span>
                 </div>
               </button>
-              <dialog id="user-nav" class="nav-user">
+              <div id="user-nav" class="nav-user">
                 <ul>
                   <li><a href="legal_notice.html">Legal Notice</a></li>
                   <li><a href="privacy_policy.html">Privacy Policy</a></li>
                   <li><a href="../index.html" onclick="logout()">Log out</a></li>
                 </ul>
-              </dialog>
+              </div>
             </div>
           </nav>
         </div>
@@ -98,14 +98,14 @@
                   <span id="initials-user-mobile" class="user-initials-mobile"></span>
                 </div>
               </button>
-              <dialog id="user-nav-mobile" class="nav-user nav-user-mobile">
+              <div id="user-nav-mobile" class="nav-user nav-user-mobile">
                 <ul>
                   <li><a href="help.html">Help</a></li>
                   <li><a href="legal_notice.html">Legal Notice</a></li>
                   <li><a href="privacy_policy.html">Privacy Policy</a></li>
                   <li><a href="../index.html" onclick="logout()">Log out</a></li>
                 </ul>
-              </dialog>
+              </div>
             </div>
           </nav>
         </div>
@@ -121,19 +121,19 @@
               <div class="input-group">
                 <label>Title<span class="red-required">*</span><span id="feedback-title" class="info-failed hidden">This
                     field is required.</span></label>
-                <input type="text" id="taskTitle" class="hover-input" placeholder="Enter a title" />
+                <input type="text" id="task-title" class="hover-input" placeholder="Enter a title" />
               </div>
               <div class="input-group">
                 <label>Description</label>
                 <div class="textarea-wrapper">
-                  <textarea id="taskDescription" class="hover-input" placeholder="Enter a Description"></textarea>
+                  <textarea id="task-description" class="hover-input" placeholder="Enter a Description"></textarea>
                 </div>
               </div>
 
               <div class="input-group">
                 <label>Due date<span class="red-required">*</span><span id="feedback-duedate"
                     class="info-failed hidden">This field is required.</span></label>
-                <input type="date" id="taskDate" class="hover-input" required />
+                <input type="date" id="task-date" class="hover-input" required />
               </div>
             </div>
             <div class="separator"></div>
@@ -205,14 +205,15 @@
                 </div>
               </div>
               <p class="required-information-for-mobile"><span class="red-required">*</span>This field is required.</p>
-              <p id="subtask-edit-feedback-add-task-mobile" class="subtask-edit-feedback-for-mobile hidden"><span class="red-required">*</span>Please finish editing the 
-                subtasks.</p>
+              <p id="subtask-edit-feedback-add-task-mobile" class="subtask-edit-feedback-for-mobile hidden"><span class="red-required">*</span>
+                Close the subtasks.
+              </p>
             </div>
           </div>
         </form>
         <div class="bottom-area">
           <p class="required-information"><span class="red-required">*</span>This field is required.</p>
-          <p id="subtask-edit-feedback-add-task" class="subtask-edit-feedback hidden"><span class="red-required">*</span>Please finish editing the subtasks.</p>
+          <p id="subtask-edit-feedback-add-task" class="subtask-edit-feedback hidden"><span class="red-required">*</span>Close the subtasks.</p>
           <div class="button-area">
             <button type="button" class="clear-btn" onclick="clearForm()">Clear<span id="close-mobile" class="close-for-mobile">✖</span></button>
             <button type="submit" form="add-task-form" class="create-btn">

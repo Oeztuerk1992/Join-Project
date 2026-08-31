@@ -30,12 +30,14 @@
     inset: 0;
     background: var(--color-white);
     z-index: 999;
+
+    opacity: 1;
+    transition: opacity 0.5s ease-out;
 }
+
 .logo-splash.hide {
     opacity: 0;
     pointer-events: none;
-    visibility: hidden;
-    transition: opacity .5s ease;
 }
 .logo {
     position: fixed;
@@ -291,7 +293,13 @@ input::placeholder {
 
 /* Responsiveness */
 
-@media (max-width: 664px) {
+@media (max-width: 992px) {
+    
+    /* logo-splash */
+
+    .mobile-splash {
+        background: var(--color-blue-navy-900);
+    }
     
     /* Login */
 
@@ -327,8 +335,8 @@ input::placeholder {
         font-size: 16px;
     }
     .logo {
-        width: 64px !important;
-        height: 78px;
+        width: 100px;
+        height: 122px;
     }
     footer a {
         width: 120px;
@@ -384,5 +392,44 @@ input::placeholder {
     }
     .signup-card.modal-class {
         top: 50%;
+    }
+}
+
+@media (max-width: 427px) {
+
+    /* Login */
+
+    .login-card {
+        width: 300px;
+    }
+    .login-form {
+        width: 280px;
+    }
+    .input-group {
+        width: 280px;
+    }
+    .input-group input {
+        width: 230px;
+    }
+    dialog .info-failed {
+        width: 280px;
+    }
+
+    /* Signup */
+
+    .login-card,
+    .signup-card {
+        max-width: none;
+        max-height: none;
+        overflow: visible;
+    }
+    .signup-card {
+        width: 300px;
+    }
+    .signup-form {
+        width: 300px;
+    }
+    .back-btn {
+        left: 10px;
     }
 }

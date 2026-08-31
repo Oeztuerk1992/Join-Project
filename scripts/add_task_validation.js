@@ -69,6 +69,6 @@ function resetRequiredFields() {
 }
 
 
-document.getElementById("taskTitle")?.addEventListener("input", checkTitleName);
-document.getElementById("taskDate")?.addEventListener("change", checkDueDate);
+document.getElementById("task-title")?.addEventListener("input", checkTitleName);
+document.getElementById("task-date")?.addEventListener("change", checkDueDate);
 document.getElementById("selectedCategory")?.addEventListener("input", checkTaskCategory);

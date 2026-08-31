@@ -14,7 +14,7 @@
 }
 .overlay-container {
     position: relative;
-    width: 1212px;
+    width: 1180px;
     height: 592px;
     border-radius: 30px;
     background: rgba(255, 255, 255, 1);
@@ -80,7 +80,7 @@
 .overlay-close {
     position: absolute;
     top: 48px;
-    right: 75px;
+    right: 55px;
     
     display: flex;
     align-items: center;
@@ -294,136 +294,237 @@
 
 /* Responsiveness */
 
-@media (max-width: 664px) {
+/* @media (max-width: 1439px) {
 
-.overlay-container {
-    width: 396px;
-    height: 760px;
+    .overlay-container {
+        width: 950px;
+        height: 530px;
+    }
+    .container-form-add-contact {
+        width: 380px;
+    }
+    .input-wrapper {
+        width: 380px;
+    }
+    .overlay-left {
+        padding-top: 30px;
+        padding-bottom: 0px;
+    }
+    .overlay-right {
+        padding: 30px;
+    }
+    .overlay-close {
+        right: 35px;
+        top: 48px;
+    }
+} */
 
-    display: block;
+@media (max-width: 1439px) {
 
-    transform: translateY(100%);
-}
-.overlay.open .overlay-container {
-    transform: translateY(0);
-}
-.overlay-left {
-    width: 100%;
-    height: 352px;
-    padding-left: 28px;
+    .overlay-container {
+        width: clamp(
+            950px,
+            calc(950px + 230 * ((100vw - 993px) / 446)),
+            1180px
+        );
 
-    border-radius: 30px 30px 0px 0px;
-}
-.join-logo-overlay {
-    display: none;
-}
-.add-title {
-    font-size: 47px;
-    margin-top: 52px;
-    line-height: 120%;
-}
-.p-tag {
-    font-size: 20px;
-}
-.overlay-right {
-    width: 100%;
-    height: 352px;
+        height: clamp(
+            530px,
+            calc(530px + 62 * ((100vw - 993px) / 446)),
+            592px
+        );
+    }
 
-    flex-direction: column;
-    padding-bottom: 70px;
-}
-.avatar-placeholder {
-    margin-right: 0;
-    font-weight: 500;
-}
-.overlay-close {
-    background-image: url(../assets/img/mobile/close_white_mobile.svg);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 32px;
+    .container-form-add-contact,
+    .input-wrapper {
+        width: clamp(
+            380px,
+            calc(380px + 40 * ((100vw - 993px) / 446)),
+            420px
+        );
+    }
 
-    top: -320px;
-    right: 30px;
-}
-.btn-cancel {
-    display: none;
-}
-.overlay-buttons {
-    justify-content: center;
-    padding-top: 0;
-    padding-bottom: 20px;
-}
-.input-wrapper {
-    width: 364px;
-    height: 40px;
-}
-.container-form-add-contact {
-    width: 364px;
-}
-.container-form-add-contact .signup-validation-width {
-    width: 364px;
-}
-form .info-failed {
-    justify-content: center;
-    text-align: center;
-    padding-left: 0px;
-    height: 40px;
-    padding-top: 10px;
-}
-.input-field {
-    height: 40px;
-}
-.input-wrapper input {
-    height: 38px;
-}
-.input-wrapper {
-    margin-top: 15px;
-}
-.btn-create {
-    height: 50px;
-    padding: 0px;
-    line-height: 120%;
-}
-.input-container {
-    gap: 30px;
-}
-.btn-menu-mobile {
-    display: block;
+    .overlay-left {
+        padding-top: clamp(
+            30px,
+            calc(30px + 36 * ((100vw - 993px) / 446)),
+            66px
+        );
 
-    width: 56px;
-    height: 56px;
-    border-radius: 56px;
-    background-color: var(--color-blue-navy-900);
+        padding-bottom: clamp(
+            0px,
+            calc(66px * ((100vw - 993px) / 446)),
+            66px
+        );
+    }
 
-    background-image: url('../assets/img/mobile/more_vert_mobile.svg');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 32px;
+    .overlay-right {
+        padding: clamp(
+            24px,
+            calc(24px + 6 * ((1439px - 100vw) / 446)),
+            30px
+        );
+    }
 
-    position: absolute;
-    bottom: 30px;
-    right: 20px;
+    .overlay-close {
+        right: clamp(
+            35px,
+            calc(35px + 20 * ((100vw - 993px) / 446)),
+            55px
+        );
+    }
 }
-.btn-menu-mobile:hover {
-    background-color: var(--color-blue-700);
-    border: none;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+
+
+@media (max-width: 992px) {
+
+    .overlay-container {
+        width: 396px;
+        height: 760px;
+
+        display: block;
+
+        transform: translateY(100%);
+    }
+    .overlay.open .overlay-container {
+        transform: translateY(0);
+    }
+    .overlay-left {
+        width: 100%;
+        height: 352px;
+        padding-left: 28px;
+
+        border-radius: 30px 30px 0px 0px;
+    }
+    .join-logo-overlay {
+        display: none;
+    }
+    .add-title {
+        font-size: 47px;
+        margin-top: 52px;
+        line-height: 120%;
+    }
+    .p-tag {
+        font-size: 20px;
+    }
+    .overlay-right {
+        width: 100%;
+        height: 352px;
+
+        flex-direction: column;
+        padding-bottom: 70px;
+    }
+    .avatar-placeholder {
+        margin-right: 0;
+        font-weight: 500;
+    }
+    .overlay-close {
+        background-image: url(../assets/img/mobile/close_white_mobile.svg);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 32px;
+
+        top: -320px;
+        right: 30px;
+    }
+    .btn-cancel {
+        display: none;
+    }
+    .overlay-buttons {
+        justify-content: center;
+        padding-top: 0;
+        padding-bottom: 20px;
+    }
+    .input-wrapper {
+        width: 364px;
+        height: 40px;
+    }
+    .container-form-add-contact {
+        width: 364px;
+    }
+    .container-form-add-contact .signup-validation-width {
+        width: 364px;
+    }
+    form .info-failed {
+        justify-content: center;
+        text-align: center;
+        padding-left: 0px;
+        height: 40px;
+        padding-top: 10px;
+    }
+    .input-field {
+        height: 40px;
+    }
+    .input-wrapper input {
+        height: 38px;
+    }
+    .input-wrapper {
+        margin-top: 15px;
+    }
+    .btn-create {
+        height: 50px;
+        padding: 0px;
+        line-height: 120%;
+    }
+    .input-container {
+        gap: 30px;
+    }
+    .btn-menu-mobile {
+        display: block;
+
+        width: 56px;
+        height: 56px;
+        border-radius: 56px;
+        background-color: var(--color-blue-navy-900);
+
+        background-image: url('../assets/img/mobile/more_vert_mobile.svg');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 32px;
+
+        position: absolute;
+        bottom: 30px;
+        right: 40px;
+    }
+    .btn-menu-mobile:hover {
+        background-color: var(--color-blue-700);
+        border: none;
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    }
+    .overlay-content {
+        flex-direction: column;
+    }
+    .btn-delete {
+        width: 80px;
+        height: 50px;
+        font-size: 20px;
+        font-weight: 400;
+        padding: 0;
+    }
+    .overlay-content .btn-create { 
+        width: 100px;
+        padding: 0;
+        font-size: 20px;
+    }
 }
-.overlay-content {
-    flex-direction: column;
-}
-.btn-delete {
-    width: 80px;
-    height: 50px;
-    font-size: 20px;
-    font-weight: 400;
-    padding: 0;
-}
-.overlay-content .btn-create { 
-    width: 100px;
-    padding: 0;
-    font-size: 20px;
-}
+
+@media (max-width: 427px) {
+
+    .overlay .overlay-container {
+        width: 300px;
+    }
+    .input-wrapper {
+        width: 280px;
+    }
+    .container-form-add-contact {
+        width: 280px;
+    }
+    .container-form-add-contact .signup-validation-width {
+        width: 280px;
+    }
+
+
 
 
 }

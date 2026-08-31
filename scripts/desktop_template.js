@@ -9,6 +9,9 @@ const loggedInUser = sessionStorage.getItem('loggedInUser');
 const userProfile = document.getElementById('initials-user');
 const userProfileMobile = document.getElementById('initials-user-mobile');
 
+let closeMenuTimeout;
+let activeMenu = null;
+
 
 // functions //
 
@@ -28,52 +31,57 @@ function getFormRefsForTemplate(filterWord) {
 
 
 function toggleUserMenu(filterWord) {
+    activeMenu = filterWord;
     const { userMenu, circle } = getFormRefsForTemplate(filterWord);
 
-    if (userMenu.open) {
-        userMenu.classList.remove('open-animation');
+    const isOpen = userMenu.classList.contains("open-animation");
 
-        setTimeout(() => {
-            userMenu.close();
-        }, 300);
-
-        circle.classList.remove('active');
+    if (isOpen) {
+        closeUserMenu(userMenu, circle);
     } else {
-        userMenu.show();
+        clearTimeout(closeMenuTimeout);
+
+        userMenu.style.display = "flex";
 
         requestAnimationFrame(() => {
-            userMenu.classList.add('open-animation');
+            userMenu.classList.add("open-animation");
         });
 
-        circle.classList.add('active');
+        circle.classList.add("active");
     }
 }
 
-// Event Listeners //
+
+function closeUserMenu(userMenu, circle) {
+    clearTimeout(closeMenuTimeout);
+
+    userMenu.classList.remove("open-animation");
+
+    closeMenuTimeout = setTimeout(() => {
+        userMenu.style.display = "none";
+    }, 300);
+
+    circle.classList.remove("active");
+}
+
 
 document.addEventListener("click", (event) => {
-    const filterWord =
-        window.innerWidth > 768 ? "desktop" : "mobile";
+    if (!activeMenu) return;
 
     const { userMenu, circle } =
-        getFormRefsForTemplate(filterWord);
+        getFormRefsForTemplate(activeMenu);
 
-    if (!userMenu || !circle) return;
+    const isOpen = userMenu.classList.contains("open-animation");
 
     if (
-        userMenu.open &&
+        isOpen &&
         !userMenu.contains(event.target) &&
         !circle.contains(event.target)
     ) {
-        userMenu.classList.remove("open-animation");
-
-        setTimeout(() => {
-            userMenu.close();
-        }, 300);
-
-        circle.classList.remove("active");
+        closeUserMenu(userMenu, circle);
     }
 });
+
 
 function logout() {
     sessionStorage.clear();

@@ -125,7 +125,7 @@ function showContact(el, animate = true) {
 
     if (activeContactEl === el && animate) return;
 
-    if (window.innerWidth <= 664) {
+    if (window.innerWidth <= 992) {
         const actionsMenu = document.getElementById('contact-actions');
 
         if (actionsMenu) {
@@ -145,14 +145,14 @@ function showContact(el, animate = true) {
     el.classList.add('active');
     activeContact = el.dataset;
 
-     if (window.innerWidth <= 664) {
+     if (window.innerWidth <= 992) {
         document.querySelector('.new-contact-wrapper').style.display = 'none';
         document.querySelector('.contact-info').style.display = 'flex';
     }
 
     const panel = document.querySelector('.contact-detail-panel');
 
-    if (animate && window.innerWidth > 664) {
+    if (animate && window.innerWidth > 992) {
         panel.classList.remove('visible');
 
         setTimeout(() => {

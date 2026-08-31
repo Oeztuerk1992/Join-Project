@@ -17,6 +17,7 @@
 }
 .subtask-input input {
     border: none;
+    width: 100%;
 }
 .subtask-input input:focus {
     border: none;
@@ -163,7 +164,7 @@
 }
 .list-subtasks {
     padding-top: 10px;
-    max-height: 100px;
+    max-height: 80px;
     overflow-y: auto;
     overflow-x: hidden;
 }

@@ -2,15 +2,15 @@
 
 .content-privacy {
     max-width: 1290px;
-    padding: 180px 0px 60px 290px;
+    padding: 180px 10px 60px 290px;
 }
 .content-legalnotice {
     max-width: 1290px;
-    padding: 180px 0px 60px 290px;
+    padding: 180px 10px 60px 290px;
 }
 .content-help {
     max-width: 1290px;
-    padding: 180px 0px 60px 290px;
+    padding: 180px 10px 60px 290px;
 }
 .help-info-text {
     padding-bottom: 20px;
@@ -123,7 +123,22 @@ body:not(.ready) {
 
 /* Responsiveness */
 
-@media (max-width: 664px) {
+@media (max-width: 1439px) {
+
+    .content-help,
+    .content-privacy,
+    .content-legalnotice {
+        padding: 180px 10px 60px clamp(
+            250px,
+            calc(250px + 40 * ((100vw - 993px) / 446)),
+            290px
+        );
+    }
+}
+
+
+@media (max-width: 992px) {
+
     body {
         min-height: 100dvh;
         display: flex;
@@ -160,5 +175,15 @@ body:not(.ready) {
     }
     .btn-legal, .btn-privacy {
         display: block;
+    }
+}
+
+@media (max-width: 427px) {
+
+    .mobile-login-btn {
+        padding-right: 0px;
+    }
+    .flexbox-declaration-mobile a {
+        width: 110px;
     }
 }

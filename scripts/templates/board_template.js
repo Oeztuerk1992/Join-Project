@@ -4,9 +4,33 @@ function generateTaskMiniCardHTML(element) {
             draggable="true" ondragstart="startDragging('${element.id}')" ondragend="endDragging('${element.id}')">
             <div class="frame-mini-card">
               <header class="header-mini-card">
-                <h3 id="label-card-${element.id}" class="card-label">
-                  ${getTaskCategory(element.category)}
-                </h3>
+                <div class="headline-minicard">  
+                  <h3 id="label-card-${element.id}" class="card-label">
+                    ${getTaskCategory(element.category)}
+                  </h3>
+                  <button id="mobile-icon-for-move-${element.id}" class="mobile-icon-move" 
+                    onclick="event.stopPropagation(); openMobileMoveMenu('${element.id}')">
+                  </button>
+                  <div id="move-menu-${element.id}" class="move-menu" onclick="event.stopPropagation()">
+                    <span>Move to:</span>
+
+                    <button onclick="moveTaskMobile('${element.id}', 'kanban-to-do')">
+                      To do
+                    </button>
+
+                    <button onclick="moveTaskMobile('${element.id}', 'kanban-in-progress')">
+                        In progress
+                    </button>
+
+                    <button onclick="moveTaskMobile('${element.id}', 'kanban-feedback')">
+                        Await feedback
+                    </button>
+
+                    <button onclick="moveTaskMobile('${element.id}', 'kanban-done')">
+                        Done
+                    </button>
+                  </div>
+                </div>
                 <h4 id="task-title-${element.id}" class="title-task">
                   ${element.title}
                 </h4>
@@ -29,7 +53,7 @@ function generateTaskMiniCardHTML(element) {
               <div class="flex-grow"></div>
               <article class="responsibility-mini-card">
                 <div id="badge-member-${element.id}" class="member-badge">
-                  ${getAssignedContactBadges(element.assignedTo)}
+                  ${getAssignedContactBadges(element.assignedTo, 5)}
                 </div>
                 <div id="task-prio-${element.id}" class="priority-task">
                   ${getImgPrio(element.priority)}
@@ -126,14 +150,7 @@ function generateTaskOverlayHTML(element) {
           <div class="assignment-to-user">
             <span class="text-assigned">Assigned To:</span>
             <div id="badge-member-view-${element.id}" class="member-badge-view">
-              <div class="container-user">
-                <div class="assigned-user-overlay">
-                  ${getAssignedContactBadges(element.assignedTo)}
-                </div>
-                <div class="assigned-user-overlay name-to-badge">
-                  ${getAssignedContactNames(element.assignedTo)}
-                </div>
-              </div>
+              ${getAssignedContactRows(element.assignedTo)}
             </div>
           </div>
           </article>
@@ -293,7 +310,7 @@ function generateEditOverlayHTML(element) {
         </div>
       </div>
       <footer class="footer-edit-overlay">
-        <p id="subtask-edit-feedback-${element.id}" class="subtask-edit-feedback hidden"><span class="red-required">*</span>Please finish editing the subtasks.</p>
+        <p id="subtask-edit-feedback-${element.id}" class="subtask-edit-feedback hidden"><span class="red-required">*</span>Close the subtasks.</p>
         <button type="submit" form="edit-form-${element.id}" class="confirm-edit-btn">
           <span>Ok</span>
           <img class="check-mark" src="../assets/img/board/check.svg" alt="img-check-mark">

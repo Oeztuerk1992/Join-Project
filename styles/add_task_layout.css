@@ -10,13 +10,6 @@
 
 /* Header */
 
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 96px;
-    margin-bottom: 50px;
-}
 .user-profile {
     width: 56px;
     height: 56px;
@@ -147,7 +140,162 @@
 
 /* Responsiveness */
 
-@media (max-width: 664px) {
+/* @media (max-width: 1439px) {
+
+    .content-addtask {
+        padding: 180px 0px 0px 250px;
+    }
+    input:not(.search-task, .btn-search-task), textarea {
+        width: 330px;
+    }
+    .dropdown-container {
+        width: 330px;
+    }
+    .subtask-input {
+        width: 330px;
+    }
+    .list-subtasks {
+        width: 330px;
+    }
+    .priority-container {
+        width: 330px;
+        gap: 8px;
+    }
+    .addtask-form input:not(.search-task, .btn-search-task),
+    .addtask-form textarea {
+        width: 100%;
+    }
+    .addtask-form .dropdown-container,
+    .addtask-form .subtask-input,
+    .addtask-form .list-subtasks {
+        width: 100%;
+    }
+    .dropdown-item input {
+        width: 24px !important;
+    }
+    .addtask-form .priority {
+        gap: 0px;
+        flex-direction: column;
+    }
+    .addtask-form .priority span {
+        padding-top: 10px;
+    }
+    .form-wrapper {
+        gap: 10px;
+    }
+    .bottom-area {
+        width: 100%;
+    }
+    .bottom-area .subtask-edit-feedback {
+        padding-right: 0px;
+    }
+    .addtask-form .contact-info .contact-name {
+        max-width: 200px;
+    }
+    .addtask-form input:not(.search-task, .btn-search-task),
+    .addtask-form textarea {
+        padding: 12px 8px;
+    }
+    .subtask-input .subtask-enter {
+        width: 100%;
+    }
+    .addtask-form .dropdown-item {
+        padding: 12px 18px;
+    }
+}  */
+
+@media (max-width: 1330px) {
+
+    .content-addtask {
+        padding: 180px 0 0 clamp(
+            250px,
+            calc(250px + 40 * ((100vw - 992px) / 338)),
+            290px
+        );
+    }
+
+    input:not(.search-task, .btn-search-task),
+    textarea,
+    .dropdown-container,
+    .subtask-input,
+    .list-subtasks,
+    .priority-container,
+    .left-side,
+    .right-side {
+        width: clamp(
+            330px,
+            calc(330px + 110 * ((100vw - 992px) / 338)),
+            440px
+        );
+    }
+
+    .priority-container {
+        gap: clamp(
+            8px,
+            calc(8px + 8 * ((100vw - 992px) / 338)),
+            16px
+        );
+    }
+
+    .form-wrapper {
+        gap: clamp(
+            10px,
+            calc(10px + 40 * ((100vw - 992px) / 338)),
+            50px
+        );
+    }
+
+    .addtask-form .contact-info .contact-name {
+        max-width: clamp(
+            200px,
+            calc(200px + 100 * ((100vw - 992px) / 338)),
+            300px
+        );
+    }
+
+    .addtask-form input:not(.search-task, .btn-search-task),
+    .addtask-form textarea {
+        padding: 12px clamp(
+            8px,
+            calc(8px + 8 * ((100vw - 992px) / 338)),
+            16px
+        );
+    }
+
+    .addtask-form .dropdown-item {
+        padding: 12px clamp(
+            14px,
+            calc(14px + 4 * ((100vw - 992px) / 338)),
+            18px
+        );
+    }
+    .bottom-area {
+        width: 100%;
+    }
+    .required-information {
+        max-width: clamp(
+            180px,
+            calc(180px + 120 * ((100vw - 992px) / 338)),
+            300px
+        );
+    }
+    .button-area {
+        gap: clamp(
+            8px,
+            calc(8px + 8 * ((100vw - 992px) / 338)),
+            16px
+        );
+    }
+    .addtask-form .priority {
+        gap: 0px;
+        flex-direction: column;
+    }
+    .addtask-form .priority span {
+        padding-top: 10px;
+    }
+}
+
+@media (max-width: 992px) {
 
     .desktop-template {
         display: none;
@@ -160,13 +308,19 @@
         overflow-y: hidden;
     }
     .content-addtask {
-        padding: 40px 15px 0px 15px;
-        height: calc(100dvh - 160px);
-        width: 428px;
+        padding: 40px 15px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
     .add-task-container h1 {
         font-size: 47px;
     }
+}
+
+@media (max-width: 720px) {
+    
     .input-group label {
         font-size: 16px;
     }
@@ -200,10 +354,10 @@
     }
     .subtask-edit-feedback-for-mobile {
         display: block;
-        color: var(--color-red-200);
+        color: var(--color-red-100);
         padding-top: 10px;
     }
-    .subtask-edit-feedback {
+    .add-task-container .subtask-edit-feedback {
         display: none;
     }
     .required-information {
@@ -228,19 +382,27 @@
     }
     .priority {
         width: 120px;
-        height: 40px;
-        gap: 8px;
-        font-size: 16px;
+        font-size: 16px;  
+    }
+    .priority-container {
+        width: 100%;
+        gap: 16px;
     }
     .contact-info {
         font-size: 16px;
     }
-    .dropdown-item {
-        width: 396px;
-        padding: 12px 16px;
+    .addtask-form .dropdown-item {
+        max-width: 396px;
+        padding: 12px 18px;
     }
     .category-item {
         font-size: 16px;
+    }
+    .list-subtasks {
+        width: 100%;
+    }
+    .subtask-input {
+        width: 100%;
     }
     .list-subtasks {
         padding-top: 10px !important;
@@ -255,6 +417,49 @@
         display: flex;
         align-items: center;
         justify-content: space-evenly;
+    }
+    .addtask-form .contact-info .contact-name {
+        max-width: 260px;
+    }
+} 
+
+@media (max-width: 427px) {
+
+    .content-addtask {
+        width: 100%;
+    }
+    .add-task-container {
+        width: 100%;
+    }
+    .priority-container {
+        width: 100%;
+    }
+    .priority {
+        width: 80px;
+        gap: 0px;
+    }
+    .bottom-area {
+        width: 100%;
+        justify-content: end;
+    }
+    .create-btn {
+        width: 150px;
+    }
+    .dropdown-item, .contact-info {
+        width: 100%;
+    }
+    .addtask-form .contact-info .contact-name {
+        max-width: 
+        clamp(140px,
+            calc(140px + (220 - 140) * ((100vw - 320px) / (428 - 320))),
+            220px);
+    }
+    .dropdown-item {
+        padding-block: 12px;
+        padding-inline: 
+        clamp(14px,
+            calc(14px + (22 - 14) * ((100vw - 320px) / (428 - 320))),
+            22px);
     }
 
 }

@@ -5,7 +5,6 @@
     flex-direction: column;
 }
 .header-mobile {
-    flex: 1;
     position: relative;
     z-index: 999;
 }
@@ -56,15 +55,17 @@
     position: relative;
 }
 .nav-user-mobile {
-    display: none;
     position: absolute;
     top: 100%;
+    right: 0;
+
     width: 150px;
     height: 204px;
+
     transform: translateX(10px);
-}
-.nav-user-mobile[open] {
-    display: flex;
+    margin: 0;
+    inset: auto;
+    border: none;
 }
 .nav-user-mobile.open-animation {
     transform: translateX(-95px);
@@ -82,6 +83,9 @@
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+    
+    position: fixed;
+    bottom: 0;
 }
 .nav-item-mobile {
     display: flex;

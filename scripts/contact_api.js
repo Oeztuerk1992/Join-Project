@@ -93,26 +93,30 @@ async function saveContact() {
 
     const edited = readEditInputs();
     edited.phone = formatPhoneNumber(edited.phone);
-
     edited.randomColor = contacts[index].randomColor;
 
     contacts[index] = { ...edited, id };
 
-    await putContactToFirebase(id, edited);
-    await syncUserDataFromContact(oldContact, edited);
-
-    checkAfterUpdateContact(id, edited);
-
-    await loadTasks();
-    await updateContactInTasks(id, edited);
-
     sortContacts();
     renderContacts();
 
-    closeContactEditOverlay('edit');
-
     const contactEl = document.querySelector(`[data-id="${id}"]`);
+    activeContact = contactEl.dataset;
+    activeContactEl = contactEl;
+    contactEl.classList.add('active');
+
+    closeContactEditOverlay('edit');
     updateContactPanel(false);
+
+    try {
+        await putContactToFirebase(id, edited);
+        await syncUserDataFromContact(oldContact, edited);
+        checkAfterUpdateContact(id, edited);
+        await loadTasks();
+        await updateContactInTasks(id, edited);
+    } catch (err) {
+        console.error('Sync nach Contact-Update fehlgeschlagen:', err);
+    }
 }
 
 
@@ -197,7 +201,7 @@ async function deleteContact() {
     renderContacts();
 
     // Mobile view
-    if (window.innerWidth <= 664) {
+    if (window.innerWidth <= 992) {
         document.querySelector('.new-contact-wrapper').style.display = 'flex';
         document.querySelector('.contact-info').style.display = 'none';
     }

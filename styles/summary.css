@@ -127,6 +127,7 @@ h3 {
 
     transition: transform 0.3s;
     transform-origin: top center;
+    flex-shrink: 0;
 }
 .container-urgent {
     display: flex;
@@ -181,12 +182,15 @@ h4 {
 /* Greeting */
 
 .greeting {
-    padding-top: 15px;
+    padding: 15px 20px 0 80px;
 }
 .greet-user {
     font-size: 64px;
     color: var(--color-blue-petrol);
     font-weight: bold;
+}
+.mobile-greeting-splash {
+    display: none;
 }
 
 /* Btn */
@@ -244,8 +248,80 @@ button {
 
 /* Responsiveness */
 
-@media (max-width: 664px) {
+@media (max-width: 1439px) {
 
+    .content-summary {
+        padding: 180px 0 0 clamp(
+            250px,
+            calc(250px + 40 * ((100vw - 993px) / 446)),
+            290px
+        );
+    }
+    .container-headline {
+        gap: clamp(
+            15px,
+            calc(15px + 15 * ((100vw - 993px) / 446)),
+            30px
+        );
+    }
+    h1 {
+        font-size: clamp(
+            48px,
+            calc(48px + 13 * ((100vw - 993px) / 446)),
+            61px
+        );
+    }
+    h2 {
+        font-size: clamp(
+            22px,
+            calc(22px + 5 * ((100vw - 993px) / 446)),
+            27px
+        );
+    }
+    .to-do {
+        width: clamp(
+            200px,
+            calc(200px + 60 * ((100vw - 993px) / 446)),
+            260px
+        );
+    }
+    .urgent {
+        width: clamp(
+            430px,
+            calc(430px + 120 * ((100vw - 993px) / 446)),
+            550px
+        );
+    }
+    .tasks {
+        width: clamp(
+            130px,
+            calc(130px + 40 * ((100vw - 993px) / 446)),
+            170px
+        );
+    }
+    .greeting {
+        padding-left: clamp(
+            40px,
+            calc(40px + 40 * ((100vw - 993px) / 446)),
+            80px
+        );
+
+        font-size: clamp(
+            32px,
+            calc(32px + 15 * ((100vw - 993px) / 446)),
+            47px
+        );
+    }
+    .greeting .greet-user {
+        font-size: clamp(
+            36px,
+            calc(36px + 28 * ((100vw - 993px) / 446)),
+            64px
+        );
+    }
+}
+
+/*  @media (max-width: 992px) {
     .desktop-template {
         display: none;
     }
@@ -254,15 +330,16 @@ button {
     }
     .content-summary {
         padding: 40px 15px;
+        width: 100%;
         height: calc(100dvh - 160px);
-        width: 428px;
+        
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
     .container-headline {
         display: block;
-        align-items: center;
-        gap: 30px;
-        line-height: 1.2;
-        padding-bottom: 40px;
+        padding-right: 170px;
     }
     h1 {
         font-size: 47px;
@@ -277,12 +354,15 @@ button {
         height: 110px;
     }
     .urgent {
-        width: 396px;
         height: 110px;
+        width: 396px;
     }
     .tasks {
         width: 116px;
         height: 116px;
+    }
+    .container-tasks {
+        gap: 25px;
     }
     .count {
         font-size: 47px;
@@ -321,5 +401,308 @@ button {
     .main-summary {
         position: relative;
         top: -55px;
+    }
+} */
+
+@media (max-width: 992px) {
+
+    .desktop-template {
+        display: none;
+    }
+    .mobile-template {
+        display: block !important;
+    }
+    .content-summary {
+        padding: 40px 15px;
+        width: 100%;
+        height: calc(100dvh - 160px);
+        
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .container-headline {
+        display: block;
+        padding-right: 170px;
+    }
+    h1 {
+        font-size: 47px;
+    }
+    h2 {
+        font-size: 20px;
+        position: relative;
+        top: -85px;
+    }
+    .to-do {
+        width: clamp(
+            186px,
+            calc(186px + 14 * ((100vw - 428px) / 564)),
+            200px
+        );
+
+        height: clamp(
+            110px,
+            calc(110px + 60 * ((100vw - 428px) / 564)),
+            170px
+        );
+    }
+    .urgent {
+        width: clamp(
+            396px,
+            calc(396px + 34 * ((100vw - 428px) / 564)),
+            430px
+        );
+
+        height: clamp(
+            110px,
+            calc(110px + 60 * ((100vw - 428px) / 564)),
+            170px
+        );
+    }
+    .tasks {
+        width: clamp(
+            116px,
+            calc(116px + 14 * ((100vw - 428px) / 564)),
+            130px
+        );
+
+        height: clamp(
+            116px,
+            calc(116px + 54 * ((100vw - 428px) / 564)),
+            170px
+        );
+    }
+    .container-tasks {
+        gap: clamp(
+            20px,
+            calc(25px - 5 * ((100vw - 428px) / 564)),
+            25px
+        );
+    }
+    .count {
+        font-size: clamp(
+            47px,
+            calc(47px + 17 * ((100vw - 428px) / 564)),
+            64px
+        );
+    }
+    .description {
+        font-size: clamp(
+            16px,
+            calc(16px + 4 * ((100vw - 428px) / 564)),
+            20px
+        );
+    }
+    .date-urgent {
+        font-size: clamp(
+            16px,
+            calc(16px + 5 * ((100vw - 428px) / 564)),
+            21px
+        );
+    }
+    .greeting {
+        display: none;
+    }
+    .img-to-do,
+    .img-done {
+        width: clamp(
+            40px,
+            calc(40px + 30 * ((100vw - 428px) / 564)),
+            70px
+        );
+
+        height: clamp(
+            40px,
+            calc(40px + 30 * ((100vw - 428px) / 564)),
+            70px
+        );
+    }
+    .img-urgent {
+        width: clamp(
+            40px,
+            calc(40px + 20 * ((100vw - 428px) / 564)),
+            60px
+        );
+
+        height: clamp(
+            40px,
+            calc(40px + 20 * ((100vw - 428px) / 564)),
+            60px
+        );
+    }
+    .seperator-urgent {
+        width: 3px;
+
+        height: clamp(
+            68px,
+            calc(68px + 32 * ((100vw - 428px) / 564)),
+            100px
+        );
+
+        margin-left: clamp(
+            0px,
+            calc((100vw - 428px) * 20 / 564),
+            20px
+        );
+
+        margin-right: clamp(
+            0px,
+            calc((100vw - 428px) * 20 / 564),
+            20px
+        );
+    }
+    .container-do {
+        gap: clamp(
+            20px,
+            calc(20px + 10 * ((100vw - 428px) / 564)),
+            30px
+        );
+    }
+    .seperator {
+        transform: rotate(90deg);
+        height: 90px;
+        margin-left: 48px;
+    }
+    .main-summary {
+        position: relative;
+        top: -55px;
+    }
+
+    #content {
+        position: relative;
+    }
+
+    .mobile-greeting-splash {
+        display: flex;
+        position: absolute;
+        inset: 0;
+        z-index: 100;
+
+        background-color: var(--color-white);
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 20px;
+
+        opacity: 1;
+        transition: opacity 0.6s ease;
+    }
+    .mobile-greeting-splash.hide {
+        opacity: 0;
+        pointer-events: none;
+    }
+    .splash-greeting {
+        font-size: 36px;
+        color: var(--color-blue-navy-900);
+        font-weight: 400;
+        padding-left: 0;
+    }
+    .greet-user-mobile {
+        font-size: 47px;
+    }
+
+
+
+
+}
+
+/* @media (max-width: 427px) {
+
+    .container-headline {
+       padding-right: 60px; 
+    }            
+    .to-do {
+        width: 131px;
+        height: 130px;
+        gap: 10px;
+    }
+    .main-summary .container-do {
+        gap: 30px;
+    }
+    .urgent {
+        width: 292px;
+        height: 130px;
+    }
+    .tasks {
+        width: 84px;
+        height: 130px;
+    }
+    .container-tasks {
+        gap: 20px;
+    }
+} */
+
+@media (max-width: 427px) {
+
+    .container-headline {
+        padding-right: clamp(
+            60px,
+            calc(60px + 110 * ((100vw - 320px) / 108)),
+            170px
+        );
+    }
+
+    .to-do {
+        width: clamp(
+            131px,
+            calc(131px + 55 * ((100vw - 320px) / 108)),
+            186px
+        );
+
+        height: clamp(
+            110px,
+            calc(130px - 20 * ((100vw - 320px) / 108)),
+            130px
+        );
+
+        gap: clamp(
+            10px,
+            calc(10px + 10 * ((100vw - 320px) / 108)),
+            20px
+        );
+    }
+
+    .main-summary .container-do {
+        gap: clamp(
+            20px,
+            calc(30px - 10 * ((100vw - 320px) / 108)),
+            30px
+        );
+    }
+
+    .urgent {
+        width: clamp(
+            292px,
+            calc(292px + 104 * ((100vw - 320px) / 108)),
+            396px
+        );
+
+        height: clamp(
+            110px,
+            calc(130px - 20 * ((100vw - 320px) / 108)),
+            130px
+        );
+    }
+
+    .tasks {
+        width: clamp(
+            84px,
+            calc(84px + 32 * ((100vw - 320px) / 108)),
+            116px
+        );
+
+        height: clamp(
+            116px,
+            calc(130px - 14 * ((100vw - 320px) / 108)),
+            130px
+        );
+    }
+
+    .container-tasks {
+        gap: clamp(
+            20px,
+            calc(20px + 5 * ((100vw - 320px) / 108)),
+            25px
+        );
     }
 }

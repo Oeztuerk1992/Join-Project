@@ -10,42 +10,71 @@ const loggedUserInfo = document.getElementById('greet-user-name');
 // functions //
 
 async function initSummary() {
+    initMobileGreetingSplash();
     getUserGreeting();
     getUserProfile("desktop");
     await loadTasks();
     getInfoBoard();
 }
 
-function getUserGreeting() {
+function getGreetingText() {
+    const hour = new Date().getHours();
 
-    getGreetingTime();
+    if (hour < 12) return "Good morning";
+    if (hour < 18) return "Good afternoon";
+    return "Good evening";
+}
+
+function applyGreeting(guestEl, userEl, timeGuestEl, timeUserEl, userNameEl) {
+    const greeting = getGreetingText();
 
     if (loggedInUser === 'guest') {
-        guestInfo.classList.remove('hidden');
-        userInfo.classList.add('hidden');
+        timeGuestEl.textContent = `${greeting}!`;
+        guestEl.classList.remove('hidden');
+        userEl.classList.add('hidden');
     } else {
-        guestInfo.classList.add('hidden');
-        userInfo.classList.remove('hidden');
-
-        loggedUserInfo.textContent = loggedInUser;
+        timeUserEl.textContent = `${greeting},`;
+        userNameEl.textContent = loggedInUser;
+        userEl.classList.remove('hidden');
+        guestEl.classList.add('hidden');
     }
 }
 
-function getGreetingTime() {
-    const hour = new Date().getHours();
-    let greeting;
+function getUserGreeting() {
+    applyGreeting(guestInfo, userInfo, greetTimeGuest, greetTime, loggedUserInfo);
+}
 
-    if (hour < 12) {
-        greeting = "Good morning";
-    } else if (hour < 18) {
-        greeting = "Good afternoon";
-    } else {
-        greeting = "Good evening";
+function initMobileGreetingSplash() {
+    const isMobile = window.innerWidth <= 992;
+    const splash = document.getElementById('mobile-greeting-splash');
+
+    if (!isMobile || !splash) return;
+
+    // Bereits in dieser Session angezeigt?
+    if (sessionStorage.getItem('greetingShown')) {
+        splash.remove();
+        return;
     }
 
-    greetTimeGuest.textContent = `${greeting}!`;
-    greetTime.textContent = `${greeting},`;
+    applyGreeting(
+        document.getElementById('splash-greeting-guest'),
+        document.getElementById('splash-greeting-user'),
+        document.getElementById('splash-greet-time-guest'),
+        document.getElementById('splash-greet-time'),
+        document.getElementById('splash-greet-user-name')
+    );
+
+    // Als angezeigt speichern
+    sessionStorage.setItem('greetingShown', 'true');
+
+    setTimeout(() => {
+        splash.classList.add('hide');
+
+        setTimeout(() => splash.remove(), 600);
+    }, 1500);
 }
+
+
 
 function getToBoard() {
     window.location.href = 'board.html';

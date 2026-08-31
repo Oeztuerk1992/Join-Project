@@ -196,3 +196,25 @@ function removeHighlight() {
         placeholder.remove();
     }
 }
+
+// functions for mobile move menu //
+
+function openMobileMoveMenu(id) {
+    const menu = document.getElementById(`move-menu-${id}`);
+
+    document.querySelectorAll('.move-menu').forEach(menu => {
+        menu.classList.remove('show');
+    });
+
+    menu.classList.add('show');
+}
+
+
+async function moveTaskMobile(id, taskCat) {
+    currentDraggedElement = id;
+
+    const menu = document.getElementById(`move-menu-${id}`);
+    menu.classList.remove('show');
+
+    await moveTo(taskCat);
+}

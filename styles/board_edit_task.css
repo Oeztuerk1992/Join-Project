@@ -94,7 +94,15 @@
 .checked-urgent:active {
   background-color: var(--color-black);
 }
-
+.edit-task-overlay input:not(.search-task, .btn-search-task, .dropdown-assignment),
+.edit-task-overlay textarea {
+        width: 100%;
+}
+.edit-task-overlay .dropdown-container,
+.edit-task-overlay .subtask-input,
+.edit-task-overlay .list-subtasks {
+  width: 100%;
+}
 
 /* Dropdown Menu */
 
@@ -219,10 +227,6 @@
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-
- /*  position: fixed;
-  right: 40px;
-  bottom: 40px; */
 }
 .confirm-edit-btn span {
   font-size: 21px;
@@ -285,7 +289,6 @@
 .flex-grow {
   flex: 1;
 }
-
 
 /* Modal */
 

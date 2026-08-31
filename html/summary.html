@@ -66,13 +66,13 @@
                 <span id="initials-user" class="user-initials"></span>
               </div>
             </button>
-            <dialog id="user-nav" class="nav-user">
+            <div id="user-nav" class="nav-user">
               <ul>
                 <li><a href="legal_notice.html">Legal Notice</a></li>
                 <li><a href="privacy_policy.html">Privacy Policy</a></li>
                 <li><a href="../index.html" onclick="logout()">Log out</a></li>
               </ul>
-            </dialog>
+            </div>
           </div>
         </nav>
       </div>
@@ -91,20 +91,28 @@
                 <span id="initials-user-mobile" class="user-initials-mobile"></span>
               </div>
             </button>
-            <dialog id="user-nav-mobile" class="nav-user nav-user-mobile">
+            <div id="user-nav-mobile" class="nav-user nav-user-mobile">
               <ul>
                 <li><a href="help.html">Help</a></li>
                 <li><a href="legal_notice.html">Legal Notice</a></li>
                 <li><a href="privacy_policy.html">Privacy Policy</a></li>
                 <li><a href="../index.html" onclick="logout()">Log out</a></li>
               </ul>
-            </dialog>
+            </div>
           </div>
         </nav>
       </div>
    </header>
   </div>
   <div id="content" class="content-summary">
+    <div id="mobile-greeting-splash" class="mobile-greeting-splash">
+      <h4 id="splash-greeting-guest" class="splash-greeting hidden">
+        <span id="splash-greet-time-guest"></span>
+      </h4>
+      <h4 id="splash-greeting-user" class="splash-greeting hidden">
+        <span id="splash-greet-time"></span><br /><span id="splash-greet-user-name" class="greet-user greet-user-mobile "></span>
+      </h4>
+    </div>
     <header class="container-headline">
       <h1>Join 360</h1>
       <div class="seperator"></div>

@@ -1,8 +1,8 @@
 // Variables //
 
-const titleForm = document.getElementById("taskTitle");
-const descriptionForm = document.getElementById("taskDescription");
-const dateForm = document.getElementById("taskDate");
+const titleForm = document.getElementById("task-title");
+const descriptionForm = document.getElementById("task-description");
+const dateForm = document.getElementById("task-date");
 const categoryForm = document.getElementById("selectedCategory");
 const subtasksForm = document.getElementById("ul-subtask-add-task");
 const dropDownMenuCategories = document.getElementById('categoryMenu');

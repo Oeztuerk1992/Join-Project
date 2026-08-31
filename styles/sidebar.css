@@ -206,16 +206,17 @@
     font-weight: bold;
 }
 .nav-user {
-    position: absolute;
+    position: fixed;
+    top: 96px;
+    right: 40px;
 
-    top: calc(100% + 25px);
-    right: 0;
-    transform: translateX(-32px);
-   
+    margin: 0;
+    transform: translateX(0);
+
     width: 150px;
     height: 160px;
 
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
 
@@ -227,22 +228,21 @@
 
     opacity: 0;
     pointer-events: none;
+    z-index: 9999;
 
-    transform: translateX(30px);
     transition: opacity 0.3s ease,
-                transform 0.3s ease;    
+                transform 0.3s ease;
+}
+.nav-user.open-animation {
+    display: flex;
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
 }
 .nav-user button {
     border: unset;
     background-color: transparent;
     pointer-events: none;
-}
-.nav-user.open-animation {
-    opacity: 1;
-    transform: translateX(-32px);
-    z-index: 1000;
-
-    pointer-events: auto;
 }
 .nav-user.open-animation button {
     pointer-events: auto;

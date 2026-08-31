@@ -4,6 +4,7 @@ const logo = document.querySelector(".logo");
 const splash = document.querySelector(".logo-splash");
 const container = document.querySelector(".hidden-splash");
 const logoContainer = document.querySelector(".logo-container");
+const isMobile = window.innerWidth <= 992;
 
 const modalLogin = document.getElementById('login-modal');
 const modalSignup = document.getElementById('signup-modal');
@@ -32,43 +33,98 @@ const registeredUser = [];
 // Loading logo, once per browser-session and after logout //
 
 window.addEventListener("load", () => {
-    if (!logo || !splash || !container || !logoContainer) return;
+
+    if (!logo || !splash || !container) return;
+    // Uncomment while testing
+    /* sessionStorage.removeItem("splashShown"); */
 
     const splashShown = sessionStorage.getItem("splashShown");
 
+    if (isMobile) {
+        getMobileAnimation();
+        return;
+    }
+    
     if (!splashShown) {
         sessionStorage.setItem("splashShown", "true");
 
-        setTimeout(() => {
-            movingLogoToPos(true);
-            }, 500);
+    setTimeout(() => {
+        movingLogoToPos(true);
+    }, 500);
 
-        setTimeout(() => {
-            splash.classList.add("hide");
-            container.classList.remove("hidden-splash");
+    setTimeout(() => {
+        splash.classList.add("hide");
+        container.classList.remove("hidden-splash");
+    }, 1000);
 
-            splashFinished = true;
-        }, 1700);
+    setTimeout(() => {
+        splashFinished = true;
+    }, 1700);
+
     } else {
         logo.style.transition = "none";
         movingLogoToPos(false);
+        splash.style.transition = "none";
         splash.classList.add("hide");
         container.classList.remove("hidden-splash");
         splashFinished = true;
     }
 });
 
+function getMobileAnimation() {
+    if (!logo || !splash || !container) return;
+    const splashShown = sessionStorage.getItem("splashShown");
+
+    splash.classList.add("mobile-splash");
+    logo.src = "./assets/img/desktop_template/join-logo.png";
+
+    if (!splashShown) {
+        sessionStorage.setItem("splashShown", "true");
+
+        setTimeout(() => {
+            movingLogoToPos(true);
+        }, 500);
+
+        setTimeout(() => {
+            container.classList.remove("hidden-splash");
+            logo.src = "./assets/img/login/join_logo_big.svg";
+            splash.classList.add("hide");
+        }, 1100);
+
+        setTimeout(() => {
+            
+            splashFinished = true;
+        }, 1700);
+
+    } else {
+        logo.style.transition = "none";
+        logo.src = "./assets/img/login/join_logo_big.svg";
+        movingLogoToPos(false);
+        splash.style.transition = "none";
+        splash.classList.add("hide");
+        container.classList.remove("hidden-splash");
+        splashFinished = true;
+    }
+}
+
+
 function movingLogoToPos(withAnimation) {
-    if (!logoContainer || !logo) return;
     const rect = logoContainer.getBoundingClientRect();
 
     logo.style.transition = withAnimation
-        ? "top 1.2s ease, left 1.2s ease, width 1.2s ease, transform 1.2s ease"
+        ? "top 1.2s ease, left 1.2s ease, width 1.2s ease, height 1.2s ease, transform 1.2s ease"
         : "none";
 
     logo.style.top = `${rect.top + rect.height / 2}px`;
     logo.style.left = `${rect.left + rect.width / 2}px`;
-    logo.style.width = "100px";
+
+    if (isMobile) {
+        logo.style.width = "64px";
+        logo.style.height = "78px";
+
+    } else {
+        logo.style.width = "100px";
+    }
     logo.style.transform = "translate(-50%, -50%)";
 }
 
@@ -120,6 +176,11 @@ function getToSummary(userName, userMail) {
 }
 
 function logInGuest(guest) {
+    if(isMobile) {
+
+        
+    
+    }
     getToSummary(guest);
 }
 

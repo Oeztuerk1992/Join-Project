@@ -72,6 +72,9 @@
     align-items: center;
     justify-content: center;
 }
+.mobile-icon-move {
+    display: none;
+}
 .btn-close {
     background-image: url("../assets/img/close-btn/close-btn-default.svg");
     width: 32px;
@@ -285,13 +288,26 @@ input[type="checkbox"]:checked {
     display: grid;
     gap: 15px;
 }
-.contact-names-overlay {
+/* .contact-names-overlay {
     width: 42px;
     height: 42px;
-    width: max-content;
 
     display: flex;
     align-items: center;
+} */
+.contact-names-overlay {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    max-width: 400px;
+    width: 100%;
+
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 .scroll-wrapper-task {
     flex: 1;
@@ -315,9 +331,9 @@ input[type="checkbox"]:checked {
 
 }
 .subtask-edit-feedback {
-    color: var(--color-red-200);
+    color: var(--color-red-100);
     font-size: 16px;
-    padding-right: 90px;
+    padding-right: 10px;
 }
 /* Animations */
 
@@ -361,9 +377,13 @@ input[type="checkbox"]:checked {
 
 /* Responsiveness */
 
-@media (max-width: 664px) {
+@media (max-width: 992px) {
     .view-task-overlay {
-        width: 100%;
+        min-height: 640px;
+        max-height: 720px;
+
+        max-width: 396px;
+        width: 90%;
     }
     .scroll-wrapper-task {
         width: 95%;
@@ -393,13 +413,12 @@ input[type="checkbox"]:checked {
     .name-to-badge {
         font-size: 16px;
     }
-    .view-task-overlay {
+    .edit-task-overlay {
         min-height: 640px;
         max-height: 720px;
-    }
-    .edit-task-overlay {
-        width: 100%;
-        max-height: 720px;
+
+        max-width: 396px;
+        width: 90%!important;
     }
     .edit-task-overlay .scroll-wrapper {
         width: 97%;
@@ -427,5 +446,68 @@ input[type="checkbox"]:checked {
     .set-up-prio-in-edit-mode span{
         font-size: 16px;
     }
+    .contact-names-overlay {
+        max-width: 200px;
+    }
+    .edit-task-overlay .priority {
+        gap: 0px;
+        flex-direction: column;
+    }
+    .edit-task-overlay .priority span {
+        padding-top: 10px;
+    }
+    .contact-info .contact-name {
+        max-width: 200px;
+    }
+}
 
+@media (max-width: 720px) {
+
+.edit-task-overlay input:not(.search-task, .btn-search-task),
+    .edit-task-overlay textarea {
+        padding: 8px 8px;
+    }
+}
+
+
+@media (max-width: 427px) {
+
+    .header-view-task {
+        padding: 20px 20px 0 20px;
+    }
+    .view-task-overlay .edit-btn {
+        padding: 20px;
+    }
+    .subheader-view-task {
+        padding: 0px 20px 0 20px;
+    }
+    .frame-view-task {
+        padding: 0px 20px 0px 20px;
+    }
+    .edit-task-overlay .header-form {
+        padding: 20px 20px 0px 20px;
+    }
+    .footer-edit-overlay {
+        bottom: 20px;
+        right: 20px;
+    }
+    .edit-task-overlay .scroll-wrapper {
+        height: 560px;
+    }
+    .contact-info .contact-name {
+        max-width: 150px;
+    }
+    .edit-task-overlay .contact-info .contact-name {
+         max-width: clamp(
+            110px,
+            calc(110px + 90 * ((100vw - 320px) / 108)),
+            200px);
+    }
+    .dropdown-item {
+        padding-block: 12px;
+        padding-inline: 
+        clamp(14px,
+            calc(14px + (22 - 14) * ((100vw - 320px) / (428 - 320))),
+            22px);
+    }
 }

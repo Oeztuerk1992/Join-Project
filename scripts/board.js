@@ -77,8 +77,10 @@ function getImgPrio(priority) {
 }
 
 
-function getAssignedContactBadges(assignments = []) {
-    return assignments.map(contact => {
+function getAssignedContactBadges(assignments = [], limit = null) {
+    const visible = limit ? assignments.slice(0, limit) : assignments;
+
+    const badgesHTML = visible.map(contact => {
 
         if (!contact?.name) {
             console.warn('Invalid assigned contact:', contact);
@@ -95,6 +97,37 @@ function getAssignedContactBadges(assignments = []) {
 
         return generateBadgesHTML(contact.color, initials);
 
+    }).join('');
+
+    const remaining = limit ? assignments.length - limit : 0;
+
+    return remaining > 0
+        ? badgesHTML + `<div class="user-abbr user-abbr-more">+${remaining}</div>`
+        : badgesHTML;
+}
+
+function getAssignedContactRows(assignments = []) {
+    return assignments.map(contact => {
+
+        if (!contact?.name) {
+            console.warn('Invalid assigned contact:', contact);
+            return '';
+        }
+
+        const parts = contact.name.trim().split(' ');
+
+        const initials =
+            (parts[0]?.[0] || '').toUpperCase() +
+            (parts.length > 1
+                ? (parts[parts.length - 1]?.[0] || '').toUpperCase()
+                : '');
+
+        return `
+            <div class="container-user">
+                ${generateBadgesHTML(contact.color, initials)}
+                ${generateUserNamesHTML(contact.name)}
+            </div>
+        `;
     }).join('');
 }
 
@@ -198,13 +231,13 @@ function getDateFormat(date) {
 }
 
 
-function getAssignedContactNames(contacts) {
+/* function getAssignedContactNames(contacts) {
     return contacts.map(contact => {
         const usernames = contact.name;
 
         return generateUserNamesHTML(usernames);
     }).join('');
-}
+} */
 
 
 function getSubtasksOverlay(subtasks, id) {
@@ -234,6 +267,8 @@ function getEditOverlay(id) {
 
     dialog = document.getElementById(`edit-overlay-${id}`);
     const menu = document.getElementById(`dropdownMenu-${id}`);
+
+    selectedContactIds = (task.assignedTo || []).map(c => c.id);
     renderContacts(contacts, menu, task.assignedTo);
 
     closeTaskOverlayNoAnimation(id);
@@ -305,7 +340,7 @@ function filterAndShowCurrentTask(filterWord) {
 
 function openAddTaskOverlay(column) {
     
-    if (window.innerWidth <= 664) {
+    if (window.innerWidth <= 992) {
         window.location.href = `add_task.html?column=${encodeURIComponent(column)}`;
         return;
     }

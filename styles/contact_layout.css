@@ -1299,3 +1299,17 @@
         position: absolute;
     }
 }
+
+
+@media (max-height: 775px) and (max-width: 427px) {
+
+    .contact-info {
+        gap: 0;
+    }
+    .contact-label {
+        padding: 0;
+    }
+    .contact-details {
+        padding-right: 20px;
+    }
+}

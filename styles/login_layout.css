@@ -200,7 +200,7 @@ input::placeholder {
 }
 .signup-card {
     width: 600px;
-    height: 630px;
+    min-height: 630px;
 
     background: var(--color-white);
     border-radius: 30px;
@@ -431,5 +431,35 @@ input::placeholder {
     }
     .back-btn {
         left: 10px;
+    }
+}
+
+@media (max-height: 810px) and (max-width: 427px) {
+
+    .login-card {
+        padding: 12px;
+        height: 395px;
+    }
+    .button-row {
+        gap: 5px;
+        margin-top: 10px;
+    }
+    .signup-section {
+        bottom: 70px;
+        max-width: 270px;
+    }
+    .login-card .input-group {
+        margin-top: 10px;
+    }
+    .signup-btn {
+        width: 145px;
+    }
+    .question-signup-info {
+        text-align: center;
+        font-size: 16px;
+    }
+    .footer-login {
+        padding-left: 30px;
+
     }
 }

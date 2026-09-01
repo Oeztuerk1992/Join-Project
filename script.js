@@ -113,3 +113,13 @@ document.addEventListener('DOMContentLoaded', () => {
     warning.innerHTML = '<p>Please rotate your device to portrait mode.</p>';
     document.body.prepend(warning);
   });
+
+  document.querySelectorAll('input, textarea').forEach(element => {
+    element.setAttribute('spellcheck', 'false');
+});
+
+document.addEventListener('mousedown', e => {
+    if (e.target.closest('.subtask-actions button')) {
+        e.preventDefault();
+    }
+});

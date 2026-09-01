@@ -162,7 +162,7 @@ async function registerNewUser() {
     const email = document.getElementById('signup-mail').value;
     await prepareUserDataForPost(signUpNewUser);
     await createContactFromUser(fullName, email);
-    
+
     showConfirmationSignup();
 }
 

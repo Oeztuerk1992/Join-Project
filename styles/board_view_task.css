@@ -288,13 +288,6 @@ input[type="checkbox"]:checked {
     display: grid;
     gap: 15px;
 }
-/* .contact-names-overlay {
-    width: 42px;
-    height: 42px;
-
-    display: flex;
-    align-items: center;
-} */
 .contact-names-overlay {
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -510,4 +503,17 @@ input[type="checkbox"]:checked {
             calc(14px + (22 - 14) * ((100vw - 320px) / (428 - 320))),
             22px);
     }
+}
+
+@media (max-height: 775px) and (max-width: 427px) {
+    
+        .edit-task-overlay {
+            height: 640px !important;
+        }
+        .edit-task-overlay .scroll-wrapper {
+            height: 480px;
+        }
+        .view-task-overlay {
+            height: 640px !important;
+        }
 }

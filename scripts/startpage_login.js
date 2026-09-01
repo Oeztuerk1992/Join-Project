@@ -2,7 +2,7 @@
 
 // load all user and create an array -> registeredUser //
 
-async function onloadUsers() {
+/* async function onloadUsers() {
     let userResponse = await getAllUsers("user");
     if (!userResponse) return;
     let userKeysArray = Object.keys(userResponse);
@@ -12,6 +12,21 @@ async function onloadUsers() {
             userResponse[userKeysArray[index]]
         );
     }
+} */
+
+async function onloadUsers() {
+        let userResponse = await getAllUsers("user");
+        if (!userResponse) return;
+    
+        registeredUser.length = 0;
+    
+        let userKeysArray = Object.keys(userResponse);
+    
+        for (let index = 0; index < userKeysArray.length; index++) {
+            registeredUser.push(
+                userResponse[userKeysArray[index]]
+            );
+        }
 }
 
 async function getAllUsers(path) {
@@ -27,6 +42,8 @@ async function checkFormDataLogin(event) {
     const user = checkDataLogin();
 
     if (user) {
+
+        await loadContactsFromFirebase();
 
         const ownContact = contacts.find(
             contact => contact.email === user.mail
@@ -50,6 +67,7 @@ async function checkFormDataLogin(event) {
 
     return false;
 }
+
 
 function checkDataLogin() {
     const info = document.getElementById("feedback-login");

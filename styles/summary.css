@@ -30,6 +30,13 @@ h2 {
 }
 
 /* Main */
+.main-summary {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: max-content;
+}
 
 .container-do {
     display: flex;
@@ -321,88 +328,6 @@ button {
     }
 }
 
-/*  @media (max-width: 992px) {
-    .desktop-template {
-        display: none;
-    }
-    .mobile-template {
-        display: block !important;
-    }
-    .content-summary {
-        padding: 40px 15px;
-        width: 100%;
-        height: calc(100dvh - 160px);
-        
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    .container-headline {
-        display: block;
-        padding-right: 170px;
-    }
-    h1 {
-        font-size: 47px;
-    }
-    h2 {
-        font-size: 20px;
-        position: relative;
-        top: -85px;
-    }
-    .to-do {
-        width: 186px;
-        height: 110px;
-    }
-    .urgent {
-        height: 110px;
-        width: 396px;
-    }
-    .tasks {
-        width: 116px;
-        height: 116px;
-    }
-    .container-tasks {
-        gap: 25px;
-    }
-    .count {
-        font-size: 47px;
-    }
-    .description {
-        font-size: 16px;
-    }
-    .date-urgent {
-        font-size: 16px;
-    }
-    .greeting {
-        display: none;
-    }
-    .img-to-do, .img-done {
-        width: 40px;
-        height: 40px;
-    }
-    .img-urgent {
-        width: 40px;
-        height: 40px;
-    }
-    .seperator-urgent {
-        width: 2px;
-        height: 68px;
-        margin-left: 0px;
-        margin-right: 0px;
-    }
-    .container-do {
-        gap: 20px;
-    }
-    .seperator {
-        transform: rotate(90deg);
-        height: 90px;
-        margin-left: 48px;
-    }
-    .main-summary {
-        position: relative;
-        top: -55px;
-    }
-} */
 
 @media (max-width: 992px) {
 
@@ -566,12 +491,12 @@ button {
     .main-summary {
         position: relative;
         top: -55px;
-    }
 
+        align-items: center;
+    }
     #content {
         position: relative;
     }
-
     .mobile-greeting-splash {
         display: flex;
         position: absolute;
@@ -600,37 +525,8 @@ button {
     .greet-user-mobile {
         font-size: 47px;
     }
-
-
-
-
 }
 
-/* @media (max-width: 427px) {
-
-    .container-headline {
-       padding-right: 60px; 
-    }            
-    .to-do {
-        width: 131px;
-        height: 130px;
-        gap: 10px;
-    }
-    .main-summary .container-do {
-        gap: 30px;
-    }
-    .urgent {
-        width: 292px;
-        height: 130px;
-    }
-    .tasks {
-        width: 84px;
-        height: 130px;
-    }
-    .container-tasks {
-        gap: 20px;
-    }
-} */
 
 @media (max-width: 427px) {
 
@@ -641,7 +537,6 @@ button {
             170px
         );
     }
-
     .to-do {
         width: clamp(
             131px,
@@ -661,7 +556,6 @@ button {
             20px
         );
     }
-
     .main-summary .container-do {
         gap: clamp(
             20px,
@@ -669,7 +563,6 @@ button {
             30px
         );
     }
-
     .urgent {
         width: clamp(
             292px,
@@ -683,7 +576,6 @@ button {
             130px
         );
     }
-
     .tasks {
         width: clamp(
             84px,
@@ -697,12 +589,30 @@ button {
             130px
         );
     }
-
     .container-tasks {
         gap: clamp(
             20px,
             calc(20px + 5 * ((100vw - 320px) / 108)),
             25px
         );
+    }
+}
+
+@media (max-height: 815px) and (max-width: 427px) {
+
+    .container-headline {
+        padding-bottom: 0;
+    }
+    .main-summary .container-do {
+        gap: 20px;
+    }
+    .urgent,
+    .tasks {
+        margin-top: 8px;
+    }
+    .to-do,
+    .urgent,
+    .tasks {
+        height: 110px;
     }
 }

@@ -85,7 +85,7 @@ function toggleDropdown(container) {
         input.focus();
     } else {
         input.value = "";
-        input.placeholder = "Select contacts to assign";
+        input.placeholder = "Select contacts";
 
         const assignedTo = selectedContactIds.map(id => ({ id }));
         renderContacts(contacts, menu, assignedTo);
@@ -141,7 +141,7 @@ function renderContacts(contacts, menu, assignedTo = [], filterWord = "") {
             isSelected
         );
     }
-}
+} 
 
 
 function checkCurrentLogin(dropdownMenu, assignedTo = [], filterWord = "") {
@@ -364,9 +364,11 @@ function clearForm() {
     resetRequiredFields(); 
     getContactBadges(container);
 
-    if (getComputedStyle(document.getElementById('close-mobile')).display === 'block') {
-        getToBoard();
-    }
+    const closeMobile = document.getElementById('close-mobile');
+    if (closeMobile && getComputedStyle(closeMobile).display === 'block') {
+    getToBoard();
+}
+
 }
 
 function resetPrioBtn() {
@@ -405,7 +407,7 @@ document.addEventListener("click", (event) => {
             container.querySelector(".arrow-dropdown")?.classList.remove("rotate");
 
             input.value = "";
-            input.placeholder = "Select contacts to assign";
+            input.placeholder = "Select contacts";
 
             const assignedTo = selectedContactIds.map(id => ({ id }));
             renderContacts(contacts, menu, assignedTo);

@@ -103,7 +103,7 @@ function getSumDone() {
     return sum;
 }
 
-function getDateUrgentTasks() {
+/* function getDateUrgentTasks() {
     const dates = tasks
         .filter(task =>
             task.dueDate &&
@@ -147,7 +147,55 @@ function getFormatDateSummary(date) {
     const monthName = date.toLocaleString("en-US", {month: "long"});
 
     return `${monthName} ${date.day}, ${date.year}`;
-}
+} */
+
+    function getDateUrgentTasks() {
+        const dates = tasks
+            .filter(task =>
+                task.dueDate &&
+                task.taskStatus !== 'Done'
+            )
+            .map(task => new Date(`${task.dueDate}T00:00:00`));
+    
+        if (dates.length === 0) {
+            document.getElementById('count-urgent').textContent = '0';
+            document.getElementById('urgent-date').textContent = '-';
+            return;
+        }
+    
+        dates.sort((a, b) => a - b);
+    
+        const earliestDate = dates[0];
+    
+        getTasksForDeadline(earliestDate);
+    
+        document.getElementById('urgent-date').textContent =
+            getFormatDateSummary(earliestDate);
+    }
+    
+    
+    function getTasksForDeadline(date) {
+        const sum = tasks.filter(task =>
+            task.taskStatus !== 'Done' &&
+            task.dueDate &&
+            new Date(`${task.dueDate}T00:00:00`).getTime() === date.getTime()
+        ).length;
+    
+        document.getElementById('count-urgent').textContent = sum;
+    
+        return sum;
+    }
+    
+    
+    function getFormatDateSummary(date) {
+        return date.toLocaleDateString('en-US', {
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric'
+        });
+    }
+
+
 
 function getSumTasksBoard() {
     const sum = tasks.filter(task => task.taskStatus !== 'Done').length;

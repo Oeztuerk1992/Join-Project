@@ -523,8 +523,35 @@
     .container-form-add-contact .signup-validation-width {
         width: 280px;
     }
+}
 
 
+@media (max-height: 775px) and (max-width: 427px) {
 
-
+        .overlay-container {
+            height: 99% !important;
+        }
+        .overlay-container .overlay-right {
+            gap: 0;
+        }
+        .overlay-right .overlay-content {
+            gap: 0;
+        }
+        .overlay-container .input-wrapper {
+            margin-top: 5px;
+        }
+        .overlay-container .input-container {
+            gap: 15px;
+        }
+        .overlay-container .overlay-left,
+        .overlay-container .overlay-right {
+            height: 320px;
+        }
+        .overlay-container .avatar-placeholder {
+            margin-bottom: 30px;
+        }
+        .overlay-right .overlay-close {
+            top: -300px;
+            right: 20px;
+        }
 }

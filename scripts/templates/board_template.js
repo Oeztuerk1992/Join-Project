@@ -13,22 +13,23 @@ function generateTaskMiniCardHTML(element) {
                   </button>
                   <div id="move-menu-${element.id}" class="move-menu" onclick="event.stopPropagation()">
                     <span>Move to:</span>
+                    <div class="scroll-move-menu">
+                      <button onclick="moveTaskMobile('${element.id}', 'kanban-to-do')">
+                        To-do
+                      </button>
 
-                    <button onclick="moveTaskMobile('${element.id}', 'kanban-to-do')">
-                      To do
-                    </button>
+                      <button onclick="moveTaskMobile('${element.id}', 'kanban-in-progress')">
+                          Progress
+                      </button>
 
-                    <button onclick="moveTaskMobile('${element.id}', 'kanban-in-progress')">
-                        In progress
-                    </button>
+                      <button onclick="moveTaskMobile('${element.id}', 'kanban-feedback')">
+                          Review
+                      </button>
 
-                    <button onclick="moveTaskMobile('${element.id}', 'kanban-feedback')">
-                        Await feedback
-                    </button>
-
-                    <button onclick="moveTaskMobile('${element.id}', 'kanban-done')">
-                        Done
-                    </button>
+                      <button onclick="moveTaskMobile('${element.id}', 'kanban-done')">
+                          Done
+                      </button>
+                    </div>
                   </div>
                 </div>
                 <h4 id="task-title-${element.id}" class="title-task">
@@ -53,7 +54,7 @@ function generateTaskMiniCardHTML(element) {
               <div class="flex-grow"></div>
               <article class="responsibility-mini-card">
                 <div id="badge-member-${element.id}" class="member-badge">
-                  ${getAssignedContactBadges(element.assignedTo, 5)}
+                  ${getAssignedContactBadges(element.assignedTo, 4)}
                 </div>
                 <div id="task-prio-${element.id}" class="priority-task">
                   ${getImgPrio(element.priority)}
@@ -282,7 +283,7 @@ function generateEditOverlayHTML(element) {
             <div id="container-dropdown-menu-${element.id}" class="input-group container-dropdown-user">
               <label>Assigned to</label>
               <div id="toggle-${element.id}" class="dropdown-container" onclick="toggleDropdown(this)">
-                <input id="dropdown-assignment-${element.id}" class="dropdown dropdown-assignment" placeholder="Select contacts to assign" onkeydown="showFilteredContactList(this)">
+                <input id="dropdown-assignment-${element.id}" class="dropdown dropdown-assignment" placeholder="Select contacts" onkeydown="showFilteredContactList(this)">
                   <button type="button" id="dropdownArrow-${element.id}" class="arrow-dropdown"></button>
                   <div id="dropdownMenu-${element.id}" class="dropdown-menu"></div>
               </div>

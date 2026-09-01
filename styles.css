@@ -41,12 +41,12 @@ button {
 
 /* für Firefox */
 
-@supports (scrollbar-width: thin) {
-    * {
-      scrollbar-width: thin;
-      scrollbar-color: var(--color-blue-navy-900) var(--color-light-blue);
-    }
+@-moz-document url-prefix() {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-blue-navy-900) var(--color-light-blue);
   }
+}
 
 /* Landscape mode */
 

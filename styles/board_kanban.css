@@ -6,13 +6,10 @@
 }
 .scroll-wrapper-kanban {
     width: 280px;
-    
     flex: 1;
     min-height: 0;
-
     overflow-y: auto;
     overflow-x: hidden;
-
     padding: 16px 24px 20px 12px; 
     margin-top: 20px;
 }
@@ -23,9 +20,7 @@
     width: 260px;
     height: 24px;
     padding-left: 16px;
-
     flex-shrink: 0;
-
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -33,17 +28,14 @@
 .kanban-column {
     width: 280px;
     height: 65vh;
-
     display: flex;
     flex-direction: column;
-
     min-height: 0;
 }
 .kanban-content {
     display: flex;
     flex-direction: column;
     gap: 20px;
-
     min-height: 100%;
     padding-top: 4px;
 }
@@ -63,13 +55,11 @@ h2 {
 .no-task-feedback {
     height: 48px;
     border-radius: 10px;
-
     border: 2px dashed var(--color-black-10);
     background-color: var(--color-gray-300);
     color: var(--color-blue-navy-1000);
     font-size: 16px;
     font-weight: 400;
-
     display: flex;
     justify-content: center;
     align-items: center;
@@ -91,12 +81,10 @@ h2 {
     width: 160px;
     height: 48px;
     border-radius: 10px;
-
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
     background-color: transparent;
-
     background-image: url("../assets/img/board/header/add_task_hover.svg");
     transform: scale(1.137);
     margin-top: 5px;
@@ -116,10 +104,8 @@ h2 {
     min-height: 150px;
     max-height: 263px;
     border-radius: 24px;
-
     background-color: var(--color-white);
     box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.08);
-
     cursor: pointer;
     transition:
         transform 300ms ease-out,
@@ -140,13 +126,10 @@ h2 {
 .drag-area-highlight {
     width: 252px;
     height: 150px;
-
     flex-shrink: 0;
-
     border: 2px dashed var(--color-blue-navy-900);
     border-radius: 30px;
     background-color: var(--color-light-blue);
-
     box-shadow:
         0 10px 25px rgba(0, 0, 0, 0.12),
         0 4px 10px rgba(0, 0, 0, 0.08);
@@ -156,7 +139,6 @@ h2 {
     min-height: 150px;
     max-height: 263px;
     padding: 16px;
-
     display: flex;
     flex-direction: column;
 }
@@ -187,10 +169,8 @@ p {
 .title-task {
     padding-top: 20px;
     width: 220px;
-
     overflow: hidden;
     text-overflow: ellipsis;
-
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
@@ -201,11 +181,9 @@ p {
     font-weight: 400;
     color: var(--color-gray-600);
     padding-top: 5px;
-
     width: 220px;
     overflow: hidden;
     text-overflow: ellipsis;
-
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
@@ -213,7 +191,6 @@ p {
 }
 .container-subtask {
     padding-top: 20px;
-
     display: flex;
     align-items: center;
     gap: 10px;
@@ -222,7 +199,6 @@ p {
     width: 100px;
     height: 8px;
     border-radius: 16px;
-
     background-color: var(--color-gray-300);
     overflow: hidden;
 }
@@ -235,7 +211,6 @@ p {
 }
 .responsibility-mini-card {
     padding-top: 10px;
-
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -248,13 +223,10 @@ p {
 .user-abbr {
     width: 42px;
     height: 42px;
-
     border-radius: 50%;
     border: 1px solid white;
-
     font-size: 16px;
     color: var(--color-white);
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -271,18 +243,15 @@ p {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     position: relative;
 }
 .mobile-icon-move {
     background-image: url('../assets/img/mobile/mobile_move.svg');
     width: 26px;
     height: 24px;
-
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-
     background-color: transparent;
     border: none;
     padding: 0;
@@ -292,21 +261,17 @@ p {
 }
 .move-menu {
     display: none;
-
     position: absolute;
     top: 0px;
     right: -15px;
-
     width: 105px;
     height: 105px;
     padding: 4px;
-
     border: 1px solid var(--color-blue-navy-900);
     background-color: var(--color-blue-navy-900);
     border-radius: 0px 20px 20px 20px;
     color: var(--color-gray-500);
     box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.4);
-
     pointer-events: auto;
     opacity: 0;
     z-index: 9999999999;
@@ -323,7 +288,6 @@ p {
     font-size: 16px;
     font-weight: bold;
     padding: 0px 8px;
-
     font-family: "Mulish", "Open Sans", sans-serif;
 }
 .move-menu button {
@@ -334,7 +298,6 @@ p {
     font-size: 16px;
     font-weight: 500;
     width: 100%;
-
     padding: 0px 8px;
     text-align: left;
     cursor: pointer;
@@ -345,18 +308,5 @@ p {
     font-weight: bold;
 }
 .scroll-move-menu {
-    overflow-y: auto;
-    overflow-x: hidden;
     width: 90%;
-}
-.scroll-move-menu::-webkit-scrollbar {
-    width: 4px !important;
-}
-.scroll-move-menu::-webkit-scrollbar-thumb {
-    background: var(--color-blue-700);
-    width: 3px;
-}
-.scroll-move-menu::-webkit-scrollbar-track {
-    margin-top: 5px;
-    margin-bottom: 20px;
 }

@@ -292,90 +292,26 @@
     background: transparent;
 }
 
-/* Responsiveness */
-
-/* @media (max-width: 1439px) {
-
-    .overlay-container {
-        width: 950px;
-        height: 530px;
-    }
-    .container-form-add-contact {
-        width: 380px;
-    }
-    .input-wrapper {
-        width: 380px;
-    }
-    .overlay-left {
-        padding-top: 30px;
-        padding-bottom: 0px;
-    }
-    .overlay-right {
-        padding: 30px;
-    }
-    .overlay-close {
-        right: 35px;
-        top: 48px;
-    }
-} */
-
 @media (max-width: 1439px) {
-
     .overlay-container {
-        width: clamp(
-            950px,
-            calc(950px + 230 * ((100vw - 993px) / 446)),
-            1180px
-        );
-
-        height: clamp(
-            530px,
-            calc(530px + 62 * ((100vw - 993px) / 446)),
-            592px
-        );
+        width: clamp(950px, calc(950px + 230 * ((100vw - 993px) / 446)), 1180px);
+        height: clamp(530px, calc(530px + 62 * ((100vw - 993px) / 446)), 592px);
     }
-
     .container-form-add-contact,
     .input-wrapper {
-        width: clamp(
-            380px,
-            calc(380px + 40 * ((100vw - 993px) / 446)),
-            420px
-        );
+        width: clamp(380px, calc(380px + 40 * ((100vw - 993px) / 446)), 420px);
     }
-
     .overlay-left {
-        padding-top: clamp(
-            30px,
-            calc(30px + 36 * ((100vw - 993px) / 446)),
-            66px
-        );
-
-        padding-bottom: clamp(
-            0px,
-            calc(66px * ((100vw - 993px) / 446)),
-            66px
-        );
+        padding-top: clamp(30px, calc(30px + 36 * ((100vw - 993px) / 446)), 66px);
+        padding-bottom: clamp(0px, calc(66px * ((100vw - 993px) / 446)), 66px);
     }
-
     .overlay-right {
-        padding: clamp(
-            24px,
-            calc(24px + 6 * ((1439px - 100vw) / 446)),
-            30px
-        );
+        padding: clamp(24px, calc(24px + 6 * ((1439px - 100vw) / 446)), 30px);
     }
-
     .overlay-close {
-        right: clamp(
-            35px,
-            calc(35px + 20 * ((100vw - 993px) / 446)),
-            55px
-        );
+        right: clamp(35px, calc(35px + 20 * ((100vw - 993px) / 446)), 55px);
     }
 }
-
-
 
 @media (max-width: 992px) {
 
@@ -510,7 +446,6 @@
 }
 
 @media (max-width: 427px) {
-
     .overlay .overlay-container {
         width: 300px;
     }
@@ -525,9 +460,7 @@
     }
 }
 
-
 @media (max-height: 775px) and (max-width: 427px) {
-
         .overlay-container {
             height: 99% !important;
         }

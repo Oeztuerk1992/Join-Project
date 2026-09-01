@@ -1,3 +1,11 @@
+/**
+ * Generates the HTML template for a task mini-card.
+ * The mini-card displays the task title, category, description, priority,
+ * assigned contacts, and subtask progress.
+ *
+ * @param {Object} element - The task object containing all relevant task data.
+ * @returns {string} The HTML template for the task mini-card.
+ */
 function generateTaskMiniCardHTML(element) {
   return ` 
           <section id="card-mini-${element.id}" class="mini-card" onclick="openTaskOverlay('${element.id}','animation')"
@@ -13,23 +21,7 @@ function generateTaskMiniCardHTML(element) {
                   </button>
                   <div id="move-menu-${element.id}" class="move-menu" onclick="event.stopPropagation()">
                     <span>Move to:</span>
-                    <div class="scroll-move-menu">
-                      <button onclick="moveTaskMobile('${element.id}', 'kanban-to-do')">
-                        To-do
-                      </button>
-
-                      <button onclick="moveTaskMobile('${element.id}', 'kanban-in-progress')">
-                          Progress
-                      </button>
-
-                      <button onclick="moveTaskMobile('${element.id}', 'kanban-feedback')">
-                          Review
-                      </button>
-
-                      <button onclick="moveTaskMobile('${element.id}', 'kanban-done')">
-                          Done
-                      </button>
-                    </div>
+                    <div class="scroll-move-menu"></div>
                   </div>
                 </div>
                 <h4 id="task-title-${element.id}" class="title-task">
@@ -62,10 +54,15 @@ function generateTaskMiniCardHTML(element) {
               </article>
             </div>
           </section>
-    `;
+  `;
 }
 
 
+/**
+ * Generates the HTML template for the "User Story" task category.
+ *
+ * @returns {string} The HTML template displaying the "User Story" category.
+ */
 function generateTaskCategoryUserStoryHTML() {
   return `
           <div class="category-user-story">User Story</div>
@@ -73,6 +70,11 @@ function generateTaskCategoryUserStoryHTML() {
 }
 
 
+/**
+ * Generates the HTML template for the "Technical Task" task category.
+ *
+ * @returns {string} The HTML template displaying the "Technical Task" category.
+ */
 function generateTaskCategoryTechnicalTaskHTML() {
   return `
           <div class="category-technical-task">Technical Task</div>
@@ -80,6 +82,11 @@ function generateTaskCategoryTechnicalTaskHTML() {
 }
 
 
+/**
+ * Generates the HTML template for a task with low priority.
+ *
+ * @returns {string} The HTML template containing the low-priority icon.
+ */
 function generateImgPrioLowHTML() {
   return `
           <img src="../assets/img/board/cards/prio_low.svg" alt="img-prio-low">
@@ -87,6 +94,11 @@ function generateImgPrioLowHTML() {
 }
 
 
+/**
+ * Generates the HTML template for a task with medium priority.
+ *
+ * @returns {string} The HTML template containing the medium-priority icon.
+ */
 function generateImgPrioMediumHTML() {
   return `
           <img src="../assets/img/board/cards/prio_medium.svg" alt="img-prio-medium">
@@ -94,6 +106,11 @@ function generateImgPrioMediumHTML() {
 }
 
 
+/**
+ * Generates the HTML template for a task with high priority.
+ *
+ * @returns {string} The HTML template containing the high-priority icon.
+ */
 function generateImgPrioHighHTML() {
   return `
           <img src="../assets/img/board/cards/prio_high.svg" alt="img-prio-high">
@@ -101,6 +118,13 @@ function generateImgPrioHighHTML() {
 }
 
 
+/**
+ * Generates an HTML badge displaying the initials of an assigned contact.
+ *
+ * @param {string} color - The CSS styling used to set the badge color.
+ * @param {string} initials - The initials displayed inside the badge.
+ * @returns {string} The HTML template for the contact badge.
+ */
 function generateBadgesHTML(color, initials) {
   return `
           <div class="user-abbr" style="${color}">${initials}</div>
@@ -108,6 +132,25 @@ function generateBadgesHTML(color, initials) {
 }
 
 
+/**
+ * Generates an HTML element displaying the names of assigned contacts.
+ *
+ * @param {string} usernames - The names of the assigned contacts.
+ * @returns {string} The HTML template containing the contact names.
+ */
+function generateUserNamesHTML(usernames) {
+  return `
+    <div class="contact-names-overlay">${usernames}</div>
+  `;
+}
+
+
+/**
+ * Generates the HTML template displayed when a Kanban column contains no tasks.
+ *
+ * @param {string} status - The status of the Kanban column.
+ * @returns {string} The HTML template displaying the empty-column message.
+ */
 function generateEmptyCardHTML(status) {
   return `
           <div class="no-task-feedback">No tasks ${status}</div>
@@ -115,6 +158,14 @@ function generateEmptyCardHTML(status) {
 }
 
 
+/**
+ * Generates the HTML template for the task details overlay.
+ * The overlay displays the task category, title, description, due date,
+ * priority, assigned contacts, and subtasks.
+ *
+ * @param {Object} element - The task object containing all relevant task data.
+ * @returns {string} The HTML template for the task details overlay.
+ */
 function generateTaskOverlayHTML(element) {
   return`
     <dialog id="task-overlay-${element.id}" class="view-task-overlay modal-class" >
@@ -185,13 +236,14 @@ function generateTaskOverlayHTML(element) {
 }
 
 
-function generateUserNamesHTML(usernames) {
-  return `
-    <div class="contact-names-overlay">${usernames}</div>
-  `;
-}
-
-
+/**
+ * Generates the HTML template for a subtask with a checkbox.
+ *
+ * @param {Array<Object>} subtasks - The subtasks belonging to the task.
+ * @param {string|number} id - The unique ID of the parent task.
+ * @param {number} index - The index of the subtask in the array.
+ * @returns {string} The HTML template for the subtask with a checkbox.
+ */
 function generateSubtaskHTML(subtasks, id, index) {
   return `
     <label id = "subtask-${id}-${index}" class="container-checkbox subtask-text" >
@@ -206,6 +258,14 @@ function generateSubtaskHTML(subtasks, id, index) {
 }
 
 
+/**
+ * Generates the HTML template for the task edit overlay.
+ * The overlay contains the form fields for editing the task details,
+ * assigned contacts, priority, and subtasks.
+ *
+ * @param {Object} element - The task object containing all relevant task data.
+ * @returns {string} The HTML template for the task edit overlay.
+ */
 function generateEditOverlayHTML(element) {
   return`
     <dialog id="edit-overlay-${element.id}" class="edit-task-overlay modal-class" >
@@ -322,6 +382,15 @@ function generateEditOverlayHTML(element) {
 }
 
 
+/**
+ * Generates the HTML template for a subtask in edit mode.
+ * The template contains the subtask title and buttons for editing and deleting it.
+ *
+ * @param {Array<Object>} subtasks - The subtasks belonging to the task.
+ * @param {string|number} id - The unique ID of the parent task.
+ * @param {number} index - The index of the subtask in the array.
+ * @returns {string} The HTML template for the editable subtask.
+ */
 function generateSubtaskEditHTML(subtasks, id, index) {
   return `
            <div id="edit-subtask-${id}-${index}" class="container-subtask-li" data-status="${subtasks[index].status}" ondblclick="editSubtask(this)">
@@ -332,6 +401,6 @@ function generateSubtaskEditHTML(subtasks, id, index) {
                     <button type="button" class="delete-button" onclick="deleteSubtask(this)"></button>
                 </div>
            </div>
-    `;
+  `;
 }
 

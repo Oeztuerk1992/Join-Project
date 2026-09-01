@@ -5,18 +5,18 @@
 }
 .right-side {
     display: flex;
+    align-items: stretch;
     padding-top: 96px;
     margin-left: 232px;
     opacity: 1;
-    align-items: stretch;
     min-height: 100vh;
 }
 .new-contact-wrapper {
     position: relative;
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 96px);
     width: 430px;
+    height: calc(100vh - 96px);
     flex-shrink: 0;
 }
 .new-contact {
@@ -24,10 +24,10 @@
     width: 430px;
     height: calc(100vh - 96px);
     padding: 32px 24px;
-    opacity: 1;
     overflow-y: scroll;
     overflow-x: hidden;
-    box-shadow: 4px 0px 6px 0px var(--color-black-08);
+    opacity: 1;
+    box-shadow: 4px 0 6px 0 var(--color-black-08);
     background: var(--color-white);
     scrollbar-width: none;
 }
@@ -35,44 +35,45 @@
     display: none;
 }
 .contact-info {
-    flex: 1;
     display: flex;
+    flex: 1;
     flex-direction: column;
     align-items: flex-start;
     gap: 52px;
-    overflow: hidden;
-    padding: 32px;
     position: sticky;
     top: 96px;
     height: calc(100vh - 96px);
+    padding: 32px;
+    overflow: hidden;
 }
 .contact-details {
     gap: 32px;
-    opacity: 1;
     margin: 80px 56px 30px 37px;
+    opacity: 1;
 }
 .contact-name-email .email {
     color: var(--color-blue-600);
     font-size: 16px;
 }
+.email {
+    color: var(--color-blue-600);
+}
 .header-title {
-    width: 569px;
-    height: 73px;
-    gap: 30px;
-    opacity: 1;
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 30px;
+    width: 569px;
+    height: 73px;
+    opacity: 1;
 }
-.btn-back-contacts {
-    display: none;
-}
+.btn-back-contacts,
 .btn-menu-mobile {
     display: none;
 }
 .title-contact {
-    font-weight: 700;
     font-size: 61px;
+    font-weight: 700;
 }
 .title-subtitle {
     font-size: 27px;
@@ -84,12 +85,12 @@
     background-color: var(--color-blue-700);
 }
 .contact-item {
-    width: 352px;
-    height: 78px;
     display: flex;
     align-items: center;
     flex-direction: row;
     gap: 35px;
+    width: 352px;
+    height: 78px;
     padding: 15px 24px;
     border-radius: 10px;
     cursor: pointer;
@@ -102,11 +103,11 @@
     color: var(--color-white);
 }
 .alphabet-letter {
-    width: 352px;
-    height: 58px;
     display: flex;
     align-items: center;
     gap: 8px;
+    width: 352px;
+    height: 58px;
     padding-left: 36px;
     font-size: 20px;
     font-weight: 700;
@@ -114,162 +115,17 @@
 }
 .alphabet-divider {
     width: 352px;
+    margin: 10px 0;
     border-bottom: 1px solid var(--color-gray-300);
-    margin: 10px 0px;
 }
 .contact-name-email {
-    width: 227px;
-    height: 48px;
     display: flex;
     justify-content: center;
     flex-direction: column;
     gap: 2px;
-}
-.contact-badge {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    background-color: var(--badge-color-1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--color-white);
-    font-size: 16px;
-    border: 2px solid var(--color-white);
-    flex-shrink: 0;
-}
-.contact-detail-panel {
-    width: 100%;
-    height: 364px;
-    display: flex;
-    flex-direction: column;
-    gap: 21px;
-    margin-left: 37px;
-    margin-top: 32px;
-
-    opacity: 0;
-    transform: translateX(100%);
-
-    transition:
-        opacity 0.3s ease,
-        transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-
-    overflow: visible;
-}
-.contact-detail-panel.visible {
-    opacity: 1;
-    transform: translateX(0);
-}
-.contact-detail-actions {
-    display: flex;
-    flex-direction: row;
-    gap: 32px;
-    align-items: center;
-    padding-top: 5px;
-    z-index: 1000;
-}
-.contact-detail-header {
-    width: 100%;
-    min-height: 120px;
-    height: auto;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 50px;
-}
-.contact-detail-info {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-.contact-detail-badge {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    color: var(--color-white);
-    font-weight: 700;
-    font-size: 47px;
-    border: 3px solid var(--color-white);
-    box-shadow: 0px 0px 4px 0px var(--color-black-05);
-
-    position: absolute;
-    flex-shrink: 0;
-}
-.contact-detail-name {
-    display: flex;
-    flex-direction: column;
-    padding-left: 170px;
-}
-.name {
-    font-weight: 400;
-    font-size: 20px;
-}
-.name-user {
-    font-weight: 500;
-    font-size: 47px;
-
-    overflow-wrap: break-word;
-    word-break: break-word;
-    max-width: 500px;
-}
-.email{
-    color: var(--color-blue-600);
-}
-.contact-label {
-    font-weight: 400;
-    font-size: 20px;
-    padding: 56px 0px 10px 0px;
-}
-.label {
-    font-weight: 700;
-    font-style: bold;
-    font-size: 16px;
-    padding-top: 16px;
-}
-.divider {
-    width: 24px;
-    height: 100%;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: var(--color-white);
-    flex-shrink: 0;
-}
-.divider button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-}
-.custom-scrollbar {
-    flex: 1;
-    width: 8px;
-    position: relative;
-    background: transparent;
-}
-.custom-thumb {
-    position: absolute;
-    width: 8px;
-    height: 53px;
-    background: var(--color-black-20);
-    border-radius: 3px;
-}
-.no-contacts-info {
-    padding: 32px;
-    text-align: center;
-    color: var(--color-red-100);
-    font-size: 20px;
-}
-
-.contact-name-email {
     width: 100%;
     min-width: 0;
+    height: 48px;
 }
 .contact-name-email .name,
 .contact-name-email .email {
@@ -278,309 +134,254 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+.contact-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    border: 2px solid var(--color-white);
+    border-radius: 50%;
+    background-color: var(--badge-color-1);
+    color: var(--color-white);
+    font-size: 16px;
+}
+.contact-detail-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 21px;
+    width: 100%;
+    height: 364px;
+    margin: 32px 0 0 37px;
+    opacity: 0;
+    transform: translateX(100%);
+    transition:
+        opacity 0.3s ease,
+        transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    overflow: visible;
+}
+.contact-detail-panel.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+.contact-detail-actions {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 32px;
+    padding-top: 5px;
+    z-index: 1000;
+}
+.contact-detail-header {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 50px;
+    width: 100%;
+    min-height: 120px;
+    height: auto;
+}
+.contact-detail-info {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.contact-detail-badge {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 120px;
+    height: 120px;
+    border: 3px solid var(--color-white);
+    border-radius: 50%;
+    box-shadow: 0 0 4px 0 var(--color-black-05);
+    color: var(--color-white);
+    font-size: 47px;
+    font-weight: 700;
+}
+.contact-detail-name {
+    display: flex;
+    flex-direction: column;
+    padding-left: 170px;
+}
+.name {
+    font-size: 20px;
+    font-weight: 400;
+}
+.name-user {
+    max-width: 500px;
+    font-size: 47px;
+    font-weight: 500;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+.contact-label {
+    padding: 56px 0 10px;
+    font-size: 20px;
+    font-weight: 400;
+}
+.label {
+    padding-top: 16px;
+    font-size: 16px;
+    font-weight: 700;
+    font-style: bold;
+}
+.divider {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    flex-shrink: 0;
+    width: 24px;
+    height: 100%;
+    background-color: var(--color-white);
+}
+.divider button {
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+.custom-scrollbar {
+    flex: 1;
+    position: relative;
+    width: 8px;
+    background: transparent;
+}
+.custom-thumb {
+    position: absolute;
+    width: 8px;
+    height: 53px;
+    border-radius: 3px;
+    background-color: var(--color-black-20);
+}
+.no-contacts-info {
+    padding: 32px;
+    text-align: center;
+    color: var(--color-red-100);
+    font-size: 20px;
+}
 .contact-detail-name .name-user,
 .contact-detail-info .email,
 .contact-detail-info .phone {
     display: -webkit-box;
-    line-clamp: 3;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-
-    overflow: hidden;
     max-width: 400px;
     padding-right: 50px;
-
+    overflow: hidden;
     white-space: normal;
     overflow-wrap: break-word;
     word-break: break-word;
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
 }
 
-/* Confirm delete own account */
-
-/* Confirm */
+/* Confirm Delete */
 
 .confirm-delete {
     position: fixed;
-    left: 50%;
     top: 50%;
-
-    transform: translate(-50%, 100vh);
-    transition: transform 0.8s ease-in-out;
-
+    left: 50%;
     z-index: 1000;
-
-    font-size: 20px;
-    background-color: var(--color-blue-navy-900);
-    box-shadow: var(--color-black-40);
-    color: var(--color-white);
-
-    width: 500px;
-    height: 90px;
-    border-radius: 20px;
-    text-align: center;
-
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 500px;
+    height: 90px;
+    transform: translate(-50%, 100vh);
+    border-radius: 20px;
+    background-color: var(--color-blue-navy-900);
+    box-shadow: var(--color-black-40);
+    color: var(--color-white);
+    font-size: 20px;
+    text-align: center;
+    transition: transform 0.8s ease-in-out;
 }
 .confirm-delete::backdrop {
-    background: var(--color-black-25);
+    background-color: var(--color-black-25);
     backdrop-filter: blur(1px);
 }
 .confirm-delete.show {
     transform: translate(-50%, -50%);
 }
 
-/* Responsiveness */
-
-/* @media (max-width: 1439px) {
-
-    .header-title {
-        width: 300px;
-        display: block;
-    }
-    .title-divider {
-        transform: rotate(90deg);
-        height: 90px;
-        margin-left: 48px;
-    }
-    .title-subtitle {
-        font-size: 20px;
-        position: relative;
-        top: -85px;
-    }
-    .title-contact {
-        font-size: 56px;
-    }
-    .new-contact-wrapper {
-        width: 300px;
-    }
-    .new-contact {
-        width: 300px;
-        padding: 32px 15px;
-    }
-    .btn-new-contact, .contact-item {
-        width: 280px;
-    }
-    .new-contact .btn-new-contact {
-        width: 280px;
-    }
-    .contact-item {
-        padding: 6px 5px;
-        gap: 0;
-    }
-    .contact-badge {
-        width: 40px;
-        height: 40px;
-    }
-    .contact-info {
-        padding: 8px;
-    }
-    .contact-details {
-        margin: 80px 56px 30px 15px;
-    }
-    .contact-detail-panel {
-        margin-left: 15px;
-    }
-    .name-user {
-        font-size: 32px;
-        overflow-wrap: break-word;
-        word-break: break-word;
-        max-width: 300px;
-    }
-    .contact-detail-badge {
-        width: 100px;
-        height: 100px;
-        font-size: 32px;
-    }
-    .contact-detail-panel {
-        margin-left: 15px;
-    }
-    .contact-detail-name {
-        padding-left: 140px;
-    }
-    .alphabet-letter {
-        padding-left: 19px;
-        width: 280px;
-    }
-    .alphabet-divider {
-        width: 280px;
-    }
-    .contact-name-email {
-        padding-left: 30px;
-    }
-} */
+/* 1439px */
 
 @media (max-width: 1439px) {
-
     .header-title {
-        width: clamp(
-            300px,
-            calc(300px + 269 * ((100vw - 993px) / 446)),
-            569px
-        );
-
         display: block;
+        width: clamp(300px, calc(300px + 269 * ((100vw - 993px) / 446)), 569px);
     }
-
     .title-contact {
-        font-size: clamp(
-            56px,
-            calc(56px + 5 * ((100vw - 993px) / 446)),
-            61px
-        );
+        font-size: clamp(56px, calc(56px + 5 * ((100vw - 993px) / 446)), 61px);
     }
-
     .title-divider {
-        transform: rotate(90deg);
         height: 90px;
         margin-left: 48px;
+        transform: rotate(90deg);
     }
     .title-subtitle {
-        font-size: 20px;
         position: relative;
         top: -85px;
+        font-size: 20px;
     }
-
     .new-contact-wrapper,
     .new-contact {
-        width: clamp(
-            300px,
-            calc(300px + 130 * ((100vw - 993px) / 446)),
-            430px
-        );
+        width: clamp(300px, calc(300px + 130 * ((100vw - 993px) / 446)), 430px);
     }
-
     .new-contact {
-        padding-inline: clamp(
-            15px,
-            calc(15px + 9 * ((100vw - 993px) / 446)),
-            24px
-        );
+        padding-inline: clamp(15px, calc(15px + 9 * ((100vw - 993px) / 446)), 24px);
     }
-
     .btn-new-contact,
     .new-contact .btn-new-contact,
     .contact-item,
     .alphabet-letter,
     .alphabet-divider {
-        width: clamp(
-            280px,
-            calc(280px + 72 * ((100vw - 993px) / 446)),
-            352px
-        );
+        width: clamp(280px, calc(280px + 72 * ((100vw - 993px) / 446)), 352px);
     }
-
     .contact-item {
-        padding-block: clamp(
-            6px,
-            calc(6px + 9 * ((100vw - 993px) / 446)),
-            15px
-        );
-
-        padding-inline: clamp(
-            5px,
-            calc(5px + 19 * ((100vw - 993px) / 446)),
-            24px
-        );
-
-        gap: clamp(
-            0px,
-            calc(35px * ((100vw - 993px) / 446)),
-            35px
-        );
+        gap: clamp(0px, calc(35px * ((100vw - 993px) / 446)), 35px);
+        padding-block: clamp(6px, calc(6px + 9 * ((100vw - 993px) / 446)), 15px);
+        padding-inline: clamp(5px, calc(5px + 19 * ((100vw - 993px) / 446)), 24px);
     }
-
     .contact-info {
-        padding: clamp(
-            8px,
-            calc(8px + 24 * ((100vw - 993px) / 446)),
-            32px
-        );
+        padding: clamp(8px, calc(8px + 24 * ((100vw - 993px) / 446)), 32px);
     }
-
+    .contact-details,
+    .contact-detail-panel {
+        margin-left: clamp(15px, calc(15px + 22 * ((100vw - 993px) / 446)), 37px);
+    }
     .contact-details {
         margin-top: 80px;
         margin-right: 56px;
         margin-bottom: 30px;
-        margin-left: clamp(
-            15px,
-            calc(15px + 22 * ((100vw - 993px) / 446)),
-            37px
-        );
     }
-
-    .contact-detail-panel {
-        margin-left: clamp(
-            15px,
-            calc(15px + 22 * ((100vw - 993px) / 446)),
-            37px
-        );
-    }
-
     .contact-detail-badge {
-        width: clamp(
-            100px,
-            calc(100px + 20 * ((100vw - 993px) / 446)),
-            120px
-        );
-
-        height: clamp(
-            100px,
-            calc(100px + 20 * ((100vw - 993px) / 446)),
-            120px
-        );
-
-        font-size: clamp(
-            32px,
-            calc(32px + 15 * ((100vw - 993px) / 446)),
-            47px
-        );
+        width: clamp(100px, calc(100px + 20 * ((100vw - 993px) / 446)), 120px);
+        height: clamp(100px, calc(100px + 20 * ((100vw - 993px) / 446)), 120px);
+        font-size: clamp(32px, calc(32px + 15 * ((100vw - 993px) / 446)), 47px);
     }
-
     .contact-detail-name {
-        padding-left: clamp(
-            140px,
-            calc(140px + 30 * ((100vw - 993px) / 446)),
-            170px
-        );
+        padding-left: clamp(140px, calc(140px + 30 * ((100vw - 993px) / 446)), 170px);
     }
-
     .name-user {
-        font-size: clamp(
-            32px,
-            calc(32px + 15 * ((100vw - 993px) / 446)),
-            47px
-        );
-
-        max-width: clamp(
-            300px,
-            calc(300px + 200 * ((100vw - 993px) / 446)),
-            500px
-        );
+        font-size: clamp(32px, calc(32px + 15 * ((100vw - 993px) / 446)), 47px);
+        max-width: clamp(300px, calc(300px + 200 * ((100vw - 993px) / 446)), 500px);
     }
-
     .alphabet-letter {
-        padding-left: clamp(
-            19px,
-            calc(19px + 17 * ((100vw - 993px) / 446)),
-            36px
-        );
+        padding-left: clamp(19px, calc(19px + 17 * ((100vw - 993px) / 446)), 36px);
     }
-
     .contact-name-email {
-        padding-left: clamp(
-            30px,
-            calc(30px * ((1439px - 100vw) / 446)),
-            30px
-        );
+        padding-left: clamp(0px, calc(30px * ((1439px - 100vw) / 446)), 30px);
     }
 }
 
+/* 992px */
 
-
-/* @media (max-width: 992px) {
-
+@media (max-width: 992px) {
     .contacts-page {
         flex-direction: column;
     }
@@ -599,370 +400,110 @@
     .divider {
         display: none;
     }
-    .new-contact-wrapper {
-        padding: 0px 15px;
-        height: calc(100dvh - 160px);
-        width: 428px;
-        background: var(--color-white);
-    }
-    .new-contact {
-        width: 100%;
-        box-shadow: none;
-    }
-    h1, .title-contact {
-        font-size: 47px;
-    }
     .right-side {
-        padding-top: 0px;
-        margin-left: 0px;
-        min-height: unset;
-
-        display: flex;
         flex-direction: column;
         align-items: center;
         height: calc(100dvh - 160px);
+        min-height: unset;
+        padding-top: 0;
+        margin-left: 0;
+    }
+    .new-contact-wrapper,
+    .contact-info {
+        width: clamp(428px, calc(428px + 272 * ((100vw - 428px) / 564)), 700px);
+        height: calc(100dvh - 160px);
+        padding-inline: clamp(15px, calc(15px + 17 * ((100vw - 428px) / 564)), 32px);
+    }
+    .new-contact-wrapper {
+        background-color: var(--color-white);
+    }
+    .new-contact {
+        width: 100%;
+        padding: 32px 0;
+        box-shadow: none;
+    }
+    h1,
+    .title-contact {
+        font-size: clamp(47px, calc(47px + 9 * ((100vw - 428px) / 564)), 56px);
     }
     .new-contact .btn-new-contact {
+        position: absolute;
+        right: 40px;
+        bottom: 30px;
         width: 56px;
         height: 56px;
         border-radius: 46px;
-    
         background-image: url('../assets/img/mobile/person_add_mobile.svg');
         background-repeat: no-repeat;
         background-position: center;
         background-size: 32px;
-
-        position: absolute;
-        bottom: 30px;
-        right: 20px;
     }
-    .person-add, .text-add-contact {
+    .person-add,
+    .text-add-contact {
         display: none;
-    }
-    .new-contact.scrollwrapper-contacts::-webkit-scrollbar {
-        display: block;
-        width: 2px;
     }
     .new-contact.scrollwrapper-contacts {
         overflow-y: auto;
         scrollbar-width: auto;
     }
+    .new-contact.scrollwrapper-contacts::-webkit-scrollbar {
+        display: block;
+        width: 2px;
+    }
     .new-contact.scrollwrapper-contacts::-webkit-scrollbar-thumb {
-        background: var(--color-blue-navy-900);
+        background-color: var(--color-blue-navy-900);
         border-radius: 10px;
     }
     .new-contact.scrollwrapper-contacts::-webkit-scrollbar-track {
-        background: var(--color-light-blue);
-        margin-top: 120px;
-        margin-bottom: 32px;
-    }
-
-    /* contact-info */
-
-    /*.contact-info {
-        padding: 0px 15px;
-        height: calc(100dvh - 160px);
-        width: 428px;
+        margin: 120px 0 32px;
+        background-color: var(--color-light-blue);
     }
     .header-title {
         display: block;
         width: 220px;
     }
     .title-subtitle {
-        font-size: 20px;
         position: relative;
         top: -45px;
+        font-size: 20px;
     }
     .title-divider {
         width: 90px;
         height: 3px;
-        margin-top: 50px;
-
-        transform: rotate(180deg);
+        margin: 50px 0 0;
         margin-left: 0;
+        transform: rotate(180deg);
     }
     .contact-details {
         display: flex;
         align-items: center;
-        gap: 135px;
-        width: 100%;
-        margin: 30px 0px;
-    }
-    .btn-back-contacts {
-        display: block;
-        position: relative !important;
-        left: 0 !important;
-        top: 0 !important;
-    }
-    .contact-detail-actions {      
-        position: absolute;
-        bottom: 10px;
-        right: 10px;
-        width: 116px;
-        height: 100px;
-
-        background-color: white;
-        border-radius: 20px 20px 0 20px;
-        font-size: 16px;
-        font-weight: 400;
-        color: var(--color-blue-navy-900);
-        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-
-        flex-direction: column;
-        justify-content: space-evenly;
-        gap: 12px;
-        padding: 10px 30px 10px 10px;
-        
-        opacity: 0;
-        pointer-events: none;
-        transform: translateX(160px);
-        transition: opacity 0.3s ease,
-                    transform 0.3s ease;
-    }
-    .contact-detail-actions.open {
-        opacity: 1;
-        pointer-events: auto;
-        transform: translateX(0);
-    }
-    .contact-detail-panel {
-        margin-left: 0;
-        margin-top: 0;
-        gap: 0;
-    }
-    .contact-detail-badge {
-        width: 80px;
-        height: 80px;
-        font-size: 27px;
-        font-weight: 400;
-
-        position: relative;
-    }
-    .name-user {
-        font-size: 36px;
-        font-weight: 700;
-    }
-    .contact-detail-header {
-        max-height: max-content;
-        min-height: 120px;
-        gap: 15px;
-    }
-    .contact-label {
-        padding: 0;
-    }
-    .label {
-        padding-top: 12px;
-    }
-    .contact-detail-panel {
-        opacity: 1 !important;
-        transform: none !important;
-        transition: none !important;
-    }
-    .contact-detail-panel.visible {
-        transform: none !important;
-        transition: none !important;
-    }
-
-    /* Width */
-
-    /*.new-contact-wrapper {
-        width: 428px;
-    }
-    .new-contact {
-        width: 100%;
-        padding: 32px 24px;
-    }
-    .contact-item {
-        width: 352px;
-        padding: 15px 24px;
-    }
-    .alphabet-letter {
-        padding-left: 36px;
-        width: 352px;
-    }
-    .alphabet-divider {
-        width: 352px;
-    }
-    .contact-name-email {
-        padding-left: 35px;
-    }
-    .contact-badge {
-        width: 42px;
-        height: 42px;
-    }
-    .contact-detail-name {
-        padding-left: 0px;
-    }
-} */
-
-@media (max-width: 992px) {
-
-    .contacts-page {
-        flex-direction: column;
-    }
-
-    .desktop-template {
-        display: none;
-    }
-
-    .mobile-template {
-        display: block !important;
-    }
-
-    .contact-info {
-        display: none;
-    }
-
-    .contact-info.show {
-        display: flex;
-    }
-
-    .divider {
-        display: none;
-    }
-
-    .right-side {
-        padding-top: 0;
-        margin-left: 0;
-        min-height: unset;
-
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        height: calc(100dvh - 160px);
-    }
-
-    .new-contact-wrapper,
-    .contact-info {
-        width: clamp(
-            428px,
-            calc(428px + 272 * ((100vw - 428px) / 564)),
-            700px
-        );
-
-        padding-inline: clamp(
-            15px,
-            calc(15px + 17 * ((100vw - 428px) / 564)),
-            32px
-        );
-
-        height: calc(100dvh - 160px);
-    }
-    .new-contact-wrapper {
-        background: var(--color-white);
-    }
-    .new-contact {
-        width: 100%;
-        box-shadow: none;
-
-        padding-top: 32px;
-        padding-bottom: 32px;
-
-        padding-left: 0;
-        padding-right: 0;
-    }
-
-    h1,
-    .title-contact {
-        font-size: clamp(
-            47px,
-            calc(47px + 9 * ((100vw - 428px) / 564)),
-            56px
-        );
-    }
-
-    .new-contact .btn-new-contact {
-        width: 56px;
-        height: 56px;
-        border-radius: 46px;
-
-        background-image: url('../assets/img/mobile/person_add_mobile.svg');
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: 32px;
-
-        position: absolute;
-        bottom: 30px;
-        right: 40px;
-    }
-
-    .person-add,
-    .text-add-contact {
-        display: none;
-    }
-
-    .new-contact.scrollwrapper-contacts::-webkit-scrollbar {
-        display: block;
-        width: 2px;
-    }
-
-    .new-contact.scrollwrapper-contacts {
-        overflow-y: auto;
-        scrollbar-width: auto;
-    }
-
-    .new-contact.scrollwrapper-contacts::-webkit-scrollbar-thumb {
-        background: var(--color-blue-navy-900);
-        border-radius: 10px;
-    }
-
-    .new-contact.scrollwrapper-contacts::-webkit-scrollbar-track {
-        background: var(--color-light-blue);
-        margin-top: 120px;
-        margin-bottom: 32px;
-    }
-
- 
-    .header-title {
-        display: block;
-        width: 220px,   
-    }
-    .title-subtitle {
-        font-size: 20px;
-        position: relative;
-        top: -45px;
-    }
-    .title-divider {
-        width: 90px;
-        height: 3px;
-        margin-top: 50px;
-
-        transform: rotate(180deg);
-        margin-left: 0;
-    }
-     .contact-details {
-        display: flex;
-        align-items: center;
         justify-content: space-between;
         width: 100%;
-        margin: 30px 0px;
+        margin: 30px 0;
     }
     .btn-back-contacts {
         display: block;
         position: relative !important;
-        left: 0 !important;
-        top: 0 !important;
+        inset: 0 !important;
     }
-
     .contact-detail-actions {
         position: absolute;
-        bottom: 10px;
         right: 10px;
-
+        bottom: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        flex-direction: column;
+        gap: 12px;
         width: 116px;
         height: 100px;
-
-        background-color: white;
+        padding: 10px 30px 10px 10px;
         border-radius: 20px 20px 0 20px;
+        background-color: var(--color-white);
+        color: var(--color-blue-navy-900);
         font-size: 16px;
         font-weight: 400;
-        color: var(--color-blue-navy-900);
-        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-
-        flex-direction: column;
-        justify-content: space-evenly;
-        gap: 12px;
-        padding: 10px 30px 10px 10px;
-
+        box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
         opacity: 0;
         pointer-events: none;
         transform: translateX(160px);
@@ -970,96 +511,45 @@
             opacity 0.3s ease,
             transform 0.3s ease;
     }
-
     .contact-detail-actions.open {
         opacity: 1;
         pointer-events: auto;
         transform: translateX(0);
     }
-
-    .contact-detail-panel {
-        margin-left: 0;
-        margin-top: 0;
+    .contact-detail-panel,
+    .contact-detail-panel.visible {
+        margin: 0;
         gap: 0;
-
         opacity: 1 !important;
         transform: none !important;
         transition: none !important;
     }
-
-    .contact-detail-panel.visible {
-        transform: none !important;
-        transition: none !important;
-    }
-
     .contact-detail-badge {
-        width: clamp(
-            80px,
-            calc(80px + 20 * ((100vw - 428px) / 564)),
-            100px
-        );
-
-        height: clamp(
-            80px,
-            calc(80px + 20 * ((100vw - 428px) / 564)),
-            100px
-        );
-
-        font-size: clamp(
-            27px,
-            calc(27px + 5 * ((100vw - 428px) / 564)),
-            32px
-        );
-
-        font-weight: 400;
         position: relative;
+        width: clamp(80px, calc(80px + 20 * ((100vw - 428px) / 564)), 100px);
+        height: clamp(80px, calc(80px + 20 * ((100vw - 428px) / 564)), 100px);
+        font-size: clamp(27px, calc(27px + 5 * ((100vw - 428px) / 564)), 32px);
+        font-weight: 400;
     }
-
     .name-user {
         font-size: 36px;
         font-weight: 700;
     }
-
-     .contact-detail-header {
+    .contact-detail-header {
+        gap: 15px;
         max-height: max-content;
         min-height: 120px;
-        gap: 15px;
     }
     .label {
         padding-top: 12px;
     }
-
-
     .contact-item {
-        width: clamp(
-            352px,
-            calc(352px + 224 * ((100vw - 428px) / 564)),
-            576px
-        );
-
-        padding-top: 15px;
-        padding-bottom: 15px;
-
-        padding-left: clamp(
-            24px,
-            calc(24px + 8 * ((100vw - 428px) / 564)),
-            32px
-        );
-
-        padding-right: clamp(
-            24px,
-            calc(24px + 8 * ((100vw - 428px) / 564)),
-            32px
-        );
+        width: clamp(352px, calc(352px + 224 * ((100vw - 428px) / 564)), 576px);
+        padding: 15px clamp(24px, calc(24px + 8 * ((100vw - 428px) / 564)), 32px);
     }
-
     .alphabet-letter,
     .alphabet-divider {
-        width: clamp(
-            352px,
-            calc(352px + 224 * ((100vw - 428px) / 564)),
-            576px
-        );
+        width: clamp(352px, calc(352px + 224 * ((100vw - 428px) / 564)), 576px);
     }
     .alphabet-letter {
         padding-left: 36px;
@@ -1073,236 +563,62 @@
     }
 }
 
-
-
-
-/* @media (max-width: 427px) {
-    .new-contact-wrapper {
-        width: 320px;
-        padding: 0px 6px;
-    }
-    .new-contact {
-        padding: 8px 6px;
-    }
-    .contact-item {
-        width: 320px;
-        padding: 7px 12px;
-    }
-    .alphabet-letter {
-        padding-left: 24px;
-        width: 320px;
-    }
-    .alphabet-divider {
-        width: 320px;
-    }
-    .new-contact .btn-new-contact {
-        bottom: 15px;
-        right: 10px;
-    }
-    .contact-info .btn-menu-mobile {
-        bottom: 15px;
-        right: 10px;
-    }
-    .contact-info {
-        width: 320px;
-    }
-    .contact-details {
-        gap: 30px;
-    }
-    .contact-detail-info {
-        padding-top: 50px;
-    }
-    .contact-detail-header {
-        padding-top: 50px;
-    }
-    .name-user {
-        font-size: 24px;
-        padding-left: 100px;
-    }
-    .contact-detail-badge {
-        position: absolute;
-    }
-} */
+/* 427px */
 
 @media (max-width: 427px) {
-
     .new-contact-wrapper,
     .contact-info {
-        width: clamp(
-            308px,
-            calc(308px + 120 * ((100vw - 320px) / 108)),
-            428px
-        );
-
-        padding-inline: clamp(
-            6px,
-            calc(6px + 9 * ((100vw - 320px) / 108)),
-            15px
-        );
+        width: clamp(308px, calc(308px + 120 * ((100vw - 320px) / 108)), 428px);
+        padding-inline: clamp(6px, calc(6px + 9 * ((100vw - 320px) / 108)), 15px);
     }
-
     .new-contact {
-        padding-top: clamp(
-            8px,
-            calc(8px + 24 * ((100vw - 320px) / 108)),
-            32px
-        );
-
-        padding-bottom: clamp(
-            8px,
-            calc(8px + 24 * ((100vw - 320px) / 108)),
-            32px
-        );
+        padding-block: clamp(8px, calc(8px + 24 * ((100vw - 320px) / 108)), 32px);
     }
-
     .contact-item {
-        width: clamp(
-            308px,
-            calc(308px + 44 * ((100vw - 320px) / 108)),
-            352px
-        );
-
-        padding-top: clamp(
-            7px,
-            calc(7px + 8 * ((100vw - 320px) / 108)),
-            15px
-        );
-
-        padding-bottom: clamp(
-            7px,
-            calc(7px + 8 * ((100vw - 320px) / 108)),
-            15px
-        );
-
-        padding-left: clamp(
-            12px,
-            calc(12px + 12 * ((100vw - 320px) / 108)),
-            24px
-        );
+        width: clamp(308px, calc(308px + 44 * ((100vw - 320px) / 108)), 352px);
+        padding-top: clamp(7px, calc(7px + 8 * ((100vw - 320px) / 108)), 15px);
+        padding-bottom: clamp(7px, calc(7px + 8 * ((100vw - 320px) / 108)), 15px);
+        padding-left: clamp(12px, calc(12px + 12 * ((100vw - 320px) / 108)), 24px);
     }
-
     .alphabet-letter,
     .alphabet-divider {
-        width: clamp(
-            308px,
-            calc(308px + 44 * ((100vw - 320px) / 108)),
-            352px
-        );
+        width: clamp(308px, calc(308px + 44 * ((100vw - 320px) / 108)), 352px);
     }
-
     .alphabet-letter {
-        padding-left: clamp(
-            24px,
-            calc(24px + 12 * ((100vw - 320px) / 108)),
-            36px
-        );
+        padding-left: clamp(24px, calc(24px + 12 * ((100vw - 320px) / 108)), 36px);
     }
-
-    .new-contact .btn-new-contact {
-        bottom: clamp(
-            15px,
-            calc(15px + 15 * ((100vw - 320px) / 108)),
-            30px
-        );
-
-        right: clamp(
-            10px,
-            calc(10px + 30 * ((100vw - 320px) / 108)),
-            40px
-        );
-    }
-
+    .new-contact .btn-new-contact,
     .contact-info .btn-menu-mobile {
-        bottom: clamp(
-            15px,
-            calc(15px + 15 * ((100vw - 320px) / 108)),
-            30px
-        );
-
-        right: clamp(
-            10px,
-            calc(10px + 30 * ((100vw - 320px) / 108)),
-            40px
-        );
+        bottom: clamp(15px, calc(15px + 15 * ((100vw - 320px) / 108)), 30px);
+        right: clamp(10px, calc(10px + 30 * ((100vw - 320px) / 108)), 40px);
     }
-
-    .contact-detail-badge {
-        width: clamp(
-            70px,
-            calc(70px + 10 * ((100vw - 320px) / 108)),
-            80px
-        );
-
-        height: clamp(
-            70px,
-            calc(70px + 10 * ((100vw - 320px) / 108)),
-            80px
-        );
-
-        font-size: clamp(
-            24px,
-            calc(24px + 3 * ((100vw - 320px) / 108)),
-            27px
-        );
-    }
-
-    .contact-detail-header {
-        gap: clamp(
-            8px,
-            calc(8px + 7 * ((100vw - 320px) / 108)),
-            15px
-        );
-    }
-
-    .contact-details {
-        margin-top: 30px;
-        margin-bottom: 30px;
-
-        gap: clamp(
-            30px,
-            calc(30px + 30 * ((100vw - 320px) / 108)),
-            60px
-        );
-    }
-
-    .contact-detail-info {
-        padding-top: clamp(
-            50px,
-            calc(50px - 20 * ((100vw - 320px) / 108)),
-            70px
-        );
-    }
-
-    .contact-detail-header {
-        padding-top: clamp(
-            50px,
-            calc(50px - 20 * ((100vw - 320px) / 108)),
-            70px
-        );
-    }
-
-    .name-user {
-        font-size: clamp(
-            24px,
-            calc(24px + 12 * ((100vw - 320px) / 108)),
-            36px
-        );
-
-        padding-left: clamp(
-            100px,
-            calc(100px - 100 * ((100vw - 320px) / 108)),
-            0px
-        );
-    }
-
     .contact-detail-badge {
         position: absolute;
+        width: clamp(70px, calc(70px + 10 * ((100vw - 320px) / 108)), 80px);
+        height: clamp(70px, calc(70px + 10 * ((100vw - 320px) / 108)), 80px);
+        font-size: clamp(24px, calc(24px + 3 * ((100vw - 320px) / 108)), 27px);
+    }
+    .contact-detail-header {
+        gap: clamp(8px, calc(8px + 7 * ((100vw - 320px) / 108)), 15px);
+        padding-top: clamp(50px, calc(50px - 20 * ((100vw - 320px) / 108)), 70px);
+    }
+    .contact-details {
+        gap: clamp(30px, calc(30px + 30 * ((100vw - 320px) / 108)), 60px);
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+    .contact-detail-info {
+        padding-top: clamp(50px, calc(50px - 20 * ((100vw - 320px) / 108)), 70px);
+    }
+    .name-user {
+        padding-left: clamp(100px, calc(100px - 100 * ((100vw - 320px) / 108)), 0px);
+        font-size: clamp(24px, calc(24px + 12 * ((100vw - 320px) / 108)), 36px);
     }
 }
 
+/* Short Mobile Height */
 
 @media (max-height: 775px) and (max-width: 427px) {
-
     .contact-info {
         gap: 0;
     }

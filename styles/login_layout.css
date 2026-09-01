@@ -34,7 +34,6 @@
     opacity: 1;
     transition: opacity 0.5s ease-out;
 }
-
 .logo-splash.hide {
     opacity: 0;
     pointer-events: none;
@@ -460,6 +459,5 @@ input::placeholder {
     }
     .footer-login {
         padding-left: 30px;
-
     }
 }

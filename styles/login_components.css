@@ -25,10 +25,8 @@ dialog {
     color: var(--color-red-100);
     font-size: 16px;
     padding-left: 6px;
-
     width: 100%;
     height: 30px;
-
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -49,14 +47,11 @@ dialog {
 
     transform: translate(-50%, 100vh);
     transition: transform 0.8s ease-in-out;
-
     z-index: 1000;
-
     font-size: 20px;
     background-color: var(--color-blue-navy-900);
     box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.4);
     color: var(--color-white);
-
     width: 300px;
     height: 70px;
     border-radius: 20px;

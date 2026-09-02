@@ -294,14 +294,11 @@ input::placeholder {
 
 @media (max-width: 992px) {
     
-    /* logo-splash */
-
-    .mobile-splash {
-        background: var(--color-blue-navy-900);
-    }
-    
     /* Login */
 
+    .logo-splash {
+        background: var(--color-blue-navy-900);
+    }
     .login-card {
         width: 396px;
         height: 475px;

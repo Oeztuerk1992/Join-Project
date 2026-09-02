@@ -135,10 +135,8 @@ function getMobileAnimation() {
  * @returns {void}
  */
 function prepareMobileSplash() {
-    splash.classList.add("mobile-splash");
 
-    logo.src =
-        "./assets/img/desktop_template/join-logo.png";
+    logo.src ="./assets/img/desktop_template/join-logo.png";
 }
 
 

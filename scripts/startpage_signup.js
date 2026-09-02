@@ -3,50 +3,91 @@
 const info = document.getElementById("validation-feedback");
 const inputMail = document.getElementById("input-signup-mail");
  
- 
+
 /**
- * Submit handler for the signup form: prevents the native submission,
- * validates name, email, and password, then password confirmation,
- * then acceptance of the privacy policy — in that order, showing the
- * corresponding error message and stopping at the first failing
- * check. If everything passes, registers the new user.
+ * Validates the signup form and starts user registration.
  *
- * @param {SubmitEvent} event - The form submit event.
- * @returns {boolean} False if any validation step failed; true if
- *                     registration was triggered.
+ * @param {SubmitEvent} event - Form submit event.
+ * @returns {boolean} True if registration was triggered.
  */
 function checkFormDataSignup(event) {
     event.preventDefault();
- 
-    const isNameValid = checkUserName();
-    const isMailValid = checkUserMail();
-    const isPwValid = checkUserPw();
-    const isPwConfirmValid = checkUserPwConfirm();
- 
-    if (!isNameValid || !isMailValid || !isPwValid) {
-        info.classList.remove("hidden-feedback");
-        info.textContent = "Please check all inputs and correct any errors.";
+    const validation = validateSignupInputs();
+
+    if (!validation.isValid) {
+        showSignupError(validation.message);
         return false;
     }
- 
-    if (!isPwConfirmValid) {
-        info.classList.remove("hidden-feedback");
-        info.textContent = "Your passwords don't match. Please try again.";
-        return false;
-    }
- 
-    const isPrivacyValid = checkPrivacyPolicy();
- 
-    if (!isPrivacyValid) {
-        info.classList.remove("hidden-feedback");
-        info.textContent = "Please accept the Privacy Policy before proceeding.";
-        return false;
-    }
- 
+
     registerNewUser();
     return true;
 }
+
+
+/**
+ * Validates all signup form inputs.
+ *
+ * @returns {{isValid: boolean, message: string}} Validation result.
+ */
+function validateSignupInputs() {
+    if (!hasValidSignupInputs()) {
+        return {
+            isValid: false,
+            message:
+                "Please check all inputs and correct any errors."
+        };
+    }
+
+    if (!checkUserPwConfirm()) {
+        return {
+            isValid: false,
+            message:
+                "Your passwords don't match. Please try again."
+        };
+    }
+
+    if (!checkPrivacyPolicy()) {
+        return {
+            isValid: false,
+            message:
+                "Please accept the Privacy Policy before proceeding."
+        };
+    }
+
+    return { isValid: true, message: "" };
+}
+
+
+/**
+ * Validates name, email, and password inputs.
+ *
+ * @returns {boolean} True if all inputs are valid.
+ */
+function hasValidSignupInputs() {
+    const isNameValid = checkUserName();
+    const isMailValid = checkUserMail();
+    const isPwValid = checkUserPw();
+
+    return (
+        isNameValid
+        && isMailValid
+        && isPwValid
+    );
+}
+
+
+/**
+ * Displays a signup validation error message.
+ *
+ * @param {string} message - Error message to display.
+ * @returns {void}
+ */
+function showSignupError(message) {
+    info.classList.remove("hidden-feedback");
+    info.textContent = message;
+}
  
+
 /**
  * Validates the signup name field: must consist of at least two words
  * (first and last name). Toggles the field's error styling
@@ -57,7 +98,6 @@ function checkFormDataSignup(event) {
  */
 function checkUserName() {
     const inputName = document.getElementById("input-signup-name");
- 
     const value = nameUser.value.trim();
     const wordCount = value ? value.split(/\s+/).length : 0;
  
@@ -86,7 +126,6 @@ function checkUserName() {
 function checkUserMail() {
     mailUser.value = mailUser.value.trim().toLowerCase();
     const email = mailUser.value;
- 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
  
     if (!emailRegex.test(email)) {
@@ -214,7 +253,6 @@ async function registerNewUser() {
  
     const fullName = document.getElementById('signup-name').value.trim();
     const nameParts = fullName.split(/\s+/);
- 
     const lastName = capitalize(nameParts.pop());
     const firstName = nameParts.map(capitalize).join(' ');
  
@@ -252,7 +290,6 @@ async function registerNewUser() {
  * @returns {Promise<void>}
  */
 async function createContactFromUser(fullName, email, userId) {
- 
     const capitalizedName = capitalizeName(fullName);
     const initials = getInitials(capitalizedName);
  
@@ -275,8 +312,6 @@ async function createContactFromUser(fullName, email, userId) {
 }
  
  
- 
- 
 // confirmation info shows up //
  
 /**
@@ -286,11 +321,8 @@ async function createContactFromUser(fullName, email, userId) {
  * @returns {void}
  */
 function showConfirmationSignup() {
- 
     const confirmation = document.getElementById("confirmation-dialog");
- 
     confirmation.showModal();
- 
     confirmation.classList.add("show");
  
     setTimeout(() => {

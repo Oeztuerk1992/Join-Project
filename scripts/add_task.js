@@ -20,7 +20,7 @@ let currentColumn = 'To do';
 let selectedContactIds = [];
 let hasTriedSubmit = false;
  
- 
+
 /**
  * Initializes the "Add Task" form: reads the target column from the URL,
  * loads the user profile and all contacts, and renders the contact list
@@ -138,144 +138,299 @@ function showFilteredContactList(input) {
  
  
 /**
- * Renders the contact list into the given dropdown menu: sorted
- * alphabetically by first name, the logged-in user is excluded from the
- * regular list (they are shown separately via checkCurrentLogin() as
- * "own profile"), already assigned contacts are marked as selected.
- * If "contacts" is empty, an empty-state view is rendered instead.
+ * Renders all contacts into the dropdown menu.
  *
- * @param {Object.<string, Object>} contacts - Contact objects, keyed by
- *                                              contact ID.
- * @param {HTMLElement} menu - The dropdown menu element to render into.
- * @param {Array<{id: string}>} [assignedTo=[]] - Contacts already
- *                                                 assigned (only the id
- *                                                 is used).
- * @param {string} [filterWord=""] - Not used directly in this function;
- *                                   passed through to checkCurrentLogin().
+ * @param {Object} contacts - All available contacts.
+ * @param {HTMLElement} menu - Dropdown menu container.
+ * @param {Array<Object>} [assignedTo=[]] - Selected contacts.
+ * @param {string} [filterWord=""] - Current filter value.
  * @returns {void}
  */
 function renderContacts(contacts, menu, assignedTo = [], filterWord = "") {
     menu.innerHTML = "";
- 
+
+    if (hasNoContacts(contacts, menu)) return;
+
+    checkCurrentLogin(menu, assignedTo, filterWord);
+
+    const assignedIds = assignedTo.map(contact => contact.id);
+    const currentContactId = getCurrentContactId(contacts);
+
+    renderContactList(
+        contacts,
+        menu,
+        assignedIds,
+        currentContactId
+    );
+}
+
+
+/**
+ * Displays an empty-state message if no contacts exist.
+ *
+ * @param {Object} contacts - All available contacts.
+ * @param {HTMLElement} menu - Dropdown menu container.
+ * @returns {boolean} True if no contacts exist.
+ */
+function hasNoContacts(contacts, menu) {
     if (Object.keys(contacts).length === 0) {
         menu.innerHTML = generateEmptyContactListHTML();
-        return;
+        return true;
     }
- 
-    const loggedInUserEmail =
-        sessionStorage.getItem('loggedInUserEmail');
- 
-    checkCurrentLogin(menu, assignedTo, filterWord);
- 
-    const assignedIds = assignedTo.map(c => c.id);
- 
-    const sortedContacts = Object.entries(contacts).sort((a, b) => {
+
+    return false;
+}
+
+
+/**
+ * Returns the contact ID of the currently logged-in user.
+ *
+ * @param {Object} contacts - All available contacts.
+ * @returns {string|null} The logged-in contact ID or null.
+ */
+function getCurrentContactId(contacts) {
+    const email = sessionStorage.getItem("loggedInUserEmail");
+
+    if (!email) return null;
+
+    return Object.entries(contacts).find(
+        ([, contact]) => contact.email === email
+    )?.[0] || null;
+}
+
+
+/**
+ * Sorts contacts alphabetically by first name.
+ *
+ * @param {Object} contacts - All available contacts.
+ * @returns {Array} Sorted contact entries.
+ */
+function getSortedContacts(contacts) {
+    return Object.entries(contacts).sort((a, b) => {
         const firstNameA = a[1].capitalizedName.split(" ")[0];
         const firstNameB = b[1].capitalizedName.split(" ")[0];
+
         return firstNameA.localeCompare(firstNameB);
     });
- 
-    const currentContactId = loggedInUserEmail
-        ? Object.entries(contacts).find(
-              ([id, contact]) =>
-                  contact.email === loggedInUserEmail
-          )?.[0]
-        : null;
- 
+}
+
+
+/**
+ * Renders the sorted contact list into the dropdown menu.
+ *
+ * @param {Object} contacts - All available contacts.
+ * @param {HTMLElement} menu - Dropdown menu container.
+ * @param {string[]} assignedIds - IDs of selected contacts.
+ * @param {string|null} currentContactId - Logged-in contact ID.
+ * @returns {void}
+ */
+function renderContactList(
+    contacts,
+    menu,
+    assignedIds,
+    currentContactId
+) {
+    const sortedContacts = getSortedContacts(contacts);
+
     for (const [id, contact] of sortedContacts) {
- 
         if (id === currentContactId) continue;
- 
+
         const isSelected = assignedIds.includes(id);
- 
+
         menu.innerHTML += generateContactListHTML(
             contact,
             id,
             isSelected
         );
     }
-} 
+}
  
  
 /**
- * Renders the logged-in user as a separate "own profile" entry at the
- * top of the contact list; renders nothing if the user is logged in as
- * a guest. Takes the current filter text and selection state into
- * account.
+ * Adds the logged-in user to the dropdown menu.
  *
- * @param {HTMLElement} dropdownMenu - The dropdown menu element the
- *                                     entry is appended to.
- * @param {Array<{id: string}>} [assignedTo=[]] - Contacts already assigned.
- * @param {string} [filterWord=""] - Search text checked against the
- *                                   logged-in user's name.
+ * @param {HTMLElement} dropdownMenu - Dropdown menu container.
+ * @param {Array<Object>} [assignedTo=[]] - Selected contacts.
+ * @param {string} [filterWord=""] - Current filter value.
  * @returns {void}
  */
-function checkCurrentLogin(dropdownMenu, assignedTo = [], filterWord = "") {
+function checkCurrentLogin(
+    dropdownMenu,
+    assignedTo = [],
+    filterWord = ""
+) {
     if (loggedInUser === "guest") return;
- 
+
+    const currentContact = getCurrentContactEntry();
+    if (!currentContact) return;
+
+    appendCurrentContact(
+        currentContact,
+        dropdownMenu,
+        assignedTo,
+        filterWord
+    );
+}
+
+
+/**
+ * Returns the contact entry of the logged-in user.
+ *
+ * @returns {[string, Object]|undefined} Contact ID and contact data.
+ */
+function getCurrentContactEntry() {
     const loggedInContactId =
-        sessionStorage.getItem('loggedInContactId');
- 
-    const currentContactEntry = Object.entries(contacts).find(
+        sessionStorage.getItem("loggedInContactId");
+
+    return Object.entries(contacts).find(
         ([id]) => id === loggedInContactId
     );
- 
-    if (!currentContactEntry) return;
- 
-    const [contactId, contact] = currentContactEntry;
- 
-    if (
-        !contact.capitalizedName
-            .toLowerCase()
-            .includes(filterWord.toLowerCase())
-    ) {
-        return;
-    }
- 
+}
+
+
+/**
+ * Appends the logged-in user to the dropdown if visible.
+ *
+ * @param {[string, Object]} currentContact - Contact entry.
+ * @param {HTMLElement} dropdownMenu - Dropdown menu container.
+ * @param {Array<Object>} assignedTo - Selected contacts.
+ * @param {string} filterWord - Current filter value.
+ * @returns {void}
+ */
+function appendCurrentContact(
+    currentContact,
+    dropdownMenu,
+    assignedTo,
+    filterWord
+) {
+    const [contactId, contact] = currentContact;
+
+    if (!matchesFilter(contact, filterWord)) return;
+
     const isSelected = assignedTo.some(
-        c => c.id === contactId
+        assigned => assigned.id === contactId
     );
- 
+
     dropdownMenu.innerHTML += generateContactYourProfileHTML(
         contact,
         contactId,
         isSelected
     );
 }
+
+
+/**
+ * Checks whether a contact matches the filter.
+ *
+ * @param {Object} contact - Contact to check.
+ * @param {string} filterWord - Current filter value.
+ * @returns {boolean} True if the contact matches.
+ */
+function matchesFilter(contact, filterWord) {
+    return contact.capitalizedName
+        .toLowerCase()
+        .includes(filterWord.toLowerCase());
+}
  
  
 /**
- * Toggles the checkbox of a contact list item and keeps
- * "selectedContactIds" in sync. Can be called with the list item itself
- * or with a descendant of it.
+ * Toggles a contact checkbox and updates the selection list.
  *
- * @param {HTMLElement} element - The ".dropdown-item" element or a
- *                                 descendant of it.
+ * @param {HTMLElement} element - Clicked dropdown element.
  * @returns {void}
  */
 function toggleCheckbox(element) {
-    const item = element.classList.contains('dropdown-item')
+    const item = getDropdownItem(element);
+    const checkbox = getCheckbox(item);
+
+    toggleCheckboxState(element, item, checkbox);
+    updateSelectedContact(item, checkbox);
+}
+
+
+/**
+ * Returns the dropdown item element.
+ *
+ * @param {HTMLElement} element - Clicked element.
+ * @returns {HTMLElement} Dropdown item.
+ */
+function getDropdownItem(element) {
+    return element.classList.contains("dropdown-item")
         ? element
-        : element.closest('.dropdown-item');
- 
-    const checkbox = item.querySelector('input[type="checkbox"]');
-    const id = item.dataset.id;
- 
+        : element.closest(".dropdown-item");
+}
+
+
+/**
+ * Returns the checkbox of a dropdown item.
+ *
+ * @param {HTMLElement} item - Dropdown item.
+ * @returns {HTMLInputElement} Contact checkbox.
+ */
+function getCheckbox(item) {
+    return item.querySelector('input[type="checkbox"]');
+}
+
+
+/**
+ * Toggles the checkbox and item selection state.
+ *
+ * @param {HTMLElement} element - Clicked element.
+ * @param {HTMLElement} item - Dropdown item.
+ * @param {HTMLInputElement} checkbox - Contact checkbox.
+ * @returns {void}
+ */
+function toggleCheckboxState(element, item, checkbox) {
     if (element === item) {
         checkbox.checked = !checkbox.checked;
     }
- 
-    item.classList.toggle('selected', checkbox.checked);
- 
+
+    item.classList.toggle("selected", checkbox.checked);
+}
+
+
+/**
+ * Updates the selected contact IDs.
+ *
+ * @param {HTMLElement} item - Dropdown item.
+ * @param {HTMLInputElement} checkbox - Contact checkbox.
+ * @returns {void}
+ */
+function updateSelectedContact(item, checkbox) {
+    const id = item.dataset.id;
+
     if (checkbox.checked) {
-        if (!selectedContactIds.includes(id)) {
-            selectedContactIds.push(id);
-        }
-    } else {
-        selectedContactIds = selectedContactIds.filter(
-            contactId => contactId !== id
-        );
+        addSelectedContact(id);
+        return;
     }
+
+    removeSelectedContact(id);
+}
+
+
+/**
+ * Adds a contact ID to the selection.
+ *
+ * @param {string} id - Contact ID.
+ * @returns {void}
+ */
+function addSelectedContact(id) {
+    if (!selectedContactIds.includes(id)) {
+        selectedContactIds.push(id);
+    }
+}
+
+
+/**
+ * Removes a contact ID from the selection.
+ *
+ * @param {string} id - Contact ID.
+ * @returns {void}
+ */
+function removeSelectedContact(id) {
+    selectedContactIds = selectedContactIds.filter(
+        contactId => contactId !== id
+    );
 }
  
  
@@ -304,9 +459,7 @@ function filterAndShowCurrentContacts(filterWord, inputElement) {
                 .includes(filterWord.toLowerCase())
         )
     );
- 
     const assignedTo = selectedContactIds.map(id => ({ id }));
- 
     renderContacts(
         currentContacts,
         menu,
@@ -363,275 +516,3 @@ function renderDropdownContacts(child, badgeContainer) {
         `background:${color};`
     );
 }
- 
-/* functions "subtask" */
- 
-/**
- * Cancels editing of a subtask by clearing its input field (restoring
- * the display view itself happens elsewhere, e.g. in the related
- * HTML/template).
- *
- * @param {string|number} id - ID of the subtask whose input field
- *                              should be cleared.
- * @returns {void}
- */
-function closeEditSubtask(id) {
-    const input = document.getElementById(`input-subtask-${id}`);
- 
-    if (input) {
-        input.value = "";
-    }
-}
- 
- 
-/**
- * Takes the text from the subtask input field as a new subtask, appends
- * it as a list item to the associated subtask list, and clears the
- * input field afterwards. Does nothing if the text is empty/whitespace.
- *
- * @param {string|number} id - ID of the task whose subtask list
- *                              ("ul-subtask-{id}") this belongs to.
- * @returns {void}
- */
-function saveEditSubtask(id) {
-    const input = document.getElementById(`input-subtask-${id}`);
-    const newSubtask = input.value.trim();
- 
-    if (!newSubtask) return;
- 
-    document.getElementById(`ul-subtask-${id}`).innerHTML +=
-        generateItemSubtaskHTML(newSubtask);
- 
-    input.value = '';
-}
- 
- 
-/**
- * Removes a subtask list item from the DOM and triggers validation of
- * the remaining subtasks in the associated list.
- *
- * @param {HTMLElement} button - The delete button inside the
- *                                ".container-subtask-li" item.
- * @returns {void}
- */
-function deleteSubtask(button) {
-    const container = button.closest('.container-subtask-li');
- 
-    const ul = container.closest('[id^="ul-subtask-"]');
-    const id = ul.id.replace('ul-subtask-', '');
- 
-    container.remove();
- 
-    validateSubtasks(id);
-}
- 
- 
-/**
- * Puts a subtask list item into edit mode: replaces the text display
- * with an editable input field, swaps the action buttons accordingly,
- * and focuses the new input (cursor placed at the end of the existing
- * text).
- *
- * @param {HTMLElement} element - Either the ".container-subtask-li"
- *                                element itself or a descendant of it.
- * @returns {void}
- */
-function editSubtask(element) {
-    const container = element.classList.contains('container-subtask-li')
-        ? element
-        : element.closest('.container-subtask-li');
- 
-    const li = container.querySelector('.li-subtask');
-    const actions = container.querySelector('.container-edit-btn');
- 
-    actions.classList.add('always-visible');
-    const text = li.textContent;
-    container.classList.add('subtask-edit-mode');
- 
-    li.outerHTML = generateOuterHTMLEditSubtask(text);
-    actions.innerHTML = generateInnerHTMLEditSubtask();
- 
-    const input = container.querySelector('.subtask-edit-input');
-    if (input) {
-    input.focus();
- 
-    const length = input.value.length;
-    input.setSelectionRange(length, length);
-    }
-}
- 
- 
-/**
- * Saves the subtask text changed in edit mode, exits edit mode
- * (swaps display markup and action buttons back), and triggers
- * validation of the associated subtask list. Does nothing if the text
- * is empty/whitespace.
- *
- * @param {HTMLElement} button - The save button inside the
- *                                ".container-subtask-li" item.
- * @returns {void}
- */
-function saveEditedSubtask(button) {
-    const container = button.closest('.container-subtask-li');
-    const input = container.querySelector('.subtask-edit-input');
-    const text = input.value.trim();
- 
-    if (!text) return;
- 
-    input.outerHTML = generateOuterHTMLSaveSubtask(text);
-    container.classList.remove('subtask-edit-mode');
- 
-    const actions = container.querySelector('.container-edit-btn');
-    actions.classList.remove('always-visible');
-    actions.innerHTML = generateInnerHTMLSaveSubtask();
- 
-    const ul = container.closest('[id^="ul-subtask-"]');
-    const id = ul.id.replace('ul-subtask-', '');
-    validateSubtasks(id);
-}
- 
- 
-// clear form //
- 
-/**
- * Resets the entire "Add Task" form: clears all text fields, the
- * subtask list, and the contact filter field, resets the priority to
- * its default, clears all contact selections (including checkbox
- * state), empties selectedContactIds, resets required-field error
- * states, and refreshes the contact badges.
- *
- * @returns {void}
- */
-function clearForm() {
- 
-    titleForm.value = "";
-    descriptionForm.value = "";
-    dateForm.value = "";
-    categoryForm.value = "";
-    subtasksForm.innerHTML = "";
-    filterInputContact.value = "";
-    inputSubtask.value = "";
-    resetPrioBtn();
-    document.querySelectorAll(".dropdown-item").forEach(contact => {contact.classList.remove("selected");
-    
-    const checkbox = contact.querySelector('input[type="checkbox"]');
-        if (checkbox) {
-            checkbox.checked = false;
-        }
-    });
-    selectedContactIds = [];
-    resetRequiredFields(); 
-    getContactBadges(container);
- 
-/*     const closeMobile = document.getElementById('close-mobile');
-    if (closeMobile && getComputedStyle(closeMobile).display === 'block') {
-    getToBoard();
-}*/
- 
-}
- 
-/**
- * Resets the priority selection to the default: removes "active" from
- * all priority buttons and marks the "medium" button as active.
- *
- * @returns {void}
- */
-function resetPrioBtn() {
-    const addTaskPrioContainer =
-        document.getElementById('button-prio-form');
- 
-    addTaskPrioContainer
-        .querySelectorAll('.priority')
-        .forEach(button => button.classList.remove('active'));
- 
-    addTaskPrioContainer
-        .querySelector('.medium')
-        ?.classList.add('active');
-}
- 
- 
-// Event Listeners //
- 
-/**
- * Global input listener. Whenever text is typed into a
- * ".dropdown-assignment" input (the contact filter field), filters and
- * re-renders the matching contacts.
- *
- * @listens document#input
- * @param {InputEvent} event - The input event; event.target is checked
- *                              for the ".dropdown-assignment" class.
- * @returns {void}
- */
-document.addEventListener('input', (event) => {
-    if (event.target.classList.contains('dropdown-assignment')) {
-        filterAndShowCurrentContacts(event.target.value, event.target);
-    }
-});
- 
- 
-/**
- * Global click listener ("click outside closes dropdown" for contact
- * assignment). Iterates over every ".dropdown-container" on the page;
- * for any container whose dropdown menu is currently open, a click
- * outside that container closes the menu, resets the filter input and
- * arrow rotation, re-renders the contact list based on the current
- * selection, and refreshes the contact badges.
- *
- * @listens document#click
- * @param {MouseEvent} event - The click event, used to test whether the
- *                              click happened outside a given
- *                              ".dropdown-container".
- * @returns {void}
- */
-document.addEventListener("click", (event) => {
-    document.querySelectorAll(".dropdown-container").forEach(container => {
-        const input = container.querySelector(".dropdown-assignment");
-        if (!input) return;
- 
-        const menu = container.querySelector(".dropdown-menu");
-        if (!menu || !menu.classList.contains("show")) return;
- 
-        if (!container.contains(event.target)) {
-            menu.classList.remove("show");
-            container.querySelector(".arrow-dropdown")?.classList.remove("rotate");
- 
-            input.value = "";
-            input.placeholder = "Select contacts";
- 
-            const assignedTo = selectedContactIds.map(id => ({ id }));
-            renderContacts(contacts, menu, assignedTo);
- 
-            getContactBadges(container);
-        }
-    });
-});
- 
- 
-/**
- * Global click listener ("click outside closes dropdown" for the
- * category dropdown). If the category menu is open and the click
- * happened neither inside the menu nor inside a ".container-categories"
- * element, the menu is closed, the arrow rotation is reset, and the
- * category input placeholder is restored.
- *
- * @listens document#click
- * @param {MouseEvent} event - The click event, used to test whether the
- *                              click happened outside the category
- *                              dropdown.
- * @returns {void}
- */
-document.addEventListener("click", (event) => {
-    const dropDownMenuCategories = document.getElementById('categoryMenu');
-    if (!dropDownMenuCategories) return;
- 
-    if (
-        dropDownMenuCategories.classList.contains("show") &&
-        !dropDownMenuCategories.contains(event.target) &&
-        !event.target.closest(".container-categories")
-    ) {
-        dropDownMenuCategories.classList.remove("show");
-        document.getElementById("dropdownArrowCategory")?.classList.remove("rotate");
-        document.getElementById("selectedCategory").placeholder = "Select task category";
-    }
-});
- 

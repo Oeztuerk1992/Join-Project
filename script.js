@@ -208,7 +208,6 @@ document.addEventListener('keydown', (event) => {
  * @returns {void}
  */
 function showConfirmation() {
-
     const confirmation = document.getElementById("confirmation-dialog");
     confirmation.showModal();
     confirmation.classList.add("show");

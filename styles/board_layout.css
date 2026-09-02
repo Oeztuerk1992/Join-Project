@@ -361,6 +361,9 @@ input::placeholder {
 }
 
 @media (max-width: 427px) {
+  .content-board {
+      padding: 15px 20px;
+  }
   .search-container .search-task {
       width: clamp(200px, calc(200px + 110 * ((100vw - 320px) / 108)), 310px);
   }
@@ -372,3 +375,11 @@ input::placeholder {
   }
 }
 
+@media (min-width: 993px) and (max-width: 1439px) and (max-height: 945px) {
+  .content-board {
+      padding: 120px 0 0 260px;
+  }
+  .scroll-wrapper-vertical {
+      height: clamp(300px, calc(300px + 335 * ((100vh - 600px) / 400)), 635px);
+  }
+}

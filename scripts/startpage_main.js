@@ -30,100 +30,162 @@ let splashFinished = false;
 const signUpNewUser = [];
 const registeredUser = [];
  
+
 /**
- * Runs once per page load: plays the splash/logo intro. On mobile,
- * delegates entirely to getMobileAnimation(). On desktop, if the
- * splash hasn't been shown yet this browser session, plays the full
- * animated sequence (move logo, hide splash, mark as finished) and
- * records in sessionStorage ("splashShown") that it has run; if it has
- * already been shown, skips straight to the final state without
- * transitions. Does nothing if the required DOM elements are missing.
+ * Initializes the splash screen animation after page load.
  *
  * @listens window#load
  */
-window.addEventListener("load", () => {
- 
-    if (!logo || !splash || !container) return;
-    // Uncomment while testing
-    /* sessionStorage.removeItem("splashShown"); */
- 
-    const splashShown = sessionStorage.getItem("splashShown");
- 
+window.addEventListener("load", initSplashScreen);
+
+/**
+ * Starts the splash screen sequence.
+ *
+ * @returns {void}
+ */
+function initSplashScreen() {
+    if (!hasSplashElements()) return;
+
     if (isMobile) {
         getMobileAnimation();
         return;
     }
-    
-    if (!splashShown) {
-        sessionStorage.setItem("splashShown", "true");
- 
-    setTimeout(() => {
-        movingLogoToPos(true);
-    }, 500);
- 
+
+    const splashShown = sessionStorage.getItem("splashShown");
+
+    splashShown
+        ? showDesktopSplashImmediately()
+        : playDesktopSplashAnimation();
+}
+
+
+/**
+ * Checks whether all splash elements exist.
+ *
+ * @returns {boolean} True if all elements are available.
+ */
+function hasSplashElements() {
+    return logo && splash && container;
+}
+
+
+/**
+ * Plays the desktop splash animation.
+ *
+ * @returns {void}
+ */
+function playDesktopSplashAnimation() {
+    sessionStorage.setItem("splashShown", "true");
+
+    setTimeout(() => movingLogoToPos(true), 500);
+
     setTimeout(() => {
         splash.classList.add("hide");
         container.classList.remove("hidden-splash");
     }, 1000);
- 
+
     setTimeout(() => {
         splashFinished = true;
     }, 1700);
- 
-    } else {
-        logo.style.transition = "none";
-        movingLogoToPos(false);
-        splash.style.transition = "none";
-        splash.classList.add("hide");
-        container.classList.remove("hidden-splash");
-        splashFinished = true;
-    }
-});
- 
+}
+
+
 /**
- * Mobile variant of the splash/logo intro animation: swaps in the
- * mobile splash logo image, then either plays the full animated
- * sequence (first time this session) or jumps straight to the final
- * state (if already shown), swapping to the final logo image at the
- * appropriate point either way. Does nothing if the required DOM
- * elements are missing.
+ * Displays the desktop splash end state immediately.
+ *
+ * @returns {void}
+ */
+function showDesktopSplashImmediately() {
+    logo.style.transition = "none";
+
+    movingLogoToPos(false);
+
+    splash.style.transition = "none";
+    splash.classList.add("hide");
+
+    container.classList.remove("hidden-splash");
+
+    splashFinished = true;
+}
+
+
+/**
+ * Initializes the mobile splash animation.
  *
  * @returns {void}
  */
 function getMobileAnimation() {
-    if (!logo || !splash || !container) return;
-    const splashShown = sessionStorage.getItem("splashShown");
- 
+    if (!hasSplashElements()) return;
+
+    prepareMobileSplash();
+
+    const splashShown = sessionStorage.getItem(
+        "splashShown"
+    );
+
+    splashShown
+        ? showMobileSplashImmediately()
+        : playMobileSplashAnimation();
+}
+
+
+/**
+ * Prepares splash elements for mobile view.
+ *
+ * @returns {void}
+ */
+function prepareMobileSplash() {
     splash.classList.add("mobile-splash");
-    logo.src = "./assets/img/desktop_template/join-logo.png";
- 
-    if (!splashShown) {
-        sessionStorage.setItem("splashShown", "true");
- 
-        setTimeout(() => {
-            movingLogoToPos(true);
-        }, 500);
- 
-        setTimeout(() => {
-            container.classList.remove("hidden-splash");
-            logo.src = "./assets/img/login/join_logo_big.svg";
-            splash.classList.add("hide");
-        }, 1100);
- 
-        setTimeout(() => {
-            
-            splashFinished = true;
-        }, 1700);
- 
-    } else {
-        logo.style.transition = "none";
-        logo.src = "./assets/img/login/join_logo_big.svg";
-        movingLogoToPos(false);
-        splash.style.transition = "none";
-        splash.classList.add("hide");
+
+    logo.src =
+        "./assets/img/desktop_template/join-logo.png";
+}
+
+
+/**
+ * Plays the mobile splash animation.
+ *
+ * @returns {void}
+ */
+function playMobileSplashAnimation() {
+    sessionStorage.setItem("splashShown", "true");
+
+    setTimeout(() => movingLogoToPos(true), 500);
+
+    setTimeout(() => {
         container.classList.remove("hidden-splash");
+
+        logo.src =
+            "./assets/img/login/join_logo_big.svg";
+
+        splash.classList.add("hide");
+    }, 1100);
+
+    setTimeout(() => {
         splashFinished = true;
-    }
+    }, 1700);
+}
+
+
+/**
+ * Displays the mobile splash end state immediately.
+ *
+ * @returns {void}
+ */
+function showMobileSplashImmediately() {
+    logo.style.transition = "none";
+
+    logo.src =
+        "./assets/img/login/join_logo_big.svg";
+
+    movingLogoToPos(false);
+
+    splash.style.transition = "none";
+    splash.classList.add("hide");
+
+    container.classList.remove("hidden-splash");
+
+    splashFinished = true;
 }
  
  
@@ -191,7 +253,8 @@ function getSignupModal() {
     modalSignup.showModal();
     signupBtn.style.display = 'none';
 }
- 
+
+
 /**
  * Switches from the signup modal to the login modal: closes the signup
  * modal, resets the login form and its validation state, opens the
@@ -208,6 +271,7 @@ function getLoginModal() {
     signupBtn.style.display = 'flex';
 }
  
+
 /**
  * Clears all validation error styling and messages currently shown on
  * the page (login/signup forms).
@@ -241,6 +305,7 @@ function getToSummary(userName, userMail) {
     window.location.href = './html/summary.html';
 }
  
+
 /**
  * Logs in as a guest and navigates to the summary page.
  *
@@ -253,11 +318,6 @@ function getToSummary(userName, userMail) {
  * @returns {void}
  */
 function logInGuest(guest) {
-    if(isMobile) {
- 
-        
-    
-    }
     getToSummary(guest);
 }
  

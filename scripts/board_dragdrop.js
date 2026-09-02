@@ -58,52 +58,96 @@ function allowDrop(event) {
  
  
 /**
- * Starts, keeps, or stops auto-scrolling of a column container while
- * dragging, based on how close the pointer is to the top/bottom edge.
- * If the pointer is within the scroll zone of the top or bottom edge,
- * an interval is (re)started that scrolls the container in that
- * direction; otherwise any active auto-scroll is stopped. Avoids
- * restarting an already-running interval for the same container and
- * direction.
+ * Automatically scrolls a container while dragging near its edges.
  *
- * @param {DragEvent} event - The current drag event; event.clientY is
- *                             used as the pointer's vertical position.
- * @param {HTMLElement} container - The scrollable column container to
- *                                   scroll.
+ * @param {MouseEvent} event - Current mouse event.
+ * @param {HTMLElement} container - Scrollable container.
  * @returns {void}
  */
 function handleAutoScroll(event, container) {
-    const rect = container.getBoundingClientRect();
-    const mouseY = event.clientY;
- 
-    const scrollZone = 80;
-    const scrollSpeed = 8;
- 
-    const distanceFromTop = mouseY - rect.top;
-    const distanceFromBottom = rect.bottom - mouseY;
- 
-    let direction = 0;
- 
-    if (distanceFromTop < scrollZone) {
-        direction = -1;
-    } else if (distanceFromBottom < scrollZone) {
-        direction = 1;
-    }
- 
+    const scrollData = getScrollData(event, container);
+    const direction = getScrollDirection(scrollData);
+
     if (direction === 0) {
         stopAutoScroll();
         return;
     }
- 
-    if (autoScrollInterval && autoScrollContainer === container && autoScrollDirection === direction) {
-        return; // already running identically, do nothing
+
+    if (isAutoScrollRunning(container, direction)) {
+        return;
     }
- 
-    stopAutoScroll(); // cleanly stop the old interval (possibly different container/direction)
- 
+
+    startAutoScroll(container, direction);
+}
+
+
+/**
+ * Returns scroll-relevant mouse and container data.
+ *
+ * @param {MouseEvent} event - Current mouse event.
+ * @param {HTMLElement} container - Scrollable container.
+ * @returns {Object} Scroll position data.
+ */
+function getScrollData(event, container) {
+    const rect = container.getBoundingClientRect();
+
+    return {
+        distanceFromTop: event.clientY - rect.top,
+        distanceFromBottom: rect.bottom - event.clientY
+    };
+}
+
+
+/**
+ * Determines the scroll direction.
+ *
+ * @param {Object} scrollData - Scroll position data.
+ * @returns {number} -1, 0 or 1.
+ */
+function getScrollDirection(scrollData) {
+    const scrollZone = 80;
+
+    if (scrollData.distanceFromTop < scrollZone) {
+        return -1;
+    }
+
+    if (scrollData.distanceFromBottom < scrollZone) {
+        return 1;
+    }
+
+    return 0;
+}
+
+
+/**
+ * Checks whether the desired auto-scroll is already active.
+ *
+ * @param {HTMLElement} container - Scrollable container.
+ * @param {number} direction - Scroll direction.
+ * @returns {boolean} True if already running.
+ */
+function isAutoScrollRunning(container, direction) {
+    return autoScrollInterval
+        && autoScrollContainer === container
+        && autoScrollDirection === direction;
+}
+
+
+/**
+ * Starts auto-scrolling for a container.
+ *
+ * @param {HTMLElement} container - Scrollable container.
+ * @param {number} direction - Scroll direction.
+ * @returns {void}
+ */
+function startAutoScroll(container, direction) {
+    const scrollSpeed = 8;
+
+    stopAutoScroll();
+
     autoScrollContainer = container;
     autoScrollDirection = direction;
- 
+
     autoScrollInterval = setInterval(() => {
         container.scrollTop += direction * scrollSpeed;
     }, 16);
@@ -125,6 +169,7 @@ function stopAutoScroll() {
     autoScrollDirection = 0;
 }
  
+
 /**
  * Lazily creates (or returns the existing) drop placeholder element
  * used to visually indicate where a dragged card would land.
@@ -142,134 +187,296 @@ function createPlaceholder() {
  
  
 /**
- * Moves the currently dragged task into the given Kanban column:
- * updates its status, recalculates the drag order of all cards in the
- * target column (based on their current DOM order, with the dragged
- * card's placeholder position substituted in), persists the updated
- * order and, if changed, the new status to the backend, and finally
- * re-renders the board. Does nothing if no task matches
- * "currentDraggedElement".
+ * Moves the dragged task to a new column and updates its order.
  *
- * @param {string} taskCat - DOM ID of the target column
- *                            (e.g. "kanban-to-do"), mapped internally
- *                            to a task status via categoryStatus.
+ * @param {string} taskCat - Target column ID.
  * @returns {Promise<void>}
  */
 async function moveTo(taskCat) {
     stopAutoScroll();
-    const categoryStatus = {
-        'kanban-to-do': 'To do',
-        'kanban-in-progress': 'In progress',
-        'kanban-feedback': 'Await feedback',
-        'kanban-done': 'Done'
-    };
-    const newStatus = categoryStatus[taskCat];
-    const task = tasks.find(task => task.id === currentDraggedElement);
- 
+
+    const task = getDraggedTask();
     if (!task) return;
- 
-    const targetContainer = document.getElementById(taskCat);
-    const oldStatus = task.taskStatus;
- 
-    const cardIds = [...targetContainer.children]
-    .filter(el => el.id !== `card-mini-${currentDraggedElement}`)
-    .map(el => el === placeholder ? currentDraggedElement : el.id?.replace('card-mini-', ''))
-    .filter(Boolean);
- 
+
+    const oldStatus = task.taskStatus;   // ← vorher merken
+    const newStatus = getTaskStatus(taskCat);
+    const cardIds = getTargetCardIds(taskCat);
+
+    applyTaskStatus(task, newStatus);
+
+    await saveTaskChanges(
+        cardIds,
+        oldStatus,   // ← echten alten Wert übergeben
+        newStatus
+    );
+
+    updateTasksforBoard();
+}
+
+
+/**
+ * Returns the currently dragged task.
+ *
+ * @returns {Object|undefined} Dragged task.
+ */
+function getDraggedTask() {
+    return tasks.find(
+        task => task.id === currentDraggedElement
+    );
+}
+
+
+/**
+ * Returns the status for a column ID.
+ *
+ * @param {string} taskCat - Target column ID.
+ * @returns {string} Task status.
+ */
+function getTaskStatus(taskCat) {
+    const categoryStatus = {
+        "kanban-to-do": "To do",
+        "kanban-in-progress": "In progress",
+        "kanban-feedback": "Await feedback",
+        "kanban-done": "Done"
+    };
+
+    return categoryStatus[taskCat];
+}
+
+
+/**
+ * Returns all task IDs in their new order.
+ *
+ * @param {string} taskCat - Target column ID.
+ * @returns {string[]} Ordered task IDs.
+ */
+function getTargetCardIds(taskCat) {
+    const container = document.getElementById(taskCat);
+
+    const cardIds = [...container.children]
+        .filter(el => el.id !== `card-mini-${currentDraggedElement}`)
+        .map(el =>
+            el === placeholder
+                ? currentDraggedElement
+                : el.id?.replace("card-mini-", "")
+        )
+        .filter(Boolean);
+
     if (!cardIds.includes(currentDraggedElement)) {
         cardIds.push(currentDraggedElement);
     }
- 
-    task.taskStatus = newStatus;
- 
-    // reassign dragOrder for all affected tasks in the target column
-    const updates = [];
-    cardIds.forEach((id, index) => {
-        const t = tasks.find(t => t.id === id);
-        if (t) {
-            t.dragOrder = index * 1000;
-            updates.push(saveTaskOrder(id, t.dragOrder));
-        }
-    });
- 
-    if (oldStatus !== newStatus) {
-        updates.push(saveTaskCategory(currentDraggedElement, newStatus));
-    }
- 
+
+    return cardIds;
+}
+
+
+/**
+ * Updates the task status locally.
+ *
+ * @param {Object} task - Task to update.
+ * @param {string} status - New task status.
+ * @returns {void}
+ */
+function applyTaskStatus(task, status) {
+    task.taskStatus = status;
+}
+
+
+/**
+ * Saves the new task order and status.
+ *
+ * @param {string[]} cardIds - Ordered task IDs.
+ * @param {string} oldStatus - Previous status.
+ * @param {string} newStatus - New status.
+ * @returns {Promise<void>}
+ */
+async function saveTaskChanges(
+    cardIds,
+    oldStatus,
+    newStatus
+) {
+    const updates = buildTaskUpdates(
+        cardIds,
+        oldStatus,
+        newStatus
+    );
+
     try {
         await Promise.all(updates);
-    } catch (err) {
-        console.error('Speichern fehlgeschlagen:', err);
+    } catch (error) {
+        console.error(
+            "Speichern fehlgeschlagen:",
+            error
+        );
     }
- 
-    updateTasksforBoard();
+}
+
+
+/**
+ * Creates all backend update requests.
+ *
+ * @param {string[]} cardIds - Ordered task IDs.
+ * @param {string} oldStatus - Previous status.
+ * @param {string} newStatus - New status.
+ * @returns {Promise[]} Update requests.
+ */
+function buildTaskUpdates(
+    cardIds,
+    oldStatus,
+    newStatus
+) {
+    const updates = [];
+
+    cardIds.forEach((id, index) => {
+        const task = tasks.find(task => task.id === id);
+
+        if (!task) return;
+
+        task.dragOrder = index * 1000;
+
+        updates.push(
+            saveTaskOrder(id, task.dragOrder)
+        );
+    });
+
+    if (oldStatus !== newStatus) {
+        updates.push(
+            saveTaskCategory(
+                currentDraggedElement,
+                newStatus
+            )
+        );
+    }
+
+    return updates;
 }
  
  
 /**
- * Shows a drop placeholder inside the given container at the position
- * the dragged card would be inserted, based on the pointer's vertical
- * position relative to the other (non-dragging) cards in that
- * container. Removes the placeholder instead if the computed drop
- * position is the same as the dragged card's current position, or does
- * nothing if the target container or the dragged card cannot be found.
+ * Displays a drop placeholder at the current drag position.
  *
- * @param {string} id - DOM ID of the container currently being dragged
- *                       over.
- * @param {DragEvent} event - The current drag event; event.clientY is
- *                             used to determine the insertion point.
+ * @param {string} id - Target container ID.
+ * @param {DragEvent} event - Current drag event.
  * @returns {void}
  */
 function highlight(id, event) {
-    const target = document.getElementById(id);
- 
-    if (!target) {
-        return;
-    }
- 
-    const draggedCard = document.getElementById(
-        `card-mini-${currentDraggedElement}`
-    );
- 
-    if (!draggedCard) {
-        return;
-    }
- 
-    const cards = [
-        ...target.querySelectorAll('.mini-card:not(.dragging)')
-    ];
- 
-    let insertBeforeCard = null;
- 
-    for (const card of cards) {
-        const rect = card.getBoundingClientRect();
-        const cardMiddle = rect.top + rect.height / 2;
- 
-        if (event.clientY < cardMiddle) {
-            insertBeforeCard = card;
-            break;
-        }
-    }
- 
-    // Target position same as the card's current position? Then don't show a placeholder.
-    const isSameSpot =
-        target === draggedCard.parentElement &&
-        draggedCard.nextElementSibling === insertBeforeCard;
- 
-    if (isSameSpot) {
+    const target = getTargetContainer(id);
+    const draggedCard = getDraggedCard();
+
+    if (!target || !draggedCard) return;
+
+    const insertBeforeCard = getInsertBeforeCard(target, event);
+
+    if (isSameDropPosition(target, draggedCard, insertBeforeCard)) {
         removeHighlight();
         return;
     }
- 
-    const currentPlaceholder = createPlaceholder();
- 
-    if (insertBeforeCard) {
-        target.insertBefore(currentPlaceholder, insertBeforeCard);
-    } else {
-        target.appendChild(currentPlaceholder);
-    }
+
+    insertPlaceholder(target, insertBeforeCard);
 }
- 
+
+
+/**
+ * Returns the target container element.
+ *
+ * @param {string} id - DOM ID of the target container.
+ * @returns {HTMLElement|null} The target container element.
+ */
+function getTargetContainer(id) {
+    return document.getElementById(id);
+}
+
+
+/**
+ * Returns the card currently being dragged.
+ *
+ * @returns {HTMLElement|null} The dragged card element.
+ */
+function getDraggedCard() {
+    return document.getElementById(
+        `card-mini-${currentDraggedElement}`
+    );
+}
+
+
+/**
+ * Determines before which card the placeholder should be inserted.
+ *
+ * @param {HTMLElement} target - Target container element.
+ * @param {DragEvent} event - Current drag event.
+ * @returns {HTMLElement|null} The reference card or null.
+ */
+function getInsertBeforeCard(target, event) {
+    const cards = [
+        ...target.querySelectorAll(".mini-card:not(.dragging)")
+    ];
+
+    for (const card of cards) {
+        if (event.clientY < getCardMiddle(card)) {
+            return card;
+        }
+    }
+
+    return null;
+}
+
+
+/**
+ * Returns the vertical center position of a card.
+ *
+ * @param {HTMLElement} card - Card element.
+ * @returns {number} The card's vertical midpoint.
+ */
+function getCardMiddle(card) {
+    const rect = card.getBoundingClientRect();
+    return rect.top + rect.height / 2;
+}
+
+
+/**
+ * Checks whether the calculated drop position matches the card's
+ * current position.
+ *
+ * @param {HTMLElement} target - Target container element.
+ * @param {HTMLElement} draggedCard - Currently dragged card.
+ * @param {HTMLElement|null} insertBeforeCard - Reference card.
+ * @returns {boolean} True if the drop position is unchanged.
+ */
+function isSameDropPosition(
+    target,
+    draggedCard,
+    insertBeforeCard
+) {
+    return target === draggedCard.parentElement
+        && draggedCard.nextElementSibling === insertBeforeCard;
+}
+
+
+/**
+ * Inserts the placeholder into the target container.
+ *
+ * @param {HTMLElement} target - Target container element.
+ * @param {HTMLElement|null} insertBeforeCard - Card before which the
+ *                                              placeholder should be inserted.
+ * @returns {void}
+ */
+function insertPlaceholder(
+    target,
+    insertBeforeCard
+) {
+    const placeholder = createPlaceholder();
+
+    if (insertBeforeCard) {
+        target.insertBefore(
+            placeholder,
+            insertBeforeCard
+        );
+        return;
+    }
+
+    target.appendChild(placeholder);
+}
+
  
 /**
  * Removes the drop placeholder element from the DOM, if present.
@@ -296,6 +503,7 @@ function closeMobileMoveMenus() {
     });
 }
  
+
 /**
  * Global click listener: closes any open mobile move menu whenever a
  * click occurs anywhere in the document.
@@ -304,6 +512,7 @@ function closeMobileMoveMenus() {
  */
 document.addEventListener("click", closeMobileMoveMenus);
  
+
 /**
  * Definition of the Kanban columns available in the mobile "move task"
  * menu, mapping each task status to its target column DOM ID and
@@ -318,6 +527,7 @@ const moveMenuColumns = [
     { status: 'Done', targetId: 'kanban-done', label: 'Done' }
 ];
  
+
 /**
  * Opens the mobile "move task" menu for a given task: renders one
  * button per Kanban column, excluding the task's current column, then
@@ -344,7 +554,8 @@ function openMobileMoveMenu(id) {
     closeMobileMoveMenus();
     menu.classList.add("show");
 }
- 
+
+
 /**
  * Moves a task to a new column from the mobile "move task" menu:
  * treats the given task as the currently dragged element, closes the

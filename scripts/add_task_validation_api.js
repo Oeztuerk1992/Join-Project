@@ -126,12 +126,146 @@ document.getElementById("task-title")?.addEventListener("input", checkTitleName)
  *
  * @listens HTMLElement#change
  */
-document.getElementById("task-date")?.addEventListener("change", checkDueDate);
+document.getElementById("task-date")?.addEventListener("input", checkDueDate);
  
 /**
  * Live validation listener: re-validates the category field whenever
- * its (hidden) value input changes.
+ * its (hidden) value changes.
  *
  * @listens HTMLElement#input
  */
 document.getElementById("selectedCategory")?.addEventListener("input", checkTaskCategory);
+
+
+// API //
+
+/**
+ * Saves a task to the backend.
+ *
+ * @async
+ * @param {Object} task - The task data to persist.
+ * @returns {Promise<{name: string}>} The generated task ID.
+ */
+async function postTaskData(task) {
+   let response = await fetch(BASE_URL + "tasks.json", {
+       method: "POST",
+       headers: {
+           "Content-Type": "application/json",
+       },
+       body: JSON.stringify(task)
+   });
+
+   return await response.json();
+}
+
+
+/**
+ * Creates a new task from the current form values and persists it
+ * to the backend. After a successful save, a confirmation message
+ * is shown, the form is cleared, and the user is redirected to the
+ * board.
+ *
+ * @param {string} column - The Kanban column the new task belongs to.
+ * @returns {Promise<void>}
+ */
+async function createTask(column) {
+    const taskData = {
+        title: titleForm.value,
+        description: descriptionForm.value,
+        dueDate: dateForm.value,
+        priority: getPriority(),
+        assignedTo: getAssignedUsers(),
+        category: categoryForm.value,
+        subtasks: getSubtasks(subtasksForm),
+        taskStatus: column || "To do",
+        dragOrder: Date.now()
+    };
+
+    try {
+        await postTaskData(taskData);
+        showConfirmation();
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        clearForm();
+        getToBoard();
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+
+/**
+* Reads which priority button is currently active in the add-task
+* form.
+*
+* @returns {string} The text of the active priority button's label,
+*                    or an empty string if none is active.
+*/
+function getPriority() {
+   const container = document.getElementById('button-prio-form');
+   const activePriority = container?.querySelector('.priority.active');
+
+   return activePriority
+       ? activePriority.querySelector('span').innerText
+       : '';
+}
+
+
+/**
+* Reads the currently selected contacts out of the add-task
+* assignment dropdown.
+*
+* @returns {Array<{id: string, name: string, color: string}>} The
+*          selected contacts.
+*/
+function getAssignedUsers() {
+   const assignedContacts = [];
+   const selectedContacts = document.querySelectorAll('#dropdownMenu .dropdown-item.selected');
+
+   selectedContacts.forEach(contact => {
+       const circle = contact.querySelector('.contact-circle');
+       const nameElement = contact.querySelector('.contact-name');
+
+       assignedContacts.push({
+           id: contact.dataset.id,
+           name: nameElement.textContent,
+           color: circle.style.cssText
+       });
+   });
+   return assignedContacts;
+}
+
+
+/**
+* Reads the current subtasks out of a given subtask list container
+* for a newly created task, setting each one's status to "open".
+*
+* @param {HTMLElement} taskContainer - Container holding the subtask
+*                                       list items (".li-subtask").
+* @returns {Array<{title: string, status: string}>} The subtasks,
+*          each with status "open".
+*/
+function getSubtasks(taskContainer) {
+   const subtasks = [];
+   const taskItems = taskContainer.querySelectorAll('.li-subtask');
+
+   taskItems.forEach(task => {
+       subtasks.push({
+           title: task.textContent.trim(),
+           status: 'open'
+       });
+   });
+   return subtasks;
+}
+
+
+/**
+* Loads all contacts from the backend into the global "contacts"
+* variable (as an object keyed by contact ID), or an empty object if
+* the backend has no data.
+*
+* @returns {Promise<void>}
+*/
+async function loadContacts() {
+   const response = await fetch(BASE_URL + "contacts.json");
+   contacts = await response.json() || {};
+}

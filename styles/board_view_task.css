@@ -494,3 +494,99 @@ input[type="checkbox"]:checked {
             height: 640px !important;
         }
 }
+
+@media (min-width: 993px) and (max-width: 1439px) and (max-height: 945px) {
+    .view-task-overlay {
+        min-height: 550px;
+        max-height: 580px;
+
+        max-width: 396px;
+        width: 90%;
+    }
+    .scroll-wrapper-task {
+        width: 95%;
+    }
+    .title-task-view {
+        font-size: 36px;
+    }
+    .description-task-view {
+        font-size: 16px;
+    }
+    .card-label-view {
+        width: 140px;
+        height: 28px;
+    }
+    .category-technical-task {
+        padding: 4px 8px 4px 8px;
+    }
+    .card-label-view div {
+        font-size: 16px;
+    }
+    .frame-view-task span {
+        font-size: 16px;
+    }
+    .due-date {
+        font-size: 16px;
+    }
+    .name-to-badge {
+        font-size: 16px;
+    }
+    .edit-task-overlay {
+        min-height: 550px;
+        max-height: 580px;
+
+        max-width: 396px;
+        width: 90%!important;
+    }
+    .edit-task-overlay .scroll-wrapper {
+        width: 97%;
+        height: 420px;
+    }
+    .edit-task-overlay .form-for-edit-task {
+        width: 100%;
+    }
+    .btn-prio-in-edit-mode .btn-prio-edit {
+        max-width: 100px;
+        height: 44px;
+    }
+    .scroll-wrapper .frame-view-edit-task {
+        padding: 0px 20px 0px 20px;
+    }
+    .set-up-prio-in-edit-mode button {
+        gap: 0px;
+    }
+    .set-up-prio-in-edit-mode img {
+        width: 20px;
+    }
+    .form-for-edit-task label {
+        font-size: 16px;
+    }
+    .set-up-prio-in-edit-mode span{
+        font-size: 16px;
+    }
+    .contact-names-overlay {
+        max-width: 200px;
+    }
+    .edit-task-overlay .priority {
+        gap: 0px;
+        flex-direction: column;
+    }
+    .edit-task-overlay .priority span {
+        padding-top: 10px;
+    }
+    .contact-info .contact-name {
+        max-width: 200px;
+    }
+    .view-task-overlay .edit-btn {
+        padding: 20px 40px 20px 40px;
+    }
+    .view-task-overlay .header-view-task {
+        padding: 20px 40px 0 40px;
+    }
+    .edit-task-overlay .header-form {
+        padding: 20px 40px 0px 40px;
+    }
+    .edit-task-overlay .footer-edit-overlay {
+        bottom: 20px;
+    }
+}

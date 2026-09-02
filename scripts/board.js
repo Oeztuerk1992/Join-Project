@@ -5,9 +5,10 @@ let autoScrollInterval = null;
 let currentDraggedElement;
 let autoScrollContainer = null;
 let autoScrollDirection = 0;
- 
+
 let tasks = [];
  
+
 /**
  * Maps each task status to its corresponding Kanban column element in
  * the DOM.
@@ -136,7 +137,6 @@ function getImgPrio(priority) {
  */
 function getAssignedContactBadges(assignments = [], limit = null) {
     const visible = limit ? assignments.slice(0, limit) : assignments;
- 
     const badgesHTML = visible.map(contact => {
  
         if (!contact?.name) {
@@ -145,7 +145,6 @@ function getAssignedContactBadges(assignments = [], limit = null) {
         }
  
         const parts = contact.name.trim().split(' ');
- 
         const initials =
             (parts[0]?.[0] || '').toUpperCase() +
             (parts.length > 1
@@ -153,16 +152,14 @@ function getAssignedContactBadges(assignments = [], limit = null) {
                 : '');
  
         return generateBadgesHTML(contact.color, initials);
- 
     }).join('');
- 
     const remaining = limit ? assignments.length - limit : 0;
- 
     return remaining > 0
         ? badgesHTML + `<div class="user-abbr user-abbr-more">+${remaining}</div>`
         : badgesHTML;
 }
  
+
 /**
  * Builds full-row markup (badge + full name) for each assigned
  * contact, e.g. for use in the task detail overlay. Contacts without a
@@ -181,7 +178,6 @@ function getAssignedContactRows(assignments = []) {
         }
  
         const parts = contact.name.trim().split(' ');
- 
         const initials =
             (parts[0]?.[0] || '').toUpperCase() +
             (parts.length > 1
@@ -521,10 +517,8 @@ function openAddTaskOverlay(column) {
     }
     
     const dialog = document.getElementById("add-task-overlay");
- 
     dialog.classList.remove('modal-enter');
     dialog.classList.remove('modal-exit');
- 
     dialog.showModal();
  
     requestAnimationFrame(() => {

@@ -247,3 +247,13 @@
 .nav-user.open-animation button {
     pointer-events: auto;
 }
+
+@media (max-height: 945px) {
+
+    .sidebar-top {
+        gap: 45px;
+    }
+    .footer-flex-grow {
+        min-height: 30px;
+    }
+}

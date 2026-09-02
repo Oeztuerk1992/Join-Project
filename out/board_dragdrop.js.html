@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: board_dragdrop.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: board_dragdrop.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Starts dragging a task card: stores its ID in the global
+ * "currentDraggedElement" and adds the "dragging" class to the
+ * corresponding mini card.
+ *
+ * @param {string|number} id - ID of the task being dragged.
+ * @returns {void}
+ */
+function startDragging(id) {
+    currentDraggedElement = id;
+ 
+    const card = document.getElementById(`card-mini-${id}`);
+ 
+    if (card) {
+        card.classList.add('dragging');
+    }
+}
+ 
+ 
+/**
+ * Ends dragging a task card: removes the "dragging" class from the
+ * corresponding mini card, removes the drop placeholder, stops any
+ * active auto-scroll, and clears "currentDraggedElement".
+ *
+ * @param {string|number} id - ID of the task that was being dragged.
+ * @returns {void}
+ */
+function endDragging(id) {
+    const card = document.getElementById(`card-mini-${id}`);
+ 
+    if (card) {
+        card.classList.remove('dragging');
+    }
+ 
+    removeHighlight();
+    stopAutoScroll();
+ 
+    currentDraggedElement = null;
+}
+ 
+ 
+/**
+ * Drag-over handler for a droppable column: prevents the default
+ * behavior (which would block dropping) and triggers auto-scroll
+ * handling for that column based on the current pointer position.
+ *
+ * @param {DragEvent} event - The dragover event; event.currentTarget is
+ *                             the scrollable column container.
+ * @returns {void}
+ */
+function allowDrop(event) {
+    event.preventDefault();
+ 
+    const scrollContainer = event.currentTarget;
+ 
+    handleAutoScroll(event, scrollContainer);
+}
+ 
+ 
+/**
+ * Automatically scrolls a container while dragging near its edges.
+ *
+ * @param {MouseEvent} event - Current mouse event.
+ * @param {HTMLElement} container - Scrollable container.
+ * @returns {void}
+ */
+function handleAutoScroll(event, container) {
+    const scrollData = getScrollData(event, container);
+    const direction = getScrollDirection(scrollData);
+
+    if (direction === 0) {
+        stopAutoScroll();
+        return;
+    }
+
+    if (isAutoScrollRunning(container, direction)) {
+        return;
+    }
+
+    startAutoScroll(container, direction);
+}
+
+
+/**
+ * Returns scroll-relevant mouse and container data.
+ *
+ * @param {MouseEvent} event - Current mouse event.
+ * @param {HTMLElement} container - Scrollable container.
+ * @returns {Object} Scroll position data.
+ */
+function getScrollData(event, container) {
+    const rect = container.getBoundingClientRect();
+
+    return {
+        distanceFromTop: event.clientY - rect.top,
+        distanceFromBottom: rect.bottom - event.clientY
+    };
+}
+
+
+/**
+ * Determines the scroll direction.
+ *
+ * @param {Object} scrollData - Scroll position data.
+ * @returns {number} -1, 0 or 1.
+ */
+function getScrollDirection(scrollData) {
+    const scrollZone = 80;
+
+    if (scrollData.distanceFromTop &lt; scrollZone) {
+        return -1;
+    }
+
+    if (scrollData.distanceFromBottom &lt; scrollZone) {
+        return 1;
+    }
+
+    return 0;
+}
+
+
+/**
+ * Checks whether the desired auto-scroll is already active.
+ *
+ * @param {HTMLElement} container - Scrollable container.
+ * @param {number} direction - Scroll direction.
+ * @returns {boolean} True if already running.
+ */
+function isAutoScrollRunning(container, direction) {
+    return autoScrollInterval
+        &amp;&amp; autoScrollContainer === container
+        &amp;&amp; autoScrollDirection === direction;
+}
+
+
+/**
+ * Starts auto-scrolling for a container.
+ *
+ * @param {HTMLElement} container - Scrollable container.
+ * @param {number} direction - Scroll direction.
+ * @returns {void}
+ */
+function startAutoScroll(container, direction) {
+    const scrollSpeed = 8;
+
+    stopAutoScroll();
+
+    autoScrollContainer = container;
+    autoScrollDirection = direction;
+
+    autoScrollInterval = setInterval(() => {
+        container.scrollTop += direction * scrollSpeed;
+    }, 16);
+}
+ 
+ 
+/**
+ * Stops any currently running auto-scroll interval and resets the
+ * related auto-scroll state (container and direction).
+ *
+ * @returns {void}
+ */
+function stopAutoScroll() {
+    if (autoScrollInterval) {
+        clearInterval(autoScrollInterval);
+        autoScrollInterval = null;
+    }
+    autoScrollContainer = null;
+    autoScrollDirection = 0;
+}
+ 
+
+/**
+ * Lazily creates (or returns the existing) drop placeholder element
+ * used to visually indicate where a dragged card would land.
+ *
+ * @returns {HTMLElement} The placeholder element (global "placeholder").
+ */
+function createPlaceholder() {
+    if (!placeholder) {
+        placeholder = document.createElement('div');
+        placeholder.classList.add('drag-area-highlight');
+    }
+ 
+    return placeholder;
+}
+ 
+ 
+/**
+ * Moves the dragged task to a new column and updates its order.
+ *
+ * @param {string} taskCat - Target column ID.
+ * @returns {Promise&lt;void>}
+ */
+async function moveTo(taskCat) {
+    stopAutoScroll();
+
+    const task = getDraggedTask();
+    if (!task) return;
+
+    const oldStatus = task.taskStatus;   // ← vorher merken
+    const newStatus = getTaskStatus(taskCat);
+    const cardIds = getTargetCardIds(taskCat);
+
+    applyTaskStatus(task, newStatus);
+
+    await saveTaskChanges(
+        cardIds,
+        oldStatus,   // ← echten alten Wert übergeben
+        newStatus
+    );
+
+    updateTasksforBoard();
+}
+
+
+/**
+ * Returns the currently dragged task.
+ *
+ * @returns {Object|undefined} Dragged task.
+ */
+function getDraggedTask() {
+    return tasks.find(
+        task => task.id === currentDraggedElement
+    );
+}
+
+
+/**
+ * Returns the status for a column ID.
+ *
+ * @param {string} taskCat - Target column ID.
+ * @returns {string} Task status.
+ */
+function getTaskStatus(taskCat) {
+    const categoryStatus = {
+        "kanban-to-do": "To do",
+        "kanban-in-progress": "In progress",
+        "kanban-feedback": "Await feedback",
+        "kanban-done": "Done"
+    };
+
+    return categoryStatus[taskCat];
+}
+
+
+/**
+ * Returns all task IDs in their new order.
+ *
+ * @param {string} taskCat - Target column ID.
+ * @returns {string[]} Ordered task IDs.
+ */
+function getTargetCardIds(taskCat) {
+    const container = document.getElementById(taskCat);
+
+    const cardIds = [...container.children]
+        .filter(el => el.id !== `card-mini-${currentDraggedElement}`)
+        .map(el =>
+            el === placeholder
+                ? currentDraggedElement
+                : el.id?.replace("card-mini-", "")
+        )
+        .filter(Boolean);
+
+    if (!cardIds.includes(currentDraggedElement)) {
+        cardIds.push(currentDraggedElement);
+    }
+
+    return cardIds;
+}
+
+
+/**
+ * Updates the task status locally.
+ *
+ * @param {Object} task - Task to update.
+ * @param {string} status - New task status.
+ * @returns {void}
+ */
+function applyTaskStatus(task, status) {
+    task.taskStatus = status;
+}
+
+
+/**
+ * Saves the new task order and status.
+ *
+ * @param {string[]} cardIds - Ordered task IDs.
+ * @param {string} oldStatus - Previous status.
+ * @param {string} newStatus - New status.
+ * @returns {Promise&lt;void>}
+ */
+async function saveTaskChanges(
+    cardIds,
+    oldStatus,
+    newStatus
+) {
+    const updates = buildTaskUpdates(
+        cardIds,
+        oldStatus,
+        newStatus
+    );
+
+    try {
+        await Promise.all(updates);
+    } catch (error) {
+        console.error(
+            "Speichern fehlgeschlagen:",
+            error
+        );
+    }
+}
+
+
+/**
+ * Creates all backend update requests.
+ *
+ * @param {string[]} cardIds - Ordered task IDs.
+ * @param {string} oldStatus - Previous status.
+ * @param {string} newStatus - New status.
+ * @returns {Promise[]} Update requests.
+ */
+function buildTaskUpdates(
+    cardIds,
+    oldStatus,
+    newStatus
+) {
+    const updates = [];
+
+    cardIds.forEach((id, index) => {
+        const task = tasks.find(task => task.id === id);
+
+        if (!task) return;
+
+        task.dragOrder = index * 1000;
+
+        updates.push(
+            saveTaskOrder(id, task.dragOrder)
+        );
+    });
+
+    if (oldStatus !== newStatus) {
+        updates.push(
+            saveTaskCategory(
+                currentDraggedElement,
+                newStatus
+            )
+        );
+    }
+
+    return updates;
+}
+ 
+ 
+/**
+ * Displays a drop placeholder at the current drag position.
+ *
+ * @param {string} id - Target container ID.
+ * @param {DragEvent} event - Current drag event.
+ * @returns {void}
+ */
+function highlight(id, event) {
+    const target = getTargetContainer(id);
+    const draggedCard = getDraggedCard();
+
+    if (!target || !draggedCard) return;
+
+    const insertBeforeCard = getInsertBeforeCard(target, event);
+
+    if (isSameDropPosition(target, draggedCard, insertBeforeCard)) {
+        removeHighlight();
+        return;
+    }
+
+    insertPlaceholder(target, insertBeforeCard);
+}
+
+
+/**
+ * Returns the target container element.
+ *
+ * @param {string} id - DOM ID of the target container.
+ * @returns {HTMLElement|null} The target container element.
+ */
+function getTargetContainer(id) {
+    return document.getElementById(id);
+}
+
+
+/**
+ * Returns the card currently being dragged.
+ *
+ * @returns {HTMLElement|null} The dragged card element.
+ */
+function getDraggedCard() {
+    return document.getElementById(
+        `card-mini-${currentDraggedElement}`
+    );
+}
+
+
+/**
+ * Determines before which card the placeholder should be inserted.
+ *
+ * @param {HTMLElement} target - Target container element.
+ * @param {DragEvent} event - Current drag event.
+ * @returns {HTMLElement|null} The reference card or null.
+ */
+function getInsertBeforeCard(target, event) {
+    const cards = [
+        ...target.querySelectorAll(".mini-card:not(.dragging)")
+    ];
+
+    for (const card of cards) {
+        if (event.clientY &lt; getCardMiddle(card)) {
+            return card;
+        }
+    }
+
+    return null;
+}
+
+
+/**
+ * Returns the vertical center position of a card.
+ *
+ * @param {HTMLElement} card - Card element.
+ * @returns {number} The card's vertical midpoint.
+ */
+function getCardMiddle(card) {
+    const rect = card.getBoundingClientRect();
+    return rect.top + rect.height / 2;
+}
+
+
+/**
+ * Checks whether the calculated drop position matches the card's
+ * current position.
+ *
+ * @param {HTMLElement} target - Target container element.
+ * @param {HTMLElement} draggedCard - Currently dragged card.
+ * @param {HTMLElement|null} insertBeforeCard - Reference card.
+ * @returns {boolean} True if the drop position is unchanged.
+ */
+function isSameDropPosition(
+    target,
+    draggedCard,
+    insertBeforeCard
+) {
+    return target === draggedCard.parentElement
+        &amp;&amp; draggedCard.nextElementSibling === insertBeforeCard;
+}
+
+
+/**
+ * Inserts the placeholder into the target container.
+ *
+ * @param {HTMLElement} target - Target container element.
+ * @param {HTMLElement|null} insertBeforeCard - Card before which the
+ *                                              placeholder should be inserted.
+ * @returns {void}
+ */
+function insertPlaceholder(
+    target,
+    insertBeforeCard
+) {
+    const placeholder = createPlaceholder();
+
+    if (insertBeforeCard) {
+        target.insertBefore(
+            placeholder,
+            insertBeforeCard
+        );
+        return;
+    }
+
+    target.appendChild(placeholder);
+}
+
+ 
+/**
+ * Removes the drop placeholder element from the DOM, if present.
+ *
+ * @returns {void}
+ */
+function removeHighlight() {
+    if (placeholder) {
+        placeholder.remove();
+    }
+}
+ 
+// functions for mobile move menu //
+ 
+/**
+ * Closes every open mobile "move task" menu on the page by removing
+ * the "show" class from all ".move-menu" elements.
+ *
+ * @returns {void}
+ */
+function closeMobileMoveMenus() {
+    document.querySelectorAll(".move-menu").forEach(menu => {
+        menu.classList.remove("show");
+    });
+}
+ 
+
+/**
+ * Global click listener: closes any open mobile move menu whenever a
+ * click occurs anywhere in the document.
+ *
+ * @listens document#click
+ */
+document.addEventListener("click", closeMobileMoveMenus);
+ 
+
+/**
+ * Definition of the Kanban columns available in the mobile "move task"
+ * menu, mapping each task status to its target column DOM ID and
+ * display label.
+ *
+ * @type {Array&lt;{status: string, targetId: string, label: string}>}
+ */
+const moveMenuColumns = [
+    { status: 'To do', targetId: 'kanban-to-do', label: 'To-do' },
+    { status: 'In progress', targetId: 'kanban-in-progress', label: 'Progress' },
+    { status: 'Await feedback', targetId: 'kanban-feedback', label: 'Review' },
+    { status: 'Done', targetId: 'kanban-done', label: 'Done' }
+];
+ 
+
+/**
+ * Opens the mobile "move task" menu for a given task: renders one
+ * button per Kanban column, excluding the task's current column, then
+ * closes any other open move menus and shows this one.
+ *
+ * @param {string|number} id - ID of the task the menu belongs to; used
+ *                              to find its `move-menu-{id}` element and
+ *                              its current status.
+ * @returns {void}
+ */
+function openMobileMoveMenu(id) {
+    const menu = document.getElementById(`move-menu-${id}`);
+    const task = tasks.find(task => task.id === id);
+ 
+    const scrollContainer = menu.querySelector('.scroll-move-menu');
+    scrollContainer.innerHTML = moveMenuColumns
+        .filter(col => col.status !== task.taskStatus)
+        .map(col => `
+            &lt;button onclick="moveTaskMobile('${id}', '${col.targetId}')">
+                ${col.label}
+            &lt;/button>
+        `).join('');
+ 
+    closeMobileMoveMenus();
+    menu.classList.add("show");
+}
+
+
+/**
+ * Moves a task to a new column from the mobile "move task" menu:
+ * treats the given task as the currently dragged element, closes the
+ * move menus, and delegates the actual move to moveTo().
+ *
+ * @param {string|number} id - ID of the task to move.
+ * @param {string} taskCat - DOM ID of the target column (see
+ *                            moveMenuColumns / moveTo()).
+ * @returns {Promise&lt;void>}
+ */
+async function moveTaskMobile(id, taskCat) {
+    currentDraggedElement = id;
+ 
+    closeMobileMoveMenus();
+    await moveTo(taskCat);
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#addSelectedContact">addSelectedContact</a></li><li><a href="global.html#allowDrop">allowDrop</a></li><li><a href="global.html#animateContactPanel">animateContactPanel</a></li><li><a href="global.html#appendCurrentContact">appendCurrentContact</a></li><li><a href="global.html#applyGreeting">applyGreeting</a></li><li><a href="global.html#applyTaskStatus">applyTaskStatus</a></li><li><a href="global.html#buildContact">buildContact</a></li><li><a href="global.html#buildContactHtml">buildContactHtml</a></li><li><a href="global.html#buildTaskUpdates">buildTaskUpdates</a></li><li><a href="global.html#buildUpdatedUser">buildUpdatedUser</a></li><li><a href="global.html#canShowContact">canShowContact</a></li><li><a href="global.html#capitalizeName">capitalizeName</a></li><li><a href="global.html#checkAfterUpdateContact">checkAfterUpdateContact</a></li><li><a href="global.html#checkCurrentLogin">checkCurrentLogin</a></li><li><a href="global.html#checkDataLogin">checkDataLogin</a></li><li><a href="global.html#checkDueDate">checkDueDate</a></li><li><a href="global.html#checkEditDueDate">checkEditDueDate</a></li><li><a href="global.html#checkEditTitleName">checkEditTitleName</a></li><li><a href="global.html#checkForHeader">checkForHeader</a></li><li><a href="global.html#checkForSidebar">checkForSidebar</a></li><li><a href="global.html#checkFormDataAddTask">checkFormDataAddTask</a></li><li><a href="global.html#checkFormDataContactOverlay">checkFormDataContactOverlay</a></li><li><a href="global.html#checkFormDataEditOverlay">checkFormDataEditOverlay</a></li><li><a href="global.html#checkFormDataLogin">checkFormDataLogin</a></li><li><a href="global.html#checkFormDataSignup">checkFormDataSignup</a></li><li><a href="global.html#checkPrivacyPolicy">checkPrivacyPolicy</a></li><li><a href="global.html#checkTaskCategory">checkTaskCategory</a></li><li><a href="global.html#checkTitleName">checkTitleName</a></li><li><a href="global.html#checkUserMail">checkUserMail</a></li><li><a href="global.html#checkUserMailContact">checkUserMailContact</a></li><li><a href="global.html#checkUserName">checkUserName</a></li><li><a href="global.html#checkUserNameContact">checkUserNameContact</a></li><li><a href="global.html#checkUserPhone">checkUserPhone</a></li><li><a href="global.html#checkUserPw">checkUserPw</a></li><li><a href="global.html#checkUserPwConfirm">checkUserPwConfirm</a></li><li><a href="global.html#clearForm">clearForm</a></li><li><a href="global.html#clearInputs">clearInputs</a></li><li><a href="global.html#clearValidationRemarks">clearValidationRemarks</a></li><li><a href="global.html#closeAddTaskOverlay">closeAddTaskOverlay</a></li><li><a href="global.html#closeContactEditOverlay">closeContactEditOverlay</a></li><li><a href="global.html#closeEditOverlay">closeEditOverlay</a></li><li><a href="global.html#closeEditOverlayNoAnimation">closeEditOverlayNoAnimation</a></li><li><a href="global.html#closeEditSubtask">closeEditSubtask</a></li><li><a href="global.html#closeMobileMenuContacts">closeMobileMenuContacts</a></li><li><a href="global.html#closeMobileMoveMenus">closeMobileMoveMenus</a></li><li><a href="global.html#closeOverlay">closeOverlay</a></li><li><a href="global.html#closeTaskOverlay">closeTaskOverlay</a></li><li><a href="global.html#closeTaskOverlayNoAnimation">closeTaskOverlayNoAnimation</a></li><li><a href="global.html#closeUserMenu">closeUserMenu</a></li><li><a href="global.html#columns">columns</a></li><li><a href="global.html#contactEmailExists">contactEmailExists</a></li><li><a href="global.html#createContact">createContact</a></li><li><a href="global.html#createContactDetailTemplate">createContactDetailTemplate</a></li><li><a href="global.html#createContactFromUser">createContactFromUser</a></li><li><a href="global.html#createContactTemplate">createContactTemplate</a></li><li><a href="global.html#createLetterTemplate">createLetterTemplate</a></li><li><a href="global.html#createPlaceholder">createPlaceholder</a></li><li><a href="global.html#createTask">createTask</a></li><li><a href="global.html#deleteContact">deleteContact</a></li><li><a href="global.html#deleteContactFromFirebase">deleteContactFromFirebase</a></li><li><a href="global.html#deleteSubtask">deleteSubtask</a></li><li><a href="global.html#deleteTask">deleteTask</a></li><li><a href="global.html#editSubtask">editSubtask</a></li><li><a href="global.html#emailAlreadyExists">emailAlreadyExists</a></li><li><a href="global.html#emailAlreadyExistsContact">emailAlreadyExistsContact</a></li><li><a href="global.html#endDragging">endDragging</a></li><li><a href="global.html#fillContactsList">fillContactsList</a></li><li><a href="global.html#filterAndShowCurrentContacts">filterAndShowCurrentContacts</a></li><li><a href="global.html#filterAndShowCurrentTask">filterAndShowCurrentTask</a></li><li><a href="global.html#findLinkedUser">findLinkedUser</a></li><li><a href="global.html#focusNewContact">focusNewContact</a></li><li><a href="global.html#formatPhoneNumber">formatPhoneNumber</a></li><li><a href="global.html#generateBadgesHTML">generateBadgesHTML</a></li><li><a href="global.html#generateContactBadgeHTML">generateContactBadgeHTML</a></li><li><a href="global.html#generateContactListHTML">generateContactListHTML</a></li><li><a href="global.html#generateContactYourProfileHTML">generateContactYourProfileHTML</a></li><li><a href="global.html#generateEditOverlayHTML">generateEditOverlayHTML</a></li><li><a href="global.html#generateEmptyCardHTML">generateEmptyCardHTML</a></li><li><a href="global.html#generateEmptyContactListHTML">generateEmptyContactListHTML</a></li><li><a href="global.html#generateImgPrioHighHTML">generateImgPrioHighHTML</a></li><li><a href="global.html#generateImgPrioLowHTML">generateImgPrioLowHTML</a></li><li><a href="global.html#generateImgPrioMediumHTML">generateImgPrioMediumHTML</a></li><li><a href="global.html#generateInnerHTMLEditSubtask">generateInnerHTMLEditSubtask</a></li><li><a href="global.html#generateInnerHTMLSaveSubtask">generateInnerHTMLSaveSubtask</a></li><li><a href="global.html#generateItemSubtaskHTML">generateItemSubtaskHTML</a></li><li><a href="global.html#generateNoContactsHTML">generateNoContactsHTML</a></li><li><a href="global.html#generateOuterHTMLEditSubtask">generateOuterHTMLEditSubtask</a></li><li><a href="global.html#generateOuterHTMLSaveSubtask">generateOuterHTMLSaveSubtask</a></li><li><a href="global.html#generateSubtaskEditHTML">generateSubtaskEditHTML</a></li><li><a href="global.html#generateSubtaskHTML">generateSubtaskHTML</a></li><li><a href="global.html#generateTaskCategoryTechnicalTaskHTML">generateTaskCategoryTechnicalTaskHTML</a></li><li><a href="global.html#generateTaskCategoryUserStoryHTML">generateTaskCategoryUserStoryHTML</a></li><li><a href="global.html#generateTaskMiniCardHTML">generateTaskMiniCardHTML</a></li><li><a href="global.html#generateTaskOverlayHTML">generateTaskOverlayHTML</a></li><li><a href="global.html#generateUserNamesHTML">generateUserNamesHTML</a></li><li><a href="global.html#generateYourProfileBadgeHTML">generateYourProfileBadgeHTML</a></li><li><a href="global.html#getAllUsers">getAllUsers</a></li><li><a href="global.html#getAssignedContactBadges">getAssignedContactBadges</a></li><li><a href="global.html#getAssignedContactRows">getAssignedContactRows</a></li><li><a href="global.html#getAssignedContacts">getAssignedContacts</a></li><li><a href="global.html#getAssignedUsers">getAssignedUsers</a></li><li><a href="global.html#getCardMiddle">getCardMiddle</a></li><li><a href="global.html#getCheckbox">getCheckbox</a></li><li><a href="global.html#getContactBadges">getContactBadges</a></li><li><a href="global.html#getCurrentContactEntry">getCurrentContactEntry</a></li><li><a href="global.html#getCurrentContactId">getCurrentContactId</a></li><li><a href="global.html#getDateFormat">getDateFormat</a></li><li><a href="global.html#getDateUrgentTasks">getDateUrgentTasks</a></li><li><a href="global.html#getDraggedCard">getDraggedCard</a></li><li><a href="global.html#getDraggedTask">getDraggedTask</a></li><li><a href="global.html#getDropdownItem">getDropdownItem</a></li><li><a href="global.html#getEditOverlay">getEditOverlay</a></li><li><a href="global.html#getEnteredEmail">getEnteredEmail</a></li><li><a href="global.html#getFirstName">getFirstName</a></li><li><a href="global.html#getFormRefs">getFormRefs</a></li><li><a href="global.html#getFormRefsForTemplate">getFormRefsForTemplate</a></li><li><a href="global.html#getFormatDateSummary">getFormatDateSummary</a></li><li><a href="global.html#getGreetingText">getGreetingText</a></li><li><a href="global.html#getImgPrio">getImgPrio</a></li><li><a href="global.html#getInfoBoard">getInfoBoard</a></li><li><a href="global.html#getInitials">getInitials</a></li><li><a href="global.html#getInsertBeforeCard">getInsertBeforeCard</a></li><li><a href="global.html#getLastName">getLastName</a></li><li><a href="global.html#getLoginModal">getLoginModal</a></li><li><a href="global.html#getMobileAnimation">getMobileAnimation</a></li><li><a href="global.html#getPriority">getPriority</a></li><li><a href="global.html#getRandomColor">getRandomColor</a></li><li><a href="global.html#getScrollData">getScrollData</a></li><li><a href="global.html#getScrollDirection">getScrollDirection</a></li><li><a href="global.html#getSelectedPriority">getSelectedPriority</a></li><li><a href="global.html#getSignupModal">getSignupModal</a></li><li><a href="global.html#getSortedContacts">getSortedContacts</a></li><li><a href="global.html#getStatusSubtasks">getStatusSubtasks</a></li><li><a href="global.html#getSubtaskProgress">getSubtaskProgress</a></li><li><a href="global.html#getSubtasks">getSubtasks</a></li><li><a href="global.html#getSubtasksEditOverlay">getSubtasksEditOverlay</a></li><li><a href="global.html#getSubtasksOverlay">getSubtasksOverlay</a></li><li><a href="global.html#getSumAwaitFeedback">getSumAwaitFeedback</a></li><li><a href="global.html#getSumDone">getSumDone</a></li><li><a href="global.html#getSumInProgress">getSumInProgress</a></li><li><a href="global.html#getSumTasksBoard">getSumTasksBoard</a></li><li><a href="global.html#getSumToDo">getSumToDo</a></li><li><a href="global.html#getTargetCardIds">getTargetCardIds</a></li><li><a href="global.html#getTargetContainer">getTargetContainer</a></li><li><a href="global.html#getTaskCategory">getTaskCategory</a></li><li><a href="global.html#getTaskStatus">getTaskStatus</a></li><li><a href="global.html#getTasksForDeadline">getTasksForDeadline</a></li><li><a href="global.html#getToBoard">getToBoard</a></li><li><a href="global.html#getToSummary">getToSummary</a></li><li><a href="global.html#getUpdatedSubtasks">getUpdatedSubtasks</a></li><li><a href="global.html#getUserGreeting">getUserGreeting</a></li><li><a href="global.html#getUserProfile">getUserProfile</a></li><li><a href="global.html#goBack">goBack</a></li><li><a href="global.html#goBackContacts">goBackContacts</a></li><li><a href="global.html#handleAutoScroll">handleAutoScroll</a></li><li><a href="global.html#hasNoContacts">hasNoContacts</a></li><li><a href="global.html#hasSplashElements">hasSplashElements</a></li><li><a href="global.html#hasValidSignupInputs">hasValidSignupInputs</a></li><li><a href="global.html#hideContactOverlay">hideContactOverlay</a></li><li><a href="global.html#hideEmailError">hideEmailError</a></li><li><a href="global.html#highlight">highlight</a></li><li><a href="global.html#initAddTask">initAddTask</a></li><li><a href="global.html#initBoard">initBoard</a></li><li><a href="global.html#initContacts">initContacts</a></li><li><a href="global.html#initDeclarations">initDeclarations</a></li><li><a href="global.html#initLogin">initLogin</a></li><li><a href="global.html#initMobileGreetingSplash">initMobileGreetingSplash</a></li><li><a href="global.html#initScrollbar">initScrollbar</a></li><li><a href="global.html#initSplashScreen">initSplashScreen</a></li><li><a href="global.html#initSummary">initSummary</a></li><li><a href="global.html#insertPlaceholder">insertPlaceholder</a></li><li><a href="global.html#isAutoScrollRunning">isAutoScrollRunning</a></li><li><a href="global.html#isCurrentUserContact">isCurrentUserContact</a></li><li><a href="global.html#isSameDropPosition">isSameDropPosition</a></li><li><a href="global.html#loadContacts">loadContacts</a></li><li><a href="global.html#loadContactsFromFirebase">loadContactsFromFirebase</a></li><li><a href="global.html#loadTasks">loadTasks</a></li><li><a href="global.html#loadUsers">loadUsers</a></li><li><a href="global.html#logInGuest">logInGuest</a></li><li><a href="global.html#logout">logout</a></li><li><a href="global.html#matchesFilter">matchesFilter</a></li><li><a href="global.html#moveMenuColumns">moveMenuColumns</a></li><li><a href="global.html#moveTaskMobile">moveTaskMobile</a></li><li><a href="global.html#moveTo">moveTo</a></li><li><a href="global.html#movingLogoToPos">movingLogoToPos</a></li><li><a href="global.html#onloadUsers">onloadUsers</a></li><li><a href="global.html#openAddTaskOverlay">openAddTaskOverlay</a></li><li><a href="global.html#openEditOverlay">openEditOverlay</a></li><li><a href="global.html#openMobileMenuContacts">openMobileMenuContacts</a></li><li><a href="global.html#openMobileMoveMenu">openMobileMoveMenu</a></li><li><a href="global.html#openOverlay">openOverlay</a></li><li><a href="global.html#openTaskOverlay">openTaskOverlay</a></li><li><a href="global.html#playDesktopSplashAnimation">playDesktopSplashAnimation</a></li><li><a href="global.html#playMobileSplashAnimation">playMobileSplashAnimation</a></li><li><a href="global.html#postContactToFirebase">postContactToFirebase</a></li><li><a href="global.html#postTaskData">postTaskData</a></li><li><a href="global.html#postUserData">postUserData</a></li><li><a href="global.html#prepareContactUpdate">prepareContactUpdate</a></li><li><a href="global.html#prepareMobileSplash">prepareMobileSplash</a></li><li><a href="global.html#prepareUserDataForPost">prepareUserDataForPost</a></li><li><a href="global.html#procedureAfterSave">procedureAfterSave</a></li><li><a href="global.html#putContactToFirebase">putContactToFirebase</a></li><li><a href="global.html#readEditInputs">readEditInputs</a></li><li><a href="global.html#refreshContactView">refreshContactView</a></li><li><a href="global.html#registerNewUser">registerNewUser</a></li><li><a href="global.html#removeContact">removeContact</a></li><li><a href="global.html#removeDeletedContactFromTasks">removeDeletedContactFromTasks</a></li><li><a href="global.html#removeHighlight">removeHighlight</a></li><li><a href="global.html#removeSelectedContact">removeSelectedContact</a></li><li><a href="global.html#renderContactList">renderContactList</a></li><li><a href="global.html#renderContacts">renderContacts</a></li><li><a href="global.html#renderDropdownContacts">renderDropdownContacts</a></li><li><a href="global.html#renderLetterIfNew">renderLetterIfNew</a></li><li><a href="global.html#resetContactView">resetContactView</a></li><li><a href="global.html#resetPrioBtn">resetPrioBtn</a></li><li><a href="global.html#resetRequiredFields">resetRequiredFields</a></li><li><a href="global.html#resetValidation">resetValidation</a></li><li><a href="global.html#restoreActiveContact">restoreActiveContact</a></li><li><a href="global.html#saveContact">saveContact</a></li><li><a href="global.html#saveEditSubtask">saveEditSubtask</a></li><li><a href="global.html#saveEditTask">saveEditTask</a></li><li><a href="global.html#saveEditedSubtask">saveEditedSubtask</a></li><li><a href="global.html#saveNewContact">saveNewContact</a></li><li><a href="global.html#saveTaskCategory">saveTaskCategory</a></li><li><a href="global.html#saveTaskChanges">saveTaskChanges</a></li><li><a href="global.html#saveTaskOrder">saveTaskOrder</a></li><li><a href="global.html#saveUpdatedUser">saveUpdatedUser</a></li><li><a href="global.html#scrollToBottom">scrollToBottom</a></li><li><a href="global.html#scrollToTop">scrollToTop</a></li><li><a href="global.html#selectCategory">selectCategory</a></li><li><a href="global.html#setActiveContact">setActiveContact</a></li><li><a href="global.html#setPriority">setPriority</a></li><li><a href="global.html#showConfirmationSignup">showConfirmationSignup</a></li><li><a href="global.html#showContact">showContact</a></li><li><a href="global.html#showDesktopSplashImmediately">showDesktopSplashImmediately</a></li><li><a href="global.html#showDialogDelete">showDialogDelete</a></li><li><a href="global.html#showEmailError">showEmailError</a></li><li><a href="global.html#showFilteredContactList">showFilteredContactList</a></li><li><a href="global.html#showMobileSplashImmediately">showMobileSplashImmediately</a></li><li><a href="global.html#showSignupError">showSignupError</a></li><li><a href="global.html#sortContacts">sortContacts</a></li><li><a href="global.html#startAutoScroll">startAutoScroll</a></li><li><a href="global.html#startDragging">startDragging</a></li><li><a href="global.html#stopAutoScroll">stopAutoScroll</a></li><li><a href="global.html#syncContactChanges">syncContactChanges</a></li><li><a href="global.html#syncUserDataFromContact">syncUserDataFromContact</a></li><li><a href="global.html#toggleCategoryDropdown">toggleCategoryDropdown</a></li><li><a href="global.html#toggleCheckbox">toggleCheckbox</a></li><li><a href="global.html#toggleCheckboxState">toggleCheckboxState</a></li><li><a href="global.html#toggleDropdown">toggleDropdown</a></li><li><a href="global.html#toggleStatusSubtask">toggleStatusSubtask</a></li><li><a href="global.html#toggleUserMenu">toggleUserMenu</a></li><li><a href="global.html#updateContactDetails">updateContactDetails</a></li><li><a href="global.html#updateContactInTasks">updateContactInTasks</a></li><li><a href="global.html#updateContactList">updateContactList</a></li><li><a href="global.html#updateContactPanel">updateContactPanel</a></li><li><a href="global.html#updateEmailValidationState">updateEmailValidationState</a></li><li><a href="global.html#updateLocalContact">updateLocalContact</a></li><li><a href="global.html#updateMiniCardSubtaskProgress">updateMiniCardSubtaskProgress</a></li><li><a href="global.html#updateMobileContactView">updateMobileContactView</a></li><li><a href="global.html#updateMobileLayout">updateMobileLayout</a></li><li><a href="global.html#updateMobileMenu">updateMobileMenu</a></li><li><a href="global.html#updateScrollbar">updateScrollbar</a></li><li><a href="global.html#updateSelectedContact">updateSelectedContact</a></li><li><a href="global.html#updateTasksforBoard">updateTasksforBoard</a></li><li><a href="global.html#userEmailExists">userEmailExists</a></li><li><a href="global.html#validateSignupInputs">validateSignupInputs</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Wed Sep 02 2026 22:00:44 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

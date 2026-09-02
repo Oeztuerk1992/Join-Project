@@ -178,11 +178,24 @@ body:not(.ready) {
 }
 
 @media (max-width: 427px) {
-
+    .content-help, .content-privacy, .content-legalnotice {
+        padding: 15px 15px;
+    }
     .mobile-login-btn {
         padding-right: 0px;
     }
     .flexbox-declaration-mobile a {
         width: 110px;
     }
+}
+
+@media (min-width: 993px) and (max-width: 1439px) and (max-height: 945px) {
+    .content-help, .content-privacy, .content-legalnotice {
+        padding: 120px 10px 0 260px;
+    }
+    .scroll-wrapper-declaration {
+        width: 100%;
+        height: calc(100vh - 250px);
+    }
+
 }

@@ -5,8 +5,8 @@ const userInfo = document.getElementById("greeting-user");
 const greetTimeGuest = document.getElementById("greet-time-guest");
 const greetTime = document.getElementById("greet-time");
 const loggedUserInfo = document.getElementById("greet-user-name");
- 
- 
+
+
 /**
  * Initializes the summary/dashboard page: plays the mobile greeting
  * splash (if applicable), applies the greeting, loads the user profile

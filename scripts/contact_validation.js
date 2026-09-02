@@ -52,9 +52,7 @@ function getFormRefs(filterWord) {
 */
 function checkFormDataContactOverlay(event, filterWord) {
    event.preventDefault();
-
    const { infoContact } = getFormRefs(filterWord);
-
    const isNameValid = checkUserNameContact(filterWord);
    const isMailValid = checkUserMailContact(filterWord);
    const isPhoneValid = checkUserPhone(filterWord);
@@ -141,59 +139,152 @@ function checkUserMailContact(filterWord) {
 
 
 /**
-* Checks whether the email currently entered in a contact form is
-* already used by another contact or by a registered user. When
-* editing, the contact currently being edited (activeContact) is
-* excluded from the comparison so a contact can keep its own email.
-* Toggles the field's error styling accordingly.
-*
-* @param {string} filterWord - "add" or "edit", selects which form to
-*                               validate (see getFormRefs()) and
-*                               whether activeContact should be
-*                               excluded from the duplicate check.
-* @returns {boolean} True if the email is not already taken, false if
-*                     it is.
-*/
+ * Checks whether the entered email address is already in use.
+ *
+ * @param {string} filterWord - Form type ("add" or "edit").
+ * @returns {boolean} True if the email is available.
+ */
 function emailAlreadyExistsContact(filterWord) {
-   const {emailInput, inputWrapperMail, infoContact} = getFormRefs(filterWord);
+    const formRefs = getFormRefs(filterWord);
+    const email = getEnteredEmail(formRefs);
 
-   const email = emailInput.value.trim();
+    const mailExistsContact = contactEmailExists(
+        email,
+        filterWord
+    );
 
-   let mailExistsContact;
+    const mailExistsUser = userEmailExists(email);
 
-   if (filterWord === "edit") {
+    return updateEmailValidationState(
+        formRefs,
+        mailExistsContact || mailExistsUser
+    );
+}
 
-       if (!activeContact) {
-           return false;
-       }
 
-       mailExistsContact = contacts.some(
-           contact =>
-               contact.email === email &&
-               contact.id !== activeContact.id
-       );
-   } else {
-       mailExistsContact = contacts.some(
-           contact => contact.email === email
-       );
-   }
+/**
+ * Returns the trimmed email from the selected form.
+ *
+ * @param {Object} formRefs - Form references.
+ * @returns {string} Entered email.
+ */
+function getEnteredEmail(formRefs) {
+    return formRefs.emailInput.value.trim();
+}
 
-   const mailExistsUser = registeredUser.some(
-   user =>
-       user.mail === email &&
-       user.mail !== activeContact?.email
-   );
 
-   if (mailExistsContact || mailExistsUser) {
-       infoContact.classList.remove("hidden-feedback");
-       infoContact.textContent = "This email address is already taken.";
-       inputWrapperMail.classList.add("fail-red-border");
-       return false;
-   }
+/**
+ * Checks whether the email already exists in contacts.
+ *
+ * @param {string} email - Email to check.
+ * @param {string} filterWord - Form type.
+ * @returns {boolean} True if the email exists.
+ */
+function contactEmailExists(email, filterWord) {
+    if (filterWord !== "edit") {
+        return contacts.some(
+            contact => contact.email === email
+        );
+    }
 
-   infoContact.classList.add("hidden-feedback");
-   inputWrapperMail.classList.remove("fail-red-border");
-   return true;
+    if (!activeContact) return false;
+
+    return contacts.some(
+        contact =>
+            contact.email === email
+            && contact.id !== activeContact.id
+    );
+}
+
+
+/**
+ * Checks whether the email already exists in users.
+ *
+ * @param {string} email - Email to check.
+ * @returns {boolean} True if the email exists.
+ */
+function userEmailExists(email) {
+    return registeredUser.some(
+        user =>
+            user.mail === email
+            && user.mail !== activeContact?.email
+    );
+}
+
+
+/**
+ * Updates the email validation UI.
+ *
+ * @param {Object} formRefs - Form references.
+ * @param {boolean} hasDuplicate - Duplicate state.
+ * @returns {boolean} True if the email is valid.
+ */
+function updateEmailValidationState(
+    formRefs,
+    hasDuplicate
+) {
+    const {
+        inputWrapperMail,
+        infoContact
+    } = formRefs;
+
+    if (hasDuplicate) {
+        showEmailError(
+            inputWrapperMail,
+            infoContact
+        );
+        return false;
+    }
+
+    hideEmailError(
+        inputWrapperMail,
+        infoContact
+    );
+
+    return true;
+}
+
+
+/**
+ * Displays the duplicate-email error.
+ *
+ * @param {HTMLElement} wrapper - Input wrapper.
+ * @param {HTMLElement} infoContact - Feedback element.
+ * @returns {void}
+ */
+function showEmailError(
+    wrapper,
+    infoContact
+) {
+    infoContact.classList.remove(
+        "hidden-feedback"
+    );
+
+    infoContact.textContent =
+        "This email address is already taken.";
+
+    wrapper.classList.add("fail-red-border");
+}
+
+
+/**
+ * Hides the duplicate-email error.
+ *
+ * @param {HTMLElement} wrapper - Input wrapper.
+ * @param {HTMLElement} infoContact - Feedback element.
+ * @returns {void}
+ */
+function hideEmailError(
+    wrapper,
+    infoContact
+) {
+    infoContact.classList.add(
+        "hidden-feedback"
+    );
+
+    wrapper.classList.remove(
+        "fail-red-border"
+    );
 }
 
 

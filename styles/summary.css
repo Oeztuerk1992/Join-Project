@@ -241,9 +241,6 @@ button {
     .container-headline {
         gap: clamp(15px, calc(15px + 15 * ((100vw - 993px) / 446)), 30px);
     }
-    h1 {
-        font-size: clamp(48px, calc(48px + 13 * ((100vw - 993px) / 446)), 61px);
-    }
     h2 {
         font-size: clamp(22px, calc(22px + 5 * ((100vw - 993px) / 446)), 27px);
     }
@@ -378,6 +375,9 @@ button {
 }
 
 @media (max-width: 427px) {
+    .content-summary {
+        padding: 15px 15px;
+    }
     .container-headline {
         padding-right: clamp(60px, calc(60px + 110 * ((100vw - 320px) / 108)), 170px);
     }
@@ -417,5 +417,34 @@ button {
     .urgent,
     .tasks {
         height: 110px;
+    }
+}
+
+@media (min-width: 993px) and (max-width: 1439px) and (max-height: 945px) {
+    .content-summary {
+        padding: 120px 0 0 260px;
+    }
+    .container-headline {
+        padding-bottom: 20px;
+    }
+    .to-do {
+        width: 190px;
+        height: 110px;
+    }
+    .urgent {
+        width: 410px; 
+        height: 110px;
+        margin-top: 15px;
+    }
+    .tasks {
+        width: 125px;
+        height: 110px;
+        margin-top: 15px;
+    }
+    .count {
+        font-size: 47px;
+    }
+    .description {
+        font-size: 16px;
     }
 }

@@ -394,11 +394,12 @@ button {
         height: clamp(110px, calc(130px - 20 * ((100vw - 320px) / 108)), 130px);
     }
     .tasks {
-        width: clamp(84px, calc(84px + 32 * ((100vw - 320px) / 108)), 116px);
+        padding: 0;
+        width: clamp(95px, calc(95px + 26 * ((100vw - 320px) / 108)), 116px);
         height: clamp(116px, calc(130px - 14 * ((100vw - 320px) / 108)), 130px);
     }
     .container-tasks {
-        gap: clamp(20px, calc(20px + 5 * ((100vw - 320px) / 108)), 25px);
+        gap: clamp(7px, calc(7px + 13 * ((100vw - 320px) / 108)), 20px);
     }
 }
 

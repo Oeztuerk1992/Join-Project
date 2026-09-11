@@ -244,9 +244,7 @@ input::placeholder {
     flex-direction: column;
     align-items: center;
 }
-.signup-card::backdrop {
-    background-color: var(--color-black-50);
-}
+
 .privacy-row {
     display: flex;
     align-items: center;

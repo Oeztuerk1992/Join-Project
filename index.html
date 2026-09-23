@@ -8,7 +8,7 @@
     type="image/svg+xml" />
   <link rel="icon" href="./assets/img/favicon/favicon_dark.svg" media="(prefers-color-scheme: light)"
     type="image/svg+xml" />
-  <title>Login/Sign-up</title>
+  <title>Login</title>
   <link rel="stylesheet" href="./styles.css" />
   <link rel="stylesheet" href="./styles/colors.css" />
   <link rel="stylesheet" href="./styles/font.css" />
@@ -23,7 +23,7 @@
       <div class="logo-container"></div>
       <div class="signup-section" id="open-signup">
       <span class="question-signup-info">Not a Join user?</span>
-      <button class="signup-btn" onclick="getSignupModal()">Sign up</button>
+      <button class="signup-btn" onclick="goToSignup()">Sign up</button>
       </div>
     </div>
   </header>
@@ -36,11 +36,11 @@
           <h1>Log in</h1>
           <div class="underline-login"></div>
           <div id="login-mail-group" class="input-group">
-            <input type="email" id="login-mail" placeholder="Email" />
+            <input type="email" id="login-mail" placeholder="Email" autocomplete="username" />
             <img class="icon" src="./assets/img/login/mail.svg" alt="img-mail" />
           </div>
           <div id="login-password-group" class="input-group">
-            <input type="password" id="login-password" placeholder="Password" />
+            <input type="password" id="login-password" placeholder="Password" autocomplete="current-password" />
             <button type="button" id="btn-pw-one" class="icon toggle-pw">
             </button>
           </div>
@@ -53,46 +53,7 @@
           </div>
         </form>
       </dialog>
-      <dialog class="signup-card modal-class" id="signup-modal">
-        <button class="back-btn" id="btn-close-signup" onclick="getLoginModal()"></button>
-        <h1>Sign up</h1>
-        <div class="underline-signup"></div>
-        <form id="form-for-signup" class="signup-form" onsubmit="return checkFormDataSignup(event)" novalidate>
-          <div id="input-signup-name" class="input-group input-signup">
-            <input type="text" id="signup-name" placeholder="Name" />
-            <img class="icon" src="./assets/img/login/person.svg" alt="img-person" />
-          </div>
-          <div id="input-signup-mail" class="input-group input-signup">
-            <input type="email" id="signup-mail" placeholder="Email" />
-            <img class="icon" src="./assets/img/login/mail.svg" alt="img-mail" />
-          </div>
-          <div id="input-signup-pw" class="input-group input-signup">
-            <input type="password" id="signup-pw" placeholder="Password" />
-            <button type="button" id="btn-pw-two" class="icon toggle-pw">
-            </button>
-          </div>
-          <div id="input-signup-confirm-pw" class="input-group input-signup">
-            <input type="password" id="check-pw" placeholder="Confirm Password" />
-            <button type="button" id="btn-pw-three" class="icon toggle-pw">
-            </button>
-          </div>
-          <div id="validation-feedback" class="info-failed signup-validation-width hidden-feedback"></div>
-          <div class="privacy-row">
-            <input type="checkbox" id="privacy-policy" class="checkbox-privacy" />
-            <label for="privacy-policy" class="privacy-label">
-              <span class="checkbox-icon"></span>
-              <div class="subcontainer-checkbox-privacy">
-                <span class="text-accept-privacy">I accept the</span>
-                <a class="link-privacy" href="./html/privacy_policy.html" target="_blank">Privacy policy</a>
-              </div>
-            </label>
-          </div>
-          <button type="submit" class="signup-btn btn-signup-big">Sign up</button>
-        </form>
-      </dialog>
-      <dialog id="confirmation-dialog" class="confirm">
-        You Signed Up successfully
-      </dialog>
+      
     </main>
     <footer class="footer-login">
       <a href="./html/privacy_policy.html">Privacy Policy</a>
@@ -100,7 +61,6 @@
     </footer>
     <script src="./scripts/startpage_main.js"></script>
     <script src="./scripts/startpage_login_api.js"></script>
-    <script src="./scripts/startpage_signup.js"></script>
     <script src="./scripts/contact.js"></script>
     <script src="./scripts/contact_update.js"></script>
     <script src="./scripts/contact_api.js"></script>

@@ -7,9 +7,7 @@ const logoContainer = document.querySelector(".logo-container");
 const isMobile = window.innerWidth <= 992;
  
 const modalLogin = document.getElementById('login-modal');
-const modalSignup = document.getElementById('signup-modal');
-const signupBtn = document.getElementById('open-signup');
- 
+
 const nameUser = document.getElementById('signup-name');
 const mailUser = document.getElementById('signup-mail');
 const pwUser = document.getElementById('signup-pw');
@@ -197,6 +195,7 @@ function showMobileSplashImmediately() {
  *                                  (false snaps it instantly).
  * @returns {void}
  */
+
 function movingLogoToPos(withAnimation) {
     const rect = logoContainer.getBoundingClientRect();
  
@@ -207,16 +206,35 @@ function movingLogoToPos(withAnimation) {
     logo.style.top = `${rect.top + rect.height / 2}px`;
     logo.style.left = `${rect.left + rect.width / 2}px`;
  
-    if (isMobile) {
+    if (window.innerWidth <= 992) {
         logo.style.width = "64px";
         logo.style.height = "78px";
  
     } else {
         logo.style.width = "100px";
+        logo.style.height = "";
     }
     logo.style.transform = "translate(-50%, -50%)";
 }
- 
+  
+/**
+ * Moves the logo to the right position again when the window size
+ * changes (only after the splash animation is finished).
+ *
+ * @listens window#resize
+ */
+window.addEventListener("resize", updateLogoPosition);
+
+
+/**
+ * Places the logo on the logo container without animation.
+ *
+ * @returns {void}
+ */
+function updateLogoPosition() {
+    if (!logo || !splashFinished) return;
+    movingLogoToPos(false);
+}
  
 // Init //
  
@@ -232,59 +250,18 @@ async function initLogin() {
     await onloadUsers();
     await loadContactsFromFirebase();
 }
- 
-// Modal overlays //
- 
+
+// Go to sign up page //
+
 /**
- * Switches from the login modal to the signup modal: closes the login
- * modal, resets the signup form and its validation state, opens the
- * signup modal (as a true modal dialog), and hides the "open signup"
- * button.
+ * Opens the separate sign up page.
  *
  * @returns {void}
  */
-function getSignupModal() {
-    modalLogin.close();
-    document.getElementById('form-for-signup').reset();
-    resetValidation();
- 
-    modalSignup.showModal();
-    signupBtn.style.display = 'none';
+function goToSignup() {
+    window.location.href = './html/signup.html';
 }
 
-
-/**
- * Switches from the signup modal to the login modal: closes the signup
- * modal, resets the login form and its validation state, opens the
- * login modal, and shows the "open signup" button again.
- *
- * @returns {void}
- */
-function getLoginModal() {
-    modalSignup.close();
-    document.getElementById('form-for-login').reset();
-    resetValidation();
- 
-    modalLogin.show();
-    signupBtn.style.display = 'flex';
-}
- 
-
-/**
- * Clears all validation error styling and messages currently shown on
- * the page (login/signup forms).
- *
- * @returns {void}
- */
-function resetValidation() {
-    document.querySelectorAll(".fail-red-border").forEach(element => {
-        element.classList.remove("fail-red-border");
-    });
- 
-    document.querySelectorAll(".info-failed").forEach(element => {
-        element.classList.add("hidden-feedback");
-    });
-}
  
 // Go to other pages //
  

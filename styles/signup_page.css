@@ -1,0 +1,57 @@
+/* Sign up page */
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.signup-logo {
+    width: 100px;
+}
+
+@media (max-width: 992px) {
+    .signup-logo {
+        width: 64px;
+        height: 78px;
+    }
+}
+
+@media (max-width: 427px) and (max-height: 810px) {
+    .signup-card.modal-class {
+        top: 150px;
+        transform: translateX(-50%);
+        width: calc(100% - 32px);
+        height: auto;
+        min-height: 0;
+        padding: 16px;
+    }
+    .signup-card h1 {
+        font-size: 36px;
+    }
+    .back-btn {
+        top: 22px;
+        left: 16px;
+    }
+    .signup-form {
+        width: 100%;
+    }
+    .signup-card .input-group {
+        width: 100%;
+        margin-top: 12px;
+    }
+    .signup-card .input-group input {
+        height: 40px;
+        width: 100%;
+        font-size: 16px;
+    }
+    .signup-card .info-failed {
+        width: 100%;
+    }
+    .btn-signup-big {
+        margin-top: 12px;
+    }
+    .footer-login {
+        bottom: 16px;
+    }
+}

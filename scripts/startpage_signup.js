@@ -3,6 +3,26 @@
 const info = document.getElementById("validation-feedback");
 const inputMail = document.getElementById("input-signup-mail");
  
+/**
+ * Initializes the sign up page: loads registered users and contacts
+ * from Firebase, so the "email already taken" check works.
+ *
+ * @returns {Promise<void>}
+ */
+async function initSignup() {
+    await onloadUsers();
+    await loadContactsFromFirebase();
+}
+
+
+/**
+ * Goes back to the login page.
+ *
+ * @returns {void}
+ */
+function goToLogin() {
+    window.location.href = '../index.html';
+}
 
 /**
  * Validates the signup form and starts user registration.
@@ -316,7 +336,7 @@ async function createContactFromUser(fullName, email, userId) {
  
 /**
  * Shows the signup confirmation dialog, then automatically dismisses
- * it and switches to the login modal after a fixed delay.
+ * it and goes back to the login page after a fixed delay.
  *
  * @returns {void}
  */
@@ -328,7 +348,7 @@ function showConfirmationSignup() {
     setTimeout(() => {
         confirmation.classList.remove("show");
         confirmation.close();
-        getLoginModal();
+        goToLogin();
     }, 2000);
 }
  

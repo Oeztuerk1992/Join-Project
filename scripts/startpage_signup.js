@@ -54,7 +54,7 @@ function validateSignupInputs() {
         return {
             isValid: false,
             message:
-                "Please check all inputs and correct any errors."
+                "Please check your inputs."
         };
     }
 
@@ -62,7 +62,7 @@ function validateSignupInputs() {
         return {
             isValid: false,
             message:
-                "Your passwords don't match. Please try again."
+                "Your passwords don't match."
         };
     }
 
@@ -70,7 +70,7 @@ function validateSignupInputs() {
         return {
             isValid: false,
             message:
-                "Please accept the Privacy Policy before proceeding."
+                "Please accept the Privacy Policy."
         };
     }
 
@@ -129,7 +129,7 @@ function checkUserName() {
     }
     info.classList.remove('hidden-feedback');
     inputName.classList.add('fail-red-border');
-    info.textContent = "Please enter both your first and last name.";
+    info.textContent = "Please enter first and last name.";
     return false;
 }
  
@@ -146,12 +146,12 @@ function checkUserName() {
 function checkUserMail() {
     mailUser.value = mailUser.value.trim().toLowerCase();
     const email = mailUser.value;
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
  
     if (!emailRegex.test(email)) {
         info.classList.remove("hidden-feedback");
         inputMail.classList.add("fail-red-border");
-        info.textContent = "Please enter your email address in a valid format.";
+        info.textContent = "Please enter a valid email address.";
         return false;
     }
     if (!emailAlreadyExists()) {
@@ -206,7 +206,7 @@ function checkUserPw() {
  
     info.classList.remove('hidden-feedback');
     inputPw.classList.add('fail-red-border');
-    info.textContent = "Please enter a valid password: at least 7 characters.";
+    info.textContent = "Password needs at least 7 characters.";
     return false;
 }
  
@@ -231,7 +231,7 @@ function checkUserPwConfirm() {
  
     info.classList.remove('hidden-feedback');
     inputPwConf.classList.add('fail-red-border');
-    info.textContent = "Your passwords don't match. Please try again.";
+    info.textContent = "Your passwords don't match.";
     return false;
 }
  
@@ -251,7 +251,7 @@ function checkPrivacyPolicy() {
     }
  
     info.classList.remove("hidden-feedback");
-    info.textContent = "Please accept the Privacy Policy before proceeding.";
+    info.textContent = "Please accept the Privacy Policy.";
     return false;
 }
  
@@ -355,39 +355,14 @@ function showConfirmationSignup() {
 // Event Listeners //
  
 /**
- * Live validation listeners for the signup form: re-validate the name
- * field on every keystroke and on blur.
+ * Validation listeners for the signup form: each field is checked
+ * only when the user leaves it (blur), not while typing.
  *
- * @listens HTMLElement#input
  * @listens HTMLElement#blur
- */
-document.getElementById("signup-name")?.addEventListener("input", checkUserName);
-document.getElementById("signup-name")?.addEventListener("blur", checkUserName);
- 
-/**
- * Live validation listeners for the signup form: re-validate the email
- * field on every keystroke and on blur.
- *
- * @listens HTMLElement#input
- * @listens HTMLElement#blur
- */
-document.getElementById("input-signup-mail")?.addEventListener("input", checkUserMail);
-document.getElementById("input-signup-mail")?.addEventListener("blur", checkUserMail);
- 
-/**
- * Live validation listeners for the signup form: re-validate the
- * password field on every keystroke and on blur.
- *
- * @listens HTMLElement#input
- * @listens HTMLElement#blur
- */
-document.getElementById("input-signup-pw")?.addEventListener("input", checkUserPw);
-document.getElementById("input-signup-pw")?.addEventListener("blur", checkUserPw);
- 
-/**
- * Live validation listener for the signup form: re-validate privacy
- * policy acceptance whenever its checkbox state changes.
- *
  * @listens HTMLElement#change
  */
+document.getElementById("signup-name")?.addEventListener("blur", checkUserName);
+document.getElementById("signup-mail")?.addEventListener("blur", checkUserMail);
+document.getElementById("signup-pw")?.addEventListener("blur", checkUserPw);
+document.getElementById("check-pw")?.addEventListener("blur", checkUserPwConfirm);
 document.getElementById("privacy-policy")?.addEventListener("change", checkPrivacyPolicy);

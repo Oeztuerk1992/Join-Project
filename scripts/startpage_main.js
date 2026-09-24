@@ -203,8 +203,8 @@ function movingLogoToPos(withAnimation) {
         ? "top 1.2s ease, left 1.2s ease, width 1.2s ease, height 1.2s ease, transform 1.2s ease"
         : "none";
  
-    logo.style.top = `${rect.top + rect.height / 2}px`;
-    logo.style.left = `${rect.left + rect.width / 2}px`;
+    logo.style.top = `${rect.top + window.scrollY + rect.height / 2}px`;
+    logo.style.left = `${rect.left + window.scrollX + rect.width / 2}px`;
  
     if (window.innerWidth <= 992) {
         logo.style.width = "64px";

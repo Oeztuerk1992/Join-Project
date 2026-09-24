@@ -39,7 +39,7 @@
     pointer-events: none;
 }
 .logo {
-    position: fixed;
+    position: absolute;
     top: 50%;
     left: 50%;
     width: 220px;
@@ -579,5 +579,42 @@ input::placeholder {
     }
     .footer-login {
         bottom: 16px;
+    }
+}
+
+.login-page .info-failed {
+    text-align: left;
+    justify-content: flex-start;
+    font-size: 14px;
+}
+
+@media (min-width: 993px) {
+    .login-page {
+        height: auto;
+        min-height: 100dvh;
+        overflow-y: auto;
+    }
+    .login-page .container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    .login-wrapper {
+        flex: 1;
+        min-height: 0;
+        padding: 32px 0;
+    }
+    .login-card.modal-class,
+    .signup-card.modal-class {
+        position: relative;
+        top: auto;
+        left: auto;
+        transform: none;
+    }
+    .footer-login {
+        position: static;
+        transform: none;
+        justify-content: center;
+        padding-bottom: 40px;
     }
 }

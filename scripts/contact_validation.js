@@ -98,7 +98,7 @@ function checkUserNameContact(filterWord) {
 
    infoContact.classList.remove("hidden-feedback");
    inputWrapperName.classList.add("fail-red-border");
-   infoContact.textContent = "Please enter both your first and last name.";
+   infoContact.textContent = "Please enter first and last name.";
    return false;
 }
 
@@ -120,12 +120,12 @@ function checkUserMailContact(filterWord) {
 
    emailInput.value = emailInput.value.trim().toLowerCase();
    const email = emailInput.value;
-   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
    if (!emailRegex.test(email)) {
        infoContact.classList.remove("hidden-feedback");
        inputWrapperMail.classList.add("fail-red-border");
-       infoContact.textContent = "Please enter your email address in a valid format."
+       infoContact.textContent = "Please enter a valid email address.";
        return false;
    }
    if (!emailAlreadyExistsContact(filterWord)) {
@@ -384,7 +384,7 @@ function showDialogDelete() {
 * @listens HTMLElement#input
 * @listens HTMLElement#blur
 */
-document.getElementById("name")?.addEventListener("input", () => checkUserNameContact("add"));
+
 document.getElementById("name")?.addEventListener("blur", () => checkUserNameContact("add"));
 
 /**
@@ -394,7 +394,7 @@ document.getElementById("name")?.addEventListener("blur", () => checkUserNameCon
 * @listens HTMLElement#input
 * @listens HTMLElement#blur
 */
-document.getElementById("email")?.addEventListener("input", () => checkUserMailContact("add"));
+
 document.getElementById("email")?.addEventListener("blur", () => checkUserMailContact("add"));
 
 /**
@@ -404,7 +404,7 @@ document.getElementById("email")?.addEventListener("blur", () => checkUserMailCo
 * @listens HTMLElement#input
 * @listens HTMLElement#blur
 */
-document.getElementById("phone")?.addEventListener("input", () => checkUserPhone("add"));
+
 document.getElementById("phone")?.addEventListener("blur", () => checkUserPhone("add"));
 
 /**
@@ -414,7 +414,7 @@ document.getElementById("phone")?.addEventListener("blur", () => checkUserPhone(
 * @listens HTMLElement#input
 * @listens HTMLElement#blur
 */
-document.getElementById("name-edit")?.addEventListener("input", () => checkUserNameContact("edit"));
+
 document.getElementById("name-edit")?.addEventListener("blur", () => checkUserNameContact("edit"));
 
 /**
@@ -424,7 +424,7 @@ document.getElementById("name-edit")?.addEventListener("blur", () => checkUserNa
 * @listens HTMLElement#input
 * @listens HTMLElement#blur
 */
-document.getElementById("email-edit")?.addEventListener("input", () => checkUserMailContact("edit"));
+
 document.getElementById("email-edit")?.addEventListener("blur", () => checkUserMailContact("edit"));
 
 /**
@@ -434,5 +434,4 @@ document.getElementById("email-edit")?.addEventListener("blur", () => checkUserM
 * @listens HTMLElement#input
 * @listens HTMLElement#blur
 */
-document.getElementById("phone-edit")?.addEventListener("input", () => checkUserPhone("edit"));
 document.getElementById("phone-edit")?.addEventListener("blur", () => checkUserPhone("edit"));

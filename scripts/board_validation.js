@@ -98,7 +98,7 @@ function checkEditDueDate(id) {
  *                              ".input-date" classes.
  * @returns {void}
  */
-document.addEventListener("input", (event) => {
+document.addEventListener("focusout", (event) => {
     if (event.target.classList.contains("input-title")) {
         const id = event.target.id.replace("title-input-", "");
         checkEditTitleName(id);

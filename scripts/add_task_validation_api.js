@@ -118,16 +118,16 @@ function resetRequiredFields() {
  *
  * @listens HTMLElement#input
  */
-document.getElementById("task-title")?.addEventListener("input", checkTitleName);
- 
+document.getElementById("task-title")?.addEventListener("blur", checkTitleName);
+
 /**
  * Live validation listener: re-validates the due-date field when its
  * value changes (e.g. picked from the date picker).
  *
  * @listens HTMLElement#change
  */
-document.getElementById("task-date")?.addEventListener("input", checkDueDate);
- 
+document.getElementById("task-date")?.addEventListener("blur", checkDueDate);
+
 /**
  * Live validation listener: re-validates the category field whenever
  * its (hidden) value changes.

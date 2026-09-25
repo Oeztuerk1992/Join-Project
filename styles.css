@@ -25,17 +25,17 @@ button {
 
 /* Scrollbar */
 
-::-webkit-scrollbar {
+body:not(.page-declaration) ::-webkit-scrollbar {
     width: 3px !important;
 }
-::-webkit-scrollbar-track {
+body:not(.page-declaration) ::-webkit-scrollbar-track {
     background: var(--color-light-blue);
 }
-::-webkit-scrollbar-thumb {
+body:not(.page-declaration) ::-webkit-scrollbar-thumb {
     background: var(--color-blue-navy-900);
     border-radius: 10px;
 }
-::-webkit-scrollbar-thumb:hover {
+body:not(.page-declaration) ::-webkit-scrollbar-thumb:hover {
     background: var(--color-blue-700);
 }
 

@@ -121,8 +121,9 @@ function checkUserMailContact(filterWord) {
    emailInput.value = emailInput.value.trim().toLowerCase();
    const email = emailInput.value;
    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+   const hasWrongDots = email.includes("..") || email.startsWith(".") || email.includes(".@") || email.includes("@.");
 
-   if (!emailRegex.test(email)) {
+   if (!emailRegex.test(email) || hasWrongDots) {
        infoContact.classList.remove("hidden-feedback");
        inputWrapperMail.classList.add("fail-red-border");
        infoContact.textContent = "Please enter a valid email address.";

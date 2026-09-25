@@ -147,8 +147,9 @@ function checkUserMail() {
     mailUser.value = mailUser.value.trim().toLowerCase();
     const email = mailUser.value;
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const hasWrongDots = email.includes("..") || email.startsWith(".") || email.includes(".@") || email.includes("@.");
  
-    if (!emailRegex.test(email)) {
+    if (!emailRegex.test(email) || hasWrongDots) {
         info.classList.remove("hidden-feedback");
         inputMail.classList.add("fail-red-border");
         info.textContent = "Please enter a valid email address.";

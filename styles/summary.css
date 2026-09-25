@@ -449,3 +449,31 @@ button {
         font-size: 16px;
     }
 }
+
+@media (max-width: 427px) {
+    .to-do {
+        width: calc((100vw - 42px) / 2);
+    }
+    .main-summary .container-do {
+        gap: 12px;
+    }
+    .urgent {
+        width: calc(100vw - 30px);
+    }
+    .tasks {
+        width: calc((100vw - 54px) / 3);
+    }
+    .container-tasks {
+        gap: 12px;
+    }
+    .urgent,
+    .tasks {
+        margin-top: 12px;
+    }
+    .tasks {
+        padding: 0 6px;
+    }
+    .tasks .description {
+        font-size: 14px;
+    }
+}

@@ -91,16 +91,21 @@ function getUserGreeting() {
  * removes the splash element immediately without animating. Otherwise
  * applies the greeting to the splash's own elements, marks it as
  * shown, and after a delay fades it out and removes it from the DOM.
- * Does nothing on desktop viewports or if the splash element doesn't
- * exist.
+ * On desktop viewports the splash is removed right away, so it can
+ * not cover the page when the window is made smaller later.
  *
  * @returns {void}
  */
 function initMobileGreetingSplash() {
   const isMobile = window.innerWidth <= 992;
   const splash = document.getElementById("mobile-greeting-splash");
-  if (!isMobile || !splash) return;
- 
+  if (!splash) return;
+
+  if (!isMobile) {
+    splash.remove();
+    return;
+  }
+
   if (sessionStorage.getItem("greetingShown")) {
     splash.remove();
     return;

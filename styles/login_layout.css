@@ -618,3 +618,65 @@ input::placeholder {
         padding-bottom: 40px;
     }
 }
+
+@media (max-width: 427px) and (min-height: 701px) and (max-height: 860px) {
+    .signup-section {
+        bottom: 81px;
+        max-width: 300px;
+    }
+    .question-signup-info {
+        font-size: 20px;
+        text-align: left;
+    }
+    .signup-section .signup-btn {
+        width: 105px;
+    }
+    .footer-login {
+        bottom: 27px;
+        padding-left: 0;
+    }
+}
+
+@media (min-width: 428px) and (max-width: 992px) {
+    .login-page {
+        height: auto;
+        min-height: 100dvh;
+        overflow-y: auto;
+    }
+    .login-page .header-index-page,
+    .login-page .frame-header,
+    .login-page .container {
+        display: contents;
+    }
+    .logo-container {
+        order: 1;
+        margin: 15px 0 0 16px;
+    }
+    .login-wrapper {
+        order: 2;
+        flex: 1;
+        min-height: 0;
+        padding: 32px 16px;
+    }
+    .signup-section {
+        order: 3;
+        position: static;
+        transform: none;
+        align-self: center;
+        margin-bottom: 50px;
+    }
+    .footer-login {
+        order: 4;
+        position: static;
+        transform: none;
+        justify-content: center;
+        padding-bottom: 40px;
+    }
+    .login-card.modal-class,
+    .signup-card.modal-class {
+        position: relative;
+        top: auto;
+        left: auto;
+        transform: none;
+    }
+}

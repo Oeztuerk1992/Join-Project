@@ -354,7 +354,7 @@ input[type="checkbox"]:checked {
 
 @media (max-width: 992px) {
     .view-task-overlay {
-        min-height: 635px;
+        min-height: 630px;
         max-height: 720px;
 
         max-width: 396px;
@@ -386,7 +386,7 @@ input[type="checkbox"]:checked {
         font-size: 16px;
     }
     .edit-task-overlay {
-        min-height: 635px;
+        min-height: 630px;
         max-height: 720px;
 
         max-width: 396px;
@@ -479,16 +479,19 @@ input[type="checkbox"]:checked {
     }
 }
 
-@media (max-height: 775px) and (max-width: 427px) {
+@media (max-height: 775px) and (max-width: 992px) {
     
         .edit-task-overlay {
-            height: 635px !important;
+            height: 630px !important;
         }
         .edit-task-overlay .scroll-wrapper {
             height: 480px;
         }
         .view-task-overlay {
-            height: 635px !important;
+            height: 630px !important;
+        }
+        .footer-edit-overlay .confirm-edit-btn {
+            height: 50px;
         }
 }
 

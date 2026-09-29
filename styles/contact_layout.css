@@ -256,7 +256,11 @@
     width: 8px;
     height: 53px;
     border-radius: 3px;
-    background-color: var(--color-black-20);
+    background-color: var(--color-gray-600);
+    cursor: grab;
+}
+.custom-thumb:active {
+    cursor: grabbing;
 }
 .no-contacts-info {
     padding: 32px;
@@ -448,15 +452,11 @@
     }
     .new-contact.scrollwrapper-contacts::-webkit-scrollbar {
         display: block;
-        width: 2px;
-    }
-    .new-contact.scrollwrapper-contacts::-webkit-scrollbar-thumb {
-        background-color: var(--color-blue-navy-900);
-        border-radius: 10px;
     }
     .new-contact.scrollwrapper-contacts::-webkit-scrollbar-track {
-        margin: 120px 0 32px;
-        background-color: var(--color-light-blue);
+        margin: 100px 0 32px;
+        border: none;
+        background: transparent;
     }
     .header-title {
         display: block;
@@ -575,14 +575,14 @@
         padding-block: clamp(8px, calc(8px + 24 * ((100vw - 320px) / 108)), 32px);
     }
     .contact-item {
-        width: clamp(308px, calc(308px + 44 * ((100vw - 320px) / 108)), 352px);
+        width: clamp(272px, calc(272px + 80 * ((100vw - 320px) / 108)), 352px);
         padding-top: clamp(7px, calc(7px + 8 * ((100vw - 320px) / 108)), 15px);
         padding-bottom: clamp(7px, calc(7px + 8 * ((100vw - 320px) / 108)), 15px);
         padding-left: clamp(12px, calc(12px + 12 * ((100vw - 320px) / 108)), 24px);
     }
     .alphabet-letter,
     .alphabet-divider {
-        width: clamp(308px, calc(308px + 44 * ((100vw - 320px) / 108)), 352px);
+        width: clamp(272px, calc(272px + 80 * ((100vw - 320px) / 108)), 352px);
     }
     .alphabet-letter {
         padding-left: clamp(24px, calc(24px + 12 * ((100vw - 320px) / 108)), 36px);
@@ -614,21 +614,14 @@
         padding-left: clamp(100px, calc(100px - 100 * ((100vw - 320px) / 108)), 0px);
         font-size: clamp(24px, calc(24px + 12 * ((100vw - 320px) / 108)), 36px);
     }
-}
-
-/* Short Mobile Height */
-
-@media (max-height: 775px) and (max-width: 427px) {
-    .contact-info {
-        gap: 0;
+    .contact-name-email .email {
+        font-size: 14px;
     }
-    .contact-label {
-        padding: 0;
-    }
-    .contact-details {
-        padding-right: 20px;
+    .contact-item {
+        gap: 15px;
     }
 }
+
 
 @media (min-width: 993px) and (max-width: 1439px) and (max-height: 945px) {
     .contact-label {
@@ -640,7 +633,52 @@
     .contact-details {
         margin-top: 0px;
     }
-    
+}
 
 
+@media (min-width: 993px) and (max-height: 800px) {
+    .contact-label {
+        padding: 20px 0 0 0;
+    } 
+    .label {
+        padding-top: 0;
+    }
+    .contact-info {
+        gap: 0px;
+    }
+    .contact-details {
+        margin-top: 0px;
+    } 
+    .contact-detail-panel {
+        gap: 0;
+    }
+}
+
+@media (min-width: 993px) and (max-width: 1200px) {
+    .contact-name-email .email {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 992px) and (max-height: 775px) {
+    .contact-info {
+        gap: 0;
+    }
+    .contact-label {
+        padding: 0;
+    }
+    .contact-details {
+        padding-right: 20px;
+        margin-top: 0;
+    }
+    .contact-info {
+        padding-top: 15px;
+    }
+    .contact-detail-info {
+        gap: 0;
+        padding-top: 20px;
+    }
+    .contact-detail-header {
+        padding-top: 40px;
+    }
 }

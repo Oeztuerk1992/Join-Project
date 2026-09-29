@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: scripts/templates/board_template.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,432 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: scripts/templates/board_template.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Generates the HTML template for a task mini-card.
+ * The mini-card displays the task title, category, description, priority,
+ * assigned contacts, and subtask progress.
+ *
+ * @param {Object} element - The task object containing all relevant task data.
+ * @returns {string} The HTML template for the task mini-card.
+ */
+function generateTaskMiniCardHTML(element) {
+  return ` 
+          &lt;section id="card-mini-${element.id}" class="mini-card" onclick="openTaskOverlay('${element.id}','animation')"
+            draggable="true" ondragstart="startDragging('${element.id}')" ondragend="endDragging('${element.id}')">
+            &lt;div class="frame-mini-card">
+              &lt;header class="header-mini-card">
+                &lt;div class="headline-minicard">  
+                  &lt;h3 id="label-card-${element.id}" class="card-label">
+                    ${getTaskCategory(element.category)}
+                  &lt;/h3>
+                  &lt;button id="mobile-icon-for-move-${element.id}" class="mobile-icon-move" 
+                    onclick="event.stopPropagation(); openMobileMoveMenu('${element.id}')">
+                  &lt;/button>
+                  &lt;div id="move-menu-${element.id}" class="move-menu" onclick="event.stopPropagation()">
+                    &lt;span>Move to:&lt;/span>
+                    &lt;div class="scroll-move-menu">&lt;/div>
+                  &lt;/div>
+                &lt;/div>
+                &lt;h4 id="task-title-${element.id}" class="title-task">
+                  ${element.title}
+                &lt;/h4>
+                &lt;p id="task-description-${element.id}" class="description-task">
+                  ${element.description}
+                &lt;/p>
+              &lt;/header>
+              ${element.subtasks.length ?
+      `
+              &lt;article id="subtask-${element.id}" class="container-subtask">
+                &lt;div id="status-subtask-${element.id}" class="subtask-bar-wrapper">
+                  &lt;div class="subtask-bar" style="width: ${getSubtaskProgress(element.subtasks)}%;">&lt;/div>
+                &lt;/div>
+                &lt;div id="status-count-${element.id}" class="count-status">
+                  ${getStatusSubtasks(element.subtasks)}
+                &lt;/div>
+              &lt;/article>
+              `: ''
+    }
+              &lt;div class="flex-grow">&lt;/div>
+              &lt;article class="responsibility-mini-card">
+                &lt;div id="badge-member-${element.id}" class="member-badge">
+                  ${getAssignedContactBadges(element.assignedTo, 4)}
+                &lt;/div>
+                &lt;div id="task-prio-${element.id}" class="priority-task">
+                  ${getImgPrio(element.priority)}
+                &lt;/div>
+              &lt;/article>
+            &lt;/div>
+          &lt;/section>
+  `;
+}
 
 
-    <h3> </h3>
+/**
+ * Generates the HTML template for the "User Story" task category.
+ *
+ * @returns {string} The HTML template displaying the "User Story" category.
+ */
+function generateTaskCategoryUserStoryHTML() {
+  return `
+          &lt;div class="category-user-story">User Story&lt;/div>
+  `;
+}
 
 
+/**
+ * Generates the HTML template for the "Technical Task" task category.
+ *
+ * @returns {string} The HTML template displaying the "Technical Task" category.
+ */
+function generateTaskCategoryTechnicalTaskHTML() {
+  return `
+          &lt;div class="category-technical-task">Technical Task&lt;/div>
+  `;
+}
 
 
+/**
+ * Generates the HTML template for a task with low priority.
+ *
+ * @returns {string} The HTML template containing the low-priority icon.
+ */
+function generateImgPrioLowHTML() {
+  return `
+          &lt;img src="../assets/img/board/cards/prio_low.svg" alt="img-prio-low">
+  `;
+}
 
 
+/**
+ * Generates the HTML template for a task with medium priority.
+ *
+ * @returns {string} The HTML template containing the medium-priority icon.
+ */
+function generateImgPrioMediumHTML() {
+  return `
+          &lt;img src="../assets/img/board/cards/prio_medium.svg" alt="img-prio-medium">
+  `;
+}
 
 
+/**
+ * Generates the HTML template for a task with high priority.
+ *
+ * @returns {string} The HTML template containing the high-priority icon.
+ */
+function generateImgPrioHighHTML() {
+  return `
+          &lt;img src="../assets/img/board/cards/prio_high.svg" alt="img-prio-high">
+  `;
+}
 
 
-    
+/**
+ * Generates an HTML badge displaying the initials of an assigned contact.
+ *
+ * @param {string} color - The CSS styling used to set the badge color.
+ * @param {string} initials - The initials displayed inside the badge.
+ * @returns {string} The HTML template for the contact badge.
+ */
+function generateBadgesHTML(color, initials) {
+  return `
+          &lt;div class="user-abbr" style="${color}">${initials}&lt;/div>
+  `;
+}
 
 
+/**
+ * Generates an HTML element displaying the names of assigned contacts.
+ *
+ * @param {string} usernames - The names of the assigned contacts.
+ * @returns {string} The HTML template containing the contact names.
+ */
+function generateUserNamesHTML(usernames) {
+  return `
+    &lt;div class="contact-names-overlay">${usernames}&lt;/div>
+  `;
+}
 
 
+/**
+ * Generates the HTML template displayed when a Kanban column contains no tasks.
+ *
+ * @param {string} status - The status of the Kanban column.
+ * @returns {string} The HTML template displaying the empty-column message.
+ */
+function generateEmptyCardHTML(status) {
+  return `
+          &lt;div class="no-task-feedback">No tasks ${status}&lt;/div>
+  `;
+}
 
+
+/**
+ * Generates the HTML template for the task details overlay.
+ * The overlay displays the task category, title, description, due date,
+ * priority, assigned contacts, and subtasks.
+ *
+ * @param {Object} element - The task object containing all relevant task data.
+ * @returns {string} The HTML template for the task details overlay.
+ */
+function generateTaskOverlayHTML(element) {
+  return `
+    &lt;dialog id="task-overlay-${element.id}" class="view-task-overlay modal-class" >
+        &lt;header class="header-view-task">
+            &lt;div class="headline-view-task">
+              &lt;h3 id="label-card-view-${element.id}" class="card-label-view">
+                ${getTaskCategory(element.category)}
+              &lt;/h3>
+              &lt;button class="btn-close" onclick="closeTaskOverlay('${element.id}')">&lt;/button>
+            &lt;/div>
+        &lt;/header>
+      &lt;div class="scroll-container"> 
+        &lt;div class="scroll-wrapper-task">
+          &lt;div class="subheader-view-task">
+              &lt;h4 id="task-title-view-${element.id}" class="title-task-view">
+                ${element.title}
+              &lt;/h4>
+              &lt;p id="task-description-view-${element.id}" class="description-task-view">
+                ${element.description}
+              &lt;/p>
+          &lt;/div>  
+          &lt;div class="frame-view-task">
+            &lt;article class="set-responsibilities">
+            &lt;div class="set-date">
+              &lt;span class="due-date-text">Due date:&lt;/span>
+              &lt;div class="due-date">${getDateFormat(element.dueDate)}&lt;/div>
+            &lt;/div>
+            &lt;div class="set-priority">
+              &lt;span class="priority-long-text">Priority:&lt;/span>
+              &lt;div class="priority-long">
+                &lt;span class="text-long-prio">${element.priority}&lt;/span>
+                ${getImgPrio(element.priority)}
+              &lt;/div>
+            &lt;/div>
+            &lt;div class="assignment-to-user">
+              &lt;span class="text-assigned">Assigned To:&lt;/span>
+              &lt;div id="badge-member-view-${element.id}" class="member-badge-view">
+                ${getAssignedContactRows(element.assignedTo)}
+              &lt;/div>
+            &lt;/div>
+            &lt;/article>
+            &lt;article class="subtask-status">
+            &lt;span class="title-subtask">Subtasks&lt;/span>
+            &lt;div id="subtasks-view-${element.id}" class="container-subtasks">
+              ${getSubtasksOverlay(element.subtasks, element.id)}
+            &lt;/div>
+            &lt;/article>
+          &lt;/div>
+        &lt;/div>
+        &lt;button class="btn-scrollbar scroll-top" onmousedown="startScrolling('.scroll-wrapper-task', -1)" onmouseup="stopScrolling()" onmouseleave="stopScrolling()">&lt;img src="../assets/img/contact/high.png" alt="up">&lt;/button>
+        &lt;button class="btn-scrollbar scroll-down" onmousedown="startScrolling('.scroll-wrapper-task', 1)" onmouseup="stopScrolling()" onmouseleave="stopScrolling()">&lt;img src="../assets/img/contact/down.png" alt="down">&lt;/button>
+      &lt;/div>
+      &lt;article class="edit-btn">
+          &lt;div class="frame-edit-btn">
+            &lt;button class="delete-task-view" onclick="deleteTask('${element.id}')">
+              &lt;figure class="container-img-delete">
+                &lt;div class="img-delete">&lt;/div>
+                &lt;figcaption class="text-delete">Delete&lt;/figcaption>
+              &lt;/figure>
+            &lt;/button>
+            &lt;div class="seperator-view-task">&lt;/div>
+            &lt;button class="edit-task-view" onclick="getEditOverlay('${element.id}')">
+              &lt;figure class="container-img-edit">
+                &lt;div class="img-edit">&lt;/div>
+                &lt;figcaption class="text-edit">Edit&lt;/figcaption>
+              &lt;/figure>
+            &lt;/button>
+          &lt;/div>
+      &lt;/article>
+    &lt;/dialog>
+  `;
+}
+
+
+/**
+ * Generates the HTML template for a subtask with a checkbox.
+ *
+ * @param {Array&lt;Object>} subtasks - The subtasks belonging to the task.
+ * @param {string|number} id - The unique ID of the parent task.
+ * @param {number} index - The index of the subtask in the array.
+ * @returns {string} The HTML template for the subtask with a checkbox.
+ */
+function generateSubtaskHTML(subtasks, id, index) {
+  return `
+    &lt;label id = "subtask-${id}-${index}" class="container-checkbox subtask-text" >
+      &lt;div class="background-checkbox">
+        &lt;input type="checkbox" class="checkbox-subtask" onclick="toggleStatusSubtask('subtask-${id}-${index}', '${id}', ${index})" value="${subtasks[index].status}" ${subtasks[index].status === "done" ? "checked" : ""}/>
+      &lt;/div>
+      &lt;p class="description-subtask">
+        ${subtasks[index].title}
+      &lt;/p>
+    &lt;/label >
+  `;
+}
+
+
+/**
+ * Generates the HTML template for the task edit overlay.
+ * The overlay contains the form fields for editing the task details,
+ * assigned contacts, priority, and subtasks.
+ *
+ * @param {Object} element - The task object containing all relevant task data.
+ * @returns {string} The HTML template for the task edit overlay.
+ */
+function generateEditOverlayHTML(element) {
+  return `
+    &lt;dialog id="edit-overlay-${element.id}" class="edit-task-overlay modal-class" >
+      &lt;header class="header-form">
+              &lt;div class="headline-edit-task">
+                &lt;div>&lt;/div>
+                &lt;button class="btn-close" onclick="closeEditOverlay('${element.id}')">&lt;/button>
+              &lt;/div>
+      &lt;/header>
+      &lt;div class="scroll-container">
+        &lt;div class="scroll-wrapper">
+          &lt;div class="frame-view-edit-task">
+            &lt;form id="edit-form-${element.id}" class="form-for-edit-task" onsubmit= "return checkFormDataEditOverlay('${element.id}')" novalidate>
+              &lt;div class="container-form">
+                &lt;label class="label-form" for="title-input">Title&lt;span id="feedback-title-${element.id}" class="info-failed hidden">This field is required.&lt;/span>&lt;/label>
+                &lt;input
+                  type="text"
+                  class="input input-title hover-input"
+                  id="title-input-${element.id}"
+                  name="title-input"
+                  required
+                  placeholder="Enter a title"
+                  value="${element.title}"
+                />&lt;br />
+              &lt;/div>
+              &lt;div class="container-form">
+                &lt;label class="label-form" for="description-input"
+                >Description&lt;/label
+                >
+                &lt;textarea
+                  class="input-description hover-input"
+                  id="description-input-${element.id}"
+                  name="description-input"
+                  required
+                  placeholder="Enter a Description"
+                >${element.description}&lt;/textarea
+                >&lt;br />
+              &lt;/div>
+              &lt;div class="container-form">
+                &lt;label class="label-form" for="date-input">Due Date&lt;span id="feedback-duedate-${element.id}" class="info-failed hidden">This field is required.&lt;/span>&lt;/label>
+                &lt;input
+                  type="date"
+                  class="input input-date hover-input"
+                  id="date-input-${element.id}"
+                  name="date-input"
+                  required
+                  value="${element.dueDate}"
+                />&lt;br />
+              &lt;/div>
+              &lt;div id="${element.priority}" class="set-up-prio-in-edit-mode">
+                &lt;span class="title-prio-in-edit-mode">Priority&lt;/span>
+                &lt;div id="prio-btn-${element.id}" class="btn-prio-in-edit-mode">
+                  &lt;button type="button" class="btn-prio-edit priority urgent ${element.priority === 'Urgent' ? 'active' : ''}" value="Urgent" onclick="setPriority(this)">
+                    &lt;span>Urgent&lt;/span>
+                    &lt;img
+                      src="../assets/img/priority/Property 1=Urgent.svg"
+                      alt=""
+                    />
+                  &lt;/button>
+                  &lt;button type="button" class="btn-prio-edit priority medium ${element.priority === 'Medium' ? 'active' : ''}" value="Medium" onclick="setPriority(this)">
+                    &lt;span>Medium&lt;/span>
+                    &lt;img
+                      src="../assets/img/priority/Property 1=Medium.svg"
+                      alt=""
+                    />
+                  &lt;/button>
+                  &lt;button type="button" class="btn-prio-edit priority low ${element.priority === 'Low' ? 'active' : ''}" value="Low" onclick="setPriority(this)">
+                    &lt;span>Low&lt;/span>
+                    &lt;img
+                      src="../assets/img/priority/Property 1=Low.svg"
+                      alt=""
+                    />
+                  &lt;/button>
+                &lt;/div>
+              &lt;/div>
+              &lt;div id="container-dropdown-menu-${element.id}" class="input-group container-dropdown-user">
+                &lt;label>Assigned to&lt;/label>
+                &lt;div id="toggle-${element.id}" class="dropdown-container" onclick="toggleDropdown(this)">
+                  &lt;input id="dropdown-assignment-${element.id}" class="dropdown dropdown-assignment" placeholder="Select contacts" onkeydown="showFilteredContactList(this)">
+                    &lt;button type="button" id="dropdownArrow-${element.id}" class="arrow-dropdown">&lt;/button>
+                    &lt;div id="dropdownMenu-${element.id}" class="dropdown-menu">&lt;/div>
+                &lt;/div>
+                &lt;div id="contact-chosen-for-task-${element.id}" class="assign-contact margin-badge">${getAssignedContactBadges(element.assignedTo)}&lt;/div>
+              &lt;/div>
+              &lt;div class="input-group group-subtasks">
+                &lt;label>Subtasks&lt;/label>
+                &lt;div class="subtask-input">
+                  &lt;input id="input-subtask-${element.id}" class="subtask-enter" type="text" placeholder="Add new subtask" />
+                  &lt;div class="subtask-actions">
+                    &lt;button type="button" onclick="closeEditSubtask('${element.id}')">
+                      &lt;img src="../assets/img/edit_delete/Property 1=close.svg" />
+                    &lt;/button>
+                    &lt;div class="subtask-divider">&lt;/div>
+                    &lt;button type="button" onclick="saveEditSubtask('${element.id}')">
+                      &lt;img src="../assets/img/edit_delete/Property 1=check.svg" />
+                    &lt;/button>
+                  &lt;/div>
+                &lt;/div>
+                &lt;div id="list-subtasks-${element.id}" class="list-subtasks remove-scrollbar">
+                  &lt;ul id="ul-subtask-${element.id}" class="container-ul-subtask">${getSubtasksEditOverlay(element.subtasks, element.id)}&lt;/ul>
+                &lt;/div>
+              &lt;/div>
+            &lt;/form>
+          &lt;/div>
+        &lt;/div>
+        &lt;button class="btn-scrollbar scroll-top" onmousedown="startScrolling('.scroll-wrapper', -1)" onmouseup="stopScrolling()" onmouseleave="stopScrolling()">&lt;img src="../assets/img/contact/high.png" alt="up">&lt;/button>
+        &lt;button class="btn-scrollbar scroll-down" onmousedown="startScrolling('.scroll-wrapper', 1)" onmouseup="stopScrolling()" onmouseleave="stopScrolling()">&lt;img src="../assets/img/contact/down.png" alt="down">&lt;/button>
+      &lt;/div>
+      &lt;footer class="footer-edit-overlay">
+        &lt;p id="subtask-edit-feedback-${element.id}" class="subtask-edit-feedback hidden">&lt;span class="red-required">*&lt;/span>Close the subtasks.&lt;/p>
+        &lt;button type="submit" form="edit-form-${element.id}" class="confirm-edit-btn">
+          &lt;span>Ok&lt;/span>
+          &lt;img class="check-mark" src="../assets/img/board/check.svg" alt="img-check-mark">
+        &lt;/button>
+      &lt;/footer>
+    &lt;/dialog >
+  `;
+}
+
+
+/**
+ * Generates the HTML template for a subtask in edit mode.
+ * The template contains the subtask title and buttons for editing and deleting it.
+ *
+ * @param {Array&lt;Object>} subtasks - The subtasks belonging to the task.
+ * @param {string|number} id - The unique ID of the parent task.
+ * @param {number} index - The index of the subtask in the array.
+ * @returns {string} The HTML template for the editable subtask.
+ */
+function generateSubtaskEditHTML(subtasks, id, index) {
+  return `
+           &lt;div id="edit-subtask-${id}-${index}" class="container-subtask-li" data-status="${subtasks[index].status}" ondblclick="editSubtask(this)">
+                &lt;li class="li-subtask subtask-text">${subtasks[index].title}&lt;/li>
+                &lt;div class="container-edit-btn">
+                    &lt;button type="button" class="edit-button" onclick="editSubtask(this)">&lt;/button>
+                    &lt;div class="subtask-divider">&lt;/div>
+                    &lt;button type="button" class="delete-button" onclick="deleteSubtask(this)">&lt;/button>
+                &lt;/div>
+           &lt;/div>
+  `;
+}
+
+</code></pre>
+        </article>
+    </section>
 
 
 

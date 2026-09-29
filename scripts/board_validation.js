@@ -83,29 +83,3 @@ function checkEditDueDate(id) {
     return false;
 }
  
-// Event Listeners //
- 
-/**
- * Global input listener for live validation inside edit-task overlays.
- * As the user types into a title field (".input-title"), re-validates
- * that task's title; as the user types into a due-date field
- * (".input-date"), re-validates that task's due date. The task ID is
- * derived from the input element's ID.
- *
- * @listens document#input
- * @param {InputEvent} event - The input event; event.target is checked
- *                              against the ".input-title" and
- *                              ".input-date" classes.
- * @returns {void}
- */
-document.addEventListener("input", (event) => {
-    if (event.target.classList.contains("input-title")) {
-        const id = event.target.id.replace("title-input-", "");
-        checkEditTitleName(id);
-    }
- 
-    if (event.target.classList.contains("input-date")) {
-        const id = event.target.id.replace("date-input-", "");
-        checkEditDueDate(id);
-    }
-});

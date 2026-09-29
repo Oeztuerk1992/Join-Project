@@ -97,9 +97,8 @@ function getUserGreeting() {
  * @returns {void}
  */
 function initMobileGreetingSplash() {
-  const isMobile = window.innerWidth <= 992;
   const splash = document.getElementById("mobile-greeting-splash");
-  if (!isMobile || !splash) return;
+  if (!isMobileView() || !splash) return;
  
   if (sessionStorage.getItem("greetingShown")) {
     splash.remove();
@@ -245,13 +244,12 @@ function getFormatDateSummary(date) {
  
  
 /**
- * Counts all tasks that are not yet done (i.e. any status other than
- * "Done") and writes the count into the "count-tasks" element.
+ * Counts all tasks, writes the count into the "count-tasks" element.
  *
  * @returns {number} The number of not-yet-done tasks.
  */
 function getSumTasksBoard() {
-  const sum = tasks.filter((task) => task.taskStatus !== "Done").length;
+  const sum = tasks.length;
   document.getElementById("count-tasks").textContent = sum;
  
   return sum;

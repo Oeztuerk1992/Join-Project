@@ -16,11 +16,11 @@
     min-width: 0;
 }
 .contact-circle {
-    width: 40px;
-    height: 40px;
+    width: 42px;
+    height: 42px;
 
-    min-width: 40px;
-    min-height: 40px;
+    min-width: 42px;
+    min-height: 42px;
 
     flex-shrink: 0;
 
@@ -34,6 +34,12 @@
     font-size: 14px;
     font-weight: 500;
     border: 2px solid var(--color-white);
+}
+.contact-circle.contact-for-tasks {
+    margin-left: -10px;
+}
+.contact-circle.contact-for-tasks:first-child {
+    margin-left: 0;
 }
 .show {
     display: block;
@@ -101,9 +107,10 @@ textarea {
     width: 100%;
 }
 .textarea-wrapper textarea {
-    max-height: 200px;
+    max-height: 240px;
     min-height: 100px;
     padding: 12px 16px;
+    overflow-y: auto;
     resize: vertical;
 }
 .textarea-icon {

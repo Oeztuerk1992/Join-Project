@@ -7,6 +7,10 @@
 
   background-color: var(--color-white);
   box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.16);
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
 }
 .edit-task-overlay::backdrop {
     background-color: var(--color-black-50);
@@ -159,7 +163,13 @@
 
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 20px;
+
+  padding-bottom: 8px; 
+  overflow-x: auto;
+}
+.assign-contact::-webkit-scrollbar {
+  height: 4px;
 }
 .contact-for-tasks {
   width: 42px;
@@ -247,14 +257,17 @@
 /* Scrollbar */
 
 .scroll-wrapper {
-  overflow-y: auto;
-  overflow-x: hidden;
-
-  width: 505px;
-  max-height: 710px;
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 505px;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
 }
 .scroll-wrapper::-webkit-scrollbar-track {
-  margin-top: 55px;
+    margin-top: 25px;
+    margin-bottom: 25px;
 }
 .list-subtasks::-webkit-scrollbar-track {
   margin-top: 10px;
@@ -264,7 +277,7 @@
   overflow: hidden;
 }
 .assign-contact.margin-badge {
-  margin-left: 10px;
+  margin-left: 0px;
 }
 .header-add-task {
   align-items: unset;

@@ -20,7 +20,6 @@
     width: 100px;
     height: 122px;
     margin-top: 90px;
-    /* border: 2px solid red; */
 }
 
 /* Logo animation */
@@ -42,7 +41,8 @@
     position: fixed;
     top: 50%;
     left: 50%;
-    width: 220px;
+    width: 274px;
+    height: 334px;
     transform: translate(-50%, -50%);
     transition: 
         top 1.2s ease,
@@ -50,6 +50,8 @@
         width 1.2s ease,
         transform 1.2s ease;
     z-index: 1001;
+
+    visibility: hidden;
 }
 .hidden-splash {
     opacity: 0;
@@ -99,7 +101,7 @@
     min-height: 100vh;
 }
 .login-card {
-    width: 600px;
+    width: 650px;
     height: 450px;
     background: var(--color-white);
     border-radius: 30px;
@@ -199,7 +201,7 @@ input::placeholder {
 }
 .signup-card {
     width: 600px;
-    min-height: 630px;
+    height: 630px;
 
     background: var(--color-white);
     border-radius: 30px;
@@ -215,7 +217,12 @@ input::placeholder {
     top: 58px;
     border: none;
     border-radius: 50%;
+
     background-image: url("../assets/img/login/arrow-left-line.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    
     background-color: transparent;
     width: 32px;
     height: 32px;
@@ -244,9 +251,7 @@ input::placeholder {
     flex-direction: column;
     align-items: center;
 }
-.signup-card::backdrop {
-    background-color: var(--color-black-50);
-}
+
 .privacy-row {
     display: flex;
     align-items: center;
@@ -272,7 +277,7 @@ input::placeholder {
 }
 .footer-login {
     position: fixed;
-    bottom: 40px;
+    bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -302,12 +307,15 @@ input::placeholder {
     .login-card {
         width: 396px;
         height: 475px;
-        padding: 32px;
+        padding: 46px;
     }
     .login-card h1 {
         font-size: 47px;
     }
     .input-group {
+        width: 364px;
+    }
+    form .signup-validation-width {
         width: 364px;
     }
     .login-btn {
@@ -334,34 +342,18 @@ input::placeholder {
         width: 100px;
         height: 122px;
     }
+    .logo-container {
+        width: 64px;
+        height: 78px;
+    }
+    .footer-login {
+        gap: 20px;
+    }
     footer a {
         width: 120px;
     }
-    .frame-header {
-        flex-direction: row;
-        justify-content: flex-start;
-        padding-left: 16px;
-    }
     .logo-container {
         margin-top: 30px;
-    }
-    .signup-section {
-        position: fixed;
-        bottom: 110px;
-        left: 50%;
-        transform: translateX(-50%);
-
-        display: flex;
-        align-items: center;
-        gap: 30px;
-
-        max-width: 300px;
-    }
-    .question-signup-info {
-        width: 200px;
-        min-width: 0;
-        white-space: normal;
-        overflow-wrap: break-word;
     }
 
     /* Signup */
@@ -386,8 +378,28 @@ input::placeholder {
     .back-btn {
         top: 40px;
     }
-    .signup-card.modal-class {
-        top: 50%;
+    .signup-card.container-position {
+        top: 53%;
+    }
+    .signup-section {
+        position: fixed;
+        bottom: 10%;
+        left: 50%;
+        transform: translateX(-50%);
+
+        display: flex;
+        align-items: center;
+    }
+    .question-signup-info {
+        width: 200px;
+        min-width: 0;
+        white-space: normal;
+        overflow-wrap: break-word;
+    }
+    .frame-header {
+        flex-direction: row;
+        justify-content: flex-start;
+        padding-left: 16px;
     }
 }
 
@@ -402,6 +414,22 @@ input::placeholder {
         width: 280px;
     }
     .input-group {
+        width: 280px;
+    }
+    .question-signup-info {
+        font-size: 16px;
+        width: 130px;
+    }
+    .signup-section {
+        gap: 20px;
+    }
+    .footer-login {
+        gap: 15px;
+    }
+    footer a {
+        width: 110px;
+    }
+    form .signup-validation-width {
         width: 280px;
     }
     .input-group input {
@@ -430,113 +458,148 @@ input::placeholder {
     }
 }
 
-@media (max-height: 810px) and (max-width: 427px) {
+@media  (max-height: 950px) {
 
+    /* Signup */
+
+    .signup-card {
+        height: 560px;
+    }
+    .btn-signup-big  {
+        margin-top: 15px;
+    }
+    .input-group {
+        margin-top: 12px;
+    }
+    .signup-card.container-position {
+        top: 55%;
+    }
+}
+
+@media  (max-height: 800px) {
+    
+    /* Login */
+
+    .login-card h1 {
+        font-size: 42px;
+    }
     .login-card {
         padding: 12px;
-        height: 395px;
+        height: 290px;
+        width: 428px;
     }
     .button-row {
-        gap: 5px;
+        gap: 25px;
         margin-top: 10px;
-    }
-    .signup-section {
-        bottom: 70px;
-        max-width: 270px;
     }
     .login-card .input-group {
         margin-top: 10px;
-    }
-    .signup-btn {
-        width: 145px;
+        width: 350px;
     }
     .question-signup-info {
         text-align: center;
         font-size: 16px;
     }
     .footer-login {
-        padding-left: 30px;
+        padding-left: 10px;
     }
-}
-
-@media (min-width: 993px) and (max-width: 1439px) and (max-height: 945px) {
-    .login-card {
-        width: 396px;
-        height: 475px;
-        padding: 32px;
+    .input-group input {
+        height: 38px;
+        font-size: 16px;
     }
-    .login-card h1 {
-        font-size: 47px;
-    }
-    .input-group {
-        width: 364px;
-    }
-    .login-btn {
-        width: 180px;
+    .login-btn, .guest-btn, .signup-btn { 
+        height: 38px;
         font-size: 16px;
     }
     .guest-btn {
-        font-size: 16px;
-    }
-    .button-row {
-        flex-direction: column;
-    }
-    .signup-btn {
-        width: 105px;
-        margin-top: 0px;
-    }
-    .btn-signup-big {
-        width: 180px;
-        height: 50px;
-        margin-top: 35px;
-        font-size: 16px;
-    }
-    .logo {
-        width: 100px;
-        height: 122px;
-    }
-    footer a {
-        width: 120px;
-    }
-    .logo-container {
-        margin-top: 30px;
-    }
-    .signup-section {
-        flex-direction: column;
-        gap: 10px;
-        align-items: center;
+        width: 160px;
     }
     .question-signup-info {
-        width: 200px;
-        min-width: 0;
-        white-space: normal;
-        overflow-wrap: break-word;
-        text-align: center;
+        width: 150px;
+    }
+    .login-card.container-position {
+        top: 52%;
+    }
+
+    /* Signup */
+
+    /* .signup-card.container-position {
+        top: 56%;
+    } */
+    .signup-card h1 {
+        font-size: 42px;
+    }
+    .signup-card {
+        height: 420px;
+        padding: 12px;
+        width: 428px;
+    }
+    .btn-signup-big {
+        margin-top: 15px;
+    }
+    .back-btn {
+        top: 20px;
+    }
+    .input-group {
+        margin-top: 12px;
+        width: 350px;
+    }
+    form .signup-validation-width {
+        width: 350px;
+    }
+    .logo-container {
+        width: 64px;
+        height: 78px;
+        margin-top: 20px;
+    }
+    .signup-section .signup-btn {
+        margin-top: 0;
+    }
+
+
+}
+
+@media  (max-height: 800px) and (max-width: 992px) {
+    
+    /* Login */
+
+    .login-card {
+        height: 350px;
+        width: 396px;
+    }
+    .guest-btn {
+        width: 180px;
+    }
+    .button-row {
+        gap: 20px;
     }
 
     /* Signup */
 
     .signup-card {
-        padding: 16px;
         width: 396px;
-        min-height: unset;
-        height: 580px;
     }
-    .signup-card h1 {
-        font-size: 47px;
+}
+
+@media  (max-height: 800px) and (max-width: 427px) {
+    
+    /* Login */
+
+    .login-card {
+        width: 300px;
     }
-    dialog .info-failed {
-        height: 45px;
-        text-align: center;
-        width: 342px;
+    .login-card .input-group {
+        width: 280px;
     }
-    .privacy-row {
-        padding-top: 5px;
+    /* Signup */
+
+    .signup-card {
+        width: 300px;
     }
-    .back-btn {
-        top: 40px;
+    .signup-card .input-group {
+        width: 280px;
     }
-    .signup-card.modal-class {
-        top: 50%;
+    form .signup-validation-width {
+        width: 280px;
     }
 }

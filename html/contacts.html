@@ -118,11 +118,11 @@
       </div>
     </div>
     <div class="divider">
-      <button onclick="scrollToTop()"><img src="../assets/img/contact/high.png" alt="up"></button>
+      <button onmousedown="startScrolling('.scrollwrapper-contacts', -1)" onmouseup="stopScrolling()" onmouseleave="stopScrolling()"><img src="../assets/img/contact/high.png" alt="up"></button>
       <div class="custom-scrollbar">
         <div class="custom-thumb"></div>
       </div>
-      <button onclick="scrollToBottom()"><img src="../assets/img/contact/down.png" alt="down"></button>
+      <button onmousedown="startScrolling('.scrollwrapper-contacts', 1)" onmouseup="stopScrolling()" onmouseleave="stopScrolling()"><img src="../assets/img/contact/down.png" alt="down"></button>
     </div>
     <div class="contact-info">
       <div class="contact-details">
@@ -257,6 +257,7 @@
     <span>Please contact the administrator<br>if you would like your account to be deleted.</span>
   </dialog>
   <script src="../scripts/contact.js"></script>
+  <script src="../scripts/contact_scrollbar.js"></script>
   <script src="../scripts/contact_update.js"></script>
   <script src="../scripts/contact_api.js"></script>
   <script src="../scripts/contact_validation.js"></script>

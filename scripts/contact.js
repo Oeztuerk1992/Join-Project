@@ -61,9 +61,26 @@ async function initContacts() {
  
     renderContacts();
     initScrollbar();
+    getRestrictionsForInput();
 }
+
  
- 
+/**
+ * Attaches input restrictions to the contact form fields: phone inputs
+ * (add/edit) accept only digits, spaces, hyphens and a leading "+";
+ * name inputs (add/edit) accept only letters, spaces, apostrophes and
+ * hyphens. Must be called after the DOM is loaded (e.g. in initContacts()).
+ *
+ * @returns {void}
+ */
+function getRestrictionsForInput() {
+    restrictPhoneInput(document.getElementById('phone'));
+    restrictPhoneInput(document.getElementById('phone-edit'));
+    restrictNameInput(document.getElementById('name'));
+    restrictNameInput(document.getElementById('name-edit'));
+}
+
+
 /**
  * Opens the "add contact" overlay: makes it visible, then adds the
  * "open" class on the next tick to trigger its entrance transition.
@@ -343,4 +360,33 @@ function restoreActiveContact() {
  
     activeContactEl = element;
     activeContactEl.classList.add('active');
+}
+
+
+/**
+ * Restricts a phone input to digits, spaces, hyphens and a leading "+".
+ *
+ * @param {HTMLInputElement} input - The phone input element.
+ * @returns {void}
+ */
+function restrictPhoneInput(input) {
+    input.addEventListener('input', () => {
+        input.value = input.value
+            .replace(/[^\d\s+-]/g, '')
+            .replace(/(?!^)\+/g, '');
+    });
+}
+
+
+/**
+ * Restricts a name input to letters (any language), spaces,
+ * apostrophes and hyphens.
+ *
+ * @param {HTMLInputElement} input - The name input element.
+ * @returns {void}
+ */
+function restrictNameInput(input) {
+    input.addEventListener('input', () => {
+        input.value = input.value.replace(/[^\p{L}\s'-]/gu, '');
+    });
 }

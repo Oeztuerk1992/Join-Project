@@ -5,17 +5,19 @@ const inputMail = document.getElementById("input-signup-mail");
  
 
 /**
- * Validates the signup form and starts user registration.
+ * Handles signup form submission by validating all inputs and starting
+ * the registration process if validation succeeds.
  *
  * @param {SubmitEvent} event - Form submit event.
- * @returns {boolean} True if registration was triggered.
+ * @returns {boolean} True if registration was triggered; otherwise
+ *                    false.
  */
 function checkFormDataSignup(event) {
     event.preventDefault();
-    const validation = validateSignupInputs();
 
-    if (!validation.isValid) {
-        showSignupError(validation.message);
+    resetValidation();
+
+    if (!validateSignupInputs()) {
         return false;
     }
 
@@ -25,68 +27,25 @@ function checkFormDataSignup(event) {
 
 
 /**
- * Validates all signup form inputs.
+ * Validates all signup form inputs from top to bottom and stops at the
+ * first validation error.
  *
- * @returns {{isValid: boolean, message: string}} Validation result.
+ * @returns {boolean} True if all inputs are valid, otherwise false.
  */
 function validateSignupInputs() {
-    if (!hasValidSignupInputs()) {
-        return {
-            isValid: false,
-            message:
-                "Please check all inputs and correct any errors."
-        };
-    }
+    if (!checkUserName()) return false;
 
-    if (!checkUserPwConfirm()) {
-        return {
-            isValid: false,
-            message:
-                "Your passwords don't match. Please try again."
-        };
-    }
+    if (!checkUserMail()) return false;
 
-    if (!checkPrivacyPolicy()) {
-        return {
-            isValid: false,
-            message:
-                "Please accept the Privacy Policy before proceeding."
-        };
-    }
+    if (!checkUserPw()) return false;
 
-    return { isValid: true, message: "" };
+    if (!checkUserPwConfirm()) return false;
+
+    if (!checkPrivacyPolicy()) return false;
+
+    return true;
 }
 
-
-/**
- * Validates name, email, and password inputs.
- *
- * @returns {boolean} True if all inputs are valid.
- */
-function hasValidSignupInputs() {
-    const isNameValid = checkUserName();
-    const isMailValid = checkUserMail();
-    const isPwValid = checkUserPw();
-
-    return (
-        isNameValid
-        && isMailValid
-        && isPwValid
-    );
-}
-
-
-/**
- * Displays a signup validation error message.
- *
- * @param {string} message - Error message to display.
- * @returns {void}
- */
-function showSignupError(message) {
-    info.classList.remove("hidden-feedback");
-    info.textContent = message;
-}
- 
 
 /**
  * Validates the signup name field: must consist of at least two words
@@ -109,7 +68,7 @@ function checkUserName() {
     }
     info.classList.remove('hidden-feedback');
     inputName.classList.add('fail-red-border');
-    info.textContent = "Please enter both your first and last name.";
+    info.textContent = "Please enter first and last name.";
     return false;
 }
  
@@ -126,12 +85,13 @@ function checkUserName() {
 function checkUserMail() {
     mailUser.value = mailUser.value.trim().toLowerCase();
     const email = mailUser.value;
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex =
+    /^(?!.*\.\.)[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
  
     if (!emailRegex.test(email)) {
         info.classList.remove("hidden-feedback");
         inputMail.classList.add("fail-red-border");
-        info.textContent = "Please enter your email address in a valid format.";
+        info.textContent = "Please enter a valid email address.";
         return false;
     }
     if (!emailAlreadyExists()) {
@@ -186,7 +146,7 @@ function checkUserPw() {
  
     info.classList.remove('hidden-feedback');
     inputPw.classList.add('fail-red-border');
-    info.textContent = "Please enter a valid password: at least 7 characters.";
+    info.textContent = "Password: With at least 7 characters.";
     return false;
 }
  
@@ -201,17 +161,20 @@ function checkUserPw() {
  */
 function checkUserPwConfirm() {
     const inputPwConf = document.getElementById("input-signup-confirm-pw");
- 
+
     if (checkPw.value.trim() !== "" && checkPw.value === pwUser.value) {
         info.classList.add("hidden-feedback");
-        inputPwConf.classList.remove('fail-red-border');
- 
+        inputPwConf.classList.remove("fail-red-border");
         return true;
     }
- 
-    info.classList.remove('hidden-feedback');
-    inputPwConf.classList.add('fail-red-border');
-    info.textContent = "Your passwords don't match. Please try again.";
+
+    info.classList.remove("hidden-feedback");
+    inputPwConf.classList.add("fail-red-border");
+
+    info.textContent = isMobileView()
+        ? "Passwords don't match. Try again."
+        : "Your passwords don't match. Please try again.";
+
     return false;
 }
  
@@ -231,7 +194,7 @@ function checkPrivacyPolicy() {
     }
  
     info.classList.remove("hidden-feedback");
-    info.textContent = "Please accept the Privacy Policy before proceeding.";
+    info.textContent = "Please accept the Privacy Policy.";
     return false;
 }
  
@@ -316,7 +279,7 @@ async function createContactFromUser(fullName, email, userId) {
  
 /**
  * Shows the signup confirmation dialog, then automatically dismisses
- * it and switches to the login modal after a fixed delay.
+ * it and switches to the login window after a fixed delay.
  *
  * @returns {void}
  */
@@ -328,46 +291,6 @@ function showConfirmationSignup() {
     setTimeout(() => {
         confirmation.classList.remove("show");
         confirmation.close();
-        getLoginModal();
+        getToLogin();
     }, 2000);
 }
- 
-// Event Listeners //
- 
-/**
- * Live validation listeners for the signup form: re-validate the name
- * field on every keystroke and on blur.
- *
- * @listens HTMLElement#input
- * @listens HTMLElement#blur
- */
-document.getElementById("signup-name")?.addEventListener("input", checkUserName);
-document.getElementById("signup-name")?.addEventListener("blur", checkUserName);
- 
-/**
- * Live validation listeners for the signup form: re-validate the email
- * field on every keystroke and on blur.
- *
- * @listens HTMLElement#input
- * @listens HTMLElement#blur
- */
-document.getElementById("input-signup-mail")?.addEventListener("input", checkUserMail);
-document.getElementById("input-signup-mail")?.addEventListener("blur", checkUserMail);
- 
-/**
- * Live validation listeners for the signup form: re-validate the
- * password field on every keystroke and on blur.
- *
- * @listens HTMLElement#input
- * @listens HTMLElement#blur
- */
-document.getElementById("input-signup-pw")?.addEventListener("input", checkUserPw);
-document.getElementById("input-signup-pw")?.addEventListener("blur", checkUserPw);
- 
-/**
- * Live validation listener for the signup form: re-validate privacy
- * policy acceptance whenever its checkbox state changes.
- *
- * @listens HTMLElement#change
- */
-document.getElementById("privacy-policy")?.addEventListener("change", checkPrivacyPolicy);

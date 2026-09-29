@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: scripts/templates/contact_template.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,118 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: scripts/templates/contact_template.js</h1>
 
     
 
 
 
     
-
-
-    <h3> </h3>
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Builds the HTML markup for a single contact list item, including its
+ * data attributes (id, name, initials, email, phone, color) used
+ * elsewhere via `element.dataset` (e.g. showContact(), activeContact).
+ *
+ * @param {string} capitalizedName - The contact's name in title case.
+ * @param {string} initials - One or two uppercase initials.
+ * @param {string} email - The contact's email address.
+ * @param {string} randomColor - CSS color value/variable used as the
+ *                                avatar background.
+ * @param {string} phone - The contact's phone number.
+ * @param {string} id - The contact's ID.
+ * @returns {string} HTML markup for the contact list item.
+ */
+function createContactTemplate(capitalizedName, initials, email, randomColor, phone, id) {
+    return `
+        &lt;div class="contact-item"
+            data-id="${id}"
+            data-name="${capitalizedName}"
+            data-initials="${initials}"
+            data-email="${email}"
+            data-phone="${phone}"
+            data-color="${randomColor}"
+            onclick="showContact(this)">
+            &lt;div class="contact-badge" style="background-color: ${randomColor}">${initials}&lt;/div>
+            &lt;div class="contact-name-email">
+                &lt;span class="name">${capitalizedName}&lt;/span>
+                &lt;span class="email">${email}&lt;/span>
+            &lt;/div>
+        &lt;/div>
+    `;
+}
+ 
+ 
+/**
+ * Builds the HTML markup for an alphabetical section divider shown
+ * above the first contact whose name starts with a given letter.
+ *
+ * @param {string} letter - The section letter to display.
+ * @returns {string} HTML markup for the letter heading and divider.
+ */
+function createLetterTemplate(letter) {
+    return `
+        &lt;div class="alphabet-letter">${letter}&lt;/div>
+        &lt;div class="alphabet-divider">&lt;/div>
+    `;
+}
+ 
+ 
+/**
+ * Builds the HTML markup for the contact detail panel, including edit
+ * and delete action buttons.
+ *
+ * @param {string} name - The contact's display name.
+ * @param {string} initials - One or two uppercase initials.
+ * @param {string} email - The contact's email address.
+ * @param {string} phone - The contact's phone number.
+ * @param {string} color - CSS color value/variable used as the avatar
+ *                          background.
+ * @returns {string} HTML markup for the contact detail view.
+ */
+function createContactDetailTemplate(name, initials, email, phone, color) {
+    return `
+        &lt;div class="contact-detail-header">
+            &lt;div class="contact-detail-badge" style="background-color: ${color}">${initials}&lt;/div>
+            &lt;div class="contact-detail-name">
+                &lt;span class="name-user">${name}&lt;/span>
+                &lt;div id="contact-actions" class="contact-detail-actions">
+                    &lt;span class="edit" onclick="openEditOverlay()">
+                        &lt;img src="../assets/img/contact/edit.png" alt="edit">
+                    &lt;/span>
+                    &lt;span class="delete" onclick="deleteContact()">
+                        &lt;img src="../assets/img/contact/delete.png" alt="delete">
+                    &lt;/span>
+                &lt;/div>
+            &lt;/div>
+        &lt;/div>
+        &lt;div class="contact-detail-info">
+            &lt;p class="contact-label">Contact Information&lt;/p>
+            &lt;p class="label">Email&lt;/p>
+            &lt;p class="email">${email}&lt;/p>
+            &lt;p class="label">Phone&lt;/p>
+            &lt;p class="phone">${phone}&lt;/p>
+        &lt;/div>
+    `;
+}
+ 
+ 
+/**
+ * Builds the HTML markup for the contact list's empty state.
+ *
+ * @returns {string} HTML markup for the "no contacts" message.
+ */
+function generateNoContactsHTML() {
+    return `
+        &lt;div class="no-contacts-info">
+            No contacts available.
+        &lt;/div>
+    `;
+}
+</code></pre>
+        </article>
+    </section>
 
 
 

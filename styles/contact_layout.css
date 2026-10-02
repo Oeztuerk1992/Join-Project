@@ -151,19 +151,38 @@
     display: flex;
     flex-direction: column;
     gap: 21px;
-    width: 100%;
+    width: 0;
     height: 364px;
     margin: 32px 0 0 37px;
     opacity: 0;
-    transform: translateX(100%);
     transition:
         opacity 0.3s ease,
-        transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-    overflow: visible;
+        width 0s 0.3s;
 }
 .contact-detail-panel.visible {
+    width: 100%;
     opacity: 1;
-    transform: translateX(0);
+    transition: opacity 0.3s ease;
+    animation: slide-in-contact 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.contact-info:has(.contact-detail-panel.visible) {
+    animation: clip-contact-info 0.45s;
+}
+@keyframes slide-in-contact {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+@keyframes clip-contact-info {
+    from {
+        overflow: hidden;
+    }
+    to {
+        overflow: hidden;
+    }
 }
 .contact-detail-actions {
     display: flex;
@@ -518,11 +537,12 @@
     }
     .contact-detail-panel,
     .contact-detail-panel.visible {
+        width: 100%;
         margin: 0;
         gap: 0;
         opacity: 1 !important;
-        transform: none !important;
         transition: none !important;
+        animation: none !important;
     }
     .contact-detail-badge {
         position: relative;

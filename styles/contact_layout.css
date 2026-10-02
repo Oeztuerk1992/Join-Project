@@ -44,7 +44,6 @@
     top: 96px;
     height: calc(100vh - 96px);
     padding: 32px;
-    overflow: hidden;
 }
 .contact-details {
     gap: 32px;
@@ -160,7 +159,7 @@
         width 0s 0.3s;
 }
 .contact-detail-panel.visible {
-    width: 100%;
+    width: calc(100% - 37px);
     opacity: 1;
     transition: opacity 0.3s ease;
     animation: slide-in-contact 0.45s cubic-bezier(0.22, 1, 0.36, 1);
@@ -377,6 +376,9 @@
     .contact-detail-panel {
         margin-left: clamp(15px, calc(15px + 22 * ((100vw - 993px) / 446)), 37px);
     }
+    .contact-detail-panel.visible {
+        width: calc(100% - clamp(15px, calc(15px + 22 * ((100vw - 993px) / 446)), 37px));
+    }
     .contact-details {
         margin-top: 80px;
         margin-right: 56px;
@@ -514,9 +516,9 @@
         justify-content: space-evenly;
         flex-direction: column;
         gap: 12px;
-        width: 116px;
+        width: 0;
         height: 100px;
-        padding: 10px 30px 10px 10px;
+        padding: 10px 0;
         border-radius: 20px 20px 0 20px;
         background-color: var(--color-white);
         color: var(--color-blue-navy-900);
@@ -524,16 +526,18 @@
         font-weight: 400;
         box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
         opacity: 0;
+        overflow: hidden;
         pointer-events: none;
-        transform: translateX(160px);
         transition:
             opacity 0.3s ease,
-            transform 0.3s ease;
+            width 0.3s ease,
+            padding 0.3s ease;
     }
     .contact-detail-actions.open {
+        width: 116px;
+        padding: 10px 30px 10px 10px;
         opacity: 1;
         pointer-events: auto;
-        transform: translateX(0);
     }
     .contact-detail-panel,
     .contact-detail-panel.visible {

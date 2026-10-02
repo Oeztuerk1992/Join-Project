@@ -164,6 +164,10 @@
     overflow-y: auto;
     overflow-x: hidden;
 }
+.list-subtasks::-webkit-scrollbar-track {
+    background: transparent;
+    border: none;
+}
 .subtask-input.active {
     border-bottom: 2px solid var(--color-blue-700);
 }

@@ -75,34 +75,45 @@ async function checkFormDataLogin(event) {
  
  
 /**
- * Checks the login form's current email/password against the list of
- * registered users. Toggles the form's error message and red borders
- * depending on the outcome.
+ * Checks whether the entered login credentials match a registered user.
  *
- * @returns {Object|null} The matching registered user object if the
- *                         credentials are correct, or null if no user
- *                         matches.
+ * @returns {Object|null} The matching user object or null if the login
+ *                        data is invalid.
  */
 function checkDataLogin() {
-    const info = document.getElementById("feedback-login");
-    const mailGroup = document.getElementById("login-mail-group");
-    const passwordGroup = document.getElementById("login-password-group");
- 
     for (let index = 0; index < registeredUser.length; index++) {
         if (
             loginMail.value === registeredUser[index].mail &&
             loginPw.value === registeredUser[index].password
         ) {
-            info.classList.add("hidden-feedback");
-            mailGroup.classList.remove("fail-red-border");
-            passwordGroup.classList.remove("fail-red-border");
+            document.getElementById("feedback-login")
+                .classList.add("hidden-feedback");
+
             return registeredUser[index];
         }
     }
-    info.classList.remove('hidden-feedback');
+    showLoginError();
+    return null;
+}
+
+
+/**
+ * Displays login validation feedback and applies error styling.
+ *
+ * @returns {void}
+ */
+function showLoginError() {
+    const info = document.getElementById("feedback-login");
+    const mailGroup = document.getElementById("login-mail-group");
+    const passwordGroup = document.getElementById("login-password-group");
+
+    info.classList.remove("hidden-feedback");
     mailGroup.classList.add("fail-red-border");
     passwordGroup.classList.add("fail-red-border");
-    return null;
+
+    info.textContent = isMobileView()
+        ? "Wrong email or password, try again."
+        : "Check your email and password. Please try again.";
 }
  
  

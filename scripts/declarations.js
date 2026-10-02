@@ -83,3 +83,5 @@ function checkForSidebar() {
 function goBack() {
     window.history.back();
 }
+
+

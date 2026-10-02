@@ -91,21 +91,15 @@ function getUserGreeting() {
  * removes the splash element immediately without animating. Otherwise
  * applies the greeting to the splash's own elements, marks it as
  * shown, and after a delay fades it out and removes it from the DOM.
- * On desktop viewports the splash is removed right away, so it can
- * not cover the page when the window is made smaller later.
+ * Does nothing on desktop viewports or if the splash element doesn't
+ * exist.
  *
  * @returns {void}
  */
 function initMobileGreetingSplash() {
-  const isMobile = window.innerWidth <= 992;
   const splash = document.getElementById("mobile-greeting-splash");
-  if (!splash) return;
-
-  if (!isMobile) {
-    splash.remove();
-    return;
-  }
-
+  if (!isMobileView() || !splash) return;
+ 
   if (sessionStorage.getItem("greetingShown")) {
     splash.remove();
     return;
@@ -250,8 +244,7 @@ function getFormatDateSummary(date) {
  
  
 /**
- * Counts all tasks that are not yet done (i.e. any status other than
- * "Done") and writes the count into the "count-tasks" element.
+ * Counts all tasks, writes the count into the "count-tasks" element.
  *
  * @returns {number} The number of not-yet-done tasks.
  */

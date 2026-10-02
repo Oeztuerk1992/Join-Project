@@ -58,7 +58,7 @@ function checkTitleName() {
  * @returns {boolean} True if a due date is set, false otherwise.
  */
 function checkDueDate() {
-    if (dateForm.value) {
+    if (dateForm.value && (!dateForm.min || dateForm.value >= dateForm.min)) {
         feedbackDuedate.classList.add("hidden");
         dateForm.classList.remove("fail-red-border");
         return true;
@@ -110,33 +110,6 @@ function resetRequiredFields() {
 }
  
  
-// Event Listeners //
- 
-/**
- * Live validation listener: re-validates the title field as the user
- * types.
- *
- * @listens HTMLElement#input
- */
-document.getElementById("task-title")?.addEventListener("blur", checkTitleName);
-
-/**
- * Live validation listener: re-validates the due-date field when its
- * value changes (e.g. picked from the date picker).
- *
- * @listens HTMLElement#change
- */
-document.getElementById("task-date")?.addEventListener("blur", checkDueDate);
-
-/**
- * Live validation listener: re-validates the category field whenever
- * its (hidden) value changes.
- *
- * @listens HTMLElement#input
- */
-document.getElementById("selectedCategory")?.addEventListener("input", checkTaskCategory);
-
-
 // API //
 
 /**
@@ -269,3 +242,37 @@ async function loadContacts() {
    const response = await fetch(BASE_URL + "contacts.json");
    contacts = await response.json() || {};
 }
+
+
+/**
+ * Formats a Date object as a local ISO date string (YYYY-MM-DD).
+ * Intentionally avoids toISOString(), which returns UTC and can yield the wrong date.
+ *
+ * @param {Date} date - The date to format.
+ * @returns {string} Date in YYYY-MM-DD format.
+ */
+function formatLocalDate(date) {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, '0');
+    const d = String(date.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+  }
+  
+  /**
+   * Sets the min attribute of a date input so that only future dates can be selected.
+   *
+   * @param {string} inputId - ID of the date input element.
+   * @param {boolean} [excludeToday=false] - If true, the earliest selectable date is tomorrow; if false, today.
+   * @returns {void}
+   */
+  function restrictToFutureDates(inputId, excludeToday = false) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+  
+    const date = new Date();
+    if (excludeToday) date.setDate(date.getDate() + 1);
+  
+    input.min = formatLocalDate(date);
+  }
+  
+  restrictToFutureDates('task-date');

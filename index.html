@@ -16,17 +16,14 @@
   <link rel="stylesheet" href="./styles/login_components.css" />
 </head>
 
-<body class="login-page" onload="initLogin()">
-    <div class="landscape-warning">
-    <p>Please rotate your device to portrait mode.</p>
-    </div>
+<body onload="initLogin()">
   <div id="splash" class="logo-splash"></div>
   <header class="header-index-page">
     <div class="frame-header">
       <div class="logo-container"></div>
       <div class="signup-section" id="open-signup">
-      <span class="question-signup-info">Not a Join user?</span>
-      <button class="signup-btn" onclick="goToSignup()">Sign up</button>
+        <span class="question-signup-info">Not a Join user?</span>
+        <button class="signup-btn" onclick="getToSignup()">Sign up</button>
       </div>
     </div>
   </header>
@@ -34,29 +31,28 @@
   <div class="container hidden-splash">
 
     <main class="login-wrapper">
-      <dialog class="login-card modal-class" id="login-modal">
+      <div class="login-card container-position" id="login-window">
         <form id="form-for-login" class="login-form" onsubmit="return checkFormDataLogin(event)" novalidate>
           <h1>Log in</h1>
           <div class="underline-login"></div>
           <div id="login-mail-group" class="input-group">
-            <input type="email" id="login-mail" placeholder="Email" autocomplete="username" />
+            <input type="email" id="login-mail" placeholder="Email" />
             <img class="icon" src="./assets/img/login/mail.svg" alt="img-mail" />
           </div>
           <div id="login-password-group" class="input-group">
-            <input type="password" id="login-password" placeholder="Password" autocomplete="current-password" />
+            <input type="password" id="login-password" placeholder="Password" />
             <button type="button" id="btn-pw-one" class="icon toggle-pw">
             </button>
           </div>
           <p id="feedback-login" class="info-failed fail-login hidden-feedback">
-            Check your email and password. Please try again.
+            
           </p>
           <div class="button-row">
             <button type="submit" class="login-btn">Log in</button>
             <button type="button" class="guest-btn" onclick="logInGuest('guest')">Guest Log in</button>
           </div>
         </form>
-      </dialog>
-      
+      </div>
     </main>
     <footer class="footer-login">
       <a href="./html/privacy_policy.html">Privacy Policy</a>
@@ -64,6 +60,8 @@
     </footer>
     <script src="./scripts/startpage_main.js"></script>
     <script src="./scripts/startpage_login_api.js"></script>
+    <script src="./scripts/startpage_signup.js"></script>
+    <script src="./script.js"></script>
     <script src="./scripts/contact.js"></script>
     <script src="./scripts/contact_update.js"></script>
     <script src="./scripts/contact_api.js"></script>

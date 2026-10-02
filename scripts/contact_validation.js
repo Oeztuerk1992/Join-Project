@@ -37,40 +37,39 @@ function getFormRefs(filterWord) {
 
 
 /**
-* Submit handler for the add/edit contact form: prevents the native
-* form submission, validates name, email, and phone, and shows a
-* generic error message if any check fails. If everything is valid,
-* creates or saves the contact depending on which form was submitted.
-*
-* @param {SubmitEvent} event - The form submit event.
-* @param {string} filterWord - "add" to create a new contact, any
-*                               other value (e.g. "edit") to save
-*                               changes to the active contact.
-* @returns {boolean} Always returns false (used as an inline
-*                     `onsubmit="return checkFormDataContactOverlay(event, filterWord)"`
-*                     handler).
-*/
+ * Submit handler for the add/edit contact form: prevents the native
+ * form submission, then validates name, email, and phone in order.
+ * Validation stops at the first failing field, so only that field's
+ * error message and styling are shown (via short-circuit evaluation
+ * of the individual check functions). If everything is valid, creates
+ * or saves the contact depending on which form was submitted.
+ *
+ * @param {SubmitEvent} event - The form submit event.
+ * @param {string} filterWord - "add" to create a new contact, any
+ *                               other value (e.g. "edit") to save
+ *                               changes to the active contact.
+ * @returns {boolean} Always returns false (used as an inline
+ *                     `onsubmit="return checkFormDataContactOverlay(event, filterWord)"`
+ *                     handler).
+ */
 function checkFormDataContactOverlay(event, filterWord) {
-   event.preventDefault();
-   const { infoContact } = getFormRefs(filterWord);
-   const isNameValid = checkUserNameContact(filterWord);
-   const isMailValid = checkUserMailContact(filterWord);
-   const isPhoneValid = checkUserPhone(filterWord);
+    event.preventDefault();
+    const { infoContact } = getFormRefs(filterWord);
 
-   if (!isNameValid || !isMailValid || !isPhoneValid) {
-       infoContact.classList.remove("hidden-feedback");
-       infoContact.textContent = "Please check all inputs and correct any errors.";
-       return false;
-   }
+    const isValid =
+        checkUserNameContact(filterWord) &&
+        checkUserMailContact(filterWord) &&
+        checkUserPhone(filterWord);
 
-   infoContact.classList.add("hidden-feedback");
+    if (!isValid) {
+        infoContact.classList.remove("hidden-feedback");
+        return false;
+    }
 
-   if (filterWord === 'add') {
-           createContact();
-   } else {
-       saveContact();
-   }
-   return false;
+    infoContact.classList.add("hidden-feedback");
+
+    filterWord === 'add' ? createContact() : saveContact();
+    return false;
 }
 
 
@@ -120,13 +119,12 @@ function checkUserMailContact(filterWord) {
 
    emailInput.value = emailInput.value.trim().toLowerCase();
    const email = emailInput.value;
-   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-   const hasWrongDots = email.includes("..") || email.startsWith(".") || email.includes(".@") || email.includes("@.");
+   const emailRegex = /^(?!.*\.\.)[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 
-   if (!emailRegex.test(email) || hasWrongDots) {
+   if (!emailRegex.test(email)) {
        infoContact.classList.remove("hidden-feedback");
        inputWrapperMail.classList.add("fail-red-border");
-       infoContact.textContent = "Please enter a valid email address.";
+       infoContact.textContent = "Please enter a valid email address."
        return false;
    }
    if (!emailAlreadyExistsContact(filterWord)) {
@@ -306,7 +304,7 @@ function checkUserPhone(filterWord) {
 
    if (phone.length < 11) {
        infoContact.classList.remove("hidden-feedback");
-       infoContact.textContent = "Phone number must contain at least 11 characters.";
+       infoContact.textContent = "Phone number: min. 11 digits!";
        inputWrapperPhone.classList.add("fail-red-border");
        return false;
    }
@@ -320,7 +318,7 @@ function checkUserPhone(filterWord) {
    }
 
    infoContact.classList.remove("hidden-feedback");
-   infoContact.textContent = "Please enter a valid phone number (+XX XX...).";
+   infoContact.textContent = "Use format: +49 XXX...";
    inputWrapperPhone.classList.add("fail-red-border");
    return false;
 }
@@ -374,65 +372,3 @@ function showDialogDelete() {
        confirmation.close();
    }, 4000);    
 }
-
-
-// Event Listener //
-
-/**
-* Live validation listeners for the "add contact" form: re-validate
-* the name field on every keystroke and on blur.
-*
-* @listens HTMLElement#input
-* @listens HTMLElement#blur
-*/
-
-document.getElementById("name")?.addEventListener("blur", () => checkUserNameContact("add"));
-
-/**
-* Live validation listeners for the "add contact" form: re-validate
-* the email field on every keystroke and on blur.
-*
-* @listens HTMLElement#input
-* @listens HTMLElement#blur
-*/
-
-document.getElementById("email")?.addEventListener("blur", () => checkUserMailContact("add"));
-
-/**
-* Live validation listeners for the "add contact" form: re-validate
-* the phone field on every keystroke and on blur.
-*
-* @listens HTMLElement#input
-* @listens HTMLElement#blur
-*/
-
-document.getElementById("phone")?.addEventListener("blur", () => checkUserPhone("add"));
-
-/**
-* Live validation listeners for the "edit contact" form: re-validate
-* the name field on every keystroke and on blur.
-*
-* @listens HTMLElement#input
-* @listens HTMLElement#blur
-*/
-
-document.getElementById("name-edit")?.addEventListener("blur", () => checkUserNameContact("edit"));
-
-/**
-* Live validation listeners for the "edit contact" form: re-validate
-* the email field on every keystroke and on blur.
-*
-* @listens HTMLElement#input
-* @listens HTMLElement#blur
-*/
-
-document.getElementById("email-edit")?.addEventListener("blur", () => checkUserMailContact("edit"));
-
-/**
-* Live validation listeners for the "edit contact" form: re-validate
-* the phone field on every keystroke and on blur.
-*
-* @listens HTMLElement#input
-* @listens HTMLElement#blur
-*/
-document.getElementById("phone-edit")?.addEventListener("blur", () => checkUserPhone("edit"));

@@ -256,7 +256,7 @@ function getFormatDateSummary(date) {
  * @returns {number} The number of not-yet-done tasks.
  */
 function getSumTasksBoard() {
-  const sum = tasks.filter((task) => task.taskStatus !== "Done").length;
+  const sum = tasks.length;
   document.getElementById("count-tasks").textContent = sum;
  
   return sum;

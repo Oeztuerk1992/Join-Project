@@ -25,49 +25,94 @@ button {
 
 /* Scrollbar */
 
-body:not(.page-declaration) ::-webkit-scrollbar {
-    width: 3px !important;
+::-webkit-scrollbar {
+    width: 8px;
 }
-body:not(.page-declaration) ::-webkit-scrollbar-track {
-    background: var(--color-light-blue);
+::-webkit-scrollbar-track {
+    background: var(--color-white);
+    border: 1px solid var(--color-gray-600);
+    border-radius: 8px;
 }
-body:not(.page-declaration) ::-webkit-scrollbar-thumb {
-    background: var(--color-blue-navy-900);
-    border-radius: 10px;
+::-webkit-scrollbar-thumb {
+    background: var(--color-gray-600);
+    border-radius: 8px;
+    cursor: pointer;
 }
-body:not(.page-declaration) ::-webkit-scrollbar-thumb:hover {
-    background: var(--color-blue-700);
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-gray-700);
 }
+
 
 /* für Firefox */
 
 @-moz-document url-prefix() {
   * {
     scrollbar-width: thin;
-    scrollbar-color: var(--color-blue-navy-900) var(--color-light-blue);
+    scrollbar-color: var(--color-gray-600) var(--color-white);
   }
+}
+
+/* Arrow button for scrollbar */
+
+.btn-scrollbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding-left: 10px;
+    border: none;
+    background: none;
+    cursor: pointer;
+
+    width: 20px;
+    height: 20px;
+}
+
+.btn-scrollbar img {
+    display: block;
+    width: 10px;
+    height: auto;
+}
+.scroll-container {
+    display: flex;
+    position: relative;
+    min-height: 0;
+    height: 100%;
+
+    padding-right: 12px;
+    flex: 1;
+} 
+.scroll-top {
+    position: absolute;
+    right: 11px;
+    top: 4px;
+}
+.scroll-down {
+    position: absolute;
+    right: 11px;
+    bottom: 4px;
 }
 
 /* Landscape mode */
 
 .landscape-warning {
     display: none;
-  }
-  
-  @media (orientation: landscape) and (max-height: 500px) {
+}
+
+@media (max-height: 580px) and (orientation: landscape){
     .landscape-warning {
-      display: flex;
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      background-color: var(--color-blue-navy-900);
-      color: var(--color-white);
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 20px;
+        display: flex;
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background-color: var(--color-blue-navy-900);
+        color: var(--color-white);
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 20px;
     }
     body > *:not(.landscape-warning) {
-      display: none;
+        display: none;
     }
-  }
+}

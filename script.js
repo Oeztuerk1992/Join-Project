@@ -220,12 +220,15 @@ function showConfirmation() {
 
 
 /**
- * Creates and displays a warning message asking users
- * to rotate their device to portrait mode.
+ * Creates and displays a warning overlay asking users to rotate
+ * their device to portrait mode. The overlay itself is hidden by
+ * default and only shown via CSS media query on small landscape
+ * viewports (see .landscape-warning in CSS).
  */
 document.addEventListener('DOMContentLoaded', () => {
     const warning = document.createElement('div');
     warning.className = 'landscape-warning';
+    warning.setAttribute('role', 'alert');
     warning.innerHTML = '<p>Please rotate your device to portrait mode.</p>';
     document.body.prepend(warning);
 });
@@ -248,3 +251,53 @@ document.addEventListener('mousedown', e => {
         e.preventDefault();
     }
 });
+
+
+// Scrollbar //
+
+/**
+ * Shows or hides the custom scrollbar buttons depending on
+ * whether the scroll container has overflow content.
+ *
+ * If the content height exceeds the visible container height,
+ * both the "scroll up" and "scroll down" buttons are displayed.
+ * Otherwise, the buttons are hidden.
+ *
+ * @returns {void}
+ */
+function updateScrollbarButtons() {
+    const container = document.querySelector(".scroll-wrapper-task");
+    const hasScrollbar = container.scrollHeight > container.clientHeight;
+    document.querySelector(".scroll-top").style.display = hasScrollbar ? "flex" : "none";
+    document.querySelector(".scroll-down").style.display = hasScrollbar ? "flex" : "none";
+}
+
+
+/**
+ * Starts continuously scrolling a container while a button is pressed.
+ *
+ * @param {string} selector - CSS selector of the scroll container.
+ * @param {number} direction - Scroll direction (-1 for up, 1 for down).
+ * @returns {void}
+ */
+function startScrolling(selector, direction) {
+    const container = document.querySelector(selector);
+
+    if (!container) return;
+
+    scrollInterval = setInterval(() => {
+        container.scrollTop += direction * 10;
+    }, 16);
+}
+
+
+/**
+ * Stops continuous scrolling.
+ *
+ * @returns {void}
+ */
+function stopScrolling() {
+    clearInterval(scrollInterval);
+}
+
+

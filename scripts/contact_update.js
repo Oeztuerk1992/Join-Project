@@ -106,36 +106,6 @@ function renderContacts() {
  
  
 /**
- * Smoothly scrolls the contact list container to the top.
- *
- * @returns {void}
- */
-function scrollToTop() {
-    const container = document.querySelector('.new-contact');
- 
-    container.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-    });
-}
- 
-
-/**
- * Smoothly scrolls the contact list container to the bottom.
- *
- * @returns {void}
- */
-function scrollToBottom() {
-    const container = document.querySelector('.new-contact');
- 
-    container.scrollTo({
-        top: container.scrollHeight,
-        behavior: 'smooth'
-    });
-}
- 
- 
-/**
  * Appends an alphabetical section-letter marker to the contact list
  * whenever a contact's first letter differs from the previous one.
  *
@@ -228,41 +198,6 @@ function readEditInputs() {
         email,
         phone
     };
-}
- 
- 
-/**
- * Initializes the custom scrollbar thumb for the contact list: sets
- * its fixed height and (re-)attaches the scroll listener that keeps
- * the thumb position in sync.
- *
- * @returns {void}
- */
-function initScrollbar() {
-    const liste = document.querySelector('.new-contact');
-    const thumb = document.querySelector('.custom-thumb');
-    const leiste = document.querySelector('.custom-scrollbar');
- 
-    thumb.style.height = '56px';
-    liste.removeEventListener('scroll', updateScrollbar);
-    liste.addEventListener('scroll', updateScrollbar);
-}
- 
- 
-/**
- * Updates the custom scrollbar thumb's vertical position to match the
- * contact list's current scroll position.
- *
- * @returns {void}
- */
-function updateScrollbar() {
-    const liste = document.querySelector('.new-contact');
-    const thumb = document.querySelector('.custom-thumb');
-    const leiste = document.querySelector('.custom-scrollbar');
- 
-    const scrollProzent = liste.scrollTop / (liste.scrollHeight - liste.clientHeight);
-    const thumbPosition = scrollProzent * (leiste.clientHeight - 56);
-    thumb.style.top = thumbPosition + 'px';
 }
  
  

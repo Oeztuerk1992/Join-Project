@@ -155,12 +155,7 @@ input::placeholder {
         padding-top: 180px;
         padding-right: 0;
         padding-bottom: 0;
-
-        padding-left: clamp(
-            250px,
-            calc(250px + 40 * ((100vw - 993px) / 446)),
-            290px
-        );
+        padding-left: clamp(250px,calc(250px + 40 * ((100vw - 993px) / 446)),290px);
 
         width: 100%;
         overflow-x: hidden;
@@ -173,7 +168,7 @@ input::placeholder {
     display: flex;
     flex-direction: column;
 
-    height: calc(100vh - 350px);
+    height: calc(100vh - 370px);
     overflow-y: auto;
     overflow-x: hidden;
 
@@ -197,9 +192,11 @@ input::placeholder {
     flex-direction: column;
     gap: 20px;
   }
+  .scroll-wrapper-vertical::-webkit-scrollbar {
+    width: 4px;
+  }
   .scroll-wrapper-kanban::-webkit-scrollbar {
-    height: 2px;
-    width: 2px;
+    height: 4px;
   }
   .kanban-content {
     flex-direction: row !important;
@@ -335,10 +332,6 @@ input::placeholder {
     overflow-y: hidden;
     padding: 0px 0px 20px 0px;
   }
-  .scroll-wrapper-kanban::-webkit-scrollbar {
-    height: 2px;
-    width: 2px;
-  }
   .kanban-content {
     flex-direction: row !important;
     flex-wrap: nowrap;
@@ -362,24 +355,33 @@ input::placeholder {
 
 @media (max-width: 427px) {
   .content-board {
-      padding: 15px 20px;
+      padding: 10px 20px 15px 15px;
   }
   .search-container .search-task {
       width: clamp(200px, calc(200px + 110 * ((100vw - 320px) / 108)), 310px);
   }
   .btn-add-task {
       right: clamp(-355px, calc(-250px - 105 * ((100vw - 320px) / 108)), -250px);
+      top: -120px;
   }
   h1 {
-      width: clamp(300px, calc(300px + 96 * ((100vw - 320px) / 108)), 396px);
-  }
-}
-
-@media (min-width: 993px) and (max-width: 1439px) and (max-height: 945px) {
-  .content-board {
-      padding: 120px 0 0 260px;
+      width: clamp(290px, calc(290px + 106 * ((100vw - 320px) / 108)), 396px);
+      font-size: 36px;
   }
   .scroll-wrapper-vertical {
-      height: clamp(300px, calc(300px + 335 * ((100vh - 600px) / 400)), 635px);
+    height: calc(100vh - 345px);
+  }
+  
+}
+
+@media (max-height: 945px) and (min-width: 993px) {
+  .header-board h1 {
+    font-size: 51px;
+  }
+  .content-board {
+    padding-top: clamp(110px, -11.74px + 20.29vh, 180px);
+  }
+  .scroll-wrapper-vertical {
+    height: calc(100vh - 250px);
   }
 }

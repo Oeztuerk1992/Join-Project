@@ -4,10 +4,7 @@ const logo = document.querySelector(".logo");
 const splash = document.querySelector(".logo-splash");
 const container = document.querySelector(".hidden-splash");
 const logoContainer = document.querySelector(".logo-container");
-const isMobile = window.innerWidth <= 992;
  
-const modalLogin = document.getElementById('login-modal');
-
 const nameUser = document.getElementById('signup-name');
 const mailUser = document.getElementById('signup-mail');
 const pwUser = document.getElementById('signup-pw');
@@ -42,9 +39,13 @@ window.addEventListener("load", initSplashScreen);
  * @returns {void}
  */
 function initSplashScreen() {
+    if (document.body.classList.contains('signup-page')) {
+        return;
+    }
+
     if (!hasSplashElements()) return;
 
-    if (isMobile) {
+    if (isMobileView()){
         getMobileAnimation();
         return;
     }
@@ -73,6 +74,7 @@ function hasSplashElements() {
  * @returns {void}
  */
 function playDesktopSplashAnimation() {
+    logo.style.visibility = "visible";
     sessionStorage.setItem("splashShown", "true");
 
     setTimeout(() => movingLogoToPos(true), 500);
@@ -94,6 +96,7 @@ function playDesktopSplashAnimation() {
  * @returns {void}
  */
 function showDesktopSplashImmediately() {
+    logo.style.visibility = "visible";
     logo.style.transition = "none";
 
     movingLogoToPos(false);
@@ -144,6 +147,7 @@ function prepareMobileSplash() {
  * @returns {void}
  */
 function playMobileSplashAnimation() {
+    logo.style.visibility = "visible";
     sessionStorage.setItem("splashShown", "true");
 
     setTimeout(() => movingLogoToPos(true), 500);
@@ -169,6 +173,7 @@ function playMobileSplashAnimation() {
  * @returns {void}
  */
 function showMobileSplashImmediately() {
+    logo.style.visibility = "visible";
     logo.style.transition = "none";
 
     logo.src =
@@ -195,7 +200,6 @@ function showMobileSplashImmediately() {
  *                                  (false snaps it instantly).
  * @returns {void}
  */
-
 function movingLogoToPos(withAnimation) {
     const rect = logoContainer.getBoundingClientRect();
  
@@ -203,68 +207,99 @@ function movingLogoToPos(withAnimation) {
         ? "top 1.2s ease, left 1.2s ease, width 1.2s ease, height 1.2s ease, transform 1.2s ease"
         : "none";
  
-    logo.style.top = `${rect.top + window.scrollY + rect.height / 2}px`;
-    logo.style.left = `${rect.left + window.scrollX + rect.width / 2}px`;
+    logo.style.top = `${rect.top + rect.height / 2}px`;
+    logo.style.left = `${rect.left + rect.width / 2}px`;
  
-    if (window.innerWidth <= 992) {
+    if (isMobileView()) {
         logo.style.width = "64px";
         logo.style.height = "78px";
  
     } else {
         logo.style.width = "100px";
-        logo.style.height = "";
+        logo.style.height = "122px";
     }
     logo.style.transform = "translate(-50%, -50%)";
 }
-  
-/**
- * Moves the logo to the right position again when the window size
- * changes (only after the splash animation is finished).
- *
- * @listens window#resize
- */
-window.addEventListener("resize", updateLogoPosition);
-
-
-/**
- * Places the logo on the logo container without animation.
- *
- * @returns {void}
- */
-function updateLogoPosition() {
-    if (!logo || !splashFinished) return;
-    movingLogoToPos(false);
-}
+ 
  
 // Init //
  
 /**
- * Initializes the login page: shows the login modal and preloads
+ * Initializes the login page: shows the login window and preloads
  * registered users and contacts from Firebase (used for login/signup
  * validation).
  *
  * @returns {Promise<void>}
  */
 async function initLogin() {
-    modalLogin.show();
     await onloadUsers();
     await loadContactsFromFirebase();
 }
 
-// Go to sign up page //
+ 
+/**
+ * Initializes the signup page and loads all users and contacts
+ * required for signup validation.
+ *
+ * @returns {Promise<void>}
+ */
+async function initSignup() {
+    await onloadUsers();
+    await loadContactsFromFirebase();
+}
+ 
 
 /**
- * Opens the separate sign up page.
+ * Clears all validation error styling and messages currently shown on
+ * the page (login/signup forms).
  *
  * @returns {void}
  */
-function goToSignup() {
-    window.location.href = './html/signup.html';
+function resetValidation() {
+    document.querySelectorAll(".fail-red-border").forEach(element => {
+        element.classList.remove("fail-red-border");
+    });
+ 
+    document.querySelectorAll(".info-failed").forEach(element => {
+        element.classList.add("hidden-feedback");
+    });
+}
+ 
+
+// Go to other pages //
+
+/**
+ *  Navigates the user to the signup page.
+ *
+ * @returns {void}
+ */
+function getToSignup() {
+    window.location.href = "./html/signup.html";
 }
 
- 
-// Go to other pages //
- 
+
+/**
+ *  Navigates the user to the login page.
+ *
+ * @returns {void}
+ */
+function getToLogin() {
+    window.location.href = "../index.html";
+}
+
+
+/**
+ * Determines whether the current viewport width matches the mobile
+ * breakpoint.
+ *
+ * @returns {boolean} True if the viewport width is 992px or less,
+ *                    otherwise false.
+ */
+function isMobileView() {
+    return window.innerWidth <= 992 || window.innerHeight <= 800;
+}
+
+
 /**
  * Logs a user in: stores their name and email in sessionStorage, then
  * navigates to the summary page.

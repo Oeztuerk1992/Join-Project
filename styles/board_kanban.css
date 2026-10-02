@@ -16,6 +16,9 @@
 .scroll-wrapper-kanban::-webkit-scrollbar-track {
   margin-top: 20px;
 }
+.scroll-wrapper-kanban::-webkit-scrollbar {
+    width: 4px;
+}
 .kanban-header {
     width: 260px;
     height: 24px;
@@ -218,7 +221,7 @@ p {
 .member-badge {
     display: flex;
     justify-content: flex-start;
-    margin-left: 10px;
+    margin-left: 0px;
 }
 .user-abbr {
     width: 42px;
@@ -232,6 +235,9 @@ p {
     justify-content: center;
     margin-left: -10px;
     flex-shrink: 0;
+}
+.user-abbr:first-child {
+    margin-left: 0;
 }
 .user-abbr-more {
     background-color: var(--color-gray-300);

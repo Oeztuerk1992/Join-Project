@@ -278,6 +278,7 @@ function openTaskOverlay(id, placeholder) {
     requestAnimationFrame(() => {
         dialog.classList.add('modal-enter');
     });}
+    updateScrollbarButtons();
 }
  
  
@@ -400,8 +401,8 @@ function getEditOverlay(id) {
     closeTaskOverlayNoAnimation(id);
     dialog.showModal();
 }
- 
- 
+
+
 /**
  * Builds the subtask list markup for the edit overlay (editable
  * subtask items).

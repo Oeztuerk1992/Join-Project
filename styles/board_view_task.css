@@ -11,6 +11,7 @@
 .view-task-overlay[open] {
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 .view-task-overlay::backdrop {
     background-color: var(--color-black-50);
@@ -292,16 +293,19 @@ input[type="checkbox"]:checked {
     width: 505px;
     display: flex;
     flex-direction: column;
+    cursor: pointer;
 }
 .scroll-wrapper-task::-webkit-scrollbar-track {
     margin-top: 25px;
+    margin-bottom: 25px;
 }
 .footer-edit-overlay {
+    position: static;
     display: flex;
+    justify-content: flex-end;
     align-items: center;
-    position: fixed;
-    bottom: 40px;
-    right: 40px;
+    padding: 20px 40px;
+    flex-shrink: 0;
 }
 .subtask-edit-feedback {
     color: var(--color-red-100);
@@ -350,14 +354,11 @@ input[type="checkbox"]:checked {
 
 @media (max-width: 992px) {
     .view-task-overlay {
-        min-height: 640px;
+        min-height: 630px;
         max-height: 720px;
 
         max-width: 396px;
         width: 90%;
-    }
-    .scroll-wrapper-task {
-        width: 95%;
     }
     .title-task-view {
         font-size: 36px;
@@ -385,15 +386,11 @@ input[type="checkbox"]:checked {
         font-size: 16px;
     }
     .edit-task-overlay {
-        min-height: 640px;
+        min-height: 630px;
         max-height: 720px;
 
         max-width: 396px;
         width: 90%!important;
-    }
-    .edit-task-overlay .scroll-wrapper {
-        width: 97%;
-        height: 540px;
     }
     .edit-task-overlay .form-for-edit-task {
         width: 100%;
@@ -482,16 +479,19 @@ input[type="checkbox"]:checked {
     }
 }
 
-@media (max-height: 775px) and (max-width: 427px) {
+@media (max-height: 775px) and (max-width: 992px) {
     
         .edit-task-overlay {
-            height: 640px !important;
+            height: 630px !important;
         }
         .edit-task-overlay .scroll-wrapper {
             height: 480px;
         }
         .view-task-overlay {
-            height: 640px !important;
+            height: 630px !important;
+        }
+        .footer-edit-overlay .confirm-edit-btn {
+            height: 50px;
         }
 }
 
@@ -502,9 +502,6 @@ input[type="checkbox"]:checked {
 
         max-width: 396px;
         width: 90%;
-    }
-    .scroll-wrapper-task {
-        width: 95%;
     }
     .title-task-view {
         font-size: 36px;
@@ -539,7 +536,6 @@ input[type="checkbox"]:checked {
         width: 90%!important;
     }
     .edit-task-overlay .scroll-wrapper {
-        width: 97%;
         height: 420px;
     }
     .edit-task-overlay .form-for-edit-task {

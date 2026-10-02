@@ -1,22 +1,22 @@
-/* Modal */
+/* Login and Signup cards */
 
 dialog {
     border: none;
     padding: 0;
 }
-.modal-class {
+.container-position {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1000;
 }
-.login-card[open] {
+.login-card {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-.signup-card[open] {
+.signup-card {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -24,7 +24,6 @@ dialog {
 .info-failed {
     color: var(--color-red-100);
     font-size: 16px;
-    padding-left: 6px;
     width: 100%;
     height: 30px;
     display: flex;
@@ -35,7 +34,7 @@ dialog {
     width: 420px;
 }
 .fail-login {
-    padding: 16px 6px;
+    padding: 16px 0px;
 }
 .input-group.fail-red-border {
     border: 1px solid var(--color-red-100);

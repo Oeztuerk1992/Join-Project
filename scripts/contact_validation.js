@@ -289,8 +289,7 @@ function hideEmailError(
 
 /**
 * Validates the phone field of a contact form: requires a minimum
-* length and a format matching an international number
-* (e.g. "+49 123 456 789"). Toggles the field's error styling
+* length of 11 characters. Toggles the field's error styling
 * accordingly and sets an error message on failure.
 *
 * @param {string} filterWord - "add" or "edit", selects which form to
@@ -299,29 +298,20 @@ function hideEmailError(
 *                     otherwise.
 */
 function checkUserPhone(filterWord) {
-   const {phoneInput, inputWrapperPhone, infoContact} = getFormRefs(filterWord);
-   const phone = phoneInput.value.trim();
-
-   if (phone.length < 11) {
-       infoContact.classList.remove("hidden-feedback");
-       infoContact.textContent = "Phone number: min. 11 digits!";
-       inputWrapperPhone.classList.add("fail-red-border");
-       return false;
-   }
-
-   const phoneRegex = /^\+\d{1,4}\s*[\d\s-]{4,}$/;
-
-   if (phoneRegex.test(phone)) {
-       infoContact.classList.add("hidden-feedback");
-       inputWrapperPhone.classList.remove("fail-red-border");
-       return true;
-   }
-
-   infoContact.classList.remove("hidden-feedback");
-   infoContact.textContent = "Use format: +49 XXX...";
-   inputWrapperPhone.classList.add("fail-red-border");
-   return false;
-}
+    const {phoneInput, inputWrapperPhone, infoContact} = getFormRefs(filterWord);
+    const phone = phoneInput.value.trim();
+ 
+    if (phone.length < 11) {
+        infoContact.classList.remove("hidden-feedback");
+        infoContact.textContent = "Phone number: min. 11 digits!";
+        inputWrapperPhone.classList.add("fail-red-border");
+        return false;
+    }
+ 
+    infoContact.classList.add("hidden-feedback");
+    inputWrapperPhone.classList.remove("fail-red-border");
+    return true;
+ }
 
 
 /**

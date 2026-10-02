@@ -457,7 +457,7 @@ button {
 @media (max-height: 800px) and (min-width: 320px) and (max-width: 992px) {
     .urgent,
     .tasks {
-        margin-top: 8px;
+        margin-top: 10px;
     }
     .container-headline {
         padding-bottom: 0px;
@@ -476,6 +476,29 @@ button {
     .seperator-urgent {
         height: 80px;
         width: 2px;
+    }
+    .to-do,
+    .urgent,
+    .tasks {
+        height: 90px;
+    }
+    .tasks {
+        width: 100px;
+    }
+    .urgent {
+        width: 310px;
+    }
+    .to-do {
+        width: 152.5px;
+    }
+    .seperator-urgent {
+        height: 60px;
+    }
+    .container-tasks {
+        gap: 8px;
+    }
+    .main-summary .container-do {
+        gap: 8px;
     }
 }
 

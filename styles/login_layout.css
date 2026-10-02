@@ -98,7 +98,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
 }
 .login-card {
     width: 650px;
@@ -601,5 +600,40 @@ input::placeholder {
     }
     form .signup-validation-width {
         width: 280px;
+    }
+}
+
+@media (max-height: 600px) {
+
+    /* Login */
+
+    .button-row {
+        gap: 10px;
+        margin-top: 0px;
+    }
+    .login-card {
+        height: 330px;
+    }
+    form .fail-login {
+        padding: 0;
+    }
+
+    /* Signup */
+
+    .signup-card {
+        height: 390px;
+    }
+    .btn-signup-big {
+        margin-top: 10px;
+    }
+    .input-group {
+        margin-top: 6px;
+    }
+    .privacy-row {
+        padding-top: 0;
+        margin-top: 5px;
+    }
+    .signup-card.container-position {
+        top: 56%;
     }
 }

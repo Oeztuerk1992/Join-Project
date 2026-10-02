@@ -10,7 +10,6 @@ body {
     height: 100dvh;
     margin: 0;
     background-color: var(--color-blue-50);
-    overflow: hidden;
 }
 button {
     cursor: pointer;

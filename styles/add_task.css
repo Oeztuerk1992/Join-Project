@@ -372,22 +372,16 @@ input.dropdown::placeholder {
     position: absolute;
     top: 32px;
     right: 32px;
-
     width: 32px;
     height: 32px;
-
     display: flex;
     justify-content: center;
     align-items: center;
-
     border: none;
     background: transparent;
-
     font-size: 30px;
     color: var(--color-blue-navy-900);
-
     cursor: pointer;
-
     border-radius: 50%;
 }
 .btn-close-overlay:hover {

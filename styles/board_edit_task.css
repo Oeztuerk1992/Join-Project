@@ -2,7 +2,7 @@
 
 .edit-task-overlay {
   width: 525px;
-  height: 930px;
+  max-height: 930px;
   border-radius: 30px;
 
   background-color: var(--color-white);

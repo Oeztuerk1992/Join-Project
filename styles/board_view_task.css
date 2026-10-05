@@ -200,17 +200,17 @@ input[type="checkbox"]:checked {
     gap: 10px;
 }
 .img-delete {
-    background-image: url("../assets/img/edit_delete/delete.svg");
-    width: 16px;
-    height: 18px;
+    background-image: url("../assets/img/contact/delete.svg");
+    width: 24px;
+    height: 24px;
     background-size: contain;
     background-repeat: no-repeat;
     flex-shrink: 0;
 }
 .img-edit {
-    background-image: url("../assets/img/edit_delete/edit.svg");
-    width: 18px;
-    height: 18px;
+    background-image: url("../assets/img/contact/edit.svg");
+    width: 24px;
+    height: 24px;
     background-size: contain;
     background-repeat: no-repeat;
     flex-shrink: 0;
@@ -234,6 +234,7 @@ input[type="checkbox"]:checked {
     align-items: center;
     gap: 10px;
     margin: 0;
+    height: 24px;
 }
 .edit-task-view {
     display: flex;
@@ -258,17 +259,21 @@ input[type="checkbox"]:checked {
     min-width: 30px;
 }
 .delete-task-view:hover .img-delete {
-    background-image: url("../assets/img/edit_delete/delete_hover.svg");
+    background-image: url("../assets/img/contact/delete_hover.svg");
+    width: 24px;
+    height: 24px;
 }
 .delete-task-view:hover .text-delete {
-    color: var(--color-blue-700);
+    color: var(--color-blue-petrol);
     font-weight: bold;
 }
 .edit-task-view:hover .img-edit {
-    background-image: url("../assets/img/edit_delete/edit_hover.svg");
+    background-image: url("../assets/img/contact/edit_hover.svg");
+    width: 24px;
+    height: 24px;
 }
 .edit-task-view:hover .text-edit {
-    color: var(--color-blue-700);
+    color: var(--color-blue-petrol);
     font-weight: bold;
 }
 .assigned-user-overlay {
@@ -493,6 +498,22 @@ input[type="checkbox"]:checked {
         .footer-edit-overlay .confirm-edit-btn {
             height: 50px;
         }
+}
+
+@media (max-height: 640px) and (max-width: 992px) {
+    .edit-task-overlay {
+        height: 560px !important;
+        min-height: 560px;
+    }
+    .edit-task-overlay .scroll-wrapper {
+        height: 420px;
+    }
+    .view-task-overlay {
+        height: 560px !important;
+        min-height: 560px;
+    }
+    
+
 }
 
 @media (min-width: 993px) and (max-width: 1439px) and (max-height: 945px) {

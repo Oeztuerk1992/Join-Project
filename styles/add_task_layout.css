@@ -130,6 +130,9 @@
 .scroll-wrapper-addtask {
     cursor: pointer;
 }
+.scroll-wrapper-addtask::-webkit-scrollbar {
+    width: 4px;
+}
 
 /* Responsiveness */
 
@@ -256,7 +259,7 @@
         overflow-x: hidden;
         overflow-y: auto;
     }
-    .scroll-wrapper-addtask::-webkit-scrollbar-track { /* neu */
+    .scroll-wrapper-addtask::-webkit-scrollbar-track {
         background: transparent;
         border: none;
     }

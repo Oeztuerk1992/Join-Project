@@ -230,16 +230,13 @@ input::placeholder {
   main {
     flex: 1;
     min-height: 0;
-    overflow: hidden;
   }
   .content-board {
     padding: 40px 20px;
     height: 100vh;
     width: 100%;
-    overflow: hidden;
   }
   .scroll-wrapper-vertical {
-    height: calc(100vh - 400px);
     width: 100%;
   }
   h1 {
@@ -264,6 +261,7 @@ input::placeholder {
   .task-bar {
     padding-top: 30px;
     display: block;
+    height: 90px;
   }
   .btn-add-task {
     width: 40px;
@@ -369,7 +367,7 @@ input::placeholder {
       font-size: 36px;
   }
   .scroll-wrapper-vertical {
-    height: calc(100vh - 345px);
+    height: calc(100vh - 315px);
   }
   
 }

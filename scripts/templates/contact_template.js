@@ -67,10 +67,12 @@ function createContactDetailTemplate(name, initials, email, phone, color) {
                 <span class="name-user">${name}</span>
                 <div id="contact-actions" class="contact-detail-actions">
                     <span class="edit" onclick="openEditOverlay()">
-                        <img src="../assets/img/contact/edit.png" alt="edit">
+                        <img src="../assets/img/contact/edit.svg" alt="edit">
+                        <p>Edit</p>
                     </span>
                     <span class="delete" onclick="deleteContact()">
-                        <img src="../assets/img/contact/delete.png" alt="delete">
+                        <img src="../assets/img/contact/delete.svg" alt="delete">
+                        <p>Delete</p>
                     </span>
                 </div>
             </div>

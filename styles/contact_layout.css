@@ -473,6 +473,7 @@
     }
     .new-contact.scrollwrapper-contacts::-webkit-scrollbar {
         display: block;
+        width: 4px;
     }
     .new-contact.scrollwrapper-contacts::-webkit-scrollbar-track {
         margin: 100px 0 32px;
@@ -544,6 +545,7 @@
         width: 100%;
         margin: 0;
         gap: 0;
+        overflow: visible;
         opacity: 1 !important;
         transition: none !important;
         animation: none !important;

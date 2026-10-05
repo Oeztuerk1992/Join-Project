@@ -400,3 +400,14 @@ input.dropdown::placeholder {
 .add-task-overlay.show .bottom-area {
     margin-top: 40px;
 }
+
+/* Board overlay on low screens: buttons must stay reachable */
+@media (min-width: 993px) and (max-height: 945px) {
+    .add-task-overlay {
+        max-height: calc(100dvh - 40px);
+        overflow-y: auto;
+    }
+    .add-task-overlay .addtask-form {
+        height: auto;
+    }
+}

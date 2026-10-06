@@ -15,7 +15,7 @@ let activeMenu = null;
  
  
 /* ========================================
-Desktop template functions
+Header user menu functions
 ======================================== */
 
 /**
@@ -24,7 +24,7 @@ Desktop template functions
  * @param {string} filterWord - "desktop" for the desktop menu, any other value for mobile.
  * @returns {{userMenu: HTMLElement, userProfile: HTMLElement, circle: HTMLElement}} The element references.
  */
-function getFormRefsForTemplate(filterWord) {
+function getUserMenuRefs(filterWord) {
     return filterWord === "desktop"
         ? { userMenu, userProfile, circle }
         : {
@@ -43,7 +43,7 @@ function getFormRefsForTemplate(filterWord) {
  */
 function toggleUserMenu(filterWord) {
     activeMenu = filterWord;
-    const { userMenu, circle } = getFormRefsForTemplate(filterWord);
+    const { userMenu, circle } = getUserMenuRefs(filterWord);
     if (userMenu.classList.contains("open-animation")) {
         closeUserMenu(userMenu, circle);
         return;
@@ -135,7 +135,7 @@ Event Listeners
  */
 document.addEventListener("click", (event) => {
     if (!activeMenu) return;
-    const { userMenu, circle } = getFormRefsForTemplate(activeMenu);
+    const { userMenu, circle } = getUserMenuRefs(activeMenu);
     const isOpen = userMenu.classList.contains("open-animation");
     if (
         isOpen &&

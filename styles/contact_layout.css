@@ -163,7 +163,7 @@
 }
 .contact-detail-panel.visible {
     opacity: 1;
-    width: 100%;
+    width: calc(100% - 37px);
     transform: translateX(0);
 }
 .contact-detail-actions {

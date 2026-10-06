@@ -73,6 +73,9 @@
     .contact-detail-panel {
         margin-left: clamp(15px, calc(15px + 22 * ((100vw - 993px) / 446)), 37px);
     }
+    .contact-detail-panel.visible {
+        width: calc(100% - clamp(15px, calc(15px + 22 * ((100vw - 993px) / 446)), 37px));
+    }
     .contact-details {
         margin-top: 80px;
         margin-right: 56px;
@@ -129,7 +132,7 @@
     }
     .new-contact-wrapper,
     .contact-info {
-        width: clamp(428px, calc(428px + 272 * ((100vw - 428px) / 564)), 700px);
+        width: min(100%, clamp(428px, calc(428px + 272 * ((100vw - 428px) / 564)), 700px));
         height: calc(100dvh - 160px);
         padding-inline: clamp(15px, calc(15px + 17 * ((100vw - 428px) / 564)), 32px);
     }
@@ -286,7 +289,7 @@
 @media (max-width: 427px) {
     .new-contact-wrapper,
     .contact-info {
-        width: clamp(308px, calc(308px + 120 * ((100vw - 320px) / 108)), 428px);
+        width: min(100%, clamp(308px, calc(308px + 120 * ((100vw - 320px) / 108)), 428px));
         padding-inline: clamp(6px, calc(6px + 9 * ((100vw - 320px) / 108)), 15px);
     }
     .new-contact {

@@ -272,7 +272,7 @@
 .list-subtasks::-webkit-scrollbar-track {
   margin-top: 10px;
 }
-.list-subtasks.remove-scrollbar {
+.edit-task-overlay .list-subtasks.remove-scrollbar {
   max-height: unset;
   overflow: hidden;
 }

@@ -259,6 +259,9 @@
     .addtask-form {
         height: 360px;
     }
+   .scroll-wrapper-addtask {
+        height: 310px;
+    }
     input:not(.search-task, .btn-search-task), textarea {
         height: 38px;
         font-size: 16px;
@@ -288,8 +291,11 @@
         margin-bottom: 5px;
         font-size: 16px;
     }
-    .clear-btn, .create-btn {
+    .clear-btn, .create-btn, .cancel-btn  {
         height: 38px;
+        font-size: 16px;
+    }
+    .cancel-btn span {
         font-size: 16px;
     }
     .contact-info {
@@ -299,7 +305,7 @@
         font-size: 16px;
     }
     .bottom-area {
-        padding-top: 10px;
+        padding-top: 30px;
     }
     .add-task-container h1 {
         font-size: 51px;

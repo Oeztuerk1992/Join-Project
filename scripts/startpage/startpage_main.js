@@ -292,13 +292,15 @@ function logInGuest(guest) {
 Event Listeners
 ======================================== */
 
-// Initializes the splash screen animation after the page has loaded.
-
+/**
+ * Initializes the splash screen animation after the page has loaded.
+ */
 window.addEventListener("load", initSplashScreen);
 
 
-// Wires up lock-icon state and show/hide toggling for the login, signup and confirm password fields.
-
+/**
+ * Wires up lock-icon state and show/hide toggling for the login, signup and confirm password fields.
+ */
 [
     { input: loginPw, button: btnPwOne },
     { input: pwUser, button: btnPwTwo },

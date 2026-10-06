@@ -130,8 +130,9 @@ function getUserInitials(loggedInUser) {
 Event Listeners
 ======================================== */
 
-// Closes the active header user menu when clicking outside the menu and its avatar circle.
-
+/**
+ * Closes the active header user menu when clicking outside the menu and its avatar circle.
+ */
 document.addEventListener("click", (event) => {
     if (!activeMenu) return;
     const { userMenu, circle } = getFormRefsForTemplate(activeMenu);

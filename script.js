@@ -208,8 +208,9 @@ function stopScrolling() {
 Event Listeners, support functions
 ======================================== */
 
-// Saves the new subtask when Enter is pressed in the subtask input, without submitting the form.
-
+/**
+ * Saves the new subtask when Enter is pressed in the subtask input, without submitting the form.
+ */
 document.addEventListener('keydown', (event) => {
     if (
         event.target.classList.contains('subtask-enter') &&
@@ -222,8 +223,9 @@ document.addEventListener('keydown', (event) => {
 });
 
 
-// Triggers the save button when Enter is pressed while editing an existing subtask.
-
+/**
+ * Triggers the save button when Enter is pressed while editing an existing subtask.
+ */
 document.addEventListener('keydown', (event) => {
     if (
         event.key === 'Enter' &&
@@ -237,8 +239,9 @@ document.addEventListener('keydown', (event) => {
 });
 
 
-// Prevents Enter from submitting the form while the contact dropdown input is focused.
-
+/**
+ * Prevents Enter from submitting the form while the contact dropdown input is focused.
+ */
 document.addEventListener('keydown', (event) => {
     if (
         event.key === 'Enter' &&
@@ -249,8 +252,9 @@ document.addEventListener('keydown', (event) => {
 });
 
 
-// Adds a hidden "rotate your device" overlay, shown via CSS on small landscape viewports.
-
+/**
+ * Adds a hidden "rotate your device" overlay, shown via CSS on small landscape viewports.
+ */
 document.addEventListener('DOMContentLoaded', () => {
     const warning = document.createElement('div');
     warning.className = 'landscape-warning';
@@ -260,15 +264,17 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// Disables spell checking for all input and textarea elements.
-
+/**
+ * Disables spell checking for all input and textarea elements.
+ */
 document.querySelectorAll('input, textarea').forEach(element => {
     element.setAttribute('spellcheck', 'false');
 });
 
 
-// Prevents mousedown default on subtask action buttons (keeps focus in the input).
-
+/**
+ * Prevents mousedown default on subtask action buttons (keeps focus in the input).
+ */
 document.addEventListener('mousedown', e => {
     if (e.target.closest('.subtask-actions button')) {
         e.preventDefault();

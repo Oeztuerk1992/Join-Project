@@ -72,8 +72,9 @@ function initThumbSync() {
 Event Listeners
 ======================================== */
 
-// Starts dragging the custom scrollbar thumb when it is pressed.
-
+/**
+ * Starts dragging the custom scrollbar thumb when it is pressed.
+ */
 contactThumb.addEventListener("mousedown", (event) => {
     isDragging = true;
     startY = event.clientY;
@@ -82,16 +83,18 @@ contactThumb.addEventListener("mousedown", (event) => {
 });
 
 
-// Stops dragging the custom scrollbar thumb when the mouse button is released.
-
+/**
+ * Stops dragging the custom scrollbar thumb when the mouse button is released.
+ */
 document.addEventListener("mouseup", () => {
     isDragging = false;
     document.body.style.userSelect = "";
 });
 
 
-// Moves the scrollbar thumb while dragging and syncs the contact list scroll position.
-
+/**
+ * Moves the scrollbar thumb while dragging and syncs the contact list scroll position.
+ */
 document.addEventListener("mousemove", (event) => {
     if (!isDragging) return;
     const newTop = startTop + event.clientY - startY;

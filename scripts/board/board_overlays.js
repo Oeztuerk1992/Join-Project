@@ -182,8 +182,9 @@ function closeAddTaskOverlay() {
 Event Listener for Filter 
 ======================================== */
 
-// Filters and re-renders the board when Enter is pressed in the search input.
-
+/**
+ * Filters and re-renders the board when Enter is pressed in the search input.
+ */
 document.getElementById('input-text')?.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') filterAndShowCurrentTask(event.target.value);
 });

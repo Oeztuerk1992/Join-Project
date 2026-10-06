@@ -160,7 +160,7 @@
 }
 .list-subtasks {
     padding-top: 10px;
-    max-height: 50px;
+    max-height: 126px;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -257,10 +257,11 @@
         margin-bottom: 0px;
     }
     .addtask-form {
-        height: 360px;
+        height: auto;
+        min-height: 360px;
     }
    .scroll-wrapper-addtask {
-        height: 310px;
+        min-height: 310px;
     }
     input:not(.search-task, .btn-search-task), textarea {
         height: 38px;
@@ -284,7 +285,7 @@
         font-size: 16px;
     }
     .input-group .list-subtasks {
-        max-height: 40px;
+        max-height: 116px;
         padding-top: 0px;
     }
     .input-group label {
@@ -332,5 +333,12 @@
 @media (min-width: 320px) and (max-width: 427px) and (max-height: 800px) {
     .add-task-container .addtask-form {
         height: calc(100dvh - 330px);
+    }
+}
+
+@media (min-width: 993px) and (min-height: 946px) {
+    .addtask-form {
+        height: auto;
+        min-height: 570px;
     }
 }

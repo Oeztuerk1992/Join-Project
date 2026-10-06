@@ -1,3 +1,7 @@
+/* ========================================
+Shared utility functions (used across all HTML pages)
+======================================== */
+
 /**
  * Validates whether subtasks are still in edit mode.
  *
@@ -6,14 +10,11 @@
  */
 function validateSubtasks(id) {
     const editingSubtasks = getEditingSubtasks(id);
-
     if (editingSubtasks.length > 0) {
         return handleEditingSubtasks(id, editingSubtasks);
     }
-
     resetSubtaskFeedback(id);
     hasTriedSubmit = false;
-
     return true;
 }
 
@@ -42,11 +43,9 @@ function handleEditingSubtasks(id, editingSubtasks) {
     if (!hasTriedSubmit) {
         return false;
     }
-
     showSubtaskFeedback(id);
     markEditingSubtasksRed(editingSubtasks);
     scrollToOpenSubtask(id);
-
     return false;
 }
 
@@ -58,13 +57,8 @@ function handleEditingSubtasks(id, editingSubtasks) {
  * @returns {void}
  */
 function showSubtaskFeedback(id) {
-    const feedbackSubtask = document.getElementById(
-        `subtask-edit-feedback-${id}`
-    );
-    const feedbackSubtaskMobile = document.getElementById(
-        `subtask-edit-feedback-${id}-mobile`
-    );
-
+    const feedbackSubtask = document.getElementById(`subtask-edit-feedback-${id}`);
+    const feedbackSubtaskMobile = document.getElementById(`subtask-edit-feedback-${id}-mobile`);
     feedbackSubtask?.classList.remove('hidden');
     feedbackSubtaskMobile?.classList.remove('hidden');
 }
@@ -103,13 +97,8 @@ function resetSubtaskFeedback(id) {
  * @returns {void}
  */
 function hideSubtaskFeedback(id) {
-    const feedbackSubtask = document.getElementById(
-        `subtask-edit-feedback-${id}`
-    );
-    const feedbackSubtaskMobile = document.getElementById(
-        `subtask-edit-feedback-${id}-mobile`
-    );
-
+    const feedbackSubtask = document.getElementById(`subtask-edit-feedback-${id}`);
+    const feedbackSubtaskMobile = document.getElementById(`subtask-edit-feedback-${id}-mobile`);
     feedbackSubtask?.classList.add('hidden');
     feedbackSubtaskMobile?.classList.add('hidden');
 }
@@ -150,56 +139,9 @@ function scrollToOpenSubtask(id) {
 }
 
 
-// Event listeners for subtasks //
-
-/**
- * Handles the Enter key in the subtask input field.
- * Prevents the default form submission and saves the new subtask.
- */
-document.addEventListener('keydown', (event) => {
-    if (
-        event.target.classList.contains('subtask-enter') &&
-        event.key === 'Enter'
-    ) {
-        event.preventDefault();
-        const id = event.target.id.replace('input-subtask-', '');
-        saveEditSubtask(id);
-    }
-});
-
-
-/**
- * Handles the Enter key while editing an existing subtask.
- * Prevents the default behavior and triggers the save button.
- */
-document.addEventListener('keydown', (event) => {
-    if (
-        event.key === 'Enter' &&
-        event.target.classList.contains('subtask-edit-input')
-    ) {
-        event.preventDefault();
-        const container = event.target.closest('.container-subtask-li');
-        const saveButton = container.querySelector('.save-edited-task');
-        saveButton.click();
-    }
-});
-
-
-/**
- * Prevents the Enter key from submitting the form while
- * the contact assignment dropdown is focused.
- */
-document.addEventListener('keydown', (event) => {
-    if (
-        event.key === 'Enter' &&
-        event.target.classList.contains('dropdown-assignment')
-    ) {
-        event.preventDefault();
-    }
-});
-
-
-// Confirmation message //
+/* ========================================
+Confirmation message
+======================================== */
 
 /**
  * Displays the confirmation dialog for two seconds
@@ -219,49 +161,12 @@ function showConfirmation() {
 }
 
 
-/**
- * Creates and displays a warning overlay asking users to rotate
- * their device to portrait mode. The overlay itself is hidden by
- * default and only shown via CSS media query on small landscape
- * viewports (see .landscape-warning in CSS).
- */
-document.addEventListener('DOMContentLoaded', () => {
-    const warning = document.createElement('div');
-    warning.className = 'landscape-warning';
-    warning.setAttribute('role', 'alert');
-    warning.innerHTML = '<p>Please rotate your device to portrait mode.</p>';
-    document.body.prepend(warning);
-});
-
+/* ========================================
+Scrollbar
+======================================== */
 
 /**
- * Disables spell checking for all input and textarea elements.
- */
-document.querySelectorAll('input, textarea').forEach(element => {
-    element.setAttribute('spellcheck', 'false');
-});
-
-
-/**
- * Prevents the default mouse-down behavior when clicking
- * the action buttons of the subtask input.
- */
-document.addEventListener('mousedown', e => {
-    if (e.target.closest('.subtask-actions button')) {
-        e.preventDefault();
-    }
-});
-
-
-// Scrollbar //
-
-/**
- * Shows or hides the custom scrollbar buttons depending on
- * whether the scroll container has overflow content.
- *
- * If the content height exceeds the visible container height,
- * both the "scroll up" and "scroll down" buttons are displayed.
- * Otherwise, the buttons are hidden.
+ * Shows the scroll up/down buttons if the container content overflows, otherwise hides them.
  *
  * @returns {void}
  */
@@ -282,9 +187,7 @@ function updateScrollbarButtons() {
  */
 function startScrolling(selector, direction) {
     const container = document.querySelector(selector);
-
     if (!container) return;
-
     scrollInterval = setInterval(() => {
         container.scrollTop += direction * 10;
     }, 16);
@@ -300,4 +203,75 @@ function stopScrolling() {
     clearInterval(scrollInterval);
 }
 
+
+/* ========================================
+Event Listeners, support functions
+======================================== */
+
+// Saves the new subtask when Enter is pressed in the subtask input, without submitting the form.
+
+document.addEventListener('keydown', (event) => {
+    if (
+        event.target.classList.contains('subtask-enter') &&
+        event.key === 'Enter'
+    ) {
+        event.preventDefault();
+        const id = event.target.id.replace('input-subtask-', '');
+        saveEditSubtask(id);
+    }
+});
+
+
+// Triggers the save button when Enter is pressed while editing an existing subtask.
+
+document.addEventListener('keydown', (event) => {
+    if (
+        event.key === 'Enter' &&
+        event.target.classList.contains('subtask-edit-input')
+    ) {
+        event.preventDefault();
+        const container = event.target.closest('.container-subtask-li');
+        const saveButton = container.querySelector('.save-edited-task');
+        saveButton.click();
+    }
+});
+
+
+// Prevents Enter from submitting the form while the contact dropdown input is focused.
+
+document.addEventListener('keydown', (event) => {
+    if (
+        event.key === 'Enter' &&
+        event.target.classList.contains('dropdown-assignment')
+    ) {
+        event.preventDefault();
+    }
+});
+
+
+// Adds a hidden "rotate your device" overlay, shown via CSS on small landscape viewports.
+
+document.addEventListener('DOMContentLoaded', () => {
+    const warning = document.createElement('div');
+    warning.className = 'landscape-warning';
+    warning.setAttribute('role', 'alert');
+    warning.innerHTML = '<p>Please rotate your device to portrait mode.</p>';
+    document.body.prepend(warning);
+});
+
+
+// Disables spell checking for all input and textarea elements.
+
+document.querySelectorAll('input, textarea').forEach(element => {
+    element.setAttribute('spellcheck', 'false');
+});
+
+
+// Prevents mousedown default on subtask action buttons (keeps focus in the input).
+
+document.addEventListener('mousedown', e => {
+    if (e.target.closest('.subtask-actions button')) {
+        e.preventDefault();
+    }
+});
 

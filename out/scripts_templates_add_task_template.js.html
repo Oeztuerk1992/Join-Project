@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: scripts/templates/add_task_template.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,215 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: scripts/templates/add_task_template.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Generates the HTML template for a contact in the contact assignment dropdown menu.
+ * This template is used in the add-contact form and the task edit overlay.
+ *
+ * @param {Object} contact - The contact object containing the contact's name, initials, and badge color.
+ * @param {string|number} id - The unique ID of the contact.
+ * @param {boolean} isSelected - Indicates whether the contact is currently selected.
+ * @returns {string} The HTML template for the contact list item.
+ */
+function generateContactListHTML(contact, id, isSelected = false) {
+    return `
+        &lt;div class="dropdown-item ${isSelected ? 'selected' : ''}"
+             data-id="${id}"
+             onclick="event.stopPropagation(); toggleCheckbox(this)">
+            &lt;div class="contact-info">
+                &lt;div id="${id}"
+                     class="contact-circle"
+                     style="background:${contact.randomColor};">
+                    ${contact.initials}
+                &lt;/div>
+                &lt;span class="contact-name">
+                    ${contact.capitalizedName}
+                &lt;/span>
+            &lt;/div>
+            &lt;input type="checkbox"
+                   value="${id}"
+                   ${isSelected ? 'checked' : ''}
+                   onclick="event.stopPropagation(); toggleCheckbox(this)">
+        &lt;/div>
+    `;
+}
 
 
-    <h3> </h3>
+/**
+ * Generates the HTML template displayed when no contacts are available.
+ *
+ * @returns {string} The HTML template displaying the "No contacts available" message.
+ */
+function generateEmptyContactListHTML() {
+    return`
+            &lt;div class="dropdown-item contact-info empty-contact">
+                No contacts available.
+            &lt;/div>
+    `;
+}
 
 
+/**
+ * Generates the HTML template for the logged-in user's contact entry
+ * in the contact assignment dropdown menu.
+ *
+ * @param {Object} contact - The contact object containing the user's name, initials, and badge color.
+ * @param {string|number} id - The unique ID of the logged-in user.
+ * @param {boolean} isSelected - Indicates whether the user is currently selected.
+ * @returns {string} The HTML template for the logged-in user's contact entry.
+ */
+function generateContactYourProfileHTML(contact, id, isSelected = false) {
+    return `
+        &lt;div
+            id="dropdown-your-profile"
+            class="dropdown-item ${isSelected ? 'selected' : ''}"
+            data-id="${id}"
+            onclick="event.stopPropagation(); toggleCheckbox(this)">
+            &lt;div class="contact-info">
+                &lt;div
+                    id="your-profile-badge-${id}"
+                    class="contact-circle"
+                    style="background:${contact.randomColor};">
+                    ${contact.initials}
+                &lt;/div>
+                &lt;span class="contact-name">
+                    ${contact.capitalizedName}
+                &lt;/span>
+                &lt;span class="you-label">(You)&lt;/span>
+            &lt;/div>
+            &lt;input
+                type="checkbox"
+                value="${id}"
+                ${isSelected ? 'checked' : ''}
+                onclick="event.stopPropagation(); toggleCheckbox(this)">
+        &lt;/div>
+    `;
+}
 
 
+/**
+ * Generates the HTML template for a contact badge displayed on task mini-cards
+ * and in task edit overlays.
+ *
+ * @param {string} initials - The initials displayed inside the badge.
+ * @param {string} color - The CSS styling used to set the badge color.
+ * @returns {string} The HTML template for the contact badge.
+ */
+function generateContactBadgeHTML(initials, color) {
+    return`
+            &lt;div class="contact-circle contact-for-tasks" style="${color};">
+                ${initials}
+            &lt;/div>
+    `;        
+}
 
 
+/**
+ * Generates the HTML template for the logged-in user's own contact badge.
+ * This badge is used when no contact record is available.
+ *
+ * @returns {string} The HTML template for the user's contact badge.
+ */
+function generateYourProfileBadgeHTML() {
+    return`
+            &lt;div class="contact-circle contact-for-tasks" style="background:var(--badge-color-14)">
+                ${userProfile.textContent}
+            &lt;/div>
+    `;        
+}
 
 
+/**
+ * Generates the HTML template for a newly created subtask.
+ * The subtask is created from the subtask input field and displayed with edit and delete buttons.
+ *
+ * @param {string} newSubtask - The text entered by the user for the new subtask.
+ * @returns {string} The HTML template for the new subtask list item.
+ */
+function generateItemSubtaskHTML(newSubtask) {
+    return`
+            &lt;div class="container-subtask-li" data-status="open" ondblclick="editSubtask(this)">
+                &lt;li class="li-subtask subtask-text">${newSubtask}&lt;/li>
+                &lt;div class="container-edit-btn">
+                    &lt;button type="button" class="edit-button" onclick="editSubtask(this)">&lt;/button>
+                    &lt;div class="subtask-divider">&lt;/div>
+                    &lt;button type="button" class="delete-button" onclick="deleteSubtask(this)">&lt;/button>
+                &lt;/div>
+            &lt;/div>
+    `;
+}
 
 
-    
+/**
+ * Generates the HTML input field used to edit an existing subtask.
+ *
+ * @param {string} text - The current text of the subtask.
+ * @returns {string} The HTML template for the subtask edit input field.
+ */
+function generateOuterHTMLEditSubtask(text) {
+    return`
+            &lt;input type="text" class="subtask-edit-input" value="${text}">
+    `;
+}
 
 
+/**
+ * Generates the HTML template containing the action buttons displayed
+ * while a subtask is being edited.
+ *
+ * @returns {string} The HTML template containing the delete and save buttons.
+ */
+function generateInnerHTMLEditSubtask() {
+    return`
+            &lt;div class="btn-inner-html">
+                &lt;button type="button" class="delete-button-edit" onclick="deleteSubtask(this)">&lt;/button>
+                &lt;div class="subtask-divider">&lt;/div>
+                &lt;button class="save-edited-task" type="button" onclick="saveEditedSubtask(this)">
+                    &lt;img src="../assets/img/edit_delete/Property 1=check.svg">
+                &lt;/button>
+            &lt;/div>
+    `;
+}
 
 
+/**
+ * Generates the HTML template for a subtask after its text has been edited
+ * and saved.
+ *
+ * @param {string} text - The updated text of the subtask.
+ * @returns {string} The HTML template containing the updated subtask text.
+ */
+function generateOuterHTMLSaveSubtask(text) {
+    return`
+            &lt;li class="li-subtask subtask-text">${text}&lt;/li>
+    `;
+}
 
+
+/**
+ * Generates the HTML template containing the edit and delete buttons
+ * for a saved subtask.
+ *
+ * @returns {string} The HTML template containing the edit and delete buttons.
+ */
+function generateInnerHTMLSaveSubtask() {
+    return`
+            &lt;button type="button" class="edit-button" onclick="editSubtask(this)">&lt;/button>
+            &lt;div class="subtask-divider">&lt;/div>
+            &lt;button type="button" class="delete-button" onclick="deleteSubtask(this)">&lt;/button>
+    `;
+}
+</code></pre>
+        </article>
+    </section>
 
 
 

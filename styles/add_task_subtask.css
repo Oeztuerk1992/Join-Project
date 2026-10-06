@@ -160,7 +160,7 @@
 }
 .list-subtasks {
     padding-top: 10px;
-    max-height: 80px;
+    max-height: 50px;
     overflow-y: auto;
     overflow-x: hidden;
 }

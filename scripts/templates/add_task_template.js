@@ -2,8 +2,7 @@
  * Generates the HTML template for a contact in the contact assignment dropdown menu.
  * This template is used in the add-contact form and the task edit overlay.
  *
- * @param {Object} contact - The contact object containing the contact's name,
- * initials, and badge color.
+ * @param {Object} contact - The contact object containing the contact's name, initials, and badge color.
  * @param {string|number} id - The unique ID of the contact.
  * @param {boolean} isSelected - Indicates whether the contact is currently selected.
  * @returns {string} The HTML template for the contact list item.
@@ -49,10 +48,8 @@ function generateEmptyContactListHTML() {
 /**
  * Generates the HTML template for the logged-in user's contact entry
  * in the contact assignment dropdown menu.
- * The logged-in user is displayed at the top of the contact list with a "(You)" label.
  *
- * @param {Object} contact - The contact object containing the user's name,
- * initials, and badge color.
+ * @param {Object} contact - The contact object containing the user's name, initials, and badge color.
  * @param {string|number} id - The unique ID of the logged-in user.
  * @param {boolean} isSelected - Indicates whether the user is currently selected.
  * @returns {string} The HTML template for the logged-in user's contact entry.
@@ -120,8 +117,7 @@ function generateYourProfileBadgeHTML() {
 
 /**
  * Generates the HTML template for a newly created subtask.
- * The subtask is created from the subtask input field and displayed
- * with edit and delete buttons.
+ * The subtask is created from the subtask input field and displayed with edit and delete buttons.
  *
  * @param {string} newSubtask - The text entered by the user for the new subtask.
  * @returns {string} The HTML template for the new subtask list item.

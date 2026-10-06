@@ -1,4 +1,6 @@
-// Variables //
+/* ========================================
+Variables / Init
+======================================== */
  
 const guestInfo = document.getElementById("greeting-guest");
 const userInfo = document.getElementById("greeting-user");
@@ -8,9 +10,7 @@ const loggedUserInfo = document.getElementById("greet-user-name");
 
 
 /**
- * Initializes the summary/dashboard page: plays the mobile greeting
- * splash (if applicable), applies the greeting, loads the user profile
- * for desktop, loads all tasks, and populates the dashboard counters.
+ * Initializes the summary page: greeting, user profile, tasks and dashboard counters.
  *
  * @returns {Promise<void>}
  */
@@ -23,16 +23,18 @@ async function initSummary() {
 }
  
  
+/* ========================================
+Summary functions
+======================================== */
+
 /**
  * Returns a time-of-day-appropriate greeting phrase based on the
  * current local hour.
  *
- * @returns {string} "Good morning" (before 12:00), "Good afternoon"
- *                    (before 18:00), or "Good evening" otherwise.
+ * @returns {string} "Good morning" (before 12:00), "Good afternoon" (before 18:00), or "Good evening" otherwise.
  */
 function getGreetingText() {
   const hour = new Date().getHours();
- 
   if (hour < 12) return "Good morning";
   if (hour < 18) return "Good afternoon";
   return "Good evening";
@@ -40,27 +42,17 @@ function getGreetingText() {
  
  
 /**
- * Applies the time-based greeting to a given set of guest/user
- * elements: if the global "loggedInUser" is "guest", shows the guest
- * greeting; otherwise shows the personalized greeting with the user's
- * name. Toggles the "hidden" class on the guest/user elements
- * accordingly.
+ * Shows the time-based greeting for guests or the logged-in user and toggles the matching containers.
  *
  * @param {HTMLElement} guestEl - Container shown for guest users.
  * @param {HTMLElement} userEl - Container shown for logged-in users.
- * @param {HTMLElement} timeGuestEl - Element receiving the greeting
- *                                    text for the guest variant
- *                                    (e.g. "Good morning!").
- * @param {HTMLElement} timeUserEl - Element receiving the greeting
- *                                   text for the user variant
- *                                   (e.g. "Good morning,").
- * @param {HTMLElement} userNameEl - Element receiving the logged-in
- *                                   user's name.
+ * @param {HTMLElement} timeGuestEl - Element receiving the guest greeting text.
+ * @param {HTMLElement} timeUserEl - Element receiving the user greeting text.
+ * @param {HTMLElement} userNameEl - Element receiving the logged-in user's name.
  * @returns {void}
  */
 function applyGreeting(guestEl, userEl, timeGuestEl, timeUserEl, userNameEl) {
   const greeting = getGreetingText();
- 
   if (loggedInUser === "guest") {
     timeGuestEl.textContent = `${greeting}!`;
     guestEl.classList.remove("hidden");
@@ -86,25 +78,32 @@ function getUserGreeting() {
  
  
 /**
- * On mobile viewports, shows a one-time greeting splash screen: if it
- * was already shown this session (sessionStorage "greetingShown"),
- * removes the splash element immediately without animating. Otherwise
- * applies the greeting to the splash's own elements, marks it as
- * shown, and after a delay fades it out and removes it from the DOM.
- * Does nothing on desktop viewports or if the splash element doesn't
- * exist.
+ * Shows a one-time mobile greeting splash per session, then fades it out and removes it.
  *
  * @returns {void}
  */
 function initMobileGreetingSplash() {
   const splash = document.getElementById("mobile-greeting-splash");
   if (!isMobileView() || !splash) return;
- 
   if (sessionStorage.getItem("greetingShown")) {
     splash.remove();
     return;
   }
- 
+  applyGreetingToSplash();
+  sessionStorage.setItem("greetingShown", "true");
+  setTimeout(() => {
+    splash.classList.add("hide");
+    setTimeout(() => splash.remove(), 600);
+  }, 1500);
+}
+
+
+/**
+ * Applies the time-based greeting to the splash screen elements.
+ *
+ * @returns {void}
+ */
+function applyGreetingToSplash() {
   applyGreeting(
     document.getElementById("splash-greeting-guest"),
     document.getElementById("splash-greeting-user"),
@@ -112,14 +111,6 @@ function initMobileGreetingSplash() {
     document.getElementById("splash-greet-time"),
     document.getElementById("splash-greet-user-name")
   );
- 
-  sessionStorage.setItem("greetingShown", "true");
- 
-  setTimeout(() => {
-    splash.classList.add("hide");
- 
-    setTimeout(() => splash.remove(), 600);
-  }, 1500);
 }
  
  
@@ -135,8 +126,7 @@ function getToBoard() {
  
 /**
  * Populates every dashboard counter/date field by running each summary
- * calculation and writing its result into the corresponding DOM
- * element.
+ * calculation and writing its result into the corresponding DOM element.
  *
  * @returns {void}
  */
@@ -179,11 +169,7 @@ function getSumDone() {
  
  
 /**
- * Finds the earliest due date among all not-yet-done tasks that have a
- * due date, then writes the matching task count and formatted date
- * into the "count-urgent" and "urgent-date" elements (via
- * getTasksForDeadline() and getFormatDateSummary()). If no such task
- * exists, writes "0" and "-" respectively.
+ * Writes the count and date of the earliest-due open tasks into the summary, or "0" and "-" if none.
  *
  * @returns {void}
  */
@@ -191,7 +177,6 @@ function getDateUrgentTasks() {
   const dates = tasks
     .filter((task) => task.dueDate && task.taskStatus !== "Done")
     .map((task) => new Date(`${task.dueDate}T00:00:00`));
- 
   if (dates.length === 0) {
     document.getElementById("count-urgent").textContent = "0";
     document.getElementById("urgent-date").textContent = "-";
@@ -208,8 +193,7 @@ function getDateUrgentTasks() {
  * Counts not-yet-done tasks whose due date matches the given date, and
  * writes the count into the "count-urgent" element.
  *
- * @param {Date} date - The date to match tasks against (compared by
- *                       exact timestamp at midnight).
+ * @param {Date} date - The date to match tasks against (compared by exact timestamp at midnight).
  * @returns {number} The number of matching tasks.
  */
 function getTasksForDeadline(date) {
@@ -231,8 +215,7 @@ function getTasksForDeadline(date) {
  * 2026".
  *
  * @param {Date} date - The date to format.
- * @returns {string} The date formatted in en-US locale
- *                    ("Month D, YYYY").
+ * @returns {string} The date formatted in en-US locale ("Month D, YYYY").
  */
 function getFormatDateSummary(date) {
   return date.toLocaleDateString("en-US", {
@@ -251,7 +234,6 @@ function getFormatDateSummary(date) {
 function getSumTasksBoard() {
   const sum = tasks.length;
   document.getElementById("count-tasks").textContent = sum;
- 
   return sum;
 }
  
@@ -265,7 +247,6 @@ function getSumTasksBoard() {
 function getSumInProgress() {
   const sum = tasks.filter((task) => task.taskStatus === "In progress").length;
   document.getElementById("count-in-progress").textContent = sum;
- 
   return sum;
 }
  
@@ -281,6 +262,5 @@ function getSumAwaitFeedback() {
     (task) => task.taskStatus === "Await feedback"
   ).length;
   document.getElementById("count-await-feedback").textContent = sum;
- 
   return sum;
 }

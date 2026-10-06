@@ -1,13 +1,11 @@
 /**
  * Builds the HTML markup for a single contact list item, including its
- * data attributes (id, name, initials, email, phone, color) used
- * elsewhere via `element.dataset` (e.g. showContact(), activeContact).
+ * data attributes (id, name, initials, email, phone, color).
  *
  * @param {string} capitalizedName - The contact's name in title case.
  * @param {string} initials - One or two uppercase initials.
  * @param {string} email - The contact's email address.
- * @param {string} randomColor - CSS color value/variable used as the
- *                                avatar background.
+ * @param {string} randomColor - CSS color value/variable used as the avatar background.
  * @param {string} phone - The contact's phone number.
  * @param {string} id - The contact's ID.
  * @returns {string} HTML markup for the contact list item.
@@ -55,8 +53,7 @@ function createLetterTemplate(letter) {
  * @param {string} initials - One or two uppercase initials.
  * @param {string} email - The contact's email address.
  * @param {string} phone - The contact's phone number.
- * @param {string} color - CSS color value/variable used as the avatar
- *                          background.
+ * @param {string} color - CSS color value/variable used as the avatar background.
  * @returns {string} HTML markup for the contact detail view.
  */
 function createContactDetailTemplate(name, initials, email, phone, color) {

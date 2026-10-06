@@ -1,7 +1,5 @@
 /**
  * Generates the HTML template for a task mini-card.
- * The mini-card displays the task title, category, description, priority,
- * assigned contacts, and subtask progress.
  *
  * @param {Object} element - The task object containing all relevant task data.
  * @returns {string} The HTML template for the task mini-card.
@@ -160,8 +158,6 @@ function generateEmptyCardHTML(status) {
 
 /**
  * Generates the HTML template for the task details overlay.
- * The overlay displays the task category, title, description, due date,
- * priority, assigned contacts, and subtasks.
  *
  * @param {Object} element - The task object containing all relevant task data.
  * @returns {string} The HTML template for the task details overlay.
@@ -264,8 +260,6 @@ function generateSubtaskHTML(subtasks, id, index) {
 
 /**
  * Generates the HTML template for the task edit overlay.
- * The overlay contains the form fields for editing the task details,
- * assigned contacts, priority, and subtasks.
  *
  * @param {Object} element - The task object containing all relevant task data.
  * @returns {string} The HTML template for the task edit overlay.

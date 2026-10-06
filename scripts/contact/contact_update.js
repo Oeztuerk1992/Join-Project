@@ -230,22 +230,25 @@ function closeMobileMenuContacts() {
 Event Listeners
 ======================================== */
 
-// Closes the "add contact" overlay when its backdrop is clicked.
-
+/**
+ * Closes the "add contact" overlay when its backdrop is clicked.
+ */
 overlay?.addEventListener('click', (e) => {
     if (e.target === overlay) closeOverlay('add');
 });
 
 
-// Closes the "edit contact" overlay when its backdrop is clicked.
-
+/**
+ * Closes the "edit contact" overlay when its backdrop is clicked.
+ */
 overlayEdit?.addEventListener('click', (e) => {
     if (e.target === overlayEdit) closeContactEditOverlay('edit');
 });
 
 
-// Closes the mobile contact-actions menu when a click occurs outside the menu and its button.
-
+/**
+ * Closes the mobile contact-actions menu when a click occurs outside the menu and its button.
+ */
 document.addEventListener("click", (event) => {
     const actionsMenu = document.getElementById('contact-actions');
     if (!actionsMenu) return;

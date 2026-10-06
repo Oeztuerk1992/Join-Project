@@ -186,8 +186,9 @@ function resetPrioBtn() {
 Event Listeners, support functions
 ======================================== */
 
-// Filters and re-renders contacts when text is typed into a ".dropdown-assignment" input.
-
+/**
+ * Filters and re-renders contacts when text is typed into a ".dropdown-assignment" input.
+ */
 document.addEventListener('input', (event) => {
     if (event.target.classList.contains('dropdown-assignment')) {
         filterAndShowCurrentContacts(event.target.value, event.target);
@@ -195,8 +196,9 @@ document.addEventListener('input', (event) => {
 });
  
  
-// Closes open contact dropdowns when clicking outside their container.
-
+/**
+ * Closes open contact dropdowns when clicking outside their container.
+ */
 document.addEventListener("click", (event) => {
     document.querySelectorAll(".dropdown-container").forEach(container => {
         if (!container.contains(event.target)) closeOpenDropdown(container);
@@ -224,8 +226,9 @@ function closeOpenDropdown(container) {
 }
  
  
-// Closes the category dropdown when clicking outside of it.
-
+/**
+ * Closes the category dropdown when clicking outside of it.
+ */
 document.addEventListener("click", (event) => {
     const menu = document.getElementById('categoryMenu');
     if (!menu) return;

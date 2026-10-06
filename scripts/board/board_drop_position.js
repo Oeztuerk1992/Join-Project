@@ -234,6 +234,7 @@ async function moveTaskMobile(id, taskCat) {
 Event Listeners
 ======================================== */
 
-// Closes any open mobile move menu when a click occurs anywhere in the document.
-
+/**
+ * Closes any open mobile move menu when a click occurs anywhere in the document.
+ */
 document.addEventListener("click", closeMobileMoveMenus);

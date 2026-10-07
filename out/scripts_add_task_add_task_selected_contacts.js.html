@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: scripts/startpage/startpage_main.js</title>
+    <title>JSDoc: Source: scripts/add_task/add_task_selected_contacts.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: scripts/startpage/startpage_main.js</h1>
+    <h1 class="page-title">Source: scripts/add_task/add_task_selected_contacts.js</h1>
 
     
 
@@ -26,304 +26,123 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const logo = document.querySelector(".logo");
-const splash = document.querySelector(".logo-splash");
-const container = document.querySelector(".hidden-splash");
-const logoContainer = document.querySelector(".logo-container");
- 
-const nameUser = document.getElementById('signup-name');
-const mailUser = document.getElementById('signup-mail');
-const pwUser = document.getElementById('signup-pw');
-const checkPw = document.getElementById('check-pw');
-const privacyPolicy = document.getElementById('privacy-policy');
- 
-const loginMail = document.getElementById('login-mail');
-const loginPw = document.getElementById('login-password');
- 
-const btnPwOne = document.getElementById('btn-pw-one');
-const btnPwTwo = document.getElementById('btn-pw-two');
-const btnPwThree = document.getElementById('btn-pw-three');
- 
-let splashFinished = false;
-
-
-const signUpNewUser = [];
-const registeredUser = [];
-
-
-/**
- * Preloads registered users and contacts from Firebase for login/signup validation.
+            <pre class="prettyprint source linenums"><code>/**
+ * Updates the selected contact IDs.
  *
- * @returns {Promise&lt;void>}
- */
-async function initLogin() {
-    await onloadUsers();
-    await loadContactsFromFirebase();
-}
-
- 
-/**
- * Initializes the signup page and loads all users and contacts
- * required for signup validation.
- *
- * @returns {Promise&lt;void>}
- */
-async function initSignup() {
-    updateSignupButton();
-    await onloadUsers();
-    await loadContactsFromFirebase();
-}
-
-
-/**
- * Starts the splash screen sequence (mobile animation, or desktop immediately/animated once per session).
- *
+ * @param {HTMLElement} item - Dropdown item.
+ * @param {HTMLInputElement} checkbox - Contact checkbox.
  * @returns {void}
  */
-function initSplashScreen() {
-    if (document.body.classList.contains('signup-page')) return;
-    if (!hasSplashElements()) return;
-    if (isMobileView()) {
-        getMobileAnimation();
+function updateSelectedContact(item, checkbox) {
+    const id = item.dataset.id;
+
+    if (checkbox.checked) {
+        addSelectedContact(id);
         return;
     }
-    const splashShown = sessionStorage.getItem("splashShown");
-    splashShown ? showDesktopSplashImmediately() : playDesktopSplashAnimation();
+    removeSelectedContact(id);
 }
 
 
 /**
- * Checks whether all splash elements exist.
+ * Adds a contact ID to the selection.
  *
- * @returns {boolean} True if all elements are available.
- */
-function hasSplashElements() {
-    return logo &amp;&amp; splash &amp;&amp; container;
-}
-
-
-/**
- * Plays the desktop splash animation.
- *
+ * @param {string} id - Contact ID.
  * @returns {void}
  */
-function playDesktopSplashAnimation() {
-    logo.style.visibility = "visible";
-    sessionStorage.setItem("splashShown", "true");
-    setTimeout(() => movingLogoToPos(true), 500);
-    setTimeout(() => {
-        splash.classList.add("hide");
-        container.classList.remove("hidden-splash");
-    }, 1000);
-    setTimeout(() => {
-        splashFinished = true;
-    }, 1700);
+function addSelectedContact(id) {
+    if (!selectedContactIds.includes(id)) {
+        selectedContactIds.push(id);
+    }
 }
 
 
 /**
- * Displays the desktop splash end state immediately.
+ * Removes a contact ID from the selection.
  *
+ * @param {string} id - Contact ID.
  * @returns {void}
  */
-function showDesktopSplashImmediately() {
-    logo.style.visibility = "visible";
-    logo.style.transition = "none";
-    movingLogoToPos(false);
-    splash.style.transition = "none";
-    splash.classList.add("hide");
-    container.classList.remove("hidden-splash");
-    splashFinished = true;
-}
-
-
-/**
- * Initializes the mobile splash animation.
- *
- * @returns {void}
- */
-function getMobileAnimation() {
-    if (!hasSplashElements()) return;
-    prepareMobileSplash();
-    const splashShown = sessionStorage.getItem("splashShown");
-    splashShown ? showMobileSplashImmediately() : playMobileSplashAnimation();
-}
-
-
-/**
- * Prepares splash elements for mobile view.
- *
- * @returns {void}
- */
-function prepareMobileSplash() {
-    logo.src ="./assets/img/desktop_template/join-logo.png";
-}
-
-
-/**
- * Plays the mobile splash animation.
- *
- * @returns {void}
- */
-function playMobileSplashAnimation() {
-    logo.style.visibility = "visible";
-    sessionStorage.setItem("splashShown", "true");
-    setTimeout(() => movingLogoToPos(true), 500);
-    setTimeout(() => {
-        container.classList.remove("hidden-splash");
-        logo.src = "./assets/img/login/join_logo_big.svg";
-        splash.classList.add("hide");
-    }, 1100);
-    setTimeout(() => {
-        splashFinished = true;
-    }, 1700);
-}
-
-
-/**
- * Displays the mobile splash end state immediately.
- *
- * @returns {void}
- */
-function showMobileSplashImmediately() {
-    logo.style.visibility = "visible";
-    logo.style.transition = "none";
-    logo.src = "./assets/img/login/join_logo_big.svg";
-    movingLogoToPos(false);
-    splash.style.transition = "none";
-    splash.classList.add("hide");
-    container.classList.remove("hidden-splash");
-    splashFinished = true;
+function removeSelectedContact(id) {
+    selectedContactIds = selectedContactIds.filter(
+        contactId => contactId !== id
+    );
 }
  
  
 /**
- * Moves and resizes the splash logo onto the logo container, optionally animated.
+ * Filters contacts by name (case-insensitive) and re-renders the list in the associated menu.
  *
- * @param {boolean} withAnimation - Whether to apply a CSS transition (false snaps instantly).
+ * @param {string} filterWord - The search text from the filter input.
+ * @param {HTMLElement} inputElement - The filter input, used to locate the menu.
  * @returns {void}
  */
-function movingLogoToPos(withAnimation) {
-    const rect = logoContainer.getBoundingClientRect();
-    logo.style.transition = withAnimation
-        ? "top 1.2s ease, left 1.2s ease, width 1.2s ease, height 1.2s ease, transform 1.2s ease"
-        : "none";
-    logo.style.top = `${rect.top + rect.height / 2}px`;
-    logo.style.left = `${rect.left + rect.width / 2}px`;
-    setLogoSize();
-    logo.style.transform = "translate(-50%, -50%)";
+function filterAndShowCurrentContacts(filterWord, inputElement) {
+    const menu = inputElement
+        .closest('.dropdown-container')
+        ?.querySelector('.dropdown-menu');
+    if (!menu) return;
+    const currentContacts = filterContactsByName(filterWord);
+    const assignedTo = selectedContactIds.map(id => ({ id }));
+    renderContacts(currentContacts, menu, assignedTo, filterWord);
 }
 
 
 /**
- * Sets the splash logo size depending on mobile or desktop view.
+ * Returns all contacts whose name contains the filter text (case-insensitive).
  *
- * @returns {void}
+ * @param {string} filterWord - The search text.
+ * @returns {Object} Filtered contacts keyed by id.
  */
-function setLogoSize() {
-    const mobile = isMobileView();
-    logo.style.width = mobile ? "64px" : "100px";
-    logo.style.height = mobile ? "78px" : "122px";
+function filterContactsByName(filterWord) {
+    return Object.fromEntries(
+        Object.entries(contacts).filter(([id, contact]) =>
+            contact.capitalizedName
+                .toLowerCase()
+                .includes(filterWord.toLowerCase())
+        )
+    );
 }
  
  
 /**
- * Clears all validation error styling and messages currently shown on
- * the page (login/signup forms).
+ * Renders the badges (initials circles) of the currently selected
+ * contacts (selectedContactIds) into the associated badge container.
  *
+ * @param {HTMLElement} container - An ancestor of the badge container.                             
  * @returns {void}
  */
-function resetValidation() {
-    document.querySelectorAll(".fail-red-border").forEach(element => {
-        element.classList.remove("fail-red-border");
-    });
+function getContactBadges(container) {
+    const badgeContainer = container.parentElement.querySelector('.assign-contact');
+    badgeContainer.innerHTML = "";
  
-    document.querySelectorAll(".info-failed").forEach(element => {
-        element.classList.add("hidden-feedback");
+    selectedContactIds.forEach(id => {
+        const contact = contacts[id];
+        if (!contact) return;
+        badgeContainer.innerHTML += generateContactBadgeHTML(
+            contact.initials,
+            `background:${contact.randomColor};`
+        );
     });
 }
-
-
-/**
- *  Navigates the user to the signup page.
- *
- * @returns {void}
- */
-function getToSignup() {
-    window.location.href = "./html/signup.html";
-}
-
-
-/**
- *  Navigates the user to the login page.
- *
- * @returns {void}
- */
-function getToLogin() {
-    window.location.href = "../index.html";
-}
-
-
-/**
- * Determines whether the current viewport width matches the mobile
- * breakpoint.
- *
- * @returns {boolean} True if the viewport width is 992px or less, otherwise false.
- */
-function isMobileView() {
-    return window.innerWidth &lt;= 992 || window.innerHeight &lt;= 800;
-}
-
-
-/**
- * Logs a user in: stores their name and email in sessionStorage, then
- * navigates to the summary page.
- *
- * @param {string} userName - Display name to store as "loggedInUser".
- * @param {string} userMail - Email to store as "loggedInUserEmail".
- * @returns {void}
- */
-function getToSummary(userName, userMail) {
-    sessionStorage.setItem('loggedInUser', userName);
-    sessionStorage.setItem('loggedInUserEmail', userMail);
-    window.location.href = './html/summary.html';
-}
  
-
+ 
 /**
- * Logs in as a guest and navigates to the summary page.
+ * Reads initials and color from a ".contact-circle" and appends a badge to the container.
  *
- * @param {string} guest - Display name of the guest session, passed to getToSummary().
+ * @param {HTMLElement} child - Element containing a ".contact-circle" child.
+ * @param {HTMLElement} badgeContainer - Container the badge HTML is appended to.
  * @returns {void}
  */
-function logInGuest(guest) {
-    getToSummary(guest);
-}
-
-
-/**
- * Initializes the splash screen animation after the page has loaded.
- */
-window.addEventListener("load", initSplashScreen);
-
-
-/**
- * Wires up lock-icon state and show/hide toggling for the login, signup and confirm password fields.
- */
-[
-    { input: loginPw, button: btnPwOne },
-    { input: pwUser, button: btnPwTwo },
-    { input: checkPw, button: btnPwThree }
-].forEach(({ input, button }) => {
-    if (!input || !button) return;
-    input.addEventListener('input', () => {
-        button.classList.toggle('change-icon-lock', input.value.length > 0);
-    });
-    button.addEventListener('click', () => {
-        input.type = input.type === 'password' ? 'text' : 'password';
-        button.classList.toggle('make-pw-visible');
-    });
-});</code></pre>
+function renderDropdownContacts(child, badgeContainer) {
+    const circle = child.querySelector('.contact-circle');
+    const initials = circle.textContent.trim();
+    const color = circle.style.background;
+    badgeContainer.innerHTML += generateContactBadgeHTML(
+        initials,
+        `background:${color};`
+    );
+}</code></pre>
         </article>
     </section>
 

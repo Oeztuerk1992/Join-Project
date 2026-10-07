@@ -15,7 +15,7 @@ function checkFormDataSignup(event) {
     if (!validateSignupInputs()) {
         return false;
     }
-    registerNewUser();
+    runWithDisabledButton("#btn-signup", registerNewUser);
     return true;
 }
 

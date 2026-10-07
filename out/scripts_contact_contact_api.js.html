@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: scripts/startpage/startpage_main.js</title>
+    <title>JSDoc: Source: scripts/contact/contact_api.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: scripts/startpage/startpage_main.js</h1>
+    <h1 class="page-title">Source: scripts/contact/contact_api.js</h1>
 
     
 
@@ -26,304 +26,250 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const logo = document.querySelector(".logo");
-const splash = document.querySelector(".logo-splash");
-const container = document.querySelector(".hidden-splash");
-const logoContainer = document.querySelector(".logo-container");
+            <pre class="prettyprint source linenums"><code>/**
+ * Creates a new contact in Firebase.
+ *
+ * @param {Object} contact - The contact data to create.
+ * @returns {Promise&lt;Object>} The parsed JSON response from Firebase (includes the generated key as "name").
+ */
+async function postContactToFirebase(contact) {
+    let response = await fetch(BASE_URL + "contacts.json", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(contact)
+    });
+    return await response.json();
+}
  
-const nameUser = document.getElementById('signup-name');
-const mailUser = document.getElementById('signup-mail');
-const pwUser = document.getElementById('signup-pw');
-const checkPw = document.getElementById('check-pw');
-const privacyPolicy = document.getElementById('privacy-policy');
  
-const loginMail = document.getElementById('login-mail');
-const loginPw = document.getElementById('login-password');
- 
-const btnPwOne = document.getElementById('btn-pw-one');
-const btnPwTwo = document.getElementById('btn-pw-two');
-const btnPwThree = document.getElementById('btn-pw-three');
- 
-let splashFinished = false;
-
-
-const signUpNewUser = [];
-const registeredUser = [];
-
-
 /**
- * Preloads registered users and contacts from Firebase for login/signup validation.
+ * Overwrites an existing contact in Firebase with new data.
+ *
+ * @param {string} id - ID of the contact to update.
+ * @param {Object} contact - The full contact data to store.
+ * @returns {Promise&lt;Object>} The parsed JSON response from Firebase.
+ */
+async function putContactToFirebase(id, contact) {
+    let response = await fetch(BASE_URL + "contacts/" + id + ".json", {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(contact)
+    });
+    return await response.json();
+}
+ 
+ 
+/**
+ * Deletes a contact from Firebase.
+ *
+ * @param {string} id - ID of the contact to delete.
+ * @returns {Promise&lt;void>}
+ */
+async function deleteContactFromFirebase(id) {
+    await fetch(BASE_URL + "contacts/" + id + ".json", {
+        method: "DELETE"
+    });
+}
+ 
+ 
+/**
+ * Loads all contacts from Firebase into the global "contacts" array
+ * and sorts them.
  *
  * @returns {Promise&lt;void>}
  */
-async function initLogin() {
-    await onloadUsers();
-    await loadContactsFromFirebase();
+async function loadContactsFromFirebase() {
+    let response = await fetch(BASE_URL + "contacts.json");
+    let data = await response.json();
+    contacts = [];
+    if (data) fillContactsList(data);
+    sortContacts();
 }
-
+ 
  
 /**
- * Initializes the signup page and loads all users and contacts
- * required for signup validation.
+ * Converts a Firebase contacts object (keyed by ID) into the global
+ * "contacts" array, attaching each contact's Firebase key as its "id" field.
  *
- * @returns {Promise&lt;void>}
- */
-async function initSignup() {
-    updateSignupButton();
-    await onloadUsers();
-    await loadContactsFromFirebase();
-}
-
-
-/**
- * Starts the splash screen sequence (mobile animation, or desktop immediately/animated once per session).
- *
+ * @param {Object.&lt;string, Object>} data - Raw contacts data as returned by Firebase.
  * @returns {void}
  */
-function initSplashScreen() {
-    if (document.body.classList.contains('signup-page')) return;
-    if (!hasSplashElements()) return;
-    if (isMobileView()) {
-        getMobileAnimation();
-        return;
+function fillContactsList(data) {
+    const keys = Object.keys(data);
+    for (let keyIndex = 0; keyIndex &lt; keys.length; keyIndex++) {
+        const contact = data[keys[keyIndex]];
+        contact.id = keys[keyIndex];
+        contacts.push(contact);
     }
-    const splashShown = sessionStorage.getItem("splashShown");
-    splashShown ? showDesktopSplashImmediately() : playDesktopSplashAnimation();
 }
-
-
+ 
+ 
 /**
- * Checks whether all splash elements exist.
+ * Creates a new contact from the current form data, saves it to the
+ * backend, updates the contact list, shows a confirmation message, and focuses the newly created contact.
  *
- * @returns {boolean} True if all elements are available.
+ * @returns {Promise&lt;void>}
  */
-function hasSplashElements() {
-    return logo &amp;&amp; splash &amp;&amp; container;
+async function createContact() {
+    const newContact = await saveNewContact();
+    updateContactList(newContact);
+    showConfirmation();
+    hideContactOverlay(newContact.id);
 }
 
 
 /**
- * Plays the desktop splash animation.
+ * Builds a contact object from the form data and saves it to the
+ * backend.
  *
+ * @returns {Promise&lt;Object>} The newly created contact.
+ */
+async function saveNewContact() {
+    const newContact = buildContact(nameInput.value.trim());
+    newContact.phone = formatPhoneNumber(newContact.phone);
+    const result = await postContactToFirebase(newContact);
+    newContact.id = result.name;
+    return newContact;
+}
+
+
+/**
+ * Adds a contact to the local contacts array and refreshes the
+ * contact list.
+ *
+ * @param {Object} contact - Contact to add.
  * @returns {void}
  */
-function playDesktopSplashAnimation() {
-    logo.style.visibility = "visible";
-    sessionStorage.setItem("splashShown", "true");
-    setTimeout(() => movingLogoToPos(true), 500);
+function updateContactList(contact) {
+    contacts.push(contact);
+    sortContacts();
+    renderContacts();
+}
+
+
+/**
+ * Hides the add-contact overlay after a short delay, clears the form,
+ * and focuses the newly created contact.
+ *
+ * @param {string} contactId - ID of the newly created contact.
+ * @returns {void}
+ */
+function hideContactOverlay(contactId) {
+    const overlay = document.getElementById("overlay");
     setTimeout(() => {
-        splash.classList.add("hide");
-        container.classList.remove("hidden-splash");
-    }, 1000);
+        overlay.style.display = "none";
+        clearInputs();
+        clearValidationRemarks("add");
+        focusNewContact(contactId);
+    }, 2000);
+}
+
+
+/**
+ * Opens the newly created contact and scrolls it into view.
+ *
+ * @param {string} contactId - ID of the contact to focus.
+ * @returns {void}
+ */
+function focusNewContact(contactId) {
+    const contactElement = document.querySelector(`[data-id="${contactId}"]`);
+    if (!contactElement) return;
+    showContact(contactElement);
     setTimeout(() => {
-        splashFinished = true;
-    }, 1700);
+        contactElement.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+    }, 50);
 }
 
 
 /**
- * Displays the desktop splash end state immediately.
+ * Saves the changes made to the active contact, updates the UI, and
+ * synchronizes the changes with the backend.
  *
+ * @returns {Promise&lt;void>}
+ */
+async function saveContact() {
+    const contactData = prepareContactUpdate();
+    updateLocalContact(contactData);
+    refreshContactView(contactData.id);
+    closeContactEditOverlay("edit");
+    updateContactPanel(false);
+    await syncContactChanges(contactData);
+}
+
+
+/**
+ * Creates the updated contact data from the edit form.
+ *
+ * @returns {Object} Contact update information.
+ */
+function prepareContactUpdate() {
+    const id = activeContact.id;
+    const index = contacts.findIndex(contact => contact.id === id);
+    const oldContact = { ...contacts[index] };
+    const edited = readEditInputs();
+    edited.phone = formatPhoneNumber(edited.phone);
+    edited.randomColor = contacts[index].randomColor;
+    return { id, index, oldContact, edited };
+}
+
+
+/**
+ * Updates the contact in the local contacts array.
+ *
+ * @param {Object} contactData - Contact update information.
  * @returns {void}
  */
-function showDesktopSplashImmediately() {
-    logo.style.visibility = "visible";
-    logo.style.transition = "none";
-    movingLogoToPos(false);
-    splash.style.transition = "none";
-    splash.classList.add("hide");
-    container.classList.remove("hidden-splash");
-    splashFinished = true;
+function updateLocalContact(contactData) {
+    contacts[contactData.index] = {
+        ...contactData.edited,
+        id: contactData.id
+    };
+    sortContacts();
+    renderContacts();
 }
 
 
 /**
- * Initializes the mobile splash animation.
+ * Restores the active contact after re-rendering the contact list.
  *
+ * @param {string} id - Contact ID.
  * @returns {void}
  */
-function getMobileAnimation() {
-    if (!hasSplashElements()) return;
-    prepareMobileSplash();
-    const splashShown = sessionStorage.getItem("splashShown");
-    splashShown ? showMobileSplashImmediately() : playMobileSplashAnimation();
+function refreshContactView(id) {
+    const contactEl = document.querySelector(`[data-id="${id}"]`);
+    if (!contactEl) return;
+    activeContact = contactEl.dataset;
+    activeContactEl = contactEl;
+    contactEl.classList.add("active");
 }
 
 
 /**
- * Prepares splash elements for mobile view.
+ * Synchronizes the updated contact with the backend and related data.
  *
- * @returns {void}
+ * @param {Object} contactData - Contact update information.
+ * @returns {Promise&lt;void>}
  */
-function prepareMobileSplash() {
-    logo.src ="./assets/img/desktop_template/join-logo.png";
-}
-
-
-/**
- * Plays the mobile splash animation.
- *
- * @returns {void}
- */
-function playMobileSplashAnimation() {
-    logo.style.visibility = "visible";
-    sessionStorage.setItem("splashShown", "true");
-    setTimeout(() => movingLogoToPos(true), 500);
-    setTimeout(() => {
-        container.classList.remove("hidden-splash");
-        logo.src = "./assets/img/login/join_logo_big.svg";
-        splash.classList.add("hide");
-    }, 1100);
-    setTimeout(() => {
-        splashFinished = true;
-    }, 1700);
-}
-
-
-/**
- * Displays the mobile splash end state immediately.
- *
- * @returns {void}
- */
-function showMobileSplashImmediately() {
-    logo.style.visibility = "visible";
-    logo.style.transition = "none";
-    logo.src = "./assets/img/login/join_logo_big.svg";
-    movingLogoToPos(false);
-    splash.style.transition = "none";
-    splash.classList.add("hide");
-    container.classList.remove("hidden-splash");
-    splashFinished = true;
-}
- 
- 
-/**
- * Moves and resizes the splash logo onto the logo container, optionally animated.
- *
- * @param {boolean} withAnimation - Whether to apply a CSS transition (false snaps instantly).
- * @returns {void}
- */
-function movingLogoToPos(withAnimation) {
-    const rect = logoContainer.getBoundingClientRect();
-    logo.style.transition = withAnimation
-        ? "top 1.2s ease, left 1.2s ease, width 1.2s ease, height 1.2s ease, transform 1.2s ease"
-        : "none";
-    logo.style.top = `${rect.top + rect.height / 2}px`;
-    logo.style.left = `${rect.left + rect.width / 2}px`;
-    setLogoSize();
-    logo.style.transform = "translate(-50%, -50%)";
-}
-
-
-/**
- * Sets the splash logo size depending on mobile or desktop view.
- *
- * @returns {void}
- */
-function setLogoSize() {
-    const mobile = isMobileView();
-    logo.style.width = mobile ? "64px" : "100px";
-    logo.style.height = mobile ? "78px" : "122px";
-}
- 
- 
-/**
- * Clears all validation error styling and messages currently shown on
- * the page (login/signup forms).
- *
- * @returns {void}
- */
-function resetValidation() {
-    document.querySelectorAll(".fail-red-border").forEach(element => {
-        element.classList.remove("fail-red-border");
-    });
- 
-    document.querySelectorAll(".info-failed").forEach(element => {
-        element.classList.add("hidden-feedback");
-    });
-}
-
-
-/**
- *  Navigates the user to the signup page.
- *
- * @returns {void}
- */
-function getToSignup() {
-    window.location.href = "./html/signup.html";
-}
-
-
-/**
- *  Navigates the user to the login page.
- *
- * @returns {void}
- */
-function getToLogin() {
-    window.location.href = "../index.html";
-}
-
-
-/**
- * Determines whether the current viewport width matches the mobile
- * breakpoint.
- *
- * @returns {boolean} True if the viewport width is 992px or less, otherwise false.
- */
-function isMobileView() {
-    return window.innerWidth &lt;= 992 || window.innerHeight &lt;= 800;
-}
-
-
-/**
- * Logs a user in: stores their name and email in sessionStorage, then
- * navigates to the summary page.
- *
- * @param {string} userName - Display name to store as "loggedInUser".
- * @param {string} userMail - Email to store as "loggedInUserEmail".
- * @returns {void}
- */
-function getToSummary(userName, userMail) {
-    sessionStorage.setItem('loggedInUser', userName);
-    sessionStorage.setItem('loggedInUserEmail', userMail);
-    window.location.href = './html/summary.html';
-}
- 
-
-/**
- * Logs in as a guest and navigates to the summary page.
- *
- * @param {string} guest - Display name of the guest session, passed to getToSummary().
- * @returns {void}
- */
-function logInGuest(guest) {
-    getToSummary(guest);
-}
-
-
-/**
- * Initializes the splash screen animation after the page has loaded.
- */
-window.addEventListener("load", initSplashScreen);
-
-
-/**
- * Wires up lock-icon state and show/hide toggling for the login, signup and confirm password fields.
- */
-[
-    { input: loginPw, button: btnPwOne },
-    { input: pwUser, button: btnPwTwo },
-    { input: checkPw, button: btnPwThree }
-].forEach(({ input, button }) => {
-    if (!input || !button) return;
-    input.addEventListener('input', () => {
-        button.classList.toggle('change-icon-lock', input.value.length > 0);
-    });
-    button.addEventListener('click', () => {
-        input.type = input.type === 'password' ? 'text' : 'password';
-        button.classList.toggle('make-pw-visible');
-    });
-});</code></pre>
+async function syncContactChanges(contactData) {
+    const { id, oldContact, edited } = contactData;
+    try {
+        await putContactToFirebase(id, edited);
+        await syncUserDataFromContact(oldContact, edited);
+        await onloadUsers();
+        checkAfterUpdateContact(id, edited);
+        await loadTasks();
+        await updateContactInTasks(id, edited);
+    } catch (error) {
+        console.error("Sync after contact update failed:",error);
+    }
+}</code></pre>
         </article>
     </section>
 

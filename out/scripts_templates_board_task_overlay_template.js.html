@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: scripts/startpage/startpage_main.js</title>
+    <title>JSDoc: Source: scripts/templates/board_task_overlay_template.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: scripts/startpage/startpage_main.js</h1>
+    <h1 class="page-title">Source: scripts/templates/board_task_overlay_template.js</h1>
 
     
 
@@ -26,304 +26,107 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const logo = document.querySelector(".logo");
-const splash = document.querySelector(".logo-splash");
-const container = document.querySelector(".hidden-splash");
-const logoContainer = document.querySelector(".logo-container");
- 
-const nameUser = document.getElementById('signup-name');
-const mailUser = document.getElementById('signup-mail');
-const pwUser = document.getElementById('signup-pw');
-const checkPw = document.getElementById('check-pw');
-const privacyPolicy = document.getElementById('privacy-policy');
- 
-const loginMail = document.getElementById('login-mail');
-const loginPw = document.getElementById('login-password');
- 
-const btnPwOne = document.getElementById('btn-pw-one');
-const btnPwTwo = document.getElementById('btn-pw-two');
-const btnPwThree = document.getElementById('btn-pw-three');
- 
-let splashFinished = false;
-
-
-const signUpNewUser = [];
-const registeredUser = [];
-
-
-/**
- * Preloads registered users and contacts from Firebase for login/signup validation.
+            <pre class="prettyprint source linenums"><code>/**
+ * Generates the HTML template for the task details overlay.
  *
- * @returns {Promise&lt;void>}
+ * @param {Object} element - The task object containing all relevant task data.
+ * @returns {string} The HTML template for the task details overlay.
  */
-async function initLogin() {
-    await onloadUsers();
-    await loadContactsFromFirebase();
-}
-
- 
-/**
- * Initializes the signup page and loads all users and contacts
- * required for signup validation.
- *
- * @returns {Promise&lt;void>}
- */
-async function initSignup() {
-    updateSignupButton();
-    await onloadUsers();
-    await loadContactsFromFirebase();
-}
-
-
-/**
- * Starts the splash screen sequence (mobile animation, or desktop immediately/animated once per session).
- *
- * @returns {void}
- */
-function initSplashScreen() {
-    if (document.body.classList.contains('signup-page')) return;
-    if (!hasSplashElements()) return;
-    if (isMobileView()) {
-        getMobileAnimation();
-        return;
-    }
-    const splashShown = sessionStorage.getItem("splashShown");
-    splashShown ? showDesktopSplashImmediately() : playDesktopSplashAnimation();
-}
-
-
-/**
- * Checks whether all splash elements exist.
- *
- * @returns {boolean} True if all elements are available.
- */
-function hasSplashElements() {
-    return logo &amp;&amp; splash &amp;&amp; container;
-}
-
-
-/**
- * Plays the desktop splash animation.
- *
- * @returns {void}
- */
-function playDesktopSplashAnimation() {
-    logo.style.visibility = "visible";
-    sessionStorage.setItem("splashShown", "true");
-    setTimeout(() => movingLogoToPos(true), 500);
-    setTimeout(() => {
-        splash.classList.add("hide");
-        container.classList.remove("hidden-splash");
-    }, 1000);
-    setTimeout(() => {
-        splashFinished = true;
-    }, 1700);
+function generateTaskOverlayHTML(element) {
+  return `
+    &lt;dialog id="task-overlay-${element.id}" class="view-task-overlay modal-class" >
+        &lt;header class="header-view-task">
+            &lt;div class="headline-view-task">
+              &lt;h3 id="label-card-view-${element.id}" class="card-label-view">
+                ${getTaskCategory(element.category)}
+              &lt;/h3>
+              &lt;button class="btn-close" onclick="closeTaskOverlay('${element.id}')">&lt;/button>
+            &lt;/div>
+        &lt;/header>
+      &lt;div class="scroll-container"> 
+        &lt;div class="scroll-wrapper-task">
+          &lt;div class="subheader-view-task">
+              &lt;h4 id="task-title-view-${element.id}" class="title-task-view">
+                ${element.title}
+              &lt;/h4>
+              &lt;p id="task-description-view-${element.id}" class="description-task-view">
+                ${element.description}
+              &lt;/p>
+          &lt;/div>  
+          &lt;div class="frame-view-task">
+            &lt;article class="set-responsibilities">
+            &lt;div class="set-date">
+              &lt;span class="due-date-text">Due date:&lt;/span>
+              &lt;div class="due-date">${getDateFormat(element.dueDate)}&lt;/div>
+            &lt;/div>
+            &lt;div class="set-priority">
+              &lt;span class="priority-long-text">Priority:&lt;/span>
+              &lt;div class="priority-long">
+                &lt;span class="text-long-prio">${element.priority}&lt;/span>
+                ${getImgPrio(element.priority)}
+              &lt;/div>
+            &lt;/div>
+            &lt;div class="assignment-to-user">
+              &lt;span class="text-assigned">Assigned To:&lt;/span>
+              &lt;div id="badge-member-view-${element.id}" class="member-badge-view">
+                ${getAssignedContactRows(element.assignedTo)}
+              &lt;/div>
+            &lt;/div>
+            &lt;/article>
+            &lt;article class="subtask-status">
+            &lt;span class="title-subtask">Subtasks&lt;/span>
+            &lt;div id="subtasks-view-${element.id}" class="container-subtasks">
+              ${getSubtasksOverlay(element.subtasks, element.id)}
+            &lt;/div>
+            &lt;/article>
+          &lt;/div>
+        &lt;/div>
+        &lt;button class="btn-scrollbar scroll-top" onmousedown="startScrolling('.scroll-wrapper-task', -1)" onmouseup="stopScrolling()" onmouseleave="stopScrolling()">&lt;img src="../assets/img/contact/high.png" alt="up">&lt;/button>
+        &lt;button class="btn-scrollbar scroll-down" onmousedown="startScrolling('.scroll-wrapper-task', 1)" onmouseup="stopScrolling()" onmouseleave="stopScrolling()">&lt;img src="../assets/img/contact/down.png" alt="down">&lt;/button>
+      &lt;/div>
+      &lt;article class="edit-btn">
+          &lt;div class="frame-edit-btn">
+            &lt;button class="delete-task-view" onclick="deleteTask('${element.id}')">
+              &lt;figure class="container-img-delete">
+                &lt;div class="img-delete">&lt;/div>
+                &lt;figcaption class="text-delete">Delete&lt;/figcaption>
+              &lt;/figure>
+            &lt;/button>
+            &lt;div class="seperator-view-task">&lt;/div>
+            &lt;button class="edit-task-view" onclick="getEditOverlay('${element.id}')">
+              &lt;figure class="container-img-edit">
+                &lt;div class="img-edit">&lt;/div>
+                &lt;figcaption class="text-edit">Edit&lt;/figcaption>
+              &lt;/figure>
+            &lt;/button>
+          &lt;/div>
+      &lt;/article>
+    &lt;/dialog>
+  `;
 }
 
 
 /**
- * Displays the desktop splash end state immediately.
+ * Generates the HTML template for a subtask with a checkbox.
  *
- * @returns {void}
+ * @param {Array&lt;Object>} subtasks - The subtasks belonging to the task.
+ * @param {string|number} id - The unique ID of the parent task.
+ * @param {number} index - The index of the subtask in the array.
+ * @returns {string} The HTML template for the subtask with a checkbox.
  */
-function showDesktopSplashImmediately() {
-    logo.style.visibility = "visible";
-    logo.style.transition = "none";
-    movingLogoToPos(false);
-    splash.style.transition = "none";
-    splash.classList.add("hide");
-    container.classList.remove("hidden-splash");
-    splashFinished = true;
+function generateSubtaskHTML(subtasks, id, index) {
+  return `
+    &lt;label id = "subtask-${id}-${index}" class="container-checkbox subtask-text" >
+      &lt;div class="background-checkbox">
+        &lt;input type="checkbox" class="checkbox-subtask" onclick="toggleStatusSubtask('subtask-${id}-${index}', '${id}', ${index})" value="${subtasks[index].status}" ${subtasks[index].status === "done" ? "checked" : ""}/>
+      &lt;/div>
+      &lt;p class="description-subtask">
+        ${subtasks[index].title}
+      &lt;/p>
+    &lt;/label >
+  `;
 }
-
-
-/**
- * Initializes the mobile splash animation.
- *
- * @returns {void}
- */
-function getMobileAnimation() {
-    if (!hasSplashElements()) return;
-    prepareMobileSplash();
-    const splashShown = sessionStorage.getItem("splashShown");
-    splashShown ? showMobileSplashImmediately() : playMobileSplashAnimation();
-}
-
-
-/**
- * Prepares splash elements for mobile view.
- *
- * @returns {void}
- */
-function prepareMobileSplash() {
-    logo.src ="./assets/img/desktop_template/join-logo.png";
-}
-
-
-/**
- * Plays the mobile splash animation.
- *
- * @returns {void}
- */
-function playMobileSplashAnimation() {
-    logo.style.visibility = "visible";
-    sessionStorage.setItem("splashShown", "true");
-    setTimeout(() => movingLogoToPos(true), 500);
-    setTimeout(() => {
-        container.classList.remove("hidden-splash");
-        logo.src = "./assets/img/login/join_logo_big.svg";
-        splash.classList.add("hide");
-    }, 1100);
-    setTimeout(() => {
-        splashFinished = true;
-    }, 1700);
-}
-
-
-/**
- * Displays the mobile splash end state immediately.
- *
- * @returns {void}
- */
-function showMobileSplashImmediately() {
-    logo.style.visibility = "visible";
-    logo.style.transition = "none";
-    logo.src = "./assets/img/login/join_logo_big.svg";
-    movingLogoToPos(false);
-    splash.style.transition = "none";
-    splash.classList.add("hide");
-    container.classList.remove("hidden-splash");
-    splashFinished = true;
-}
- 
- 
-/**
- * Moves and resizes the splash logo onto the logo container, optionally animated.
- *
- * @param {boolean} withAnimation - Whether to apply a CSS transition (false snaps instantly).
- * @returns {void}
- */
-function movingLogoToPos(withAnimation) {
-    const rect = logoContainer.getBoundingClientRect();
-    logo.style.transition = withAnimation
-        ? "top 1.2s ease, left 1.2s ease, width 1.2s ease, height 1.2s ease, transform 1.2s ease"
-        : "none";
-    logo.style.top = `${rect.top + rect.height / 2}px`;
-    logo.style.left = `${rect.left + rect.width / 2}px`;
-    setLogoSize();
-    logo.style.transform = "translate(-50%, -50%)";
-}
-
-
-/**
- * Sets the splash logo size depending on mobile or desktop view.
- *
- * @returns {void}
- */
-function setLogoSize() {
-    const mobile = isMobileView();
-    logo.style.width = mobile ? "64px" : "100px";
-    logo.style.height = mobile ? "78px" : "122px";
-}
- 
- 
-/**
- * Clears all validation error styling and messages currently shown on
- * the page (login/signup forms).
- *
- * @returns {void}
- */
-function resetValidation() {
-    document.querySelectorAll(".fail-red-border").forEach(element => {
-        element.classList.remove("fail-red-border");
-    });
- 
-    document.querySelectorAll(".info-failed").forEach(element => {
-        element.classList.add("hidden-feedback");
-    });
-}
-
-
-/**
- *  Navigates the user to the signup page.
- *
- * @returns {void}
- */
-function getToSignup() {
-    window.location.href = "./html/signup.html";
-}
-
-
-/**
- *  Navigates the user to the login page.
- *
- * @returns {void}
- */
-function getToLogin() {
-    window.location.href = "../index.html";
-}
-
-
-/**
- * Determines whether the current viewport width matches the mobile
- * breakpoint.
- *
- * @returns {boolean} True if the viewport width is 992px or less, otherwise false.
- */
-function isMobileView() {
-    return window.innerWidth &lt;= 992 || window.innerHeight &lt;= 800;
-}
-
-
-/**
- * Logs a user in: stores their name and email in sessionStorage, then
- * navigates to the summary page.
- *
- * @param {string} userName - Display name to store as "loggedInUser".
- * @param {string} userMail - Email to store as "loggedInUserEmail".
- * @returns {void}
- */
-function getToSummary(userName, userMail) {
-    sessionStorage.setItem('loggedInUser', userName);
-    sessionStorage.setItem('loggedInUserEmail', userMail);
-    window.location.href = './html/summary.html';
-}
- 
-
-/**
- * Logs in as a guest and navigates to the summary page.
- *
- * @param {string} guest - Display name of the guest session, passed to getToSummary().
- * @returns {void}
- */
-function logInGuest(guest) {
-    getToSummary(guest);
-}
-
-
-/**
- * Initializes the splash screen animation after the page has loaded.
- */
-window.addEventListener("load", initSplashScreen);
-
-
-/**
- * Wires up lock-icon state and show/hide toggling for the login, signup and confirm password fields.
- */
-[
-    { input: loginPw, button: btnPwOne },
-    { input: pwUser, button: btnPwTwo },
-    { input: checkPw, button: btnPwThree }
-].forEach(({ input, button }) => {
-    if (!input || !button) return;
-    input.addEventListener('input', () => {
-        button.classList.toggle('change-icon-lock', input.value.length > 0);
-    });
-    button.addEventListener('click', () => {
-        input.type = input.type === 'password' ? 'text' : 'password';
-        button.classList.toggle('make-pw-visible');
-    });
-});</code></pre>
+</code></pre>
         </article>
     </section>
 

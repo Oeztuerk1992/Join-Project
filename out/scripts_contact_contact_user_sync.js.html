@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: scripts/startpage/startpage_main.js</title>
+    <title>JSDoc: Source: scripts/contact/contact_user_sync.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: scripts/startpage/startpage_main.js</h1>
+    <h1 class="page-title">Source: scripts/contact/contact_user_sync.js</h1>
 
     
 
@@ -26,304 +26,205 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const logo = document.querySelector(".logo");
-const splash = document.querySelector(".logo-splash");
-const container = document.querySelector(".hidden-splash");
-const logoContainer = document.querySelector(".logo-container");
- 
-const nameUser = document.getElementById('signup-name');
-const mailUser = document.getElementById('signup-mail');
-const pwUser = document.getElementById('signup-pw');
-const checkPw = document.getElementById('check-pw');
-const privacyPolicy = document.getElementById('privacy-policy');
- 
-const loginMail = document.getElementById('login-mail');
-const loginPw = document.getElementById('login-password');
- 
-const btnPwOne = document.getElementById('btn-pw-one');
-const btnPwTwo = document.getElementById('btn-pw-two');
-const btnPwThree = document.getElementById('btn-pw-three');
- 
-let splashFinished = false;
-
-
-const signUpNewUser = [];
-const registeredUser = [];
-
-
-/**
- * Preloads registered users and contacts from Firebase for login/signup validation.
+            <pre class="prettyprint source linenums"><code>/**
+ * If the edited contact is the currently logged-in user, updates the
+ * session's cached display name and email and refreshes the user profile UI to reflect the change.
  *
- * @returns {Promise&lt;void>}
- */
-async function initLogin() {
-    await onloadUsers();
-    await loadContactsFromFirebase();
-}
-
- 
-/**
- * Initializes the signup page and loads all users and contacts
- * required for signup validation.
- *
- * @returns {Promise&lt;void>}
- */
-async function initSignup() {
-    updateSignupButton();
-    await onloadUsers();
-    await loadContactsFromFirebase();
-}
-
-
-/**
- * Starts the splash screen sequence (mobile animation, or desktop immediately/animated once per session).
- *
+ * @param {string} id - ID of the contact that was edited.
+ * @param {Object} edited - The edited contact data (capitalizedName, email, etc.).
  * @returns {void}
  */
-function initSplashScreen() {
-    if (document.body.classList.contains('signup-page')) return;
-    if (!hasSplashElements()) return;
-    if (isMobileView()) {
-        getMobileAnimation();
+function checkAfterUpdateContact(id, edited) {
+    const loggedInContactId = sessionStorage.getItem('loggedInContactId');
+    if (id === loggedInContactId) {
+        sessionStorage.setItem('loggedInUser',edited.capitalizedName);
+        sessionStorage.setItem('loggedInUserEmail',edited.email);
+        getUserProfile();
+    }
+}
+ 
+ 
+/**
+ * Synchronizes a contact update with a linked user account.
+ *
+ * @param {Object} oldContact - Contact data before the update.
+ * @param {Object} newContact - Contact data after the update.
+ * @returns {Promise&lt;void>}
+ */
+async function syncUserDataFromContact(
+    oldContact,
+    newContact
+) {
+    const users = await loadUsers();
+    if (!users) return;
+    const userKey = findLinkedUser(users,oldContact.email);
+    if (!userKey) return;
+    const updatedUser = buildUpdatedUser(users[userKey],newContact);
+    await saveUpdatedUser(userKey, updatedUser);
+}
+
+
+/**
+ * Loads all registered users.
+ *
+ * @returns {Promise&lt;Object|null>} Loaded users.
+ */
+async function loadUsers() {
+    const response = await fetch(
+        BASE_URL + "user.json"
+    );
+    return await response.json();
+}
+
+
+/**
+ * Finds the user linked to a contact email.
+ *
+ * @param {Object} users - All registered users.
+ * @param {string} email - Contact email.
+ * @returns {string|undefined} User key.
+ */
+function findLinkedUser(users, email) {
+    return Object.keys(users).find(
+        key => users[key].mail === email
+    );
+}
+
+
+/**
+ * Creates an updated user object from contact data.
+ *
+ * @param {Object} user - Existing user data.
+ * @param {Object} contact - Updated contact data.
+ * @returns {Object} Updated user.
+ */
+function buildUpdatedUser(user, contact) {
+    const nameParts = contact.capitalizedName
+        .trim()
+        .split(/\s+/);
+
+    return {
+        ...user,
+        firstName: getFirstName(nameParts),
+        lastName: getLastName(nameParts),
+        mail: contact.email
+    };
+}
+
+
+/**
+ * Returns the first name part(s) of a full name.
+ *
+ * @param {string[]} nameParts - Split name parts.
+ * @returns {string} First name.
+ */
+function getFirstName(nameParts) {
+    return nameParts.slice(0, -1).join(" ");
+}
+
+
+/**
+ * Returns the last name part of a full name.
+ *
+ * @param {string[]} nameParts - Split name parts.
+ * @returns {string} Last name.
+ */
+function getLastName(nameParts) {
+    return nameParts[nameParts.length - 1];
+}
+
+
+/**
+ * Saves an updated user to the backend.
+ *
+ * @param {string} userKey - User ID.
+ * @param {Object} updatedUser - User data to save.
+ * @returns {Promise&lt;void>}
+ */
+async function saveUpdatedUser(
+    userKey,
+    updatedUser
+) {
+    await fetch(`${BASE_URL}user/${userKey}.json`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(updatedUser)
+    });
+}
+ 
+ 
+/**
+ * Deletes the currently active contact and updates all related data.
+ *
+ * @returns {Promise&lt;void>}
+ */
+async function deleteContact() {
+    const id = activeContact.id;
+
+    if (isCurrentUserContact(id)) {
+        showDialogDelete();
         return;
     }
-    const splashShown = sessionStorage.getItem("splashShown");
-    splashShown ? showDesktopSplashImmediately() : playDesktopSplashAnimation();
+    await removeContact(id);
+    resetContactView();
+    renderContacts();
+    updateMobileContactView();
 }
 
 
 /**
- * Checks whether all splash elements exist.
+ * Checks whether the contact belongs to the logged-in user.
  *
- * @returns {boolean} True if all elements are available.
+ * @param {string} id - Contact ID.
+ * @returns {boolean} True if the contact is the logged-in user.
  */
-function hasSplashElements() {
-    return logo &amp;&amp; splash &amp;&amp; container;
+function isCurrentUserContact(id) {
+    const loggedInContactId = sessionStorage.getItem("loggedInContactId");
+    return id === loggedInContactId;
 }
 
 
 /**
- * Plays the desktop splash animation.
+ * Removes a contact from the backend and local data.
  *
- * @returns {void}
+ * @param {string} id - Contact ID.
+ * @returns {Promise&lt;void>}
  */
-function playDesktopSplashAnimation() {
-    logo.style.visibility = "visible";
-    sessionStorage.setItem("splashShown", "true");
-    setTimeout(() => movingLogoToPos(true), 500);
-    setTimeout(() => {
-        splash.classList.add("hide");
-        container.classList.remove("hidden-splash");
-    }, 1000);
-    setTimeout(() => {
-        splashFinished = true;
-    }, 1700);
+async function removeContact(id) {
+    const index = contacts.findIndex(contact => contact.id === id);
+    await deleteContactFromFirebase(id);
+    contacts.splice(index, 1);
+    await loadContactsFromFirebase();
+    await loadTasks();
+    await removeDeletedContactFromTasks(id);
 }
 
 
 /**
- * Displays the desktop splash end state immediately.
- *
- * @returns {void}
- */
-function showDesktopSplashImmediately() {
-    logo.style.visibility = "visible";
-    logo.style.transition = "none";
-    movingLogoToPos(false);
-    splash.style.transition = "none";
-    splash.classList.add("hide");
-    container.classList.remove("hidden-splash");
-    splashFinished = true;
-}
-
-
-/**
- * Initializes the mobile splash animation.
+ * Clears the contact detail view and resets contact state.
  *
  * @returns {void}
  */
-function getMobileAnimation() {
-    if (!hasSplashElements()) return;
-    prepareMobileSplash();
-    const splashShown = sessionStorage.getItem("splashShown");
-    splashShown ? showMobileSplashImmediately() : playMobileSplashAnimation();
+function resetContactView() {
+    document.querySelector(".contact-detail-panel").innerHTML = "";
+    closeContactEditOverlay("edit");
+    activeContact = null;
+    activeContactEl = null;
 }
 
 
 /**
- * Prepares splash elements for mobile view.
+ * Switches back to the contact list on mobile devices.
  *
  * @returns {void}
  */
-function prepareMobileSplash() {
-    logo.src ="./assets/img/desktop_template/join-logo.png";
-}
-
-
-/**
- * Plays the mobile splash animation.
- *
- * @returns {void}
- */
-function playMobileSplashAnimation() {
-    logo.style.visibility = "visible";
-    sessionStorage.setItem("splashShown", "true");
-    setTimeout(() => movingLogoToPos(true), 500);
-    setTimeout(() => {
-        container.classList.remove("hidden-splash");
-        logo.src = "./assets/img/login/join_logo_big.svg";
-        splash.classList.add("hide");
-    }, 1100);
-    setTimeout(() => {
-        splashFinished = true;
-    }, 1700);
-}
-
-
-/**
- * Displays the mobile splash end state immediately.
- *
- * @returns {void}
- */
-function showMobileSplashImmediately() {
-    logo.style.visibility = "visible";
-    logo.style.transition = "none";
-    logo.src = "./assets/img/login/join_logo_big.svg";
-    movingLogoToPos(false);
-    splash.style.transition = "none";
-    splash.classList.add("hide");
-    container.classList.remove("hidden-splash");
-    splashFinished = true;
-}
- 
- 
-/**
- * Moves and resizes the splash logo onto the logo container, optionally animated.
- *
- * @param {boolean} withAnimation - Whether to apply a CSS transition (false snaps instantly).
- * @returns {void}
- */
-function movingLogoToPos(withAnimation) {
-    const rect = logoContainer.getBoundingClientRect();
-    logo.style.transition = withAnimation
-        ? "top 1.2s ease, left 1.2s ease, width 1.2s ease, height 1.2s ease, transform 1.2s ease"
-        : "none";
-    logo.style.top = `${rect.top + rect.height / 2}px`;
-    logo.style.left = `${rect.left + rect.width / 2}px`;
-    setLogoSize();
-    logo.style.transform = "translate(-50%, -50%)";
-}
-
-
-/**
- * Sets the splash logo size depending on mobile or desktop view.
- *
- * @returns {void}
- */
-function setLogoSize() {
-    const mobile = isMobileView();
-    logo.style.width = mobile ? "64px" : "100px";
-    logo.style.height = mobile ? "78px" : "122px";
-}
- 
- 
-/**
- * Clears all validation error styling and messages currently shown on
- * the page (login/signup forms).
- *
- * @returns {void}
- */
-function resetValidation() {
-    document.querySelectorAll(".fail-red-border").forEach(element => {
-        element.classList.remove("fail-red-border");
-    });
- 
-    document.querySelectorAll(".info-failed").forEach(element => {
-        element.classList.add("hidden-feedback");
-    });
-}
-
-
-/**
- *  Navigates the user to the signup page.
- *
- * @returns {void}
- */
-function getToSignup() {
-    window.location.href = "./html/signup.html";
-}
-
-
-/**
- *  Navigates the user to the login page.
- *
- * @returns {void}
- */
-function getToLogin() {
-    window.location.href = "../index.html";
-}
-
-
-/**
- * Determines whether the current viewport width matches the mobile
- * breakpoint.
- *
- * @returns {boolean} True if the viewport width is 992px or less, otherwise false.
- */
-function isMobileView() {
-    return window.innerWidth &lt;= 992 || window.innerHeight &lt;= 800;
-}
-
-
-/**
- * Logs a user in: stores their name and email in sessionStorage, then
- * navigates to the summary page.
- *
- * @param {string} userName - Display name to store as "loggedInUser".
- * @param {string} userMail - Email to store as "loggedInUserEmail".
- * @returns {void}
- */
-function getToSummary(userName, userMail) {
-    sessionStorage.setItem('loggedInUser', userName);
-    sessionStorage.setItem('loggedInUserEmail', userMail);
-    window.location.href = './html/summary.html';
-}
- 
-
-/**
- * Logs in as a guest and navigates to the summary page.
- *
- * @param {string} guest - Display name of the guest session, passed to getToSummary().
- * @returns {void}
- */
-function logInGuest(guest) {
-    getToSummary(guest);
-}
-
-
-/**
- * Initializes the splash screen animation after the page has loaded.
- */
-window.addEventListener("load", initSplashScreen);
-
-
-/**
- * Wires up lock-icon state and show/hide toggling for the login, signup and confirm password fields.
- */
-[
-    { input: loginPw, button: btnPwOne },
-    { input: pwUser, button: btnPwTwo },
-    { input: checkPw, button: btnPwThree }
-].forEach(({ input, button }) => {
-    if (!input || !button) return;
-    input.addEventListener('input', () => {
-        button.classList.toggle('change-icon-lock', input.value.length > 0);
-    });
-    button.addEventListener('click', () => {
-        input.type = input.type === 'password' ? 'text' : 'password';
-        button.classList.toggle('make-pw-visible');
-    });
-});</code></pre>
+function updateMobileContactView() {
+    if (window.innerWidth > 992) return;
+    document.querySelector(".new-contact-wrapper").style.display = "flex";
+    document.querySelector(".contact-info").style.display = "none";
+}</code></pre>
         </article>
     </section>
 

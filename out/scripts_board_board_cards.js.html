@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: scripts/startpage/startpage_main.js</title>
+    <title>JSDoc: Source: scripts/board/board_cards.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: scripts/startpage/startpage_main.js</h1>
+    <h1 class="page-title">Source: scripts/board/board_cards.js</h1>
 
     
 
@@ -26,304 +26,239 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const logo = document.querySelector(".logo");
-const splash = document.querySelector(".logo-splash");
-const container = document.querySelector(".hidden-splash");
-const logoContainer = document.querySelector(".logo-container");
- 
-const nameUser = document.getElementById('signup-name');
-const mailUser = document.getElementById('signup-mail');
-const pwUser = document.getElementById('signup-pw');
-const checkPw = document.getElementById('check-pw');
-const privacyPolicy = document.getElementById('privacy-policy');
- 
-const loginMail = document.getElementById('login-mail');
-const loginPw = document.getElementById('login-password');
- 
-const btnPwOne = document.getElementById('btn-pw-one');
-const btnPwTwo = document.getElementById('btn-pw-two');
-const btnPwThree = document.getElementById('btn-pw-three');
- 
-let splashFinished = false;
+            <pre class="prettyprint source linenums"><code>let placeholder = null;
+let autoScrollInterval = null;
+let currentDraggedElement;
+let autoScrollContainer = null;
+let autoScrollDirection = 0;
 
-
-const signUpNewUser = [];
-const registeredUser = [];
+let tasks = [];
 
 
 /**
- * Preloads registered users and contacts from Firebase for login/signup validation.
+ * Maps each task status to its corresponding Kanban column element in
+ * the DOM.
+ *
+ * @type {Object.&lt;string, HTMLElement>}
+ */
+const columns = {
+    'To do': document.getElementById('kanban-to-do'),
+    'In progress': document.getElementById('kanban-in-progress'),
+    'Await feedback': document.getElementById('kanban-feedback'),
+    'Done': document.getElementById('kanban-done')
+};
+
+
+/**
+ * Initializes the Kanban board: sets up the "Add Task" form/contacts,
+ * loads all tasks from the backend, and renders them onto the board.
  *
  * @returns {Promise&lt;void>}
  */
-async function initLogin() {
-    await onloadUsers();
-    await loadContactsFromFirebase();
+async function initBoard() {
+    await initAddTask();
+    await loadTasks();
+    updateTasksforBoard();
 }
-
  
-/**
- * Initializes the signup page and loads all users and contacts
- * required for signup validation.
- *
- * @returns {Promise&lt;void>}
- */
-async function initSignup() {
-    updateSignupButton();
-    await onloadUsers();
-    await loadContactsFromFirebase();
-}
-
 
 /**
- * Starts the splash screen sequence (mobile animation, or desktop immediately/animated once per session).
- *
+ * Re-renders the board: sorts the tasks into their columns and fills empty columns.
+ * @param {Array&lt;Object>} [tasksToShow=tasks] - The tasks to render (defaults to all tasks).
  * @returns {void}
  */
-function initSplashScreen() {
-    if (document.body.classList.contains('signup-page')) return;
-    if (!hasSplashElements()) return;
-    if (isMobileView()) {
-        getMobileAnimation();
-        return;
+function updateTasksforBoard(tasksToShow = tasks) {
+    Object.values(columns).forEach(column => column.innerHTML = '');
+    tasksToShow
+        .sort((a, b) => a.dragOrder - b.dragOrder)
+        .forEach(task => {
+            const column = columns[task.taskStatus];
+            if (column) column.innerHTML += generateTaskMiniCardHTML(task);
+        });
+    Object.entries(columns).forEach(([status, column]) => {
+        if (column.innerHTML.trim() === '') {
+            column.innerHTML = generateEmptyCardHTML(status);
+        }
+    });
+}
+
+
+/**
+ * Returns the category label markup for a mini card, based on whether
+ * the task is a "User Story" or a technical task.
+ *
+ * @param {string} category - The task's category value.
+ * @returns {string} HTML markup for the category label.
+ */
+function getTaskCategory(category) {
+    if (category === 'User Story') { 
+        return generateTaskCategoryUserStoryHTML();
     }
-    const splashShown = sessionStorage.getItem("splashShown");
-    splashShown ? showDesktopSplashImmediately() : playDesktopSplashAnimation();
-}
-
-
-/**
- * Checks whether all splash elements exist.
- *
- * @returns {boolean} True if all elements are available.
- */
-function hasSplashElements() {
-    return logo &amp;&amp; splash &amp;&amp; container;
-}
-
-
-/**
- * Plays the desktop splash animation.
- *
- * @returns {void}
- */
-function playDesktopSplashAnimation() {
-    logo.style.visibility = "visible";
-    sessionStorage.setItem("splashShown", "true");
-    setTimeout(() => movingLogoToPos(true), 500);
-    setTimeout(() => {
-        splash.classList.add("hide");
-        container.classList.remove("hidden-splash");
-    }, 1000);
-    setTimeout(() => {
-        splashFinished = true;
-    }, 1700);
-}
-
-
-/**
- * Displays the desktop splash end state immediately.
- *
- * @returns {void}
- */
-function showDesktopSplashImmediately() {
-    logo.style.visibility = "visible";
-    logo.style.transition = "none";
-    movingLogoToPos(false);
-    splash.style.transition = "none";
-    splash.classList.add("hide");
-    container.classList.remove("hidden-splash");
-    splashFinished = true;
-}
-
-
-/**
- * Initializes the mobile splash animation.
- *
- * @returns {void}
- */
-function getMobileAnimation() {
-    if (!hasSplashElements()) return;
-    prepareMobileSplash();
-    const splashShown = sessionStorage.getItem("splashShown");
-    splashShown ? showMobileSplashImmediately() : playMobileSplashAnimation();
-}
-
-
-/**
- * Prepares splash elements for mobile view.
- *
- * @returns {void}
- */
-function prepareMobileSplash() {
-    logo.src ="./assets/img/desktop_template/join-logo.png";
-}
-
-
-/**
- * Plays the mobile splash animation.
- *
- * @returns {void}
- */
-function playMobileSplashAnimation() {
-    logo.style.visibility = "visible";
-    sessionStorage.setItem("splashShown", "true");
-    setTimeout(() => movingLogoToPos(true), 500);
-    setTimeout(() => {
-        container.classList.remove("hidden-splash");
-        logo.src = "./assets/img/login/join_logo_big.svg";
-        splash.classList.add("hide");
-    }, 1100);
-    setTimeout(() => {
-        splashFinished = true;
-    }, 1700);
-}
-
-
-/**
- * Displays the mobile splash end state immediately.
- *
- * @returns {void}
- */
-function showMobileSplashImmediately() {
-    logo.style.visibility = "visible";
-    logo.style.transition = "none";
-    logo.src = "./assets/img/login/join_logo_big.svg";
-    movingLogoToPos(false);
-    splash.style.transition = "none";
-    splash.classList.add("hide");
-    container.classList.remove("hidden-splash");
-    splashFinished = true;
+    return generateTaskCategoryTechnicalTaskHTML();
 }
  
  
 /**
- * Moves and resizes the splash logo onto the logo container, optionally animated.
- *
- * @param {boolean} withAnimation - Whether to apply a CSS transition (false snaps instantly).
- * @returns {void}
+ * Returns the priority icon markup for a mini card.
+ * @param {string} priority - The task's priority ("Low", "Medium" or "Urgent").
+ * @returns {string} The icon HTML, or "" for an unknown priority.
  */
-function movingLogoToPos(withAnimation) {
-    const rect = logoContainer.getBoundingClientRect();
-    logo.style.transition = withAnimation
-        ? "top 1.2s ease, left 1.2s ease, width 1.2s ease, height 1.2s ease, transform 1.2s ease"
-        : "none";
-    logo.style.top = `${rect.top + rect.height / 2}px`;
-    logo.style.left = `${rect.left + rect.width / 2}px`;
-    setLogoSize();
-    logo.style.transform = "translate(-50%, -50%)";
-}
-
-
-/**
- * Sets the splash logo size depending on mobile or desktop view.
- *
- * @returns {void}
- */
-function setLogoSize() {
-    const mobile = isMobileView();
-    logo.style.width = mobile ? "64px" : "100px";
-    logo.style.height = mobile ? "78px" : "122px";
+function getImgPrio(priority) {
+    const icons = {
+        Low: generateImgPrioLowHTML,
+        Medium: generateImgPrioMediumHTML,
+        Urgent: generateImgPrioHighHTML
+    };
+    return icons[priority] ? icons[priority]() : '';
 }
  
  
 /**
- * Clears all validation error styling and messages currently shown on
- * the page (login/signup forms).
- *
- * @returns {void}
+ * Builds the assigned-contact badges for a mini card, with an optional "+N" badge.
+ * @param {Array&lt;{name: string, color: string}>} [assignments=[]] - The assigned contacts.
+ * @param {number|null} [limit=null] - Maximum number of badges; null shows all.
+ * @returns {string} The badges HTML.
  */
-function resetValidation() {
-    document.querySelectorAll(".fail-red-border").forEach(element => {
-        element.classList.remove("fail-red-border");
-    });
- 
-    document.querySelectorAll(".info-failed").forEach(element => {
-        element.classList.add("hidden-feedback");
-    });
+function getAssignedContactBadges(assignments = [], limit = null) {
+    const visible = limit ? assignments.slice(0, limit) : assignments;
+    const badgesHTML = visible.map(getContactBadge).join('');
+    const remaining = limit ? assignments.length - limit : 0;
+    return remaining > 0
+        ? badgesHTML + `&lt;div class="user-abbr user-abbr-more">+${remaining}&lt;/div>`
+        : badgesHTML;
 }
 
 
 /**
- *  Navigates the user to the signup page.
- *
- * @returns {void}
+ * Builds the badge HTML of a single contact, or "" if it has no name.
+ * @param {{name: string, color: string}} contact - The assigned contact.
+ * @returns {string} The badge HTML.
  */
-function getToSignup() {
-    window.location.href = "./html/signup.html";
+function getContactBadge(contact) {
+    if (!contact?.name) return '';
+    return generateBadgesHTML(contact.color, getInitials(contact.name));
 }
 
 
 /**
- *  Navigates the user to the login page.
- *
- * @returns {void}
+ * Returns the first letter of the first and last name in upper case.
+ * @param {string} name - The full name of a contact.
+ * @returns {string} The initials (one or two letters).
  */
-function getToLogin() {
-    window.location.href = "../index.html";
-}
-
-
-/**
- * Determines whether the current viewport width matches the mobile
- * breakpoint.
- *
- * @returns {boolean} True if the viewport width is 992px or less, otherwise false.
- */
-function isMobileView() {
-    return window.innerWidth &lt;= 992 || window.innerHeight &lt;= 800;
-}
-
-
-/**
- * Logs a user in: stores their name and email in sessionStorage, then
- * navigates to the summary page.
- *
- * @param {string} userName - Display name to store as "loggedInUser".
- * @param {string} userMail - Email to store as "loggedInUserEmail".
- * @returns {void}
- */
-function getToSummary(userName, userMail) {
-    sessionStorage.setItem('loggedInUser', userName);
-    sessionStorage.setItem('loggedInUserEmail', userMail);
-    window.location.href = './html/summary.html';
+function getInitials(name) {
+    const parts = name.trim().split(' ');
+    const first = (parts[0]?.[0] || '').toUpperCase();
+    const last = parts.length > 1 ? (parts[parts.length - 1]?.[0] || '').toUpperCase() : '';
+    return first + last;
 }
  
 
 /**
- * Logs in as a guest and navigates to the summary page.
- *
- * @param {string} guest - Display name of the guest session, passed to getToSummary().
- * @returns {void}
+ * Builds full-row markup (badge + full name) for each assigned contact.
+ * @param {Array&lt;{name: string, color: string}>} [assignments=[]] - The assigned contacts.
+ * @returns {string} The contact rows HTML.
  */
-function logInGuest(guest) {
-    getToSummary(guest);
+function getAssignedContactRows(assignments = []) {
+    return assignments.map(getContactRow).join('');
 }
 
 
 /**
- * Initializes the splash screen animation after the page has loaded.
+ * Builds the row HTML of a single contact, or "" if it has no name.
+ * @param {{name: string, color: string}} contact - The assigned contact.
+ * @returns {string} The row HTML.
  */
-window.addEventListener("load", initSplashScreen);
+function getContactRow(contact) {
+    if (!contact?.name) return '';
+    return `
+        &lt;div class="container-user">
+            ${generateBadgesHTML(contact.color, getInitials(contact.name))}
+            ${generateUserNamesHTML(contact.name)}
+        &lt;/div>
+    `;
+}
+ 
+ 
+/**
+ * Builds the "x/y Subtasks" progress text for a task's mini card.
+ * @param {Array&lt;{status: string}>} subtasks - The task's subtasks.
+ * @returns {string} The progress text (e.g. "2/5 Subtasks"), or "" if there are none.
+ */
+function getStatusSubtasks(subtasks) {
+    if (subtasks.length === 0) return '';
+    const done = subtasks.filter(subtask => subtask.status === 'done').length;
+    return `${done}/${subtasks.length} Subtasks`;
+}
+ 
+ 
+/**
+ * Calculates the percentage of done subtasks for the mini card progress bar.
+ * @param {Array&lt;{status: string}>} subtasks - The task's subtasks.
+ * @returns {number|null} The done percentage (0-100), or null if there are no subtasks.
+ */
+function getSubtaskProgress(subtasks) {
+    if (!subtasks.length) return null;
+    const done = subtasks.filter(subtask => subtask.status === 'done').length;
+    return (done / subtasks.length) * 100;
+}
 
 
 /**
- * Wires up lock-icon state and show/hide toggling for the login, signup and confirm password fields.
+ * Opens the task detail overlay as a modal, optionally with entrance animation.
+ * @param {string|number} id - ID of the task to display.
+ * @param {string} [placeholder] - Pass "animation" to play the entrance animation.
+ * @returns {void}
  */
-[
-    { input: loginPw, button: btnPwOne },
-    { input: pwUser, button: btnPwTwo },
-    { input: checkPw, button: btnPwThree }
-].forEach(({ input, button }) => {
-    if (!input || !button) return;
-    input.addEventListener('input', () => {
-        button.classList.toggle('change-icon-lock', input.value.length > 0);
-    });
-    button.addEventListener('click', () => {
-        input.type = input.type === 'password' ? 'text' : 'password';
-        button.classList.toggle('make-pw-visible');
-    });
-});</code></pre>
+function openTaskOverlay(id, placeholder) {
+    const task = tasks.find(task => task.id === id);
+    document.getElementById(`task-overlay-${id}`)?.remove();
+    document.body.insertAdjacentHTML("beforeend", generateTaskOverlayHTML(task));
+    const dialog = document.getElementById(`task-overlay-${id}`);
+    dialog.showModal();
+    dialog.classList.remove('modal-exit');
+    if (placeholder === 'animation') {
+        requestAnimationFrame(() => dialog.classList.add('modal-enter'));
+    }
+    updateScrollbarButtons();
+}
+ 
+ 
+/**
+ * Closes the task detail overlay with an exit animation, then removes
+ * the dialog element from the DOM once the animation finishes.
+ *
+ * @param {string|number} id - ID of the task whose overlay should be closed.
+ * @returns {void}
+ */
+function closeTaskOverlay(id) {
+    const taskOverlay = document.getElementById(`task-overlay-${id}`);
+    if (!taskOverlay) return;
+    taskOverlay.classList.remove('modal-enter');
+    taskOverlay.classList.add('modal-exit');
+    taskOverlay.addEventListener(
+        'animationend',
+        () => {
+            taskOverlay.close();
+            taskOverlay.remove();
+        },
+        { once: true }
+    );
+}
+ 
+ 
+/**
+ * Closes the task detail overlay immediately, without playing an exit
+ * animation, and removes it from the DOM.
+ *
+ * @param {string|number} id - ID of the task whose overlay should be closed.
+ * @returns {void}
+ */
+function closeTaskOverlayNoAnimation(id) {
+    const taskOverlay = document.getElementById(`task-overlay-${id}`);
+    if (!taskOverlay) return;
+    taskOverlay.close();
+    taskOverlay.remove();
+}</code></pre>
         </article>
     </section>
 

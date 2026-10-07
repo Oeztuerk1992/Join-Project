@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: scripts/startpage/startpage_main.js</title>
+    <title>JSDoc: Source: scripts/board/board_overlays.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: scripts/startpage/startpage_main.js</h1>
+    <h1 class="page-title">Source: scripts/board/board_overlays.js</h1>
 
     
 
@@ -26,304 +26,178 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const logo = document.querySelector(".logo");
-const splash = document.querySelector(".logo-splash");
-const container = document.querySelector(".hidden-splash");
-const logoContainer = document.querySelector(".logo-container");
- 
-const nameUser = document.getElementById('signup-name');
-const mailUser = document.getElementById('signup-mail');
-const pwUser = document.getElementById('signup-pw');
-const checkPw = document.getElementById('check-pw');
-const privacyPolicy = document.getElementById('privacy-policy');
- 
-const loginMail = document.getElementById('login-mail');
-const loginPw = document.getElementById('login-password');
- 
-const btnPwOne = document.getElementById('btn-pw-one');
-const btnPwTwo = document.getElementById('btn-pw-two');
-const btnPwThree = document.getElementById('btn-pw-three');
- 
-let splashFinished = false;
-
-
-const signUpNewUser = [];
-const registeredUser = [];
-
-
-/**
- * Preloads registered users and contacts from Firebase for login/signup validation.
+            <pre class="prettyprint source linenums"><code>/**
+ * Converts a date string from "YYYY-MM-DD..." format into "DD.MM.YYYY"
+ * display format.
  *
- * @returns {Promise&lt;void>}
+ * @param {string} date - The date string, expected to start with "YYYY-MM-DD".
+ * @returns {string} The reformatted date as "DD.MM.YYYY".
  */
-async function initLogin() {
-    await onloadUsers();
-    await loadContactsFromFirebase();
+function getDateFormat(date) {
+    let oldDate = date;
+    let newDate =
+        oldDate.substring(8, 10) + "." +
+        oldDate.substring(5, 7) + "." +
+        oldDate.substring(0, 4);
+    return newDate;
 }
-
+ 
  
 /**
- * Initializes the signup page and loads all users and contacts
- * required for signup validation.
+ * Builds the subtask list markup for the read-only task detail
+ * overlay.
  *
- * @returns {Promise&lt;void>}
+ * @param {Array&lt;Object>} subtasks - The task's subtasks.
+ * @param {string|number} id - ID of the task the subtasks belong to.
+ * @returns {string} Concatenated HTML markup for all subtasks.
  */
-async function initSignup() {
-    updateSignupButton();
-    await onloadUsers();
-    await loadContactsFromFirebase();
+function getSubtasksOverlay(subtasks, id) {
+    let listSubtasks = '';
+    for (let index = 0; index &lt; subtasks.length; index++) {
+        listSubtasks += generateSubtaskHTML(subtasks, id, index);
+    }
+    return listSubtasks;
 }
 
 
 /**
- * Starts the splash screen sequence (mobile animation, or desktop immediately/animated once per session).
- *
+ * Opens the edit overlay of a task with its assigned contacts pre-selected.
+ * @param {string|number} id - ID of the task to edit.
  * @returns {void}
  */
-function initSplashScreen() {
-    if (document.body.classList.contains('signup-page')) return;
-    if (!hasSplashElements()) return;
-    if (isMobileView()) {
-        getMobileAnimation();
+function getEditOverlay(id) {
+    const task = tasks.find(task => task.id === id);
+    document.getElementById(`edit-overlay-${id}`)?.remove();
+    document.body.insertAdjacentHTML("beforeend", generateEditOverlayHTML(task));
+    const dialog = document.getElementById(`edit-overlay-${id}`);
+    const menu = document.getElementById(`dropdownMenu-${id}`);
+    selectedContactIds = (task.assignedTo || []).map(c => c.id);
+    renderContacts(contacts, menu, task.assignedTo);
+    closeTaskOverlayNoAnimation(id);
+    dialog.showModal();
+}
+
+
+/**
+ * Builds the subtask list markup for the edit overlay (editable
+ * subtask items).
+ *
+ * @param {Array&lt;Object>} subtasks - The task's subtasks.
+ * @param {string|number} id - ID of the task the subtasks belong to.
+ * @returns {string} Concatenated HTML markup for all editable subtasks.
+ */
+function getSubtasksEditOverlay(subtasks, id) {
+    let listSubtasks = '';
+    for (let index = 0; index &lt; subtasks.length; index++) {
+        listSubtasks += generateSubtaskEditHTML(subtasks, id, index);
+    }
+    return listSubtasks;
+}
+ 
+ 
+/**
+ * Closes the edit overlay with an exit animation, then removes the
+ * dialog element from the DOM once the animation finishes.
+ *
+ * @param {string|number} id - ID of the task whose edit overlay should be closed.
+ * @returns {void}
+ */
+function closeEditOverlay(id) {
+    const editOverlay = document.getElementById(`edit-overlay-${id}`);
+    if (!editOverlay) return;
+    editOverlay.classList.remove('modal-enter');
+    editOverlay.classList.add('modal-exit');
+    editOverlay.addEventListener(
+        'animationend',
+        () => {
+            editOverlay.close();
+            editOverlay.remove();
+        },
+        { once: true }
+    );
+}
+ 
+ 
+/**
+ * Closes the edit overlay immediately, without playing an exit
+ * animation, and removes it from the DOM.
+ *
+ * @param {string|number} id - ID of the task whose edit overlay should be closed.
+ * @returns {void}
+ */
+function closeEditOverlayNoAnimation(id) {
+    const editOverlay = document.getElementById(`edit-overlay-${id}`);
+    if (!editOverlay) return;
+    editOverlay.close();
+    editOverlay.remove();
+}
+
+
+/**
+ * Filters tasks by title or description and re-renders the board with the matches.
+ * @param {string} filterWord - The search text entered by the user.
+ * @returns {void}
+ */
+function filterAndShowCurrentTask(filterWord) {
+    const search = filterWord.toLowerCase();
+    const currentTasks = tasks.filter(task =>
+        (task.title || '').toLowerCase().includes(search) ||
+        (task.description || '').toLowerCase().includes(search)
+    );
+    updateTasksforBoard(currentTasks);
+    document.getElementById('filter-info')
+        .classList.toggle('hidden', currentTasks.length > 0);
+}
+
+
+/**
+ * Opens the "Add Task" overlay; on narrow viewports (&lt;= 992px) navigates to add_task.html.
+ * @param {string} [column] - The Kanban column the new task is created in.
+ * @returns {void}
+ */
+function openAddTaskOverlay(column) {
+    if (window.innerWidth &lt;= 992) {
+        window.location.href = `add_task.html?column=${encodeURIComponent(column)}`;
         return;
     }
-    const splashShown = sessionStorage.getItem("splashShown");
-    splashShown ? showDesktopSplashImmediately() : playDesktopSplashAnimation();
-}
-
-
-/**
- * Checks whether all splash elements exist.
- *
- * @returns {boolean} True if all elements are available.
- */
-function hasSplashElements() {
-    return logo &amp;&amp; splash &amp;&amp; container;
-}
-
-
-/**
- * Plays the desktop splash animation.
- *
- * @returns {void}
- */
-function playDesktopSplashAnimation() {
-    logo.style.visibility = "visible";
-    sessionStorage.setItem("splashShown", "true");
-    setTimeout(() => movingLogoToPos(true), 500);
-    setTimeout(() => {
-        splash.classList.add("hide");
-        container.classList.remove("hidden-splash");
-    }, 1000);
-    setTimeout(() => {
-        splashFinished = true;
-    }, 1700);
-}
-
-
-/**
- * Displays the desktop splash end state immediately.
- *
- * @returns {void}
- */
-function showDesktopSplashImmediately() {
-    logo.style.visibility = "visible";
-    logo.style.transition = "none";
-    movingLogoToPos(false);
-    splash.style.transition = "none";
-    splash.classList.add("hide");
-    container.classList.remove("hidden-splash");
-    splashFinished = true;
-}
-
-
-/**
- * Initializes the mobile splash animation.
- *
- * @returns {void}
- */
-function getMobileAnimation() {
-    if (!hasSplashElements()) return;
-    prepareMobileSplash();
-    const splashShown = sessionStorage.getItem("splashShown");
-    splashShown ? showMobileSplashImmediately() : playMobileSplashAnimation();
-}
-
-
-/**
- * Prepares splash elements for mobile view.
- *
- * @returns {void}
- */
-function prepareMobileSplash() {
-    logo.src ="./assets/img/desktop_template/join-logo.png";
-}
-
-
-/**
- * Plays the mobile splash animation.
- *
- * @returns {void}
- */
-function playMobileSplashAnimation() {
-    logo.style.visibility = "visible";
-    sessionStorage.setItem("splashShown", "true");
-    setTimeout(() => movingLogoToPos(true), 500);
-    setTimeout(() => {
-        container.classList.remove("hidden-splash");
-        logo.src = "./assets/img/login/join_logo_big.svg";
-        splash.classList.add("hide");
-    }, 1100);
-    setTimeout(() => {
-        splashFinished = true;
-    }, 1700);
-}
-
-
-/**
- * Displays the mobile splash end state immediately.
- *
- * @returns {void}
- */
-function showMobileSplashImmediately() {
-    logo.style.visibility = "visible";
-    logo.style.transition = "none";
-    logo.src = "./assets/img/login/join_logo_big.svg";
-    movingLogoToPos(false);
-    splash.style.transition = "none";
-    splash.classList.add("hide");
-    container.classList.remove("hidden-splash");
-    splashFinished = true;
+    const dialog = document.getElementById("add-task-overlay");
+    dialog.classList.remove('modal-enter', 'modal-exit');
+    dialog.showModal();
+    requestAnimationFrame(() => dialog.classList.add('modal-enter'));
+    if (column) currentColumn = column;
 }
  
  
 /**
- * Moves and resizes the splash logo onto the logo container, optionally animated.
- *
- * @param {boolean} withAnimation - Whether to apply a CSS transition (false snaps instantly).
- * @returns {void}
- */
-function movingLogoToPos(withAnimation) {
-    const rect = logoContainer.getBoundingClientRect();
-    logo.style.transition = withAnimation
-        ? "top 1.2s ease, left 1.2s ease, width 1.2s ease, height 1.2s ease, transform 1.2s ease"
-        : "none";
-    logo.style.top = `${rect.top + rect.height / 2}px`;
-    logo.style.left = `${rect.left + rect.width / 2}px`;
-    setLogoSize();
-    logo.style.transform = "translate(-50%, -50%)";
-}
-
-
-/**
- * Sets the splash logo size depending on mobile or desktop view.
+ * Closes the "Add Task" overlay with an exit animation. Once the
+ * animation finishes, closes and clears the form so it's ready for the next use.
  *
  * @returns {void}
  */
-function setLogoSize() {
-    const mobile = isMobileView();
-    logo.style.width = mobile ? "64px" : "100px";
-    logo.style.height = mobile ? "78px" : "122px";
-}
- 
- 
-/**
- * Clears all validation error styling and messages currently shown on
- * the page (login/signup forms).
- *
- * @returns {void}
- */
-function resetValidation() {
-    document.querySelectorAll(".fail-red-border").forEach(element => {
-        element.classList.remove("fail-red-border");
-    });
- 
-    document.querySelectorAll(".info-failed").forEach(element => {
-        element.classList.add("hidden-feedback");
-    });
+function closeAddTaskOverlay() {
+    const dialog = document.getElementById("add-task-overlay");
+    dialog.classList.remove('modal-enter');
+    dialog.classList.add('modal-exit');
+    dialog.addEventListener(
+        'animationend',
+        () => {
+            dialog.close();
+            clearForm();
+            dialog.classList.remove('modal-exit');
+        },
+        { once: true }
+    );
 }
 
 
 /**
- *  Navigates the user to the signup page.
- *
- * @returns {void}
+ * Filters and re-renders the board when Enter is pressed in the search input.
  */
-function getToSignup() {
-    window.location.href = "./html/signup.html";
-}
+document.getElementById('input-text')?.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') filterAndShowCurrentTask(event.target.value);
+});
 
-
-/**
- *  Navigates the user to the login page.
- *
- * @returns {void}
- */
-function getToLogin() {
-    window.location.href = "../index.html";
-}
-
-
-/**
- * Determines whether the current viewport width matches the mobile
- * breakpoint.
- *
- * @returns {boolean} True if the viewport width is 992px or less, otherwise false.
- */
-function isMobileView() {
-    return window.innerWidth &lt;= 992 || window.innerHeight &lt;= 800;
-}
-
-
-/**
- * Logs a user in: stores their name and email in sessionStorage, then
- * navigates to the summary page.
- *
- * @param {string} userName - Display name to store as "loggedInUser".
- * @param {string} userMail - Email to store as "loggedInUserEmail".
- * @returns {void}
- */
-function getToSummary(userName, userMail) {
-    sessionStorage.setItem('loggedInUser', userName);
-    sessionStorage.setItem('loggedInUserEmail', userMail);
-    window.location.href = './html/summary.html';
-}
- 
-
-/**
- * Logs in as a guest and navigates to the summary page.
- *
- * @param {string} guest - Display name of the guest session, passed to getToSummary().
- * @returns {void}
- */
-function logInGuest(guest) {
-    getToSummary(guest);
-}
-
-
-/**
- * Initializes the splash screen animation after the page has loaded.
- */
-window.addEventListener("load", initSplashScreen);
-
-
-/**
- * Wires up lock-icon state and show/hide toggling for the login, signup and confirm password fields.
- */
-[
-    { input: loginPw, button: btnPwOne },
-    { input: pwUser, button: btnPwTwo },
-    { input: checkPw, button: btnPwThree }
-].forEach(({ input, button }) => {
-    if (!input || !button) return;
-    input.addEventListener('input', () => {
-        button.classList.toggle('change-icon-lock', input.value.length > 0);
-    });
-    button.addEventListener('click', () => {
-        input.type = input.type === 'password' ? 'text' : 'password';
-        button.classList.toggle('make-pw-visible');
-    });
-});</code></pre>
+</code></pre>
         </article>
     </section>
 

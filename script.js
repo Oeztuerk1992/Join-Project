@@ -154,6 +154,24 @@ function showConfirmation() {
 
 
 /**
+ * Runs a save action and keeps the button disabled until it has finished, to prevent double clicks.
+ *
+ * @param {string} buttonSelector - CSS selector of the button that started the action.
+ * @param {Function} action - Async function that saves the data.
+ * @returns {Promise<void>}
+ */
+async function runWithDisabledButton(buttonSelector, action) {
+    const button = document.querySelector(buttonSelector);
+    button.disabled = true;
+    try {
+        await action();
+    } finally {
+        button.disabled = false;
+    }
+}
+
+
+/**
  * Shows the scroll up/down buttons if the container content overflows, otherwise hides them.
  *
  * @returns {void}

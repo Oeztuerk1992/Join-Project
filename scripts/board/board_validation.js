@@ -9,7 +9,7 @@ function checkFormDataEditOverlay(id) {
     const isDueDateValid = checkEditDueDate(id);
     const areSubtasksValid = validateSubtasks(id);
     if (isTitleValid && isDueDateValid && areSubtasksValid) {
-        saveEditTask(id);
+        runWithDisabledButton(`[form="edit-form-${id}"]`, () => saveEditTask(id));
     }
     return false;
 }

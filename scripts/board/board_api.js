@@ -19,7 +19,7 @@ async function loadTasks() {
 
 /**
  * Converts a backend entry into a task object with defaults.
- * @param {[string, Object]} entry - Tuple of backend ID and raw task data.
+ * @param {Array} entry - Tuple of backend ID and raw task data.
  * @returns {Object} The normalized task.
  */
 function normalizeTask([id, task]) {

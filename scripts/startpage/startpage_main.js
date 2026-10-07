@@ -53,6 +53,7 @@ async function initLogin() {
  * @returns {Promise<void>}
  */
 async function initSignup() {
+    updateSignupButton();
     await onloadUsers();
     await loadContactsFromFirebase();
 }

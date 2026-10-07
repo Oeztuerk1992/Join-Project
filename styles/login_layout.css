@@ -94,6 +94,12 @@
     background: var(--color-blue-petrol);
     box-shadow: 0px 4px 4px 0px var(--color-black-25);
 }
+.signup-btn:disabled {
+    background: var(--color-gray-600);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
 .login-wrapper {
     display: flex;
     justify-content: center;

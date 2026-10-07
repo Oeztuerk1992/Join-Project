@@ -45,6 +45,22 @@ function validateSignupInputs() {
 
 
 /**
+ * Enables the sign-up button only when all fields are filled and the privacy policy is accepted.
+ *
+ * @returns {void}
+ */
+function updateSignupButton() {
+    const signupButton = document.getElementById("btn-signup");
+    const nameFilled = nameUser.value.trim() !== "";
+    const mailFilled = mailUser.value.trim() !== "";
+    const pwFilled = pwUser.value !== "";
+    const confirmFilled = checkPw.value !== "";
+    const allFilled = nameFilled && mailFilled && pwFilled && confirmFilled;
+    signupButton.disabled = !allFilled || !privacyPolicy.checked;
+}
+
+
+/**
  * Validates that the signup name has at least two words and toggles the error styling.
  *
  * @returns {boolean} True if the name has at least two words, false otherwise.

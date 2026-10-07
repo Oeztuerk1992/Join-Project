@@ -29,7 +29,7 @@
         <button class="back-btn" id="btn-close-signup" onclick="getToLogin()"></button>
         <h1>Sign up</h1>
         <div class="underline-signup"></div>
-        <form id="form-for-signup" class="signup-form" onsubmit="return checkFormDataSignup(event)" novalidate>
+        <form id="form-for-signup" class="signup-form" onsubmit="return checkFormDataSignup(event)" oninput="updateSignupButton()" novalidate>
           <div id="input-signup-name" class="input-group input-signup">
             <input type="text" id="signup-name" placeholder="Name" />
             <img class="icon" src="../assets/img/login/person.svg" alt="img-person" />
@@ -59,7 +59,7 @@
               </div>
             </label>
           </div>
-          <button type="submit" class="signup-btn btn-signup-big">Sign up</button>
+          <button type="submit" id="btn-signup" class="signup-btn btn-signup-big" disabled>Sign up</button>
         </form>
       </div>
       <dialog id="confirmation-dialog" class="confirm">

@@ -1,7 +1,3 @@
-/* ========================================
-Variables / Init
-======================================== */
-
 const rightHeader = document.getElementById('right-header');
 const rightHeaderMobile = document.getElementById('right-header-mobile');
 const leftSideBar = document.getElementById('nav-sidebar');
@@ -23,12 +19,8 @@ function initDeclarations() {
     if (loggedInUser) getUserProfile();
     document.body.classList.add('ready');
 }
- 
 
-/* ========================================
-Check-functions
-======================================== */
- 
+
 /**
  * Hides the right-side header (desktop and mobile) on info pages
  * (legal notice, privacy policy) when no user is logged in.

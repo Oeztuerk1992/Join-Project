@@ -1,7 +1,3 @@
-/* ========================================
-Functions for updates, overlays, functions for mobile
-======================================== */
-
 /**
  * Mobile-only "back" navigation: returns from the contact detail view to the list.
  * @returns {void}
@@ -151,11 +147,7 @@ function readEditInputs() {
    const phone = phoneInputEdit.value.trim();
    return { capitalizedName, initials, email, phone };
 }
- 
- 
-/* ========================================
-after deleting contacts, update of tasks
-======================================== */
+
 
 /**
  * Removes a deleted contact from the "assignedTo" list of all tasks and saves the changes.
@@ -234,11 +226,7 @@ function closeMobileMenuContacts() {
     actionsMenu.classList.remove('open');
     btnMenu.style.display = 'block';
 }
- 
 
-/* ========================================
-Event Listeners
-======================================== */
 
 /**
  * Closes the "add contact" overlay when its backdrop is clicked.

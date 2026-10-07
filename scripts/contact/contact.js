@@ -1,7 +1,3 @@
-/* ========================================
-Variables / Init
-======================================== */
-
 const nameInput = document.getElementById('name');
 const inputWrapperName = document.getElementById("container-input-name-contact");
 const emailInput = document.getElementById('email');
@@ -58,10 +54,6 @@ function storeOwnContactId() {
 }
 
 
-/* ========================================
-General functions
-======================================== */
- 
 /**
  * Attaches input restrictions to the phone and name fields of the contact forms.
  * @returns {void}

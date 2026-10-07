@@ -1,7 +1,3 @@
-/* ========================================
-Variables / Init
-======================================== */
-
 let isDragging = false;
 let startY = 0;
 let startTop = 0;
@@ -67,10 +63,6 @@ function initThumbSync() {
     contactsContainer.addEventListener("scroll", updateThumbPosition);
 }
 
-
-/* ========================================
-Event Listeners
-======================================== */
 
 /**
  * Starts dragging the custom scrollbar thumb when it is pressed.

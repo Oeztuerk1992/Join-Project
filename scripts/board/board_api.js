@@ -1,7 +1,3 @@
-/* ========================================
-API
-======================================== */
-
 /**
  * Loads all tasks from the backend into the global "tasks" array.
  * @returns {Promise<void>}

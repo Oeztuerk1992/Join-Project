@@ -1,7 +1,3 @@
-/* ========================================
-Variables / Init
-======================================== */
- 
 const titleForm = document.getElementById("task-title");
 const descriptionForm = document.getElementById("task-description");
 const dateForm = document.getElementById("task-date");
@@ -37,10 +33,7 @@ async function initAddTask() {
     const menu = document.querySelector("#toggle-default .dropdown-menu");
     renderContacts(contacts, menu);
 }
- 
-/* ========================================
-functions for form content
-======================================== */
+
 
 /**
  * Toggles the "active" state of a priority button (Urgent/Medium/Low).

@@ -1,7 +1,3 @@
-/* ========================================
-form validation for contact inputs
-======================================== */
-
 /**
  * Validates the "add task" form on submit and creates the task in the given column if valid.
  *
@@ -90,11 +86,7 @@ function resetRequiredFields() {
     borderCategory.classList.remove("fail-red-border");
     document.getElementById("subtask-edit-feedback-add-task").classList.add("hidden");
 }
- 
- 
-/* ========================================
-API
-======================================== */
+
 
 /**
  * Saves a task to the backend.

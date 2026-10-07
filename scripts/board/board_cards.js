@@ -1,7 +1,3 @@
-/* ========================================
-Variables / Init
-======================================== */
- 
 let placeholder = null;
 let autoScrollInterval = null;
 let currentDraggedElement;
@@ -57,12 +53,8 @@ function updateTasksforBoard(tasksToShow = tasks) {
         }
     });
 }
- 
 
-/* ========================================
-Functions for generating minicard-HTML 
-======================================== */
- 
+
 /**
  * Returns the category label markup for a mini card, based on whether
  * the task is a "User Story" or a technical task.
@@ -187,12 +179,8 @@ function getSubtaskProgress(subtasks) {
     const done = subtasks.filter(subtask => subtask.status === 'done').length;
     return (done / subtasks.length) * 100;
 }
- 
 
-/* ========================================
-Functions for generating task overlay 
-======================================== */
- 
+
 /**
  * Opens the task detail overlay as a modal, optionally with entrance animation.
  * @param {string|number} id - ID of the task to display.

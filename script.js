@@ -1,7 +1,3 @@
-/* ========================================
-Shared utility functions (used across all HTML pages)
-======================================== */
-
 /**
  * Validates whether subtasks are still in edit mode.
  *
@@ -139,10 +135,6 @@ function scrollToOpenSubtask(id) {
 }
 
 
-/* ========================================
-Confirmation message
-======================================== */
-
 /**
  * Displays the confirmation dialog for two seconds
  * and then closes it automatically.
@@ -160,10 +152,6 @@ function showConfirmation() {
     }, 2000);
 }
 
-
-/* ========================================
-Scrollbar
-======================================== */
 
 /**
  * Shows the scroll up/down buttons if the container content overflows, otherwise hides them.
@@ -203,10 +191,6 @@ function stopScrolling() {
     clearInterval(scrollInterval);
 }
 
-
-/* ========================================
-Event Listeners, support functions
-======================================== */
 
 /**
  * Saves the new subtask when Enter is pressed in the subtask input, without submitting the form.

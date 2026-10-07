@@ -1,7 +1,3 @@
-/* ========================================
-functions for form content
-======================================== */
-
 /**
  * Updates the selected contact IDs.
  *

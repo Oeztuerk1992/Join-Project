@@ -1,7 +1,3 @@
-/* ========================================
-Variables
-======================================== */
- 
 const userMenu = document.getElementById("user-nav");
 const userMenuMobile = document.getElementById("user-nav-mobile");
 const circle = document.querySelector('.circle');
@@ -12,11 +8,7 @@ const userProfileMobile = document.getElementById('initials-user-mobile');
  
 let closeMenuTimeout;
 let activeMenu = null;
- 
- 
-/* ========================================
-Header user menu functions
-======================================== */
+
 
 /**
  * Returns the user menu, profile and circle element references for the desktop or mobile header.
@@ -125,10 +117,6 @@ function getUserInitials(loggedInUser) {
         (name.length > 1 ? name[name.length - 1][0].toUpperCase() : "");
 }
 
-
-/* ========================================
-Event Listeners
-======================================== */
 
 /**
  * Closes the active header user menu when clicking outside the menu and its avatar circle.

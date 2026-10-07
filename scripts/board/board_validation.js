@@ -1,7 +1,3 @@
-/* ========================================
-Validation form for board
-======================================== */
-
 /**
  * Validates the edit-task form (title, due date, subtasks) and saves if valid.
  * @param {string|number} id - ID of the task whose edit overlay is validated.

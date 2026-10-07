@@ -1,7 +1,3 @@
-/* ========================================
-functions "subtask"
-======================================== */
- 
 /**
  * Cancels editing of a subtask by clearing its input field.
  *
@@ -112,11 +108,7 @@ function exitSubtaskEditMode(container) {
     actions.classList.remove('always-visible');
     actions.innerHTML = generateInnerHTMLSaveSubtask();
 }
- 
 
-/* ========================================
-clear form
-======================================== */
 
 /**
  * Resets the "Add Task" form fields, contact selection and required-field errors.
@@ -180,11 +172,7 @@ function resetPrioBtn() {
         .querySelector('.medium')
         ?.classList.add('active');
 }
- 
 
-/* ========================================
-Event Listeners, support functions
-======================================== */
 
 /**
  * Filters and re-renders contacts when text is typed into a ".dropdown-assignment" input.

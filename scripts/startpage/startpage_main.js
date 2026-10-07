@@ -1,7 +1,3 @@
-/* ========================================
-Variables
-======================================== */
- 
 const logo = document.querySelector(".logo");
 const splash = document.querySelector(".logo-splash");
 const container = document.querySelector(".hidden-splash");
@@ -21,20 +17,12 @@ const btnPwTwo = document.getElementById('btn-pw-two');
 const btnPwThree = document.getElementById('btn-pw-three');
  
 let splashFinished = false;
- 
 
-/* ========================================
-Array for users
-======================================== */
 
 const signUpNewUser = [];
 const registeredUser = [];
- 
 
-/* ========================================
-Init, startpage functions
-======================================== */
- 
+
 /**
  * Preloads registered users and contacts from Firebase for login/signup validation.
  *
@@ -226,11 +214,7 @@ function resetValidation() {
         element.classList.add("hidden-feedback");
     });
 }
- 
 
-/* ========================================
-Go to other pages
-======================================== */
 
 /**
  *  Navigates the user to the signup page.
@@ -287,11 +271,7 @@ function getToSummary(userName, userMail) {
 function logInGuest(guest) {
     getToSummary(guest);
 }
- 
 
-/* ========================================
-Event Listeners
-======================================== */
 
 /**
  * Initializes the splash screen animation after the page has loaded.

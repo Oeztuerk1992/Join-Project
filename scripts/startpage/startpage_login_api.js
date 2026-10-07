@@ -1,14 +1,6 @@
-/* ========================================
-Variables
-======================================== */
- 
 const BASE_URL = "https://remotestoragejoin-8faac-default-rtdb.europe-west1.firebasedatabase.app/";
- 
- 
-/* ========================================
-Login form 
-======================================== */
- 
+
+
 /**
  * Loads all registered users from the backend into "registeredUser";
  * does nothing if no data is returned.
@@ -97,12 +89,8 @@ function showLoginError() {
         ? "Wrong email or password, try again."
         : "Check your email and password. Please try again.";
 }
- 
- 
-/* ========================================
-Registration / Login API 
-======================================== */
- 
+
+
 /**
  * Flattens the new users, adds each to "registeredUser" and saves it to the backend.
  *

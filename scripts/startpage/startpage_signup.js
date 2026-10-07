@@ -1,14 +1,6 @@
-/* ========================================
-Variables
-======================================== */
-
 const info = document.getElementById("validation-feedback");
 const inputMail = document.getElementById("input-signup-mail");
- 
 
-/* ========================================
-Sign-up form functions
-======================================== */
 
 /**
  * Handles signup form submission by validating all inputs and starting
@@ -223,12 +215,8 @@ function buildNewUser(fullName, email) {
         password: document.getElementById('signup-pw').value
     };
 }
- 
- 
-/* ========================================
-create contact-object for registered user
-======================================== */
- 
+
+
 /**
  * Creates a contact in the backend linked to a newly registered user.
  *
@@ -264,11 +252,7 @@ async function postContact(contact) {
         body: JSON.stringify(contact)
     });
 }
- 
- 
-/* ========================================
-confirmation info shows up
-======================================== */
+
 
 /**
  * Shows the signup confirmation dialog, then automatically dismisses

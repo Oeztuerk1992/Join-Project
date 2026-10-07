@@ -1,7 +1,3 @@
-/* ========================================
-Form validation contacts
-======================================== */
-
 /**
  * Returns the DOM references of the add or edit contact form.
  * @param {string} filterWord - "add" for the add form, otherwise the edit form.
@@ -248,10 +244,6 @@ function formatPhoneNumber(phone) {
     return `+${digits.slice(0, 2)} ${groups.join(' ')}`;
 }
 
-
-/* ========================================
-Delete own account: confirmation info shows up
-======================================== */
 
 /**
  * Shows a dialog that the own account cannot be deleted and closes it after 4 seconds.

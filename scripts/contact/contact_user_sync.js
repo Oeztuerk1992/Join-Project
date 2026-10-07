@@ -1,7 +1,3 @@
-/* ========================================
-API - Part 2
-======================================== */
-
 /**
  * If the edited contact is the currently logged-in user, updates the
  * session's cached display name and email and refreshes the user profile UI to reflect the change.

@@ -1,7 +1,3 @@
-/* ========================================
-Drag & Drop for kanban board part 2
-======================================== */
-
 /**
  * Creates all backend update requests.
  * @param {string[]} cardIds - Ordered task IDs.
@@ -152,11 +148,7 @@ function removeHighlight() {
         placeholder.remove();
     }
 }
- 
 
-/* ========================================
-Functions for mobile move menu
-======================================== */
 
 /**
  * Closes every open mobile "move task" menu on the page by removing
@@ -229,10 +221,6 @@ async function moveTaskMobile(id, taskCat) {
     await moveTo(taskCat);
 }
 
-
-/* ========================================
-Event Listeners
-======================================== */
 
 /**
  * Closes any open mobile move menu when a click occurs anywhere in the document.

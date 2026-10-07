@@ -1,7 +1,3 @@
-/* ========================================
-Functions for generating task-overlay-HTML
-======================================== */
- 
 /**
  * Converts a date string from "YYYY-MM-DD..." format into "DD.MM.YYYY"
  * display format.
@@ -34,12 +30,8 @@ function getSubtasksOverlay(subtasks, id) {
     }
     return listSubtasks;
 }
- 
- 
-/* ========================================
-Functions for generating edit overlay
-======================================== */
- 
+
+
 /**
  * Opens the edit overlay of a task with its assigned contacts pre-selected.
  * @param {string|number} id - ID of the task to edit.
@@ -111,12 +103,8 @@ function closeEditOverlayNoAnimation(id) {
     editOverlay.close();
     editOverlay.remove();
 }
- 
- 
-/* ========================================
-function for search-bar, filtering tasks
-======================================== */
- 
+
+
 /**
  * Filters tasks by title or description and re-renders the board with the matches.
  * @param {string} filterWord - The search text entered by the user.
@@ -132,11 +120,7 @@ function filterAndShowCurrentTask(filterWord) {
     document.getElementById('filter-info')
         .classList.toggle('hidden', currentTasks.length > 0);
 }
- 
- 
-/* ========================================
-function for opening/closing modal "add-task" 
-======================================== */
+
 
 /**
  * Opens the "Add Task" overlay; on narrow viewports (<= 992px) navigates to add_task.html.
@@ -176,11 +160,7 @@ function closeAddTaskOverlay() {
         { once: true }
     );
 }
- 
- 
-/* ========================================
-Event Listener for Filter 
-======================================== */
+
 
 /**
  * Filters and re-renders the board when Enter is pressed in the search input.

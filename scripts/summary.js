@@ -1,7 +1,3 @@
-/* ========================================
-Variables / Init
-======================================== */
- 
 const guestInfo = document.getElementById("greeting-guest");
 const userInfo = document.getElementById("greeting-user");
 const greetTimeGuest = document.getElementById("greet-time-guest");
@@ -21,11 +17,7 @@ async function initSummary() {
   await loadTasks();
   getInfoBoard();
 }
- 
- 
-/* ========================================
-Summary functions
-======================================== */
+
 
 /**
  * Returns a time-of-day-appropriate greeting phrase based on the

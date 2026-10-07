@@ -1,7 +1,3 @@
-/* ========================================
-Drag & Drop for kanban board part 1
-======================================== */
-
 /**
  * Starts dragging a task card and marks its mini card as "dragging".
  * @param {string|number} id - ID of the task being dragged.

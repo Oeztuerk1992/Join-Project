@@ -1,5 +1,4 @@
 /* Confirm Delete */
-
 .confirm-delete {
     position: fixed;
     top: 50%;
@@ -28,7 +27,6 @@
 }
 
 /* 1439px */
-
 @media (max-width: 1439px) {
     .header-title {
         display: block;
@@ -102,7 +100,6 @@
 }
 
 /* 992px */
-
 @media (max-width: 992px) {
     .contacts-page {
         flex-direction: column;
@@ -285,7 +282,6 @@
 }
 
 /* 427px */
-
 @media (max-width: 427px) {
     .new-contact-wrapper,
     .contact-info {

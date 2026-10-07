@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: scripts/startpage/startpage_main.js</title>
+    <title>JSDoc: Source: scripts/add_task/add_task_form.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: scripts/startpage/startpage_main.js</h1>
+    <h1 class="page-title">Source: scripts/add_task/add_task_form.js</h1>
 
     
 
@@ -26,304 +26,344 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const logo = document.querySelector(".logo");
-const splash = document.querySelector(".logo-splash");
-const container = document.querySelector(".hidden-splash");
-const logoContainer = document.querySelector(".logo-container");
+            <pre class="prettyprint source linenums"><code>const titleForm = document.getElementById("task-title");
+const descriptionForm = document.getElementById("task-description");
+const dateForm = document.getElementById("task-date");
+const categoryForm = document.getElementById("selectedCategory");
+const subtasksForm = document.getElementById("ul-subtask-add-task");
+const dropDownMenuCategories = document.getElementById('categoryMenu');
+const container = document.getElementById('toggle-default');
+const dropDownMenuAssignments = document.querySelector("#toggle-default .dropdown-menu");
+const filterInputContact = document.getElementById("dropdown-assignment");
+const inputSubtask = document.getElementById("input-subtask-add-task");
+const feedbackTitle = document.getElementById("feedback-title");
+const feedbackDuedate = document.getElementById("feedback-duedate");
+const feedbackCategory = document.getElementById("feedback-category");
+const borderCategory = document.getElementById("category-border");
  
-const nameUser = document.getElementById('signup-name');
-const mailUser = document.getElementById('signup-mail');
-const pwUser = document.getElementById('signup-pw');
-const checkPw = document.getElementById('check-pw');
-const privacyPolicy = document.getElementById('privacy-policy');
+let contacts = {};
+let currentColumn = 'To do';
+let selectedContactIds = [];
+let hasTriedSubmit = false;
  
-const loginMail = document.getElementById('login-mail');
-const loginPw = document.getElementById('login-password');
- 
-const btnPwOne = document.getElementById('btn-pw-one');
-const btnPwTwo = document.getElementById('btn-pw-two');
-const btnPwThree = document.getElementById('btn-pw-three');
- 
-let splashFinished = false;
-
-
-const signUpNewUser = [];
-const registeredUser = [];
-
 
 /**
- * Preloads registered users and contacts from Firebase for login/signup validation.
+ * Initializes the "Add Task" form: reads the target column from the URL,
+ * loads the user profile and all contacts, and renders the contact list in the assignment dropdown.
  *
  * @returns {Promise&lt;void>}
  */
-async function initLogin() {
-    await onloadUsers();
-    await loadContactsFromFirebase();
-}
-
- 
-/**
- * Initializes the signup page and loads all users and contacts
- * required for signup validation.
- *
- * @returns {Promise&lt;void>}
- */
-async function initSignup() {
-    updateSignupButton();
-    await onloadUsers();
-    await loadContactsFromFirebase();
+async function initAddTask() {
+    const params = new URLSearchParams(window.location.search);
+    currentColumn = params.get('column') || 'To do';
+    getUserProfile();
+    await loadContacts();
+    const menu = document.querySelector("#toggle-default .dropdown-menu");
+    renderContacts(contacts, menu);
 }
 
 
 /**
- * Starts the splash screen sequence (mobile animation, or desktop immediately/animated once per session).
+ * Toggles the "active" state of a priority button (Urgent/Medium/Low).
+ * Only one button within the parent container can be active at a time.
  *
+ * @param {HTMLElement} selectedButton - The clicked priority button.
  * @returns {void}
  */
-function initSplashScreen() {
-    if (document.body.classList.contains('signup-page')) return;
-    if (!hasSplashElements()) return;
-    if (isMobileView()) {
-        getMobileAnimation();
-        return;
+function setPriority(selectedButton) {
+    const container = selectedButton.parentElement;
+    const buttons = container.querySelectorAll('.priority');
+    if (selectedButton.classList.contains('active')) {
+        selectedButton.classList.remove('active');
+    } else {
+        buttons.forEach(button =>
+            button.classList.remove('active'));
+        selectedButton.classList.add('active');
     }
-    const splashShown = sessionStorage.getItem("splashShown");
-    splashShown ? showDesktopSplashImmediately() : playDesktopSplashAnimation();
 }
 
 
 /**
- * Checks whether all splash elements exist.
- *
- * @returns {boolean} True if all elements are available.
- */
-function hasSplashElements() {
-    return logo &amp;&amp; splash &amp;&amp; container;
-}
-
-
-/**
- * Plays the desktop splash animation.
+ * Opens/closes the category dropdown and rotates the associated arrow indicator.
  *
  * @returns {void}
  */
-function playDesktopSplashAnimation() {
-    logo.style.visibility = "visible";
-    sessionStorage.setItem("splashShown", "true");
-    setTimeout(() => movingLogoToPos(true), 500);
-    setTimeout(() => {
-        splash.classList.add("hide");
-        container.classList.remove("hidden-splash");
-    }, 1000);
-    setTimeout(() => {
-        splashFinished = true;
-    }, 1700);
-}
-
-
-/**
- * Displays the desktop splash end state immediately.
- *
- * @returns {void}
- */
-function showDesktopSplashImmediately() {
-    logo.style.visibility = "visible";
-    logo.style.transition = "none";
-    movingLogoToPos(false);
-    splash.style.transition = "none";
-    splash.classList.add("hide");
-    container.classList.remove("hidden-splash");
-    splashFinished = true;
-}
-
-
-/**
- * Initializes the mobile splash animation.
- *
- * @returns {void}
- */
-function getMobileAnimation() {
-    if (!hasSplashElements()) return;
-    prepareMobileSplash();
-    const splashShown = sessionStorage.getItem("splashShown");
-    splashShown ? showMobileSplashImmediately() : playMobileSplashAnimation();
-}
-
-
-/**
- * Prepares splash elements for mobile view.
- *
- * @returns {void}
- */
-function prepareMobileSplash() {
-    logo.src ="./assets/img/desktop_template/join-logo.png";
-}
-
-
-/**
- * Plays the mobile splash animation.
- *
- * @returns {void}
- */
-function playMobileSplashAnimation() {
-    logo.style.visibility = "visible";
-    sessionStorage.setItem("splashShown", "true");
-    setTimeout(() => movingLogoToPos(true), 500);
-    setTimeout(() => {
-        container.classList.remove("hidden-splash");
-        logo.src = "./assets/img/login/join_logo_big.svg";
-        splash.classList.add("hide");
-    }, 1100);
-    setTimeout(() => {
-        splashFinished = true;
-    }, 1700);
-}
-
-
-/**
- * Displays the mobile splash end state immediately.
- *
- * @returns {void}
- */
-function showMobileSplashImmediately() {
-    logo.style.visibility = "visible";
-    logo.style.transition = "none";
-    logo.src = "./assets/img/login/join_logo_big.svg";
-    movingLogoToPos(false);
-    splash.style.transition = "none";
-    splash.classList.add("hide");
-    container.classList.remove("hidden-splash");
-    splashFinished = true;
+function toggleCategoryDropdown() {
+    document.getElementById("categoryMenu").classList.toggle("show");
+    document.getElementById("dropdownArrowCategory").classList.toggle("rotate");
 }
  
  
 /**
- * Moves and resizes the splash logo onto the logo container, optionally animated.
+ * Selects a category for the task, writes it to the hidden form field,
+ * closes the dropdown, and triggers category validation.
  *
- * @param {boolean} withAnimation - Whether to apply a CSS transition (false snaps instantly).
+ * @param {string} category - The value of the selected category.
+ * @param {Event} event - The click event; stopPropagation() is used to prevent handler from firing.
  * @returns {void}
  */
-function movingLogoToPos(withAnimation) {
-    const rect = logoContainer.getBoundingClientRect();
-    logo.style.transition = withAnimation
-        ? "top 1.2s ease, left 1.2s ease, width 1.2s ease, height 1.2s ease, transform 1.2s ease"
-        : "none";
-    logo.style.top = `${rect.top + rect.height / 2}px`;
-    logo.style.left = `${rect.left + rect.width / 2}px`;
-    setLogoSize();
-    logo.style.transform = "translate(-50%, -50%)";
-}
-
-
-/**
- * Sets the splash logo size depending on mobile or desktop view.
- *
- * @returns {void}
- */
-function setLogoSize() {
-    const mobile = isMobileView();
-    logo.style.width = mobile ? "64px" : "100px";
-    logo.style.height = mobile ? "78px" : "122px";
+function selectCategory(category, event) {
+    event.stopPropagation();
+    document.getElementById("selectedCategory").value = category;
+    document.getElementById("categoryMenu").classList.remove("show");
+    document.getElementById("dropdownArrowCategory").classList.remove("rotate");
+    checkTaskCategory();
 }
  
  
 /**
- * Clears all validation error styling and messages currently shown on
- * the page (login/signup forms).
+ * Opens/closes the contact dropdown; on close, resets the input and re-renders the contact list.
+ * Afterwards updates the contact badges.
  *
+ * @param {HTMLElement} container - Wrapper holding input, arrow and menu (e.g. "#toggle-default").
  * @returns {void}
  */
-function resetValidation() {
-    document.querySelectorAll(".fail-red-border").forEach(element => {
-        element.classList.remove("fail-red-border");
-    });
+function toggleDropdown(container) {
+    const input = container.querySelector(".dropdown");
+    const arrow = container.querySelector(".arrow-dropdown");
+    const menu = container.querySelector(".dropdown-menu");
+    menu.classList.toggle("show");
+    arrow.classList.toggle("rotate");
+    if (menu.classList.contains("show")) {
+        input.placeholder = "";
+        input.focus();
+    } else {
+        resetContactDropdown(input, menu);
+    }
+    getContactBadges(container);
+}
+
+
+/**
+ * Clears the contact filter input and renders the full contact list again.
+ *
+ * @param {HTMLInputElement} input - The contact filter input element.
+ * @param {HTMLElement} menu - Dropdown menu container.
+ * @returns {void}
+ */
+function resetContactDropdown(input, menu) {
+    input.value = "";
+    input.placeholder = "Select contacts";
+    const assignedTo = selectedContactIds.map(id => ({ id }));
+    renderContacts(contacts, menu, assignedTo);
+}
  
-    document.querySelectorAll(".info-failed").forEach(element => {
-        element.classList.add("hidden-feedback");
+ 
+/**
+ * Shows the contact dropdown menu as soon as text is entered in the
+ * filter input.
+ *
+ * @param {HTMLElement} input - The contact filter input element.
+ * @returns {void}
+ */
+function showFilteredContactList(input) {
+    const menu = input.closest('.dropdown-container').querySelector('.dropdown-menu');
+    menu.classList.add('show');
+}
+ 
+ 
+/**
+ * Renders all contacts into the dropdown menu.
+ *
+ * @param {Object} contacts - All available contacts.
+ * @param {HTMLElement} menu - Dropdown menu container.
+ * @param {Array&lt;Object>} [assignedTo=[]] - Selected contacts.
+ * @param {string} [filterWord=""] - Current filter value.
+ * @returns {void}
+ */
+function renderContacts(contacts, menu, assignedTo = [], filterWord = "") {
+    menu.innerHTML = "";
+
+    if (hasNoContacts(contacts, menu)) return;
+    checkCurrentLogin(menu, assignedTo, filterWord);
+    const assignedIds = assignedTo.map(contact => contact.id);
+    const currentContactId = getCurrentContactId(contacts);
+
+    renderContactList(contacts, menu, assignedIds, currentContactId);
+}
+
+
+/**
+ * Displays an empty-state message if no contacts exist.
+ *
+ * @param {Object} contacts - All available contacts.
+ * @param {HTMLElement} menu - Dropdown menu container.
+ * @returns {boolean} True if no contacts exist.
+ */
+function hasNoContacts(contacts, menu) {
+    if (Object.keys(contacts).length === 0) {
+        menu.innerHTML = generateEmptyContactListHTML();
+        return true;
+    }
+    return false;
+}
+
+
+/**
+ * Returns the contact ID of the currently logged-in user.
+ *
+ * @param {Object} contacts - All available contacts.
+ * @returns {string|null} The logged-in contact ID or null.
+ */
+function getCurrentContactId(contacts) {
+    const email = sessionStorage.getItem("loggedInUserEmail");
+
+    if (!email) return null;
+
+    return Object.entries(contacts).find(
+        ([, contact]) => contact.email === email
+    )?.[0] || null;
+}
+
+
+/**
+ * Sorts contacts alphabetically by first name.
+ *
+ * @param {Object} contacts - All available contacts.
+ * @returns {Array} Sorted contact entries.
+ */
+function getSortedContacts(contacts) {
+    return Object.entries(contacts).sort((a, b) => {
+        const firstNameA = a[1].capitalizedName.split(" ")[0];
+        const firstNameB = b[1].capitalizedName.split(" ")[0];
+        return firstNameA.localeCompare(firstNameB);
     });
 }
 
 
 /**
- *  Navigates the user to the signup page.
+ * Renders the sorted contact list into the dropdown menu.
  *
+ * @param {Object} contacts - All available contacts.
+ * @param {HTMLElement} menu - Dropdown menu container.
+ * @param {string[]} assignedIds - IDs of selected contacts.
+ * @param {string|null} currentContactId - Logged-in contact ID.
  * @returns {void}
  */
-function getToSignup() {
-    window.location.href = "./html/signup.html";
-}
-
-
-/**
- *  Navigates the user to the login page.
- *
- * @returns {void}
- */
-function getToLogin() {
-    window.location.href = "../index.html";
-}
-
-
-/**
- * Determines whether the current viewport width matches the mobile
- * breakpoint.
- *
- * @returns {boolean} True if the viewport width is 992px or less, otherwise false.
- */
-function isMobileView() {
-    return window.innerWidth &lt;= 992 || window.innerHeight &lt;= 800;
-}
-
-
-/**
- * Logs a user in: stores their name and email in sessionStorage, then
- * navigates to the summary page.
- *
- * @param {string} userName - Display name to store as "loggedInUser".
- * @param {string} userMail - Email to store as "loggedInUserEmail".
- * @returns {void}
- */
-function getToSummary(userName, userMail) {
-    sessionStorage.setItem('loggedInUser', userName);
-    sessionStorage.setItem('loggedInUserEmail', userMail);
-    window.location.href = './html/summary.html';
+function renderContactList(contacts,menu,assignedIds,currentContactId) {
+    const sortedContacts = getSortedContacts(contacts);
+    for (const [id, contact] of sortedContacts) {
+        if (id === currentContactId) continue;
+        const isSelected = assignedIds.includes(id);
+        menu.innerHTML += generateContactListHTML(contact,id,isSelected);
+    }
 }
  
-
+ 
 /**
- * Logs in as a guest and navigates to the summary page.
+ * Adds the logged-in user to the dropdown menu.
  *
- * @param {string} guest - Display name of the guest session, passed to getToSummary().
+ * @param {HTMLElement} dropdownMenu - Dropdown menu container.
+ * @param {Array&lt;Object>} [assignedTo=[]] - Selected contacts.
+ * @param {string} [filterWord=""] - Current filter value.
  * @returns {void}
  */
-function logInGuest(guest) {
-    getToSummary(guest);
+function checkCurrentLogin(dropdownMenu,assignedTo = [],filterWord = "") {
+    if (loggedInUser === "guest") return;
+    const currentContact = getCurrentContactEntry();
+    if (!currentContact) return;
+    appendCurrentContact(currentContact,dropdownMenu,assignedTo,filterWord);
 }
 
 
 /**
- * Initializes the splash screen animation after the page has loaded.
+ * Returns the contact entry of the logged-in user.
+ *
+ * @returns {Array|undefined} Contact ID and contact data.
  */
-window.addEventListener("load", initSplashScreen);
+function getCurrentContactEntry() {
+    const loggedInContactId =
+        sessionStorage.getItem("loggedInContactId");
+
+    return Object.entries(contacts).find(
+        ([id]) => id === loggedInContactId
+    );
+}
 
 
 /**
- * Wires up lock-icon state and show/hide toggling for the login, signup and confirm password fields.
+ * Appends the logged-in user to the dropdown if visible.
+ *
+ * @param {Array} currentContact - Contact entry.
+ * @param {HTMLElement} dropdownMenu - Dropdown menu container.
+ * @param {Array&lt;Object>} assignedTo - Selected contacts.
+ * @param {string} filterWord - Current filter value.
+ * @returns {void}
  */
-[
-    { input: loginPw, button: btnPwOne },
-    { input: pwUser, button: btnPwTwo },
-    { input: checkPw, button: btnPwThree }
-].forEach(({ input, button }) => {
-    if (!input || !button) return;
-    input.addEventListener('input', () => {
-        button.classList.toggle('change-icon-lock', input.value.length > 0);
-    });
-    button.addEventListener('click', () => {
-        input.type = input.type === 'password' ? 'text' : 'password';
-        button.classList.toggle('make-pw-visible');
-    });
-});</code></pre>
+function appendCurrentContact(currentContact,dropdownMenu,assignedTo,filterWord) {
+    const [contactId, contact] = currentContact;
+    if (!matchesFilter(contact, filterWord)) return;
+    const isSelected = assignedTo.some(assigned => assigned.id === contactId);
+    dropdownMenu.innerHTML += generateContactYourProfileHTML(contact,contactId,isSelected);
+}
+
+
+/**
+ * Checks whether a contact matches the filter.
+ *
+ * @param {Object} contact - Contact to check.
+ * @param {string} filterWord - Current filter value.
+ * @returns {boolean} True if the contact matches.
+ */
+function matchesFilter(contact, filterWord) {
+    return contact.capitalizedName
+        .toLowerCase()
+        .includes(filterWord.toLowerCase());
+}
+ 
+ 
+/**
+ * Toggles a contact checkbox and updates the selection list.
+ *
+ * @param {HTMLElement} element - Clicked dropdown element.
+ * @returns {void}
+ */
+function toggleCheckbox(element) {
+    const item = getDropdownItem(element);
+    const checkbox = getCheckbox(item);
+    toggleCheckboxState(element, item, checkbox);
+    updateSelectedContact(item, checkbox);
+}
+
+
+/**
+ * Returns the dropdown item element.
+ *
+ * @param {HTMLElement} element - Clicked element.
+ * @returns {HTMLElement} Dropdown item.
+ */
+function getDropdownItem(element) {
+    return element.classList.contains("dropdown-item")
+        ? element
+        : element.closest(".dropdown-item");
+}
+
+
+/**
+ * Returns the checkbox of a dropdown item.
+ *
+ * @param {HTMLElement} item - Dropdown item.
+ * @returns {HTMLInputElement} Contact checkbox.
+ */
+function getCheckbox(item) {
+    return item.querySelector('input[type="checkbox"]');
+}
+
+
+/**
+ * Toggles the checkbox and item selection state.
+ *
+ * @param {HTMLElement} element - Clicked element.
+ * @param {HTMLElement} item - Dropdown item.
+ * @param {HTMLInputElement} checkbox - Contact checkbox.
+ * @returns {void}
+ */
+function toggleCheckboxState(element, item, checkbox) {
+    if (element === item) {
+        checkbox.checked = !checkbox.checked;
+    }
+    item.classList.toggle("selected", checkbox.checked);
+}</code></pre>
         </article>
     </section>
 

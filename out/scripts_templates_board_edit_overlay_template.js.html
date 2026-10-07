@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: scripts/startpage/startpage_main.js</title>
+    <title>JSDoc: Source: scripts/templates/board_edit_overlay_template.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: scripts/startpage/startpage_main.js</h1>
+    <h1 class="page-title">Source: scripts/templates/board_edit_overlay_template.js</h1>
 
     
 
@@ -26,304 +26,154 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const logo = document.querySelector(".logo");
-const splash = document.querySelector(".logo-splash");
-const container = document.querySelector(".hidden-splash");
-const logoContainer = document.querySelector(".logo-container");
- 
-const nameUser = document.getElementById('signup-name');
-const mailUser = document.getElementById('signup-mail');
-const pwUser = document.getElementById('signup-pw');
-const checkPw = document.getElementById('check-pw');
-const privacyPolicy = document.getElementById('privacy-policy');
- 
-const loginMail = document.getElementById('login-mail');
-const loginPw = document.getElementById('login-password');
- 
-const btnPwOne = document.getElementById('btn-pw-one');
-const btnPwTwo = document.getElementById('btn-pw-two');
-const btnPwThree = document.getElementById('btn-pw-three');
- 
-let splashFinished = false;
-
-
-const signUpNewUser = [];
-const registeredUser = [];
-
-
-/**
- * Preloads registered users and contacts from Firebase for login/signup validation.
+            <pre class="prettyprint source linenums"><code>/**
+ * Generates the HTML template for the task edit overlay.
  *
- * @returns {Promise&lt;void>}
+ * @param {Object} element - The task object containing all relevant task data.
+ * @returns {string} The HTML template for the task edit overlay.
  */
-async function initLogin() {
-    await onloadUsers();
-    await loadContactsFromFirebase();
-}
-
- 
-/**
- * Initializes the signup page and loads all users and contacts
- * required for signup validation.
- *
- * @returns {Promise&lt;void>}
- */
-async function initSignup() {
-    updateSignupButton();
-    await onloadUsers();
-    await loadContactsFromFirebase();
-}
-
-
-/**
- * Starts the splash screen sequence (mobile animation, or desktop immediately/animated once per session).
- *
- * @returns {void}
- */
-function initSplashScreen() {
-    if (document.body.classList.contains('signup-page')) return;
-    if (!hasSplashElements()) return;
-    if (isMobileView()) {
-        getMobileAnimation();
-        return;
-    }
-    const splashShown = sessionStorage.getItem("splashShown");
-    splashShown ? showDesktopSplashImmediately() : playDesktopSplashAnimation();
-}
-
-
-/**
- * Checks whether all splash elements exist.
- *
- * @returns {boolean} True if all elements are available.
- */
-function hasSplashElements() {
-    return logo &amp;&amp; splash &amp;&amp; container;
-}
-
-
-/**
- * Plays the desktop splash animation.
- *
- * @returns {void}
- */
-function playDesktopSplashAnimation() {
-    logo.style.visibility = "visible";
-    sessionStorage.setItem("splashShown", "true");
-    setTimeout(() => movingLogoToPos(true), 500);
-    setTimeout(() => {
-        splash.classList.add("hide");
-        container.classList.remove("hidden-splash");
-    }, 1000);
-    setTimeout(() => {
-        splashFinished = true;
-    }, 1700);
-}
-
-
-/**
- * Displays the desktop splash end state immediately.
- *
- * @returns {void}
- */
-function showDesktopSplashImmediately() {
-    logo.style.visibility = "visible";
-    logo.style.transition = "none";
-    movingLogoToPos(false);
-    splash.style.transition = "none";
-    splash.classList.add("hide");
-    container.classList.remove("hidden-splash");
-    splashFinished = true;
-}
-
-
-/**
- * Initializes the mobile splash animation.
- *
- * @returns {void}
- */
-function getMobileAnimation() {
-    if (!hasSplashElements()) return;
-    prepareMobileSplash();
-    const splashShown = sessionStorage.getItem("splashShown");
-    splashShown ? showMobileSplashImmediately() : playMobileSplashAnimation();
-}
-
-
-/**
- * Prepares splash elements for mobile view.
- *
- * @returns {void}
- */
-function prepareMobileSplash() {
-    logo.src ="./assets/img/desktop_template/join-logo.png";
+function generateEditOverlayHTML(element) {
+  return `
+    &lt;dialog id="edit-overlay-${element.id}" class="edit-task-overlay modal-class" >
+      &lt;header class="header-form">
+              &lt;div class="headline-edit-task">
+                &lt;div>&lt;/div>
+                &lt;button class="btn-close" onclick="closeEditOverlay('${element.id}')">&lt;/button>
+              &lt;/div>
+      &lt;/header>
+      &lt;div class="scroll-container">
+        &lt;div class="scroll-wrapper">
+          &lt;div class="frame-view-edit-task">
+            &lt;form id="edit-form-${element.id}" class="form-for-edit-task" onsubmit= "return checkFormDataEditOverlay('${element.id}')" novalidate>
+              &lt;div class="container-form">
+                &lt;label class="label-form" for="title-input">Title&lt;span id="feedback-title-${element.id}" class="info-failed hidden">This field is required.&lt;/span>&lt;/label>
+                &lt;input
+                  type="text"
+                  class="input input-title hover-input"
+                  id="title-input-${element.id}"
+                  name="title-input"
+                  required
+                  placeholder="Enter a title"
+                  value="${element.title}"
+                />&lt;br />
+              &lt;/div>
+              &lt;div class="container-form">
+                &lt;label class="label-form" for="description-input"
+                >Description&lt;/label
+                >
+                &lt;textarea
+                  class="input-description hover-input"
+                  id="description-input-${element.id}"
+                  name="description-input"
+                  required
+                  placeholder="Enter a Description"
+                >${element.description}&lt;/textarea
+                >&lt;br />
+              &lt;/div>
+              &lt;div class="container-form">
+                &lt;label class="label-form" for="date-input">Due Date&lt;span id="feedback-duedate-${element.id}" class="info-failed hidden">This field is required.&lt;/span>&lt;/label>
+                &lt;input
+                  type="date"
+                  class="input input-date hover-input"
+                  id="date-input-${element.id}"
+                  name="date-input"
+                  required
+                  value="${element.dueDate}"
+                />&lt;br />
+              &lt;/div>
+              &lt;div id="${element.priority}" class="set-up-prio-in-edit-mode">
+                &lt;span class="title-prio-in-edit-mode">Priority&lt;/span>
+                &lt;div id="prio-btn-${element.id}" class="btn-prio-in-edit-mode">
+                  &lt;button type="button" class="btn-prio-edit priority urgent ${element.priority === 'Urgent' ? 'active' : ''}" value="Urgent" onclick="setPriority(this)">
+                    &lt;span>Urgent&lt;/span>
+                    &lt;img
+                      src="../assets/img/priority/Property 1=Urgent.svg"
+                      alt=""
+                    />
+                  &lt;/button>
+                  &lt;button type="button" class="btn-prio-edit priority medium ${element.priority === 'Medium' ? 'active' : ''}" value="Medium" onclick="setPriority(this)">
+                    &lt;span>Medium&lt;/span>
+                    &lt;img
+                      src="../assets/img/priority/Property 1=Medium.svg"
+                      alt=""
+                    />
+                  &lt;/button>
+                  &lt;button type="button" class="btn-prio-edit priority low ${element.priority === 'Low' ? 'active' : ''}" value="Low" onclick="setPriority(this)">
+                    &lt;span>Low&lt;/span>
+                    &lt;img
+                      src="../assets/img/priority/Property 1=Low.svg"
+                      alt=""
+                    />
+                  &lt;/button>
+                &lt;/div>
+              &lt;/div>
+              &lt;div id="container-dropdown-menu-${element.id}" class="input-group container-dropdown-user">
+                &lt;label>Assigned to&lt;/label>
+                &lt;div id="toggle-${element.id}" class="dropdown-container" onclick="toggleDropdown(this)">
+                  &lt;input id="dropdown-assignment-${element.id}" class="dropdown dropdown-assignment" placeholder="Select contacts" onkeydown="showFilteredContactList(this)">
+                    &lt;button type="button" id="dropdownArrow-${element.id}" class="arrow-dropdown">&lt;/button>
+                    &lt;div id="dropdownMenu-${element.id}" class="dropdown-menu">&lt;/div>
+                &lt;/div>
+                &lt;div id="contact-chosen-for-task-${element.id}" class="assign-contact margin-badge">${getAssignedContactBadges(element.assignedTo)}&lt;/div>
+              &lt;/div>
+              &lt;div class="input-group group-subtasks">
+                &lt;label>Subtasks&lt;/label>
+                &lt;div class="subtask-input">
+                  &lt;input id="input-subtask-${element.id}" class="subtask-enter" type="text" placeholder="Add new subtask" />
+                  &lt;div class="subtask-actions">
+                    &lt;button type="button" onclick="closeEditSubtask('${element.id}')">
+                      &lt;img src="../assets/img/edit_delete/Property 1=close.svg" />
+                    &lt;/button>
+                    &lt;div class="subtask-divider">&lt;/div>
+                    &lt;button type="button" onclick="saveEditSubtask('${element.id}')">
+                      &lt;img src="../assets/img/edit_delete/Property 1=check.svg" />
+                    &lt;/button>
+                  &lt;/div>
+                &lt;/div>
+                &lt;div id="list-subtasks-${element.id}" class="list-subtasks remove-scrollbar">
+                  &lt;ul id="ul-subtask-${element.id}" class="container-ul-subtask">${getSubtasksEditOverlay(element.subtasks, element.id)}&lt;/ul>
+                &lt;/div>
+              &lt;/div>
+            &lt;/form>
+          &lt;/div>
+        &lt;/div>
+        &lt;button class="btn-scrollbar scroll-top" onmousedown="startScrolling('.scroll-wrapper', -1)" onmouseup="stopScrolling()" onmouseleave="stopScrolling()">&lt;img src="../assets/img/contact/high.png" alt="up">&lt;/button>
+        &lt;button class="btn-scrollbar scroll-down" onmousedown="startScrolling('.scroll-wrapper', 1)" onmouseup="stopScrolling()" onmouseleave="stopScrolling()">&lt;img src="../assets/img/contact/down.png" alt="down">&lt;/button>
+      &lt;/div>
+      &lt;footer class="footer-edit-overlay">
+        &lt;p id="subtask-edit-feedback-${element.id}" class="subtask-edit-feedback hidden">&lt;span class="red-required">*&lt;/span>Close the subtasks.&lt;/p>
+        &lt;button type="submit" form="edit-form-${element.id}" class="confirm-edit-btn">
+          &lt;span>Ok&lt;/span>
+          &lt;img class="check-mark" src="../assets/img/board/check.svg" alt="img-check-mark">
+        &lt;/button>
+      &lt;/footer>
+    &lt;/dialog >
+  `;
 }
 
 
 /**
- * Plays the mobile splash animation.
+ * Generates the HTML template for a subtask in edit mode.
+ * The template contains the subtask title and buttons for editing and deleting it.
  *
- * @returns {void}
+ * @param {Array&lt;Object>} subtasks - The subtasks belonging to the task.
+ * @param {string|number} id - The unique ID of the parent task.
+ * @param {number} index - The index of the subtask in the array.
+ * @returns {string} The HTML template for the editable subtask.
  */
-function playMobileSplashAnimation() {
-    logo.style.visibility = "visible";
-    sessionStorage.setItem("splashShown", "true");
-    setTimeout(() => movingLogoToPos(true), 500);
-    setTimeout(() => {
-        container.classList.remove("hidden-splash");
-        logo.src = "./assets/img/login/join_logo_big.svg";
-        splash.classList.add("hide");
-    }, 1100);
-    setTimeout(() => {
-        splashFinished = true;
-    }, 1700);
+function generateSubtaskEditHTML(subtasks, id, index) {
+  return `
+           &lt;div id="edit-subtask-${id}-${index}" class="container-subtask-li" data-status="${subtasks[index].status}" ondblclick="editSubtask(this)">
+                &lt;li class="li-subtask subtask-text">${subtasks[index].title}&lt;/li>
+                &lt;div class="container-edit-btn">
+                    &lt;button type="button" class="edit-button" onclick="editSubtask(this)">&lt;/button>
+                    &lt;div class="subtask-divider">&lt;/div>
+                    &lt;button type="button" class="delete-button" onclick="deleteSubtask(this)">&lt;/button>
+                &lt;/div>
+           &lt;/div>
+  `;
 }
-
-
-/**
- * Displays the mobile splash end state immediately.
- *
- * @returns {void}
- */
-function showMobileSplashImmediately() {
-    logo.style.visibility = "visible";
-    logo.style.transition = "none";
-    logo.src = "./assets/img/login/join_logo_big.svg";
-    movingLogoToPos(false);
-    splash.style.transition = "none";
-    splash.classList.add("hide");
-    container.classList.remove("hidden-splash");
-    splashFinished = true;
-}
- 
- 
-/**
- * Moves and resizes the splash logo onto the logo container, optionally animated.
- *
- * @param {boolean} withAnimation - Whether to apply a CSS transition (false snaps instantly).
- * @returns {void}
- */
-function movingLogoToPos(withAnimation) {
-    const rect = logoContainer.getBoundingClientRect();
-    logo.style.transition = withAnimation
-        ? "top 1.2s ease, left 1.2s ease, width 1.2s ease, height 1.2s ease, transform 1.2s ease"
-        : "none";
-    logo.style.top = `${rect.top + rect.height / 2}px`;
-    logo.style.left = `${rect.left + rect.width / 2}px`;
-    setLogoSize();
-    logo.style.transform = "translate(-50%, -50%)";
-}
-
-
-/**
- * Sets the splash logo size depending on mobile or desktop view.
- *
- * @returns {void}
- */
-function setLogoSize() {
-    const mobile = isMobileView();
-    logo.style.width = mobile ? "64px" : "100px";
-    logo.style.height = mobile ? "78px" : "122px";
-}
- 
- 
-/**
- * Clears all validation error styling and messages currently shown on
- * the page (login/signup forms).
- *
- * @returns {void}
- */
-function resetValidation() {
-    document.querySelectorAll(".fail-red-border").forEach(element => {
-        element.classList.remove("fail-red-border");
-    });
- 
-    document.querySelectorAll(".info-failed").forEach(element => {
-        element.classList.add("hidden-feedback");
-    });
-}
-
-
-/**
- *  Navigates the user to the signup page.
- *
- * @returns {void}
- */
-function getToSignup() {
-    window.location.href = "./html/signup.html";
-}
-
-
-/**
- *  Navigates the user to the login page.
- *
- * @returns {void}
- */
-function getToLogin() {
-    window.location.href = "../index.html";
-}
-
-
-/**
- * Determines whether the current viewport width matches the mobile
- * breakpoint.
- *
- * @returns {boolean} True if the viewport width is 992px or less, otherwise false.
- */
-function isMobileView() {
-    return window.innerWidth &lt;= 992 || window.innerHeight &lt;= 800;
-}
-
-
-/**
- * Logs a user in: stores their name and email in sessionStorage, then
- * navigates to the summary page.
- *
- * @param {string} userName - Display name to store as "loggedInUser".
- * @param {string} userMail - Email to store as "loggedInUserEmail".
- * @returns {void}
- */
-function getToSummary(userName, userMail) {
-    sessionStorage.setItem('loggedInUser', userName);
-    sessionStorage.setItem('loggedInUserEmail', userMail);
-    window.location.href = './html/summary.html';
-}
- 
-
-/**
- * Logs in as a guest and navigates to the summary page.
- *
- * @param {string} guest - Display name of the guest session, passed to getToSummary().
- * @returns {void}
- */
-function logInGuest(guest) {
-    getToSummary(guest);
-}
-
-
-/**
- * Initializes the splash screen animation after the page has loaded.
- */
-window.addEventListener("load", initSplashScreen);
-
-
-/**
- * Wires up lock-icon state and show/hide toggling for the login, signup and confirm password fields.
- */
-[
-    { input: loginPw, button: btnPwOne },
-    { input: pwUser, button: btnPwTwo },
-    { input: checkPw, button: btnPwThree }
-].forEach(({ input, button }) => {
-    if (!input || !button) return;
-    input.addEventListener('input', () => {
-        button.classList.toggle('change-icon-lock', input.value.length > 0);
-    });
-    button.addEventListener('click', () => {
-        input.type = input.type === 'password' ? 'text' : 'password';
-        button.classList.toggle('make-pw-visible');
-    });
-});</code></pre>
+</code></pre>
         </article>
     </section>
 

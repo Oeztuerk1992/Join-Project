@@ -13,7 +13,7 @@ function checkFormDataAddTask(event, column) {
     const isCategoryValid = checkTaskCategory();
     const isSubtaskValid = validateSubtasks('add-task');
     const isValid = isNameValid && isDateValid && isCategoryValid && isSubtaskValid;
-    if (isValid) createTask(column);
+    if (isValid) runWithDisabledButton(".create-btn", () => createTask(column));
     return false;
 }
  

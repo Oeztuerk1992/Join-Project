@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: scripts/startpage/startpage_main.js</title>
+    <title>JSDoc: Source: scripts/templates/board_card_template.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: scripts/startpage/startpage_main.js</h1>
+    <h1 class="page-title">Source: scripts/templates/board_card_template.js</h1>
 
     
 
@@ -26,304 +26,163 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const logo = document.querySelector(".logo");
-const splash = document.querySelector(".logo-splash");
-const container = document.querySelector(".hidden-splash");
-const logoContainer = document.querySelector(".logo-container");
- 
-const nameUser = document.getElementById('signup-name');
-const mailUser = document.getElementById('signup-mail');
-const pwUser = document.getElementById('signup-pw');
-const checkPw = document.getElementById('check-pw');
-const privacyPolicy = document.getElementById('privacy-policy');
- 
-const loginMail = document.getElementById('login-mail');
-const loginPw = document.getElementById('login-password');
- 
-const btnPwOne = document.getElementById('btn-pw-one');
-const btnPwTwo = document.getElementById('btn-pw-two');
-const btnPwThree = document.getElementById('btn-pw-three');
- 
-let splashFinished = false;
-
-
-const signUpNewUser = [];
-const registeredUser = [];
-
-
-/**
- * Preloads registered users and contacts from Firebase for login/signup validation.
+            <pre class="prettyprint source linenums"><code>/**
+ * Generates the HTML template for a task mini-card.
  *
- * @returns {Promise&lt;void>}
+ * @param {Object} element - The task object containing all relevant task data.
+ * @returns {string} The HTML template for the task mini-card.
  */
-async function initLogin() {
-    await onloadUsers();
-    await loadContactsFromFirebase();
-}
-
- 
-/**
- * Initializes the signup page and loads all users and contacts
- * required for signup validation.
- *
- * @returns {Promise&lt;void>}
- */
-async function initSignup() {
-    updateSignupButton();
-    await onloadUsers();
-    await loadContactsFromFirebase();
-}
-
-
-/**
- * Starts the splash screen sequence (mobile animation, or desktop immediately/animated once per session).
- *
- * @returns {void}
- */
-function initSplashScreen() {
-    if (document.body.classList.contains('signup-page')) return;
-    if (!hasSplashElements()) return;
-    if (isMobileView()) {
-        getMobileAnimation();
-        return;
+function generateTaskMiniCardHTML(element) {
+  return ` 
+          &lt;section id="card-mini-${element.id}" class="mini-card" onclick="openTaskOverlay('${element.id}','animation')"
+            draggable="true" ondragstart="startDragging('${element.id}')" ondragend="endDragging('${element.id}')">
+            &lt;div class="frame-mini-card">
+              &lt;header class="header-mini-card">
+                &lt;div class="headline-minicard">  
+                  &lt;h3 id="label-card-${element.id}" class="card-label">
+                    ${getTaskCategory(element.category)}
+                  &lt;/h3>
+                  &lt;button id="mobile-icon-for-move-${element.id}" class="mobile-icon-move" 
+                    onclick="event.stopPropagation(); openMobileMoveMenu('${element.id}')">
+                  &lt;/button>
+                  &lt;div id="move-menu-${element.id}" class="move-menu" onclick="event.stopPropagation()">
+                    &lt;span>Move to:&lt;/span>
+                    &lt;div class="scroll-move-menu">&lt;/div>
+                  &lt;/div>
+                &lt;/div>
+                &lt;h4 id="task-title-${element.id}" class="title-task">
+                  ${element.title}
+                &lt;/h4>
+                &lt;p id="task-description-${element.id}" class="description-task">
+                  ${element.description}
+                &lt;/p>
+              &lt;/header>
+              ${element.subtasks.length ?
+      `
+              &lt;article id="subtask-${element.id}" class="container-subtask">
+                &lt;div id="status-subtask-${element.id}" class="subtask-bar-wrapper">
+                  &lt;div class="subtask-bar" style="width: ${getSubtaskProgress(element.subtasks)}%;">&lt;/div>
+                &lt;/div>
+                &lt;div id="status-count-${element.id}" class="count-status">
+                  ${getStatusSubtasks(element.subtasks)}
+                &lt;/div>
+              &lt;/article>
+              `: ''
     }
-    const splashShown = sessionStorage.getItem("splashShown");
-    splashShown ? showDesktopSplashImmediately() : playDesktopSplashAnimation();
+              &lt;div class="flex-grow">&lt;/div>
+              &lt;article class="responsibility-mini-card">
+                &lt;div id="badge-member-${element.id}" class="member-badge">
+                  ${getAssignedContactBadges(element.assignedTo, 4)}
+                &lt;/div>
+                &lt;div id="task-prio-${element.id}" class="priority-task">
+                  ${getImgPrio(element.priority)}
+                &lt;/div>
+              &lt;/article>
+            &lt;/div>
+          &lt;/section>
+  `;
 }
 
 
 /**
- * Checks whether all splash elements exist.
+ * Generates the HTML template for the "User Story" task category.
  *
- * @returns {boolean} True if all elements are available.
+ * @returns {string} The HTML template displaying the "User Story" category.
  */
-function hasSplashElements() {
-    return logo &amp;&amp; splash &amp;&amp; container;
+function generateTaskCategoryUserStoryHTML() {
+  return `
+          &lt;div class="category-user-story">User Story&lt;/div>
+  `;
 }
 
 
 /**
- * Plays the desktop splash animation.
+ * Generates the HTML template for the "Technical Task" task category.
  *
- * @returns {void}
+ * @returns {string} The HTML template displaying the "Technical Task" category.
  */
-function playDesktopSplashAnimation() {
-    logo.style.visibility = "visible";
-    sessionStorage.setItem("splashShown", "true");
-    setTimeout(() => movingLogoToPos(true), 500);
-    setTimeout(() => {
-        splash.classList.add("hide");
-        container.classList.remove("hidden-splash");
-    }, 1000);
-    setTimeout(() => {
-        splashFinished = true;
-    }, 1700);
+function generateTaskCategoryTechnicalTaskHTML() {
+  return `
+          &lt;div class="category-technical-task">Technical Task&lt;/div>
+  `;
 }
 
 
 /**
- * Displays the desktop splash end state immediately.
+ * Generates the HTML template for a task with low priority.
  *
- * @returns {void}
+ * @returns {string} The HTML template containing the low-priority icon.
  */
-function showDesktopSplashImmediately() {
-    logo.style.visibility = "visible";
-    logo.style.transition = "none";
-    movingLogoToPos(false);
-    splash.style.transition = "none";
-    splash.classList.add("hide");
-    container.classList.remove("hidden-splash");
-    splashFinished = true;
+function generateImgPrioLowHTML() {
+  return `
+          &lt;img src="../assets/img/board/cards/prio_low.svg" alt="img-prio-low">
+  `;
 }
 
 
 /**
- * Initializes the mobile splash animation.
+ * Generates the HTML template for a task with medium priority.
  *
- * @returns {void}
+ * @returns {string} The HTML template containing the medium-priority icon.
  */
-function getMobileAnimation() {
-    if (!hasSplashElements()) return;
-    prepareMobileSplash();
-    const splashShown = sessionStorage.getItem("splashShown");
-    splashShown ? showMobileSplashImmediately() : playMobileSplashAnimation();
+function generateImgPrioMediumHTML() {
+  return `
+          &lt;img src="../assets/img/board/cards/prio_medium.svg" alt="img-prio-medium">
+  `;
 }
 
 
 /**
- * Prepares splash elements for mobile view.
+ * Generates the HTML template for a task with high priority.
  *
- * @returns {void}
+ * @returns {string} The HTML template containing the high-priority icon.
  */
-function prepareMobileSplash() {
-    logo.src ="./assets/img/desktop_template/join-logo.png";
+function generateImgPrioHighHTML() {
+  return `
+          &lt;img src="../assets/img/board/cards/prio_high.svg" alt="img-prio-high">
+  `;
 }
 
 
 /**
- * Plays the mobile splash animation.
+ * Generates an HTML badge displaying the initials of an assigned contact.
  *
- * @returns {void}
+ * @param {string} color - The CSS styling used to set the badge color.
+ * @param {string} initials - The initials displayed inside the badge.
+ * @returns {string} The HTML template for the contact badge.
  */
-function playMobileSplashAnimation() {
-    logo.style.visibility = "visible";
-    sessionStorage.setItem("splashShown", "true");
-    setTimeout(() => movingLogoToPos(true), 500);
-    setTimeout(() => {
-        container.classList.remove("hidden-splash");
-        logo.src = "./assets/img/login/join_logo_big.svg";
-        splash.classList.add("hide");
-    }, 1100);
-    setTimeout(() => {
-        splashFinished = true;
-    }, 1700);
+function generateBadgesHTML(color, initials) {
+  return `
+          &lt;div class="user-abbr" style="${color}">${initials}&lt;/div>
+  `;
 }
 
 
 /**
- * Displays the mobile splash end state immediately.
+ * Generates an HTML element displaying the names of assigned contacts.
  *
- * @returns {void}
+ * @param {string} usernames - The names of the assigned contacts.
+ * @returns {string} The HTML template containing the contact names.
  */
-function showMobileSplashImmediately() {
-    logo.style.visibility = "visible";
-    logo.style.transition = "none";
-    logo.src = "./assets/img/login/join_logo_big.svg";
-    movingLogoToPos(false);
-    splash.style.transition = "none";
-    splash.classList.add("hide");
-    container.classList.remove("hidden-splash");
-    splashFinished = true;
+function generateUserNamesHTML(usernames) {
+  return `
+    &lt;div class="contact-names-overlay">${usernames}&lt;/div>
+  `;
 }
- 
- 
+
+
 /**
- * Moves and resizes the splash logo onto the logo container, optionally animated.
+ * Generates the HTML template displayed when a Kanban column contains no tasks.
  *
- * @param {boolean} withAnimation - Whether to apply a CSS transition (false snaps instantly).
- * @returns {void}
+ * @param {string} status - The status of the Kanban column.
+ * @returns {string} The HTML template displaying the empty-column message.
  */
-function movingLogoToPos(withAnimation) {
-    const rect = logoContainer.getBoundingClientRect();
-    logo.style.transition = withAnimation
-        ? "top 1.2s ease, left 1.2s ease, width 1.2s ease, height 1.2s ease, transform 1.2s ease"
-        : "none";
-    logo.style.top = `${rect.top + rect.height / 2}px`;
-    logo.style.left = `${rect.left + rect.width / 2}px`;
-    setLogoSize();
-    logo.style.transform = "translate(-50%, -50%)";
+function generateEmptyCardHTML(status) {
+  return `
+          &lt;div class="no-task-feedback">No tasks ${status}&lt;/div>
+  `;
 }
-
-
-/**
- * Sets the splash logo size depending on mobile or desktop view.
- *
- * @returns {void}
- */
-function setLogoSize() {
-    const mobile = isMobileView();
-    logo.style.width = mobile ? "64px" : "100px";
-    logo.style.height = mobile ? "78px" : "122px";
-}
- 
- 
-/**
- * Clears all validation error styling and messages currently shown on
- * the page (login/signup forms).
- *
- * @returns {void}
- */
-function resetValidation() {
-    document.querySelectorAll(".fail-red-border").forEach(element => {
-        element.classList.remove("fail-red-border");
-    });
- 
-    document.querySelectorAll(".info-failed").forEach(element => {
-        element.classList.add("hidden-feedback");
-    });
-}
-
-
-/**
- *  Navigates the user to the signup page.
- *
- * @returns {void}
- */
-function getToSignup() {
-    window.location.href = "./html/signup.html";
-}
-
-
-/**
- *  Navigates the user to the login page.
- *
- * @returns {void}
- */
-function getToLogin() {
-    window.location.href = "../index.html";
-}
-
-
-/**
- * Determines whether the current viewport width matches the mobile
- * breakpoint.
- *
- * @returns {boolean} True if the viewport width is 992px or less, otherwise false.
- */
-function isMobileView() {
-    return window.innerWidth &lt;= 992 || window.innerHeight &lt;= 800;
-}
-
-
-/**
- * Logs a user in: stores their name and email in sessionStorage, then
- * navigates to the summary page.
- *
- * @param {string} userName - Display name to store as "loggedInUser".
- * @param {string} userMail - Email to store as "loggedInUserEmail".
- * @returns {void}
- */
-function getToSummary(userName, userMail) {
-    sessionStorage.setItem('loggedInUser', userName);
-    sessionStorage.setItem('loggedInUserEmail', userMail);
-    window.location.href = './html/summary.html';
-}
- 
-
-/**
- * Logs in as a guest and navigates to the summary page.
- *
- * @param {string} guest - Display name of the guest session, passed to getToSummary().
- * @returns {void}
- */
-function logInGuest(guest) {
-    getToSummary(guest);
-}
-
-
-/**
- * Initializes the splash screen animation after the page has loaded.
- */
-window.addEventListener("load", initSplashScreen);
-
-
-/**
- * Wires up lock-icon state and show/hide toggling for the login, signup and confirm password fields.
- */
-[
-    { input: loginPw, button: btnPwOne },
-    { input: pwUser, button: btnPwTwo },
-    { input: checkPw, button: btnPwThree }
-].forEach(({ input, button }) => {
-    if (!input || !button) return;
-    input.addEventListener('input', () => {
-        button.classList.toggle('change-icon-lock', input.value.length > 0);
-    });
-    button.addEventListener('click', () => {
-        input.type = input.type === 'password' ? 'text' : 'password';
-        button.classList.toggle('make-pw-visible');
-    });
-});</code></pre>
+</code></pre>
         </article>
     </section>
 

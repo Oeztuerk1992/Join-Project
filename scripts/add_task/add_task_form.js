@@ -241,7 +241,7 @@ function checkCurrentLogin(dropdownMenu,assignedTo = [],filterWord = "") {
 /**
  * Returns the contact entry of the logged-in user.
  *
- * @returns {[string, Object]|undefined} Contact ID and contact data.
+ * @returns {Array|undefined} Contact ID and contact data.
  */
 function getCurrentContactEntry() {
     const loggedInContactId =
@@ -256,7 +256,7 @@ function getCurrentContactEntry() {
 /**
  * Appends the logged-in user to the dropdown if visible.
  *
- * @param {[string, Object]} currentContact - Contact entry.
+ * @param {Array} currentContact - Contact entry.
  * @param {HTMLElement} dropdownMenu - Dropdown menu container.
  * @param {Array<Object>} assignedTo - Selected contacts.
  * @param {string} filterWord - Current filter value.

@@ -55,9 +55,8 @@ function checkFormDataContactOverlay(event, filterWord) {
         && checkUserMailContact(filterWord)
         && checkUserPhone(filterWord);
     infoContact.classList.toggle("hidden-feedback", isValid);
-    if (isValid) {
-        filterWord === 'add' ? createContact() : saveContact();
-    }
+    if (isValid && filterWord === 'add') runWithDisabledButton("#create-contact", createContact);
+    if (isValid && filterWord === 'edit') runWithDisabledButton("#save-contact", saveContact);
     return false;
 }
 

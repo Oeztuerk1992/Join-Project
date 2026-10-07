@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: scripts/startpage/startpage_main.js</title>
+    <title>JSDoc: Source: scripts/board/board_drop_position.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: scripts/startpage/startpage_main.js</h1>
+    <h1 class="page-title">Source: scripts/board/board_drop_position.js</h1>
 
     
 
@@ -26,304 +26,234 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const logo = document.querySelector(".logo");
-const splash = document.querySelector(".logo-splash");
-const container = document.querySelector(".hidden-splash");
-const logoContainer = document.querySelector(".logo-container");
- 
-const nameUser = document.getElementById('signup-name');
-const mailUser = document.getElementById('signup-mail');
-const pwUser = document.getElementById('signup-pw');
-const checkPw = document.getElementById('check-pw');
-const privacyPolicy = document.getElementById('privacy-policy');
- 
-const loginMail = document.getElementById('login-mail');
-const loginPw = document.getElementById('login-password');
- 
-const btnPwOne = document.getElementById('btn-pw-one');
-const btnPwTwo = document.getElementById('btn-pw-two');
-const btnPwThree = document.getElementById('btn-pw-three');
- 
-let splashFinished = false;
-
-
-const signUpNewUser = [];
-const registeredUser = [];
-
-
-/**
- * Preloads registered users and contacts from Firebase for login/signup validation.
- *
- * @returns {Promise&lt;void>}
+            <pre class="prettyprint source linenums"><code>/**
+ * Creates all backend update requests.
+ * @param {string[]} cardIds - Ordered task IDs.
+ * @param {string} oldStatus - Previous status.
+ * @param {string} newStatus - New status.
+ * @returns {Promise[]} Update requests.
  */
-async function initLogin() {
-    await onloadUsers();
-    await loadContactsFromFirebase();
+function buildTaskUpdates(cardIds, oldStatus, newStatus) {
+    const updates = [];
+    cardIds.forEach((id, index) => {
+        const task = tasks.find(task => task.id === id);
+        if (!task) return;
+        task.dragOrder = index * 1000;
+        updates.push(saveTaskOrder(id, task.dragOrder));
+    });
+    if (oldStatus !== newStatus) {
+        updates.push(saveTaskCategory(currentDraggedElement, newStatus));
+    }
+    return updates;
 }
-
+ 
  
 /**
- * Initializes the signup page and loads all users and contacts
- * required for signup validation.
+ * Displays a drop placeholder at the current drag position.
  *
- * @returns {Promise&lt;void>}
- */
-async function initSignup() {
-    updateSignupButton();
-    await onloadUsers();
-    await loadContactsFromFirebase();
-}
-
-
-/**
- * Starts the splash screen sequence (mobile animation, or desktop immediately/animated once per session).
- *
+ * @param {string} id - Target container ID.
+ * @param {DragEvent} event - Current drag event.
  * @returns {void}
  */
-function initSplashScreen() {
-    if (document.body.classList.contains('signup-page')) return;
-    if (!hasSplashElements()) return;
-    if (isMobileView()) {
-        getMobileAnimation();
+function highlight(id, event) {
+    const target = getTargetContainer(id);
+    const draggedCard = getDraggedCard();
+    if (!target || !draggedCard) return;
+    const insertBeforeCard = getInsertBeforeCard(target, event);
+    if (isSameDropPosition(target, draggedCard, insertBeforeCard)) {
+        removeHighlight();
         return;
     }
-    const splashShown = sessionStorage.getItem("splashShown");
-    splashShown ? showDesktopSplashImmediately() : playDesktopSplashAnimation();
+    insertPlaceholder(target, insertBeforeCard);
 }
 
 
 /**
- * Checks whether all splash elements exist.
+ * Returns the target container element.
  *
- * @returns {boolean} True if all elements are available.
+ * @param {string} id - DOM ID of the target container.
+ * @returns {HTMLElement|null} The target container element.
  */
-function hasSplashElements() {
-    return logo &amp;&amp; splash &amp;&amp; container;
+function getTargetContainer(id) {
+    return document.getElementById(id);
 }
 
 
 /**
- * Plays the desktop splash animation.
+ * Returns the card currently being dragged.
  *
+ * @returns {HTMLElement|null} The dragged card element.
+ */
+function getDraggedCard() {
+    return document.getElementById(
+        `card-mini-${currentDraggedElement}`
+    );
+}
+
+
+/**
+ * Determines before which card the placeholder should be inserted.
+ *
+ * @param {HTMLElement} target - Target container element.
+ * @param {DragEvent} event - Current drag event.
+ * @returns {HTMLElement|null} The reference card or null.
+ */
+function getInsertBeforeCard(target, event) {
+    const cards = [
+        ...target.querySelectorAll(".mini-card:not(.dragging)")
+    ];
+
+    for (const card of cards) {
+        if (event.clientY &lt; getCardMiddle(card)) {
+            return card;
+        }
+    }
+    return null;
+}
+
+
+/**
+ * Returns the vertical center position of a card.
+ *
+ * @param {HTMLElement} card - Card element.
+ * @returns {number} The card's vertical midpoint.
+ */
+function getCardMiddle(card) {
+    const rect = card.getBoundingClientRect();
+    return rect.top + rect.height / 2;
+}
+
+
+/**
+ * Checks whether the calculated drop position matches the card's
+ * current position.
+ *
+ * @param {HTMLElement} target - Target container element.
+ * @param {HTMLElement} draggedCard - Currently dragged card.
+ * @param {HTMLElement|null} insertBeforeCard - Reference card.
+ * @returns {boolean} True if the drop position is unchanged.
+ */
+function isSameDropPosition(
+    target,
+    draggedCard,
+    insertBeforeCard
+) {
+    return target === draggedCard.parentElement
+        &amp;&amp; draggedCard.nextElementSibling === insertBeforeCard;
+}
+
+
+/**
+ * Inserts the placeholder into the target container.
+ *
+ * @param {HTMLElement} target - Target container element.
+ * @param {HTMLElement|null} insertBeforeCard - Card before which the placeholder should be inserted.
  * @returns {void}
  */
-function playDesktopSplashAnimation() {
-    logo.style.visibility = "visible";
-    sessionStorage.setItem("splashShown", "true");
-    setTimeout(() => movingLogoToPos(true), 500);
-    setTimeout(() => {
-        splash.classList.add("hide");
-        container.classList.remove("hidden-splash");
-    }, 1000);
-    setTimeout(() => {
-        splashFinished = true;
-    }, 1700);
+function insertPlaceholder(
+    target,
+    insertBeforeCard
+) {
+    const placeholder = createPlaceholder();
+    if (insertBeforeCard) {
+        target.insertBefore(
+            placeholder,
+            insertBeforeCard
+        );
+        return;
+    }
+    target.appendChild(placeholder);
 }
 
-
-/**
- * Displays the desktop splash end state immediately.
- *
- * @returns {void}
- */
-function showDesktopSplashImmediately() {
-    logo.style.visibility = "visible";
-    logo.style.transition = "none";
-    movingLogoToPos(false);
-    splash.style.transition = "none";
-    splash.classList.add("hide");
-    container.classList.remove("hidden-splash");
-    splashFinished = true;
-}
-
-
-/**
- * Initializes the mobile splash animation.
- *
- * @returns {void}
- */
-function getMobileAnimation() {
-    if (!hasSplashElements()) return;
-    prepareMobileSplash();
-    const splashShown = sessionStorage.getItem("splashShown");
-    splashShown ? showMobileSplashImmediately() : playMobileSplashAnimation();
-}
-
-
-/**
- * Prepares splash elements for mobile view.
- *
- * @returns {void}
- */
-function prepareMobileSplash() {
-    logo.src ="./assets/img/desktop_template/join-logo.png";
-}
-
-
-/**
- * Plays the mobile splash animation.
- *
- * @returns {void}
- */
-function playMobileSplashAnimation() {
-    logo.style.visibility = "visible";
-    sessionStorage.setItem("splashShown", "true");
-    setTimeout(() => movingLogoToPos(true), 500);
-    setTimeout(() => {
-        container.classList.remove("hidden-splash");
-        logo.src = "./assets/img/login/join_logo_big.svg";
-        splash.classList.add("hide");
-    }, 1100);
-    setTimeout(() => {
-        splashFinished = true;
-    }, 1700);
-}
-
-
-/**
- * Displays the mobile splash end state immediately.
- *
- * @returns {void}
- */
-function showMobileSplashImmediately() {
-    logo.style.visibility = "visible";
-    logo.style.transition = "none";
-    logo.src = "./assets/img/login/join_logo_big.svg";
-    movingLogoToPos(false);
-    splash.style.transition = "none";
-    splash.classList.add("hide");
-    container.classList.remove("hidden-splash");
-    splashFinished = true;
-}
- 
  
 /**
- * Moves and resizes the splash logo onto the logo container, optionally animated.
+ * Removes the drop placeholder element from the DOM, if present.
  *
- * @param {boolean} withAnimation - Whether to apply a CSS transition (false snaps instantly).
  * @returns {void}
  */
-function movingLogoToPos(withAnimation) {
-    const rect = logoContainer.getBoundingClientRect();
-    logo.style.transition = withAnimation
-        ? "top 1.2s ease, left 1.2s ease, width 1.2s ease, height 1.2s ease, transform 1.2s ease"
-        : "none";
-    logo.style.top = `${rect.top + rect.height / 2}px`;
-    logo.style.left = `${rect.left + rect.width / 2}px`;
-    setLogoSize();
-    logo.style.transform = "translate(-50%, -50%)";
+function removeHighlight() {
+    if (placeholder) {
+        placeholder.remove();
+    }
 }
 
 
 /**
- * Sets the splash logo size depending on mobile or desktop view.
+ * Closes every open mobile "move task" menu on the page by removing
+ * the "show" class from all ".move-menu" elements.
  *
  * @returns {void}
  */
-function setLogoSize() {
-    const mobile = isMobileView();
-    logo.style.width = mobile ? "64px" : "100px";
-    logo.style.height = mobile ? "78px" : "122px";
-}
- 
- 
-/**
- * Clears all validation error styling and messages currently shown on
- * the page (login/signup forms).
- *
- * @returns {void}
- */
-function resetValidation() {
-    document.querySelectorAll(".fail-red-border").forEach(element => {
-        element.classList.remove("fail-red-border");
-    });
- 
-    document.querySelectorAll(".info-failed").forEach(element => {
-        element.classList.add("hidden-feedback");
+function closeMobileMoveMenus() {
+    document.querySelectorAll(".move-menu").forEach(menu => {
+        menu.classList.remove("show");
     });
 }
-
-
-/**
- *  Navigates the user to the signup page.
- *
- * @returns {void}
- */
-function getToSignup() {
-    window.location.href = "./html/signup.html";
-}
-
-
-/**
- *  Navigates the user to the login page.
- *
- * @returns {void}
- */
-function getToLogin() {
-    window.location.href = "../index.html";
-}
-
-
-/**
- * Determines whether the current viewport width matches the mobile
- * breakpoint.
- *
- * @returns {boolean} True if the viewport width is 992px or less, otherwise false.
- */
-function isMobileView() {
-    return window.innerWidth &lt;= 992 || window.innerHeight &lt;= 800;
-}
-
-
-/**
- * Logs a user in: stores their name and email in sessionStorage, then
- * navigates to the summary page.
- *
- * @param {string} userName - Display name to store as "loggedInUser".
- * @param {string} userMail - Email to store as "loggedInUserEmail".
- * @returns {void}
- */
-function getToSummary(userName, userMail) {
-    sessionStorage.setItem('loggedInUser', userName);
-    sessionStorage.setItem('loggedInUserEmail', userMail);
-    window.location.href = './html/summary.html';
-}
  
 
 /**
- * Logs in as a guest and navigates to the summary page.
+ * Definition of the Kanban columns available in the mobile "move task"
+ * menu, mapping each task status to its target column DOM ID and display label.
  *
- * @param {string} guest - Display name of the guest session, passed to getToSummary().
+ * @type {Array&lt;{status: string, targetId: string, label: string}>}
+ */
+const moveMenuColumns = [
+    { status: 'To do', targetId: 'kanban-to-do', label: 'To-do' },
+    { status: 'In progress', targetId: 'kanban-in-progress', label: 'Progress' },
+    { status: 'Await feedback', targetId: 'kanban-feedback', label: 'Review' },
+    { status: 'Done', targetId: 'kanban-done', label: 'Done' }
+];
+ 
+
+/**
+ * Opens the mobile "move task" menu with one button per other column.
+ * @param {string|number} id - ID of the task the menu belongs to.
  * @returns {void}
  */
-function logInGuest(guest) {
-    getToSummary(guest);
+function openMobileMoveMenu(id) {
+    const menu = document.getElementById(`move-menu-${id}`);
+    const task = tasks.find(task => task.id === id);
+    menu.querySelector('.scroll-move-menu').innerHTML = moveMenuColumns
+        .filter(col => col.status !== task.taskStatus)
+        .map(col => getMoveButtonHtml(id, col))
+        .join('');
+    closeMobileMoveMenus();
+    menu.classList.add("show");
 }
 
 
 /**
- * Initializes the splash screen animation after the page has loaded.
+ * Returns the HTML of a move button for a target column.
+ * @param {string|number} id - ID of the task to move.
+ * @param {{targetId: string, label: string}} col - The target column.
+ * @returns {string} The button HTML.
  */
-window.addEventListener("load", initSplashScreen);
+function getMoveButtonHtml(id, col) {
+    return `
+        &lt;button onclick="moveTaskMobile('${id}', '${col.targetId}')">
+            ${col.label}
+        &lt;/button>
+    `;
+}
 
 
 /**
- * Wires up lock-icon state and show/hide toggling for the login, signup and confirm password fields.
+ * Moves a task to another column from the mobile "move task" menu.
+ * @param {string|number} id - ID of the task to move.
+ * @param {string} taskCat - DOM ID of the target column.
+ * @returns {Promise&lt;void>}
  */
-[
-    { input: loginPw, button: btnPwOne },
-    { input: pwUser, button: btnPwTwo },
-    { input: checkPw, button: btnPwThree }
-].forEach(({ input, button }) => {
-    if (!input || !button) return;
-    input.addEventListener('input', () => {
-        button.classList.toggle('change-icon-lock', input.value.length > 0);
-    });
-    button.addEventListener('click', () => {
-        input.type = input.type === 'password' ? 'text' : 'password';
-        button.classList.toggle('make-pw-visible');
-    });
-});</code></pre>
+async function moveTaskMobile(id, taskCat) {
+    currentDraggedElement = id;
+    closeMobileMoveMenus();
+    await moveTo(taskCat);
+}
+
+
+/**
+ * Closes any open mobile move menu when a click occurs anywhere in the document.
+ */
+document.addEventListener("click", closeMobileMoveMenus);</code></pre>
         </article>
     </section>
 

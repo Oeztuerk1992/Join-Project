@@ -211,16 +211,24 @@ function getTargetCardIds(taskCat) {
     const container = document.getElementById(taskCat);
     const cardIds = [...container.children]
         .filter(el => el.id !== `card-mini-${currentDraggedElement}`)
-        .map(el =>
-            el === placeholder
-                ? currentDraggedElement
-                : el.id?.replace("card-mini-", "")
-        )
+        .map(el => getCardIdOfElement(el))
         .filter(Boolean);
     if (!cardIds.includes(currentDraggedElement)) {
         cardIds.push(currentDraggedElement);
     }
     return cardIds;
+}
+
+
+/**
+ * Returns the task ID of a column element; the placeholder stands for the dragged task.
+ *
+ * @param {HTMLElement} el - Element inside the target column.
+ * @returns {string|undefined} Task ID of the element.
+ */
+function getCardIdOfElement(el) {
+    if (el === placeholder) return currentDraggedElement;
+    return el.id?.replace("card-mini-", "");
 }
 
 

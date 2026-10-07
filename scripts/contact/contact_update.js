@@ -64,12 +64,22 @@ function renderContacts() {
         wrapper.innerHTML = generateNoContactsHTML();
         return;
     }
+    renderContactRows(wrapper);
+    initScrollbar();
+}
+
+
+/**
+ * Adds every contact to the list, with a section letter in front of each new initial.
+ * @param {HTMLElement} wrapper - Container of the contact list.
+ * @returns {void}
+ */
+function renderContactRows(wrapper) {
     let currentLetter = '';
     contacts.forEach(contact => {
         currentLetter = renderLetterIfNew(contact, currentLetter);
         wrapper.innerHTML += buildContactHtml(contact);
     });
-    initScrollbar();
 }
  
  

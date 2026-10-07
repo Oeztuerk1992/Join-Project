@@ -237,10 +237,7 @@ async function syncContactChanges(contactData) {
     const { id, oldContact, edited } = contactData;
     try {
         await putContactToFirebase(id, edited);
-        await syncUserDataFromContact(
-            oldContact,
-            edited
-        );
+        await syncUserDataFromContact(oldContact, edited);
         await onloadUsers();
         checkAfterUpdateContact(id, edited);
         await loadTasks();

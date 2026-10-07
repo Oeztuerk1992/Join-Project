@@ -107,10 +107,7 @@ function getAssignedContactBadges(assignments = [], limit = null) {
  * @returns {string} The badge HTML.
  */
 function getContactBadge(contact) {
-    if (!contact?.name) {
-        console.warn('Invalid assigned contact:', contact);
-        return '';
-    }
+    if (!contact?.name) return '';
     return generateBadgesHTML(contact.color, getInitials(contact.name));
 }
 
@@ -144,10 +141,7 @@ function getAssignedContactRows(assignments = []) {
  * @returns {string} The row HTML.
  */
 function getContactRow(contact) {
-    if (!contact?.name) {
-        console.warn('Invalid assigned contact:', contact);
-        return '';
-    }
+    if (!contact?.name) return '';
     return `
         <div class="container-user">
             ${generateBadgesHTML(contact.color, getInitials(contact.name))}

@@ -167,6 +167,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: background-color 100ms ease;
 }
 .background-checkbox:hover {
     background-color: var(--color-gray-300);
@@ -252,10 +253,12 @@ input[type="checkbox"]:checked {
 .text-delete {
     font-size: 16px;
     min-width: 60px;
+    transition: color 100ms ease;
 }
 .text-edit {
     font-size: 16px;
     min-width: 30px;
+    transition: color 100ms ease;
 }
 .delete-task-view:hover .img-delete {
     background-image: url("../assets/img/contact/delete_hover.svg");

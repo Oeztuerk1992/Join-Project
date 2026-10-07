@@ -35,6 +35,7 @@
     background-color: var(--color-white);
     border: 2px solid var(--color-blue-navy-900);
     cursor: pointer;
+    transition: background-color 100ms ease;
 }
 .circle-mobile:hover {
     background-color: var(--color-blue-200);
@@ -112,6 +113,7 @@
     font-size: 16px;
 
     font-family: 'OpenSans', sans-serif;
+    transition: color 100ms ease;
 }
 .nav-item-mobile:hover {
     background-color: var(--color-blue-navy-950);

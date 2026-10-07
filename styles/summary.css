@@ -54,7 +54,12 @@ h2 {
     border-radius: 30px;
     background-color: var(--color-white);
     box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.4);
-    transition: transform 0.3s;
+    transition: background-color 100ms ease, color 100ms ease, transform 100ms ease;
+}
+.to-do *,
+.urgent *,
+.tasks * {
+    transition: color 100ms ease;
 }
 .to-do {
     display: flex;

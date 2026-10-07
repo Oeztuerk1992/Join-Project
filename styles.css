@@ -11,6 +11,14 @@ body {
     margin: 0;
     background-color: var(--color-blue-50);
 }
+a,
+button,
+input,
+textarea,
+label,
+[onclick] {
+    transition: background-color 100ms ease, color 100ms ease, border-color 100ms ease, box-shadow 100ms ease, transform 100ms ease;
+}
 button {
     cursor: pointer;
     border: unset;

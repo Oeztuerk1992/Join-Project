@@ -10,6 +10,7 @@
     overflow: hidden;
     background: var(--color-white);
     color: var(--color-gray-300);
+    transition: border-color 100ms ease;
 }
 .subtask-input input {
     border: none;
@@ -47,6 +48,7 @@
     cursor: pointer;
 
     padding: 4px 16px 4px 30px;
+    transition: background-color 100ms ease;
 }
 .subtask-text {
     flex: 1;
@@ -64,7 +66,7 @@
     gap: 6px;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.2s ease;
+    transition: opacity 100ms ease;
 }
 .container-subtask-li:hover .container-edit-btn {
     opacity: 1;

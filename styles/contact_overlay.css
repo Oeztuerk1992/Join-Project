@@ -241,6 +241,7 @@
 .delete p{
   font-size: 16px;
   color: var(--color-blue-navy-900);
+  transition: color 100ms ease;
 }
 .edit:hover p,
 .delete:hover p{

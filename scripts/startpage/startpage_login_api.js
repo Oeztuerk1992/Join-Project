@@ -70,14 +70,10 @@ async function checkFormDataLogin(event) {
  */
 function checkDataLogin() {
     for (let index = 0; index < registeredUser.length; index++) {
-        if (
-            loginMail.value === registeredUser[index].mail &&
-            loginPw.value === registeredUser[index].password
-        ) {
-            document.getElementById("feedback-login")
-                .classList.add("hidden-feedback");
-
-            return registeredUser[index];
+        const user = registeredUser[index];
+        if (loginMail.value === user.mail && loginPw.value === user.password) {
+            document.getElementById("feedback-login").classList.add("hidden-feedback");
+            return user;
         }
     }
     showLoginError();

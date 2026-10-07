@@ -103,17 +103,28 @@ function toggleDropdown(container) {
     const menu = container.querySelector(".dropdown-menu");
     menu.classList.toggle("show");
     arrow.classList.toggle("rotate");
-
     if (menu.classList.contains("show")) {
         input.placeholder = "";
         input.focus();
     } else {
-        input.value = "";
-        input.placeholder = "Select contacts";
-        const assignedTo = selectedContactIds.map(id => ({ id }));
-        renderContacts(contacts, menu, assignedTo);
+        resetContactDropdown(input, menu);
     }
     getContactBadges(container);
+}
+
+
+/**
+ * Clears the contact filter input and renders the full contact list again.
+ *
+ * @param {HTMLInputElement} input - The contact filter input element.
+ * @param {HTMLElement} menu - Dropdown menu container.
+ * @returns {void}
+ */
+function resetContactDropdown(input, menu) {
+    input.value = "";
+    input.placeholder = "Select contacts";
+    const assignedTo = selectedContactIds.map(id => ({ id }));
+    renderContacts(contacts, menu, assignedTo);
 }
  
  
@@ -147,12 +158,7 @@ function renderContacts(contacts, menu, assignedTo = [], filterWord = "") {
     const assignedIds = assignedTo.map(contact => contact.id);
     const currentContactId = getCurrentContactId(contacts);
 
-    renderContactList(
-        contacts,
-        menu,
-        assignedIds,
-        currentContactId
-    );
+    renderContactList(contacts, menu, assignedIds, currentContactId);
 }
 
 

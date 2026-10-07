@@ -74,16 +74,24 @@ function checkUserMail() {
     mailUser.value = mailUser.value.trim().toLowerCase();
     const email = mailUser.value;
     const emailRegex = /^(?!.*\.\.)[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
-    if (!emailRegex.test(email)) {
-        info.classList.remove("hidden-feedback");
-        inputMail.classList.add("fail-red-border");
-        info.textContent = "Please enter a valid email address.";
-        return false;
-    }
+    if (!emailRegex.test(email)) return showInvalidMailError();
     if (!emailAlreadyExists()) return false;
     info.classList.add("hidden-feedback");
     inputMail.classList.remove("fail-red-border");
     return true;
+}
+
+
+/**
+ * Shows the error message for a badly formed email address.
+ *
+ * @returns {boolean} Always false, so the caller can stop.
+ */
+function showInvalidMailError() {
+    info.classList.remove("hidden-feedback");
+    inputMail.classList.add("fail-red-border");
+    info.textContent = "Please enter a valid email address.";
+    return false;
 }
  
 

@@ -11,11 +11,11 @@ const loggedUserInfo = document.getElementById("greet-user-name");
  * @returns {Promise<void>}
  */
 async function initSummary() {
-  initMobileGreetingSplash();
-  getUserGreeting();
-  getUserProfile("desktop");
-  await loadTasks();
-  getInfoBoard();
+    initMobileGreetingSplash();
+    getUserGreeting();
+    getUserProfile("desktop");
+    await loadTasks();
+    getInfoBoard();
 }
 
 
@@ -26,10 +26,10 @@ async function initSummary() {
  * @returns {string} "Good morning" (before 12:00), "Good afternoon" (before 18:00), or "Good evening" otherwise.
  */
 function getGreetingText() {
-  const hour = new Date().getHours();
-  if (hour < 12) return "Good morning";
-  if (hour < 18) return "Good afternoon";
-  return "Good evening";
+    const hour = new Date().getHours();
+    if (hour < 12) return "Good morning";
+    if (hour < 18) return "Good afternoon";
+    return "Good evening";
 }
  
  
@@ -44,17 +44,17 @@ function getGreetingText() {
  * @returns {void}
  */
 function applyGreeting(guestEl, userEl, timeGuestEl, timeUserEl, userNameEl) {
-  const greeting = getGreetingText();
-  if (loggedInUser === "guest") {
-    timeGuestEl.textContent = `${greeting}!`;
-    guestEl.classList.remove("hidden");
-    userEl.classList.add("hidden");
-  } else {
-    timeUserEl.textContent = `${greeting},`;
-    userNameEl.textContent = loggedInUser;
-    userEl.classList.remove("hidden");
-    guestEl.classList.add("hidden");
-  }
+    const greeting = getGreetingText();
+    if (loggedInUser === "guest") {
+        timeGuestEl.textContent = `${greeting}!`;
+        guestEl.classList.remove("hidden");
+        userEl.classList.add("hidden");
+    } else {
+        timeUserEl.textContent = `${greeting},`;
+        userNameEl.textContent = loggedInUser;
+        userEl.classList.remove("hidden");
+        guestEl.classList.add("hidden");
+    }
 }
  
  
@@ -65,7 +65,7 @@ function applyGreeting(guestEl, userEl, timeGuestEl, timeUserEl, userNameEl) {
  * @returns {void}
  */
 function getUserGreeting() {
-  applyGreeting(guestInfo, userInfo, greetTimeGuest, greetTime, loggedUserInfo);
+    applyGreeting(guestInfo, userInfo, greetTimeGuest, greetTime, loggedUserInfo);
 }
  
  
@@ -75,18 +75,18 @@ function getUserGreeting() {
  * @returns {void}
  */
 function initMobileGreetingSplash() {
-  const splash = document.getElementById("mobile-greeting-splash");
-  if (!isMobileView() || !splash) return;
-  if (sessionStorage.getItem("greetingShown")) {
-    splash.remove();
-    return;
-  }
-  applyGreetingToSplash();
-  sessionStorage.setItem("greetingShown", "true");
-  setTimeout(() => {
-    splash.classList.add("hide");
-    setTimeout(() => splash.remove(), 600);
-  }, 1500);
+    const splash = document.getElementById("mobile-greeting-splash");
+    if (!isMobileView() || !splash) return;
+    if (sessionStorage.getItem("greetingShown")) {
+        splash.remove();
+        return;
+    }
+    applyGreetingToSplash();
+    sessionStorage.setItem("greetingShown", "true");
+    setTimeout(() => {
+        splash.classList.add("hide");
+        setTimeout(() => splash.remove(), 600);
+    }, 1500);
 }
 
 
@@ -96,13 +96,13 @@ function initMobileGreetingSplash() {
  * @returns {void}
  */
 function applyGreetingToSplash() {
-  applyGreeting(
-    document.getElementById("splash-greeting-guest"),
-    document.getElementById("splash-greeting-user"),
-    document.getElementById("splash-greet-time-guest"),
-    document.getElementById("splash-greet-time"),
-    document.getElementById("splash-greet-user-name")
-  );
+    applyGreeting(
+        document.getElementById("splash-greeting-guest"),
+        document.getElementById("splash-greeting-user"),
+        document.getElementById("splash-greet-time-guest"),
+        document.getElementById("splash-greet-time"),
+        document.getElementById("splash-greet-user-name")
+    );
 }
  
  
@@ -112,7 +112,7 @@ function applyGreetingToSplash() {
  * @returns {void}
  */
 function getToBoard() {
-  window.location.href = "board.html";
+    window.location.href = "board.html";
 }
  
  
@@ -123,12 +123,12 @@ function getToBoard() {
  * @returns {void}
  */
 function getInfoBoard() {
-  getSumToDo();
-  getSumDone();
-  getDateUrgentTasks();
-  getSumTasksBoard();
-  getSumInProgress();
-  getSumAwaitFeedback();
+    getSumToDo();
+    getSumDone();
+    getDateUrgentTasks();
+    getSumTasksBoard();
+    getSumInProgress();
+    getSumAwaitFeedback();
 }
  
  
@@ -139,10 +139,10 @@ function getInfoBoard() {
  * @returns {number} The number of "To do" tasks.
  */
 function getSumToDo() {
-  const sum = tasks.filter((task) => task.taskStatus === "To do").length;
-  document.getElementById("count-do").textContent = sum;
+    const sum = tasks.filter((task) => task.taskStatus === "To do").length;
+    document.getElementById("count-do").textContent = sum;
  
-  return sum;
+    return sum;
 }
  
  
@@ -153,10 +153,10 @@ function getSumToDo() {
  * @returns {number} The number of "Done" tasks.
  */
 function getSumDone() {
-  const sum = tasks.filter((task) => task.taskStatus === "Done").length;
-  document.getElementById("count-done").textContent = sum;
+    const sum = tasks.filter((task) => task.taskStatus === "Done").length;
+    document.getElementById("count-done").textContent = sum;
  
-  return sum;
+    return sum;
 }
  
  
@@ -166,18 +166,18 @@ function getSumDone() {
  * @returns {void}
  */
 function getDateUrgentTasks() {
-  const dates = tasks
-    .filter((task) => task.dueDate && task.taskStatus !== "Done")
-    .map((task) => new Date(`${task.dueDate}T00:00:00`));
-  if (dates.length === 0) {
-    document.getElementById("count-urgent").textContent = "0";
-    document.getElementById("urgent-date").textContent = "-";
-    return;
-  }
-  dates.sort((a, b) => a - b);
-  const earliestDate = dates[0];
-  getTasksForDeadline(earliestDate);
-  document.getElementById("urgent-date").textContent = getFormatDateSummary(earliestDate);
+    const dates = tasks
+        .filter((task) => task.dueDate && task.taskStatus !== "Done")
+        .map((task) => new Date(`${task.dueDate}T00:00:00`));
+    if (dates.length === 0) {
+        document.getElementById("count-urgent").textContent = "0";
+        document.getElementById("urgent-date").textContent = "-";
+        return;
+    }
+    dates.sort((a, b) => a - b);
+    const earliestDate = dates[0];
+    getTasksForDeadline(earliestDate);
+    document.getElementById("urgent-date").textContent = getFormatDateSummary(earliestDate);
 }
  
  
@@ -189,16 +189,16 @@ function getDateUrgentTasks() {
  * @returns {number} The number of matching tasks.
  */
 function getTasksForDeadline(date) {
-  const sum = tasks.filter(
-    (task) =>
-      task.taskStatus !== "Done" &&
-      task.dueDate &&
-      new Date(`${task.dueDate}T00:00:00`).getTime() === date.getTime()
-  ).length;
+    const sum = tasks.filter(
+        (task) =>
+            task.taskStatus !== "Done" &&
+            task.dueDate &&
+            new Date(`${task.dueDate}T00:00:00`).getTime() === date.getTime()
+    ).length;
  
-  document.getElementById("count-urgent").textContent = sum;
+    document.getElementById("count-urgent").textContent = sum;
  
-  return sum;
+    return sum;
 }
  
  
@@ -210,11 +210,11 @@ function getTasksForDeadline(date) {
  * @returns {string} The date formatted in en-US locale ("Month D, YYYY").
  */
 function getFormatDateSummary(date) {
-  return date.toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
+    return date.toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+    });
 }
  
  
@@ -224,9 +224,9 @@ function getFormatDateSummary(date) {
  * @returns {number} The number of not-yet-done tasks.
  */
 function getSumTasksBoard() {
-  const sum = tasks.length;
-  document.getElementById("count-tasks").textContent = sum;
-  return sum;
+    const sum = tasks.length;
+    document.getElementById("count-tasks").textContent = sum;
+    return sum;
 }
  
  
@@ -237,9 +237,9 @@ function getSumTasksBoard() {
  * @returns {number} The number of "In progress" tasks.
  */
 function getSumInProgress() {
-  const sum = tasks.filter((task) => task.taskStatus === "In progress").length;
-  document.getElementById("count-in-progress").textContent = sum;
-  return sum;
+    const sum = tasks.filter((task) => task.taskStatus === "In progress").length;
+    document.getElementById("count-in-progress").textContent = sum;
+    return sum;
 }
  
  
@@ -250,9 +250,9 @@ function getSumInProgress() {
  * @returns {number} The number of "Await feedback" tasks.
  */
 function getSumAwaitFeedback() {
-  const sum = tasks.filter(
-    (task) => task.taskStatus === "Await feedback"
-  ).length;
-  document.getElementById("count-await-feedback").textContent = sum;
-  return sum;
+    const sum = tasks.filter(
+        (task) => task.taskStatus === "Await feedback"
+    ).length;
+    document.getElementById("count-await-feedback").textContent = sum;
+    return sum;
 }

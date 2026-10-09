@@ -96,15 +96,15 @@ function resetRequiredFields() {
  * @returns {Promise<{name: string}>} The generated task ID.
  */
 async function postTaskData(task) {
-   let response = await fetch(BASE_URL + "tasks.json", {
-       method: "POST",
-       headers: {
-           "Content-Type": "application/json",
-       },
-       body: JSON.stringify(task)
-   });
+    let response = await fetch(BASE_URL + "tasks.json", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(task)
+    });
 
-   return await response.json();
+    return await response.json();
 }
 
 
@@ -156,12 +156,12 @@ function buildTaskData(column) {
 * @returns {string} The text of the active priority button's label, or an empty string if none is active.
 */
 function getPriority() {
-   const container = document.getElementById('button-prio-form');
-   const activePriority = container?.querySelector('.priority.active');
+    const container = document.getElementById('button-prio-form');
+    const activePriority = container?.querySelector('.priority.active');
 
-   return activePriority
-       ? activePriority.querySelector('span').innerText
-       : '';
+    return activePriority
+        ? activePriority.querySelector('span').innerText
+        : '';
 }
 
 
@@ -172,18 +172,18 @@ function getPriority() {
 * @returns {Array<{id: string, name: string, color: string}>} The selected contacts.
 */
 function getAssignedUsers() {
-   const assignedContacts = [];
-   const selectedContacts = document.querySelectorAll('#dropdownMenu .dropdown-item.selected');
-   selectedContacts.forEach(contact => {
-       const circle = contact.querySelector('.contact-circle');
-       const nameElement = contact.querySelector('.contact-name');
-       assignedContacts.push({
-           id: contact.dataset.id,
-           name: nameElement.textContent,
-           color: circle.style.cssText
-       });
-   });
-   return assignedContacts;
+    const assignedContacts = [];
+    const selectedContacts = document.querySelectorAll('#dropdownMenu .dropdown-item.selected');
+    selectedContacts.forEach(contact => {
+        const circle = contact.querySelector('.contact-circle');
+        const nameElement = contact.querySelector('.contact-name');
+        assignedContacts.push({
+            id: contact.dataset.id,
+            name: nameElement.textContent,
+            color: circle.style.cssText
+        });
+    });
+    return assignedContacts;
 }
 
 
@@ -195,16 +195,16 @@ function getAssignedUsers() {
 * @returns {Array<{title: string, status: string}>} The subtasks, each with status "open".
 */
 function getSubtasks(taskContainer) {
-   const subtasks = [];
-   const taskItems = taskContainer.querySelectorAll('.li-subtask');
+    const subtasks = [];
+    const taskItems = taskContainer.querySelectorAll('.li-subtask');
 
-   taskItems.forEach(task => {
-       subtasks.push({
-           title: task.textContent.trim(),
-           status: 'open'
-       });
-   });
-   return subtasks;
+    taskItems.forEach(task => {
+        subtasks.push({
+            title: task.textContent.trim(),
+            status: 'open'
+        });
+    });
+    return subtasks;
 }
 
 
@@ -215,8 +215,8 @@ function getSubtasks(taskContainer) {
 * @returns {Promise<void>}
 */
 async function loadContacts() {
-   const response = await fetch(BASE_URL + "contacts.json");
-   contacts = await response.json() || {};
+    const response = await fetch(BASE_URL + "contacts.json");
+    contacts = await response.json() || {};
 }
 
 
@@ -232,22 +232,23 @@ function formatLocalDate(date) {
     const m = String(date.getMonth() + 1).padStart(2, '0');
     const d = String(date.getDate()).padStart(2, '0');
     return `${y}-${m}-${d}`;
-  }
-  
+}
 
-  /**
-   * Sets the min attribute of a date input so that only future dates can be selected.
-   *
-   * @param {string} inputId - ID of the date input element.
-   * @param {boolean} [excludeToday=false] - If true, the earliest selectable date is tomorrow; if false, today.
-   * @returns {void}
-   */
-  function restrictToFutureDates(inputId, excludeToday = false) {
+
+/**
+ * Sets the min attribute of a date input so that only future dates can be selected.
+ *
+ * @param {string} inputId - ID of the date input element.
+ * @param {boolean} [excludeToday=false] - If true, the earliest selectable date is tomorrow; if false, today.
+ * @returns {void}
+ */
+function restrictToFutureDates(inputId, excludeToday = false) {
     const input = document.getElementById(inputId);
     if (!input) return;
     const date = new Date();
     if (excludeToday) date.setDate(date.getDate() + 1);
     input.min = formatLocalDate(date);
-  }
-  
-  restrictToFutureDates('task-date');
+}
+
+
+restrictToFutureDates('task-date');

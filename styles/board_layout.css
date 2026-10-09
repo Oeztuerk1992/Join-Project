@@ -353,6 +353,12 @@ input::placeholder {
   }
 }
 
+@media (hover: none) and (pointer: coarse) {
+  .headline-minicard .mobile-icon-move {
+    display: block;
+  }
+}
+
 @media (max-width: 427px) {
   .content-board {
       padding: 10px 20px 15px 15px;

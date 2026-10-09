@@ -1,4 +1,18 @@
 /**
+ * Definition of the Kanban columns available in the mobile "move task"
+ * menu, mapping each task status to its target column DOM ID and display label.
+ *
+ * @type {Array<{status: string, targetId: string, label: string}>}
+ */
+const moveMenuColumns = [
+    { status: 'To do', targetId: 'kanban-to-do', label: 'To-do' },
+    { status: 'In progress', targetId: 'kanban-in-progress', label: 'Progress' },
+    { status: 'Await feedback', targetId: 'kanban-feedback', label: 'Review' },
+    { status: 'Done', targetId: 'kanban-done', label: 'Done' }
+];
+
+
+/**
  * Creates all backend update requests.
  * @param {string[]} cardIds - Ordered task IDs.
  * @param {string} oldStatus - Previous status.
@@ -161,20 +175,6 @@ function closeMobileMoveMenus() {
         menu.classList.remove("show");
     });
 }
- 
-
-/**
- * Definition of the Kanban columns available in the mobile "move task"
- * menu, mapping each task status to its target column DOM ID and display label.
- *
- * @type {Array<{status: string, targetId: string, label: string}>}
- */
-const moveMenuColumns = [
-    { status: 'To do', targetId: 'kanban-to-do', label: 'To-do' },
-    { status: 'In progress', targetId: 'kanban-in-progress', label: 'Progress' },
-    { status: 'Await feedback', targetId: 'kanban-feedback', label: 'Review' },
-    { status: 'Done', targetId: 'kanban-done', label: 'Done' }
-];
  
 
 /**

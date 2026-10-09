@@ -3,6 +3,10 @@
 Join is a Kanban-based project management tool. Users can create tasks, assign them to contacts and move them across a board from "To do" to "Done".
 It was built as a student group project at the Developer Akademie with plain HTML, CSS and JavaScript – no frameworks.
 
+**Live demo:** https://oeztuerk1992.github.io/Join-Project/ (click **Guest Log in** to try it without an account)
+
+![Join board](assets/img/readme/board_desktop.png)
+
 ---
 
 ## Features
@@ -44,11 +48,21 @@ It was built as a student group project at the Developer Akademie with plain HTM
 ```
 index.html            Login page (start page)
 html/                 All other pages (signup, summary, board, add_task, contacts, help, ...)
-scripts/              JavaScript files, one file per topic (e.g. contact.js, board.js)
+scripts/              JavaScript files, grouped by page (add_task/, board/, contact/, startpage/)
 scripts/templates/    Functions that return HTML templates
 styles/               CSS files, one file per page or component
 assets/               Images, icons and fonts
 ```
+
+---
+
+## My Contribution (Sinan Öztürk)
+
+- **Contacts page** – alphabetically grouped contact list, animated detail panel, overlays to add, edit and delete contacts with form validation, custom scrollbar, responsive layout down to 320 px
+- **Sidebar and header** – navigation sidebar, header with help icon and user menu
+- **Final review phase** – worked through the mentor feedback: responsive fixes, moving tasks by touch on tablets, redirect to the login page for visitors who are not logged in, clean-code rules (max. 14 lines per function, max. 400 lines per file, JSDoc for every function)
+
+![Contacts page](assets/img/readme/contacts_desktop.png)
 
 ---
 

@@ -138,14 +138,14 @@ function closeContactEditOverlay(filterWord) {
 /**
  * Reads and normalizes the values of the "edit contact" form.
  * @returns {{capitalizedName: string, initials: string, email: string,
-*            phone: string}} The edited contact data (without id and color).
-*/
+ *            phone: string}} The edited contact data (without id and color).
+ */
 function readEditInputs() {
-   const capitalizedName = capitalizeName(nameInputEdit.value.trim());
-   const initials = getInitials(capitalizedName);
-   const email = emailInputEdit.value.trim();
-   const phone = phoneInputEdit.value.trim();
-   return { capitalizedName, initials, email, phone };
+    const capitalizedName = capitalizeName(nameInputEdit.value.trim());
+    const initials = getInitials(capitalizedName);
+    const email = emailInputEdit.value.trim();
+    const phone = phoneInputEdit.value.trim();
+    return { capitalizedName, initials, email, phone };
 }
 
 

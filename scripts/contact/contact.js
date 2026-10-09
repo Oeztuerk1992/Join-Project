@@ -137,14 +137,14 @@ function getInitials(capitalizedName) {
  * Builds a new contact object from the add-contact form inputs and a name.
  * @param {string} name - The raw name entered by the user.
  * @returns {{capitalizedName: string, initials: string, email: string,
-*            phone: string, randomColor: string}} The new contact (without id).
-*/
+ *            phone: string, randomColor: string}} The new contact (without id).
+ */
 function buildContact(name) {
-   const capitalizedName = capitalizeName(name);
-   const initials = getInitials(capitalizedName);
-   const email = emailInput.value.trim();
-   const phone = phoneInput.value.trim();
-   return { capitalizedName, initials, email, phone, randomColor: getRandomColor() };
+    const capitalizedName = capitalizeName(name);
+    const initials = getInitials(capitalizedName);
+    const email = emailInput.value.trim();
+    const phone = phoneInput.value.trim();
+    return { capitalizedName, initials, email, phone, randomColor: getRandomColor() };
 }
  
  

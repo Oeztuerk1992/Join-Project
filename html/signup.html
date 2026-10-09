@@ -31,20 +31,20 @@
         <div class="underline-signup"></div>
         <form id="form-for-signup" class="signup-form" onsubmit="return checkFormDataSignup(event)" oninput="updateSignupButton()" novalidate>
           <div id="input-signup-name" class="input-group input-signup">
-            <input type="text" id="signup-name" placeholder="Name" />
+            <input type="text" id="signup-name" placeholder="Name" autocomplete="name" />
             <img class="icon" src="../assets/img/login/person.svg" alt="img-person" />
           </div>
           <div id="input-signup-mail" class="input-group input-signup">
-            <input type="email" id="signup-mail" placeholder="Email" />
+            <input type="email" id="signup-mail" placeholder="Email" autocomplete="email" />
             <img class="icon" src="../assets/img/login/mail.svg" alt="img-mail" />
           </div>
           <div id="input-signup-pw" class="input-group input-signup">
-            <input type="password" id="signup-pw" placeholder="Password" />
+            <input type="password" id="signup-pw" placeholder="Password" autocomplete="new-password" />
             <button type="button" id="btn-pw-two" class="icon toggle-pw">
             </button>
           </div>
           <div id="input-signup-confirm-pw" class="input-group input-signup">
-            <input type="password" id="check-pw" placeholder="Confirm Password" />
+            <input type="password" id="check-pw" placeholder="Confirm Password" autocomplete="new-password" />
             <button type="button" id="btn-pw-three" class="icon toggle-pw">
             </button>
           </div>

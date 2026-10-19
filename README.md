@@ -55,10 +55,11 @@ assets/               Images, icons, fonts
 
 ## My Contribution (Sinan Öztürk)
 
-- **Contacts page** built from the Figma design: list, overlays for adding/editing contacts and dynamic detail views
-- **Sidebar and header** used across all pages
-- **Revision after mentor feedback**: responsive fixes and touch support on tablets
-- **Git teamwork**: worked with branches and resolved merge conflicts in a team of three
+- **Contacts page** built from the Figma design: alphabetically grouped contact list, animated detail panel, overlays with form validation, responsive down to 320 px
+- **Sidebar and header**: navigation, help icon and user menu, used across all pages
+- **Final review after mentor feedback**: responsive fixes, touch drag & drop on tablets, redirect for visitors who are not logged in
+- **Clean code rules**: max. 14 lines per function, max. 400 lines per file, JSDoc comments
+- **Git teamwork**: resolved merge conflicts in a team of three
 
 ## What I Learned
 

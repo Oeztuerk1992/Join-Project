@@ -51,7 +51,13 @@ scripts/              JavaScript, organized by page
 scripts/templates/    HTML templates as functions
 styles/               CSS
 assets/               Images, icons, fonts
+out/                  JSDoc code documentation
 ```
+
+## Code Documentation
+
+The JavaScript code is documented with **JSDoc**. The generated documentation is in the `out/` folder:
+[View code documentation](https://oeztuerk1992.github.io/Join-Project/out/index.html)
 
 ## My Contribution (Sinan Öztürk)
 
